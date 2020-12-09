@@ -92,8 +92,8 @@ public class UsersRepositoryManager implements UsersRepository {
 
     @Override
     public boolean update(int userId, String name, String surname, String password) {
-        String QUERY = "UPDATE USERS SET name=?, surname=?, password=?";
-        return jdbcTemplate.update(QUERY, name, surname, password) >= 1;
+        String QUERY = "UPDATE USERS SET name=?, surname=?, password=? WHERE user_id=?";
+        return jdbcTemplate.update(QUERY, name, surname, password, userId) >= 1;
     }
 
     @Override
