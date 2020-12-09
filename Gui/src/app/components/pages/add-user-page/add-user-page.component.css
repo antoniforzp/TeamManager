@@ -1,0 +1,16 @@
+.policy-container {
+  text-align: justify;
+  width: 80%;
+  margin: 10px;
+}
+
+.patron-hint {
+  width: 250px;
+  text-align: center;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}

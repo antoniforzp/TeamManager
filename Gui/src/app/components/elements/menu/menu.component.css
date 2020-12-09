@@ -1,0 +1,62 @@
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--background-color);
+  min-height: 10vh;
+  width: 100%;
+}
+
+.nav-button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  height: 40px;
+  width: 120px;
+
+  border-bottom: solid 5px var(--primary-color);
+
+  margin: 10px;
+  font-size: 18px;
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+}
+
+.nav-button-curr {
+  border-bottom: solid 5px var(--secondary-color);
+}
+
+.side-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  width: 200px;
+}
+
+.side-button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  margin: 10px
+}
+
+.side-button-img {
+  width: 45px;
+}

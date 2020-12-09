@@ -1,0 +1,18 @@
+.user-info-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+
+  width: 280px;
+  height: 280px;
+}
+
+.user-img {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  margin-left: 5px;
+  margin-right: 5px;
+}

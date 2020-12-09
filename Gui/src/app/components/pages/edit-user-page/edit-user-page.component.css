@@ -1,0 +1,10 @@
+.content-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.buttons-container {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}

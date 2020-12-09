@@ -1,0 +1,72 @@
+<div class="my-page-content-container">
+
+  <app-page-header
+    header="Dodaj użytkownika"
+    src="assets/img/icons/addUser.png"></app-page-header>
+
+  <div class="my-form">
+    <!--  CREDENTIALS FORM-->
+    <form class="my-form-column">
+      <h5>Dane osobowe</h5>
+      <label>
+        <input class="my-input" name="first" ngModel required placeholder="Imię">
+      </label>
+      <label>
+        <input class="my-input" name="last" ngModel required placeholder="Nazwisko">
+      </label>
+      <label>
+        <input class="my-input" name="email" ngModel required placeholder="Email">
+      </label>
+    </form>
+
+    <!--  PASSWORD FORM-->
+    <form class="my-form-column">
+      <h5>Hasło</h5>
+      <label>
+        <input class="my-input" name="password" ngModel required placeholder="Hasło">
+      </label>
+      <label>
+        <input class="my-input" name="repeatPasswd" ngModel required placeholder="Powtórz hasło">
+      </label>
+      <label class="my-checkbox">
+        <input type="checkbox" id="showPasswd" name="remember">Pokaż hasło
+      </label>
+    </form>
+
+    <!--  FIRST TEAM FORM-->
+    <div class="my-form-column">
+      <h5>Pierwsza jednostka</h5>
+      <label>
+        <input class="my-input" name="title" ngModel required placeholder="Nazwa">
+      </label>
+      <label>
+        <input class="my-input" name="patron" ngModel required placeholder="Patron">
+      </label>
+      <p class="patron-hint">Patrona proszę podać w formie odmienionej. Na przykład: im. Jerzego Grodyńskiego.</p>
+    </div>
+
+    <!--  POLICY FORM-->
+    <form class="my-form-column">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel ullamcorper tortor. Sed et urna diam.
+        Maecenas
+        fringilla convallis sem, eu consectetur ex congue ut. Nunc in erat a nibh tempor pretium. Sed lectus odio,
+        consectetur id fermentum elementum, lobortis eu eros. Nullam at rutrum ligula. Nulla ut eros sed nisl pretium
+        tempor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel pharetra neque, sed dignissim urna.
+        Proin sed ipsum vel neque volutpat bibendum. Pellentesque convallis efficitur justo, a ultrices enim. Curabitur
+        eu
+        fringilla ipsum, at vulputate felis. Aliquam a molestie ex, vitae molestie magna.</p>
+      <label class="my-checkbox">
+        <input type="checkbox" id="acceptPolicy" name="policy">Akceptuję
+      </label>
+    </form>
+  </div>
+
+
+  <div class="buttons-container">
+    <button [routerLink]="PagesUrlsLocal.LOGIN" class="button-secondary">Powrót</button>
+    <button disabled="disabled" class="button-primary">Dodaj</button>
+  </div>
+</div>
+
+
+
