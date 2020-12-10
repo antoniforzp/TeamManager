@@ -5,22 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5123e7f0-b137-4d95-83b0-3babcc9c671f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/meetings/MeetingRowMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/meetings/MeetingsRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/meetings/MeetingsRepositoryManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/roles/RoleRowMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/roles/RolesRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/roles/RolesRepositoryManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Meeting.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/meetings/MeetingsRepositoryManagerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/roles/RolesRepositoryManagerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/troops/TroopRowMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/troops/TroopsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/troops/TroopsRepositoryManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Troop.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/troops/TroopsRepositoryManagerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/92262efa-64ff-4529-894e-b401dee030f1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/92262efa-64ff-4529-894e-b401dee030f1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneyRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneyRowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneysRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneysRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneysRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneysRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Journey.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Journey.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,53 +68,23 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.app.logic.database.troops" />
       <recent name="com.app.logic.database.roles" />
       <recent name="com.app.logic.database.meetings" />
       <recent name="com.app.logic.database.instructorRanks" />
       <recent name="com.app.logic.database.ranks" />
-      <recent name="com.app.logic.database.journeys" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.RolesRepositoryManagerTest.deleteById">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.TroopsRepositoryManagerTest.deleteById">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MeetingsRepositoryManagerTest.deleteById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Logic" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.app.logic.database.meetings.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.meetings" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.meetings.MeetingsRepositoryManagerTest" />
-      <option name="METHOD_NAME" value="deleteById" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RolesRepositoryManagerTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Logic" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.app.logic.database.roles.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.roles" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.roles.RolesRepositoryManagerTest" />
-      <option name="METHOD_NAME" value="add" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -144,32 +105,64 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RolesRepositoryManagerTest.getAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TroopsRepositoryManagerTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.roles.*" />
+          <option name="PATTERN" value="com.app.logic.database.troops.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.roles" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.roles.RolesRepositoryManagerTest" />
-      <option name="METHOD_NAME" value="getAll" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.troops" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.troops.TroopsRepositoryManagerTest" />
+      <option name="METHOD_NAME" value="add" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RolesRepositoryManagerTest.getById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TroopsRepositoryManagerTest.deleteById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.roles.*" />
+          <option name="PATTERN" value="com.app.logic.database.troops.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.roles" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.roles.RolesRepositoryManagerTest" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.troops" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.troops.TroopsRepositoryManagerTest" />
+      <option name="METHOD_NAME" value="deleteById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TroopsRepositoryManagerTest.getAllByTeamId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Logic" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.app.logic.database.troops.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.app.logic.database.troops" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.troops.TroopsRepositoryManagerTest" />
+      <option name="METHOD_NAME" value="getAllByTeamId" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TroopsRepositoryManagerTest.getById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Logic" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.app.logic.database.troops.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.app.logic.database.troops" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.troops.TroopsRepositoryManagerTest" />
       <option name="METHOD_NAME" value="getById" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -206,11 +199,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TroopsRepositoryManagerTest.deleteById" />
+        <item itemvalue="JUnit.TroopsRepositoryManagerTest.getById" />
+        <item itemvalue="JUnit.TroopsRepositoryManagerTest.getAllByTeamId" />
+        <item itemvalue="JUnit.TroopsRepositoryManagerTest.add" />
         <item itemvalue="JUnit.RolesRepositoryManagerTest.deleteById" />
-        <item itemvalue="JUnit.RolesRepositoryManagerTest.getById" />
-        <item itemvalue="JUnit.RolesRepositoryManagerTest.getAll" />
-        <item itemvalue="JUnit.RolesRepositoryManagerTest.add" />
-        <item itemvalue="JUnit.MeetingsRepositoryManagerTest.deleteById" />
       </list>
     </recent_temporary>
   </component>
@@ -227,7 +220,8 @@
       <workItem from="1607543208610" duration="51000" />
       <workItem from="1607543320052" duration="1399000" />
       <workItem from="1607544974533" duration="221000" />
-      <workItem from="1607552411863" duration="10919000" />
+      <workItem from="1607552411863" duration="11491000" />
+      <workItem from="1607591066617" duration="2046000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1607543639715</created>
@@ -257,7 +251,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607559831531</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Roles Repository implementation + tested">
+      <created>1607563410055</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1607563410055</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -272,6 +273,7 @@
     <MESSAGE value="All up to date" />
     <MESSAGE value="Teams and Journeys Repository implementation + tested" />
     <MESSAGE value="Ranks and InstructorRank Repository implementation + tested" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ranks and InstructorRank Repository implementation + tested" />
+    <MESSAGE value="Roles Repository implementation + tested" />
+    <option name="LAST_COMMIT_MESSAGE" value="Roles Repository implementation + tested" />
   </component>
 </project>
