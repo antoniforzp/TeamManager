@@ -5,13 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5123e7f0-b137-4d95-83b0-3babcc9c671f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/troops/TroopRowMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/troops/TroopsRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/troops/TroopsRepositoryManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Troop.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/troops/TroopsRepositoryManagerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutRowMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutsRepositoryManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Scout.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/scouts/ScoutsRepositoryManagerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/92262efa-64ff-4529-894e-b401dee030f1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/92262efa-64ff-4529-894e-b401dee030f1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/utils/StringResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/utils/StringResolver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +53,7 @@
     <property name="database.data.extractors.current.export.id" value="SQL-Insert-Statements.sql.groovy" />
     <property name="jdk.selected.JAVA_MODULE" value="11" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="nodejs.protractor.protractor_package" value="$PROJECT_DIR$/Gui/node_modules/protractor" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -68,14 +70,14 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.app.logic.database.scouts" />
       <recent name="com.app.logic.database.troops" />
       <recent name="com.app.logic.database.roles" />
       <recent name="com.app.logic.database.meetings" />
       <recent name="com.app.logic.database.instructorRanks" />
-      <recent name="com.app.logic.database.ranks" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TroopsRepositoryManagerTest.deleteById">
+  <component name="RunManager" selected="JUnit.ScoutsRepositoryManagerTest.getById">
     <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -89,80 +91,79 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RolesRepositoryManagerTest.deleteById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ScoutsRepositoryManagerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.roles.*" />
+          <option name="PATTERN" value="com.app.logic.database.scouts.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.roles" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.roles.RolesRepositoryManagerTest" />
-      <option name="METHOD_NAME" value="deleteById" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.scouts" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.scouts.ScoutsRepositoryManagerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TroopsRepositoryManagerTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ScoutsRepositoryManagerTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.troops.*" />
+          <option name="PATTERN" value="com.app.logic.database.scouts.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.troops" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.troops.TroopsRepositoryManagerTest" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.scouts" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.scouts.ScoutsRepositoryManagerTest" />
       <option name="METHOD_NAME" value="add" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TroopsRepositoryManagerTest.deleteById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ScoutsRepositoryManagerTest.countByTeamId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.troops.*" />
+          <option name="PATTERN" value="com.app.logic.database.scouts.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.troops" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.troops.TroopsRepositoryManagerTest" />
-      <option name="METHOD_NAME" value="deleteById" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.scouts" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.scouts.ScoutsRepositoryManagerTest" />
+      <option name="METHOD_NAME" value="countByTeamId" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TroopsRepositoryManagerTest.getAllByTeamId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ScoutsRepositoryManagerTest.getAllByTeamIdTroopId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.troops.*" />
+          <option name="PATTERN" value="com.app.logic.database.scouts.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.troops" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.troops.TroopsRepositoryManagerTest" />
-      <option name="METHOD_NAME" value="getAllByTeamId" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.scouts" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.scouts.ScoutsRepositoryManagerTest" />
+      <option name="METHOD_NAME" value="getAllByTeamIdTroopId" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TroopsRepositoryManagerTest.getById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ScoutsRepositoryManagerTest.getById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.troops.*" />
+          <option name="PATTERN" value="com.app.logic.database.scouts.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.troops" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.troops.TroopsRepositoryManagerTest" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.scouts" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.scouts.ScoutsRepositoryManagerTest" />
       <option name="METHOD_NAME" value="getById" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -172,6 +173,7 @@
     <configuration name="E2E Tests (Gui)" type="JavaScriptTestRunnerProtractor">
       <config-file value="$PROJECT_DIR$/Gui/e2e/protractor.conf.js" />
       <node-interpreter value="project" />
+      <protractor-package value="$PROJECT_DIR$/Gui/node_modules/protractor" />
       <protractor-options value="" />
       <envs />
       <scope-kind value="ALL" />
@@ -199,11 +201,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TroopsRepositoryManagerTest.deleteById" />
-        <item itemvalue="JUnit.TroopsRepositoryManagerTest.getById" />
-        <item itemvalue="JUnit.TroopsRepositoryManagerTest.getAllByTeamId" />
-        <item itemvalue="JUnit.TroopsRepositoryManagerTest.add" />
-        <item itemvalue="JUnit.RolesRepositoryManagerTest.deleteById" />
+        <item itemvalue="JUnit.ScoutsRepositoryManagerTest.getById" />
+        <item itemvalue="JUnit.ScoutsRepositoryManagerTest.getAllByTeamIdTroopId" />
+        <item itemvalue="JUnit.ScoutsRepositoryManagerTest.countByTeamId" />
+        <item itemvalue="JUnit.ScoutsRepositoryManagerTest" />
+        <item itemvalue="JUnit.ScoutsRepositoryManagerTest.add" />
       </list>
     </recent_temporary>
   </component>
@@ -221,7 +223,7 @@
       <workItem from="1607543320052" duration="1399000" />
       <workItem from="1607544974533" duration="221000" />
       <workItem from="1607552411863" duration="11491000" />
-      <workItem from="1607591066617" duration="2046000" />
+      <workItem from="1607591066617" duration="11771000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1607543639715</created>
@@ -258,7 +260,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607563410055</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Troops Repository implementation + tested">
+      <created>1607593173432</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1607593173433</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,6 +283,7 @@
     <MESSAGE value="Teams and Journeys Repository implementation + tested" />
     <MESSAGE value="Ranks and InstructorRank Repository implementation + tested" />
     <MESSAGE value="Roles Repository implementation + tested" />
-    <option name="LAST_COMMIT_MESSAGE" value="Roles Repository implementation + tested" />
+    <MESSAGE value="Troops Repository implementation + tested" />
+    <option name="LAST_COMMIT_MESSAGE" value="Troops Repository implementation + tested" />
   </component>
 </project>
