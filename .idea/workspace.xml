@@ -5,21 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5123e7f0-b137-4d95-83b0-3babcc9c671f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneyRowMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneysRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneysRepositoryManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/teams/TeamRowMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/teams/TeamsRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/teams/TeamsRepositoryManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Journey.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Team.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/journeys/JourneysRepositoryManagerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/teams/TeamsRepositoryManagerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/instructorRanks/InstructorRankRowMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/instructorRanks/InstructorRanksRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/instructorRanks/InstructorRanksRepositoryManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/ranks/RankRowMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/ranks/RanksRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/ranks/RanksRepositoryManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/InstructorRank.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Rank.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/instructorRanks/InstructorRanksRepositoryManagerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/ranks/RanksRepositoryManagerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/92262efa-64ff-4529-894e-b401dee030f1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/92262efa-64ff-4529-894e-b401dee030f1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/users/UserRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/users/UserRowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/users/UsersRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/users/UsersRepositoryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneysRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneysRepositoryManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +28,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
         <option value="JUnit5 Test Class" />
@@ -74,11 +74,13 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.app.logic.database.instructorRanks" />
+      <recent name="com.app.logic.database.ranks" />
       <recent name="com.app.logic.database.journeys" />
       <recent name="com.app.logic.database.teams" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.JourneysRepositoryManagerTest.countByTeamId">
+  <component name="RunManager" selected="JUnit.InstructorRanksRepositoryManagerTest.deleteById">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -90,81 +92,81 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JourneysRepositoryManagerTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="InstructorRanksRepositoryManagerTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.journeys.*" />
+          <option name="PATTERN" value="com.app.logic.database.instructorRanks.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.journeys" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.journeys.JourneysRepositoryManagerTest" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.instructorRanks" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.instructorRanks.InstructorRanksRepositoryManagerTest" />
       <option name="METHOD_NAME" value="add" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JourneysRepositoryManagerTest.countByTeamId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="InstructorRanksRepositoryManagerTest.deleteById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.journeys.*" />
+          <option name="PATTERN" value="com.app.logic.database.instructorRanks.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.journeys" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.journeys.JourneysRepositoryManagerTest" />
-      <option name="METHOD_NAME" value="countByTeamId" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="JourneysRepositoryManagerTest.deleteById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Logic" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.app.logic.database.journeys.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.journeys" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.journeys.JourneysRepositoryManagerTest" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.instructorRanks" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.instructorRanks.InstructorRanksRepositoryManagerTest" />
       <option name="METHOD_NAME" value="deleteById" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JourneysRepositoryManagerTest.getAllByTeamId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="InstructorRanksRepositoryManagerTest.getAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.journeys.*" />
+          <option name="PATTERN" value="com.app.logic.database.instructorRanks.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.journeys" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.journeys.JourneysRepositoryManagerTest" />
-      <option name="METHOD_NAME" value="getAllByTeamId" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.instructorRanks" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.instructorRanks.InstructorRanksRepositoryManagerTest" />
+      <option name="METHOD_NAME" value="getAll" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JourneysRepositoryManagerTest.getById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="InstructorRanksRepositoryManagerTest.getById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.journeys.*" />
+          <option name="PATTERN" value="com.app.logic.database.instructorRanks.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.journeys" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.journeys.JourneysRepositoryManagerTest" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.instructorRanks" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.instructorRanks.InstructorRanksRepositoryManagerTest" />
       <option name="METHOD_NAME" value="getById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RanksRepositoryManagerTest.deleteById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Logic" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.app.logic.database.ranks.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.app.logic.database.ranks" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.ranks.RanksRepositoryManagerTest" />
+      <option name="METHOD_NAME" value="deleteById" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -200,11 +202,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.JourneysRepositoryManagerTest.countByTeamId" />
-        <item itemvalue="JUnit.JourneysRepositoryManagerTest.deleteById" />
-        <item itemvalue="JUnit.JourneysRepositoryManagerTest.getById" />
-        <item itemvalue="JUnit.JourneysRepositoryManagerTest.getAllByTeamId" />
-        <item itemvalue="JUnit.JourneysRepositoryManagerTest.add" />
+        <item itemvalue="JUnit.InstructorRanksRepositoryManagerTest.deleteById" />
+        <item itemvalue="JUnit.InstructorRanksRepositoryManagerTest.getById" />
+        <item itemvalue="JUnit.InstructorRanksRepositoryManagerTest.getAll" />
+        <item itemvalue="JUnit.InstructorRanksRepositoryManagerTest.add" />
+        <item itemvalue="JUnit.RanksRepositoryManagerTest.deleteById" />
       </list>
     </recent_temporary>
   </component>
@@ -221,7 +223,7 @@
       <workItem from="1607543208610" duration="51000" />
       <workItem from="1607543320052" duration="1399000" />
       <workItem from="1607544974533" duration="221000" />
-      <workItem from="1607552411863" duration="4485000" />
+      <workItem from="1607552411863" duration="7328000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1607543639715</created>
@@ -237,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607545199445</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Teams and Journeys Repository implementation + tested">
+      <created>1607557037367</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1607557037368</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,6 +259,7 @@
     </ignored-roots>
     <MESSAGE value="Init" />
     <MESSAGE value="All up to date" />
-    <option name="LAST_COMMIT_MESSAGE" value="All up to date" />
+    <MESSAGE value="Teams and Journeys Repository implementation + tested" />
+    <option name="LAST_COMMIT_MESSAGE" value="Teams and Journeys Repository implementation + tested" />
   </component>
 </project>

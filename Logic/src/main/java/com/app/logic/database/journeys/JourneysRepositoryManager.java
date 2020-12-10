@@ -1,8 +1,6 @@
 package com.app.logic.database.journeys;
 
-import com.app.logic.database.teams.TeamRowMapper;
 import com.app.logic.model.Journey;
-import com.app.logic.model.Team;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

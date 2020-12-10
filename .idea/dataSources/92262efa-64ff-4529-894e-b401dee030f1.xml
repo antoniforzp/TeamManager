@@ -870,163 +870,235 @@
       <ObjectGrants>SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,REFERENCES,INDEX,ALTER|5EY9CPMxwB
 </ObjectGrants>
     </user>
-    <table id="275" parent="2" name="JOURNEYS"/>
-    <table id="276" parent="2" name="TEAMS"/>
-    <table id="277" parent="2" name="USERS"/>
-    <column id="278" parent="275" name="journey_id">
+    <table id="275" parent="2" name="INSTRUCTOR_RANKS"/>
+    <table id="276" parent="2" name="JOURNEYS"/>
+    <table id="277" parent="2" name="RANKS"/>
+    <table id="278" parent="2" name="TEAMS"/>
+    <table id="279" parent="2" name="USERS"/>
+    <column id="280" parent="275" name="rank_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="279" parent="275" name="title">
+    <column id="281" parent="275" name="name">
+      <Position>2</Position>
+      <DataType>varchar(80)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="282" parent="275" name="abbreviation">
+      <Position>3</Position>
+      <DataType>varchar(20)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="283" parent="275" name="rank_id">
+      <ColNames>rank_id</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="284" parent="275" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>rank_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="285" parent="275" name="rank_id">
+      <ColNames>rank_id</ColNames>
+      <UnderlyingIndexName>rank_id</UnderlyingIndexName>
+    </key>
+    <column id="286" parent="276" name="journey_id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="287" parent="276" name="title">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="280" parent="275" name="place">
+    <column id="288" parent="276" name="place">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="281" parent="275" name="start_date">
+    <column id="289" parent="276" name="start_date">
       <Position>4</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="282" parent="275" name="end_date">
+    <column id="290" parent="276" name="end_date">
       <Position>5</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="283" parent="275" name="members">
+    <column id="291" parent="276" name="members">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="284" parent="275" name="type">
+    <column id="292" parent="276" name="type">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="285" parent="275" name="team_id">
+    <column id="293" parent="276" name="team_id">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="286" parent="275" name="journey_id">
+    <index id="294" parent="276" name="journey_id">
       <ColNames>journey_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="287" parent="275" name="team_id">
+    <index id="295" parent="276" name="team_id">
       <ColNames>team_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="288" parent="275" name="PRIMARY">
+    <key id="296" parent="276" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>journey_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="289" parent="275" name="journey_id">
+    <key id="297" parent="276" name="journey_id">
       <ColNames>journey_id</ColNames>
       <UnderlyingIndexName>journey_id</UnderlyingIndexName>
     </key>
-    <foreign-key id="290" parent="275" name="JOURNEYS_ibfk_1">
+    <foreign-key id="298" parent="276" name="JOURNEYS_ibfk_1">
       <ColNames>team_id</ColNames>
       <RefTableName>TEAMS</RefTableName>
       <RefColNames>team_id</RefColNames>
     </foreign-key>
-    <column id="291" parent="276" name="team_id">
+    <column id="299" parent="277" name="rank_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="292" parent="276" name="name">
+    <column id="300" parent="277" name="name">
+      <Position>2</Position>
+      <DataType>varchar(80)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="301" parent="277" name="abbreviation">
+      <Position>3</Position>
+      <DataType>varchar(20)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="302" parent="277" name="min_age">
+      <Position>4</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="303" parent="277" name="max_age">
+      <Position>5</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="304" parent="277" name="rank_id">
+      <ColNames>rank_id</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="305" parent="277" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>rank_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="306" parent="277" name="rank_id">
+      <ColNames>rank_id</ColNames>
+      <UnderlyingIndexName>rank_id</UnderlyingIndexName>
+    </key>
+    <column id="307" parent="278" name="team_id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="308" parent="278" name="name">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="293" parent="276" name="patron">
+    <column id="309" parent="278" name="patron">
       <Position>3</Position>
       <DataType>varchar(80)|0s</DataType>
     </column>
-    <column id="294" parent="276" name="owner_id">
+    <column id="310" parent="278" name="owner_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <index id="295" parent="276" name="team_id">
+    <index id="311" parent="278" name="team_id">
       <ColNames>team_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="296" parent="276" name="owner_id">
+    <index id="312" parent="278" name="owner_id">
       <ColNames>owner_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="297" parent="276" name="PRIMARY">
+    <key id="313" parent="278" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>team_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="298" parent="276" name="team_id">
+    <key id="314" parent="278" name="team_id">
       <ColNames>team_id</ColNames>
       <UnderlyingIndexName>team_id</UnderlyingIndexName>
     </key>
-    <foreign-key id="299" parent="276" name="TEAMS_ibfk_1">
+    <foreign-key id="315" parent="278" name="TEAMS_ibfk_1">
       <ColNames>owner_id</ColNames>
       <RefTableName>USERS</RefTableName>
       <RefColNames>user_id</RefColNames>
     </foreign-key>
-    <column id="300" parent="277" name="user_id">
+    <column id="316" parent="279" name="user_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="301" parent="277" name="name">
+    <column id="317" parent="279" name="name">
       <Position>2</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="302" parent="277" name="surname">
+    <column id="318" parent="279" name="surname">
       <Position>3</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="303" parent="277" name="password">
+    <column id="319" parent="279" name="password">
       <Position>4</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="304" parent="277" name="email">
+    <column id="320" parent="279" name="email">
       <Position>5</Position>
       <DataType>varchar(80)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="305" parent="277" name="user_id">
+    <index id="321" parent="279" name="user_id">
       <ColNames>user_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="306" parent="277" name="USERS_email_uindex">
+    <index id="322" parent="279" name="USERS_email_uindex">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="307" parent="277" name="PRIMARY">
+    <key id="323" parent="279" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="308" parent="277" name="user_id">
+    <key id="324" parent="279" name="user_id">
       <ColNames>user_id</ColNames>
       <UnderlyingIndexName>user_id</UnderlyingIndexName>
     </key>
-    <key id="309" parent="277" name="USERS_email_uindex">
+    <key id="325" parent="279" name="USERS_email_uindex">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>USERS_email_uindex</UnderlyingIndexName>
     </key>
