@@ -10,7 +10,7 @@ public class Journey implements Model {
     private final String place;
     private final Date startDate;
     private final Date endDate;
-    private final int members;
+    private final int participants;
     private final int type;
 
     public Journey() {
@@ -19,17 +19,17 @@ public class Journey implements Model {
         this.place = "place";
         this.startDate = new Date();
         this.endDate = new Date();
-        this.members = 0;
+        this.participants = 0;
         this.type = 0;
     }
 
-    public Journey(int journeyId, String title, String place, Date startDate, Date endDate, int members, int type) {
+    public Journey(int journeyId, String title, String place, Date startDate, Date endDate, int participants, int type) {
         this.journeyId = journeyId;
         this.title = title;
         this.place = place;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.members = members;
+        this.participants = participants;
         this.type = type;
     }
 
@@ -53,8 +53,8 @@ public class Journey implements Model {
         return endDate;
     }
 
-    public int getMembers() {
-        return members;
+    public int getParticipants() {
+        return participants;
     }
 
     public int getType() {
@@ -66,12 +66,12 @@ public class Journey implements Model {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Journey journey = (Journey) o;
-        return journeyId == journey.journeyId && members == journey.members && title.equals(journey.title) && startDate.equals(journey.startDate) && endDate.equals(journey.endDate);
+        return journeyId == journey.journeyId && participants == journey.participants && title.equals(journey.title) && startDate.equals(journey.startDate) && endDate.equals(journey.endDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(journeyId, title, startDate, endDate, members);
+        return Objects.hash(journeyId, title, startDate, endDate, participants);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class Journey implements Model {
                 ", title='" + title + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", members=" + members +
+                ", members=" + participants +
                 '}';
     }
 }

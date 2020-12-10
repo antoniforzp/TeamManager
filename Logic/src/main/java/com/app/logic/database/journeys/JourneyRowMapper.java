@@ -14,7 +14,7 @@ public class JourneyRowMapper implements RowMapper<Journey> {
                 resultSet.getString("place"),
                 resultSet.getDate("start_date"),
                 resultSet.getDate("end_date"),
-                resultSet.getInt("members"),
+                resultSet.getInt("participants"),
                 resultSet.getInt("type"));
     }
 }

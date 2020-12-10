@@ -15,5 +15,7 @@ public interface JourneysRepository {
 
     Journey getById(int journeyId);
 
+    boolean update(int journeyId, String title, String place, Date startDate, Date endDate, int participants, int type);
+
     boolean deleteById(int journeyId);
 }
