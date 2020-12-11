@@ -6,5 +6,5 @@ public interface JourneysPresenceRepository {
 
     boolean add(int journeyId, int scoutId);
 
-    boolean remove(int journeyId, int scoutId);
+    boolean delete(int journeyId, int scoutId);
 }

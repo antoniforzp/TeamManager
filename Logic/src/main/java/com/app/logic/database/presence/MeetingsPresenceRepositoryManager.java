@@ -32,7 +32,7 @@ public class MeetingsPresenceRepositoryManager implements MeetingsPresenceReposi
     }
 
     @Override
-    public boolean remove(int meetingId, int scoutId) {
+    public boolean delete(int meetingId, int scoutId) {
         String QUERY = "DELETE FROM MEETINGS_PRESENCE WHERE meeting_id=? AND scout_id=?";
         return jdbcTemplate.update(QUERY, meetingId, scoutId) >= 1;
     }

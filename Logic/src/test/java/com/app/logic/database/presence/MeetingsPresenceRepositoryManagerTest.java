@@ -1,11 +1,7 @@
 package com.app.logic.database.presence;
 
 import com.app.logic.AppContext;
-import com.app.logic.database.meetings.MeetingsRepository;
-import com.app.logic.database.meetings.MeetingsRepositoryManager;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MeetingsPresenceRepositoryManagerTest {
 
@@ -25,6 +21,6 @@ class MeetingsPresenceRepositoryManagerTest {
 
     @Test
     void remove() {
-        System.out.println(repository.remove(1, 1));
+        System.out.println(repository.delete(1, 1));
     }
 }

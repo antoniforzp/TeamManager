@@ -6,5 +6,5 @@ public interface MeetingsPresenceRepository {
 
     boolean add(int meetingId, int scoutId);
 
-    boolean remove(int meetingId, int scoutId);
+    boolean delete(int meetingId, int scoutId);
 }

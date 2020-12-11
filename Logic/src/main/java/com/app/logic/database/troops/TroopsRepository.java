@@ -13,5 +13,4 @@ public interface TroopsRepository {
     Troop getById(int troopId);
 
     boolean deleteById(int troopId);
-
 }

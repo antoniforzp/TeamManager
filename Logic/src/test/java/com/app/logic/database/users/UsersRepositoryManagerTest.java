@@ -2,6 +2,7 @@ package com.app.logic.database.users;
 
 import com.app.logic.AppContext;
 import com.app.logic.model.User;
+import com.app.logic.utils.PasswordHasher;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

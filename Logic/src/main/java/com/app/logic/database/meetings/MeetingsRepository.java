@@ -18,5 +18,4 @@ public interface MeetingsRepository {
     boolean update(int meetingId, String title, String place, Date date, int participants);
 
     boolean deleteById(int meetingId);
-
 }

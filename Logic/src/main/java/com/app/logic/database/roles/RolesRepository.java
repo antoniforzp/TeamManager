@@ -13,5 +13,4 @@ public interface RolesRepository {
     Role getById(int roleId);
 
     boolean deleteById(int roleId);
-
 }

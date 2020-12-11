@@ -43,7 +43,7 @@ public interface ScoutsRepository {
 
     boolean addRole(int scoutId, int roleId);
 
-    boolean removeRole(int scoutId, int roleId);
+    boolean deleteRole(int scoutId, int roleId);
 
-    boolean removeAllRoles(int scoutId);
+    boolean deleteAllRoles(int scoutId);
 }

@@ -171,13 +171,13 @@ public class ScoutsRepositoryManager implements ScoutsRepository {
     }
 
     @Override
-    public boolean removeRole(int scoutId, int roleId) {
+    public boolean deleteRole(int scoutId, int roleId) {
         String QUERY = "DELETE FROM SCOUTS_ROLES WHERE scout_id=? AND role_id=?";
         return jdbcTemplate.update(QUERY, scoutId, roleId) >= 1;
     }
 
     @Override
-    public boolean removeAllRoles(int scoutId) {
+    public boolean deleteAllRoles(int scoutId) {
         String QUERY = "DELETE FROM SCOUTS_ROLES WHERE scout_id=?";
         return jdbcTemplate.update(QUERY, scoutId) >= 1;
     }
