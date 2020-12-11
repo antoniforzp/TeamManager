@@ -36,8 +36,11 @@ public class UserController {
         return repository.add(name, surname, password, email);
     }
 
-    @GetMapping("/current")
-    public User getUser() {
-        return appCore.getCurrentUser();
+    @PostMapping("/update")
+    public boolean updateUser(@RequestParam("userId") int userId,
+                           @RequestParam("name") String name,
+                           @RequestParam("surname") String surname,
+                           @RequestParam("password") String password) {
+        return repository.update(userId, name, surname, password);
     }
 }

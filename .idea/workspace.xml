@@ -5,43 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5123e7f0-b137-4d95-83b0-3babcc9c671f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/CoreController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/ScoutsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/TeamsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/core/AppCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/92262efa-64ff-4529-894e-b401dee030f1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/92262efa-64ff-4529-894e-b401dee030f1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/instructorRanks/InstructorRankRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/instructorRanks/InstructorRankRowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/instructorRanks/InstructorRanksRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/instructorRanks/InstructorRanksRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneyRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneyRowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneysRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/journeys/JourneysRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/meetings/MeetingRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/meetings/MeetingRowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/meetings/MeetingsRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/meetings/MeetingsRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/presence/JourneysPresenceRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/presence/JourneysPresenceRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/presence/MeetingsPresenceRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/presence/MeetingsPresenceRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/ranks/RankRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/ranks/RankRowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/ranks/RanksRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/ranks/RanksRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/roles/RoleRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/roles/RoleRowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/roles/RolesRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/roles/RolesRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutRowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutsRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutsRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutsRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/teams/TeamRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/teams/TeamRowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/teams/TeamsRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/teams/TeamsRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/troops/TroopRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/troops/TroopRowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/troops/TroopsRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/troops/TroopsRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/users/UserRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/users/UserRowMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/login-page/login-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/login-page/login-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/login-page/login-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/login-page/login-page.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/scouts-records-page/scouts-records-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/scouts-records-page/scouts-records-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/scouts-records-page/scouts-records-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/scouts-records-page/scouts-records-page.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/src/app/services/login-service.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/CoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/CoreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/ScoutsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/ScoutsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/TeamsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/TeamsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/users/UsersRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/users/UsersRepositoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Team.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/instructorRanks/InstructorRanksRepositoryManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/instructorRanks/InstructorRanksRepositoryManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/journeys/JourneysRepositoryManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/journeys/JourneysRepositoryManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/meetings/MeetingsRepositoryManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/meetings/MeetingsRepositoryManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/ranks/RanksRepositoryManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/ranks/RanksRepositoryManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/roles/RolesRepositoryManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/roles/RolesRepositoryManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/scouts/ScoutsRepositoryManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/scouts/ScoutsRepositoryManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/teams/TeamsRepositoryManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/teams/TeamsRepositoryManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/troops/TroopsRepositoryManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/troops/TroopsRepositoryManagerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +61,9 @@
     <property name="database.data.extractors.current.export.id" value="SQL-Insert-Statements.sql.groovy" />
     <property name="jdk.selected.JAVA_MODULE" value="11" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../db" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs.protractor.protractor_package" value="$PROJECT_DIR$/Gui/node_modules/protractor" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -93,7 +71,7 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
-    <property name="ts.external.directory.path" value="C:\Users\anton\Desktop\New folder\TeamManager\Gui\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="C:\Users\anton\Desktop\TeamManager\Gui\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -111,13 +89,15 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.LogicApplication">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -256,7 +236,8 @@
       <workItem from="1607544974533" duration="221000" />
       <workItem from="1607552411863" duration="11491000" />
       <workItem from="1607591066617" duration="11869000" />
-      <workItem from="1607691281536" duration="17736000" />
+      <workItem from="1607691281536" duration="19438000" />
+      <workItem from="1607726401772" duration="2622000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1607543639715</created>
@@ -321,7 +302,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607703066341</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="User, Scouts REST Controllers">
+      <created>1607715033461</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1607715033461</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -341,6 +329,7 @@
     <MESSAGE value="Scouts and ScoutsRoles Repository Implementation + Tested" />
     <MESSAGE value="Journeys and meeting presence with Repository implementation and tests" />
     <MESSAGE value="Database adjusted, refactored. Added users and troops" />
-    <option name="LAST_COMMIT_MESSAGE" value="Database adjusted, refactored. Added users and troops" />
+    <MESSAGE value="User, Scouts REST Controllers" />
+    <option name="LAST_COMMIT_MESSAGE" value="User, Scouts REST Controllers" />
   </component>
 </project>

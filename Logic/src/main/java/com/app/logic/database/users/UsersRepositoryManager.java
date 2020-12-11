@@ -52,13 +52,23 @@ class UsersRepositoryManager implements UsersRepository {
     @Override
     public boolean add(int userId, String name, String surname, String password, String email) {
         String QUERY = "INSERT INTO USERS(user_id, name, surname, password, email) VALUES(?,?,?,?,?)";
-        return jdbcTemplate.update(QUERY, userId, name, surname, password, email) >= 1;
+        try {
+            return jdbcTemplate.update(QUERY, userId, name, surname, password, email) >= 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean add(String name, String surname, String password, String email) {
         String QUERY = "INSERT INTO USERS(name, surname, password, email) VALUES(?,?,?,?)";
-        return jdbcTemplate.update(QUERY, name, surname, password, email) >= 1;
+        try {
+            return jdbcTemplate.update(QUERY, name, surname, password, email) >= 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -94,7 +104,12 @@ class UsersRepositoryManager implements UsersRepository {
     @Override
     public boolean update(int userId, String name, String surname, String password) {
         String QUERY = "UPDATE USERS SET name=?, surname=?, password=? WHERE user_id=?";
-        return jdbcTemplate.update(QUERY, name, surname, password, userId) >= 1;
+        try {
+            return jdbcTemplate.update(QUERY, name, surname, password, userId) >= 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

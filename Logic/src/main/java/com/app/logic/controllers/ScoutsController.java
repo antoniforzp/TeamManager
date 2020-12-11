@@ -20,11 +20,13 @@ public class ScoutsController {
         this.appCore = appCore;
     }
 
+    @CrossOrigin
     @GetMapping("/list")
     public List<Scout> getScoutsList() {
         return repository.getAllByTeamId(appCore.getCurrentTeam().getTeamId());
     }
 
+    @CrossOrigin
     @PostMapping("/add")
     public boolean addScout(@RequestParam("name") String name,
                             @RequestParam("surname") String surname,
@@ -37,7 +39,6 @@ public class ScoutsController {
                             @RequestParam("troopId") int troopId,
                             @RequestParam("rankId") int rankId,
                             @RequestParam("instructorRankId") int instructorRankId) {
-
         return repository.add(name,
                 surname,
                 pesel,
@@ -52,6 +53,7 @@ public class ScoutsController {
                 appCore.getCurrentTeam().getTeamId());
     }
 
+    @CrossOrigin
     @PostMapping("/update")
     public boolean updateScout(@RequestParam("scoutId") int scoutId,
                                @RequestParam("name") String name,
@@ -65,7 +67,6 @@ public class ScoutsController {
                                @RequestParam("troopId") int troopId,
                                @RequestParam("rankId") int rankId,
                                @RequestParam("instructorRankId") int instructorRankId) {
-
         return repository.update(scoutId,
                 name,
                 surname,

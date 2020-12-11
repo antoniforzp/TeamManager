@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
 import {LoginPageComponent} from './components/pages/login-page/login-page.component';
@@ -17,7 +18,6 @@ import {EditUserPageComponent} from './components/pages/edit-user-page/edit-user
 import {UserTeamManagerComponent} from './components/structures/user-team-manager/user-team-manager.component';
 import {TeamComponent} from './components/structures/user-team-manager/team/team.component';
 import {ScoutsRecordsPageComponent} from './components/pages/scouts-records-page/scouts-records-page.component';
-import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
