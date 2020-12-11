@@ -9,22 +9,19 @@ public class Meeting implements Model {
     private final String title;
     private final String place;
     private final Date date;
-    private final int participants;
 
     public Meeting() {
         this.meetingId = 0;
         this.title = "title";
         this.place = "place";
         this.date = new Date();
-        this.participants = 0;
     }
 
-    public Meeting(int meetingId, String title, String place, Date date, int participants) {
+    public Meeting(int meetingId, String title, String place, Date date) {
         this.meetingId = meetingId;
         this.title = title;
         this.place = place;
         this.date = date;
-        this.participants = participants;
     }
 
     public int getMeetingId() {
@@ -41,10 +38,6 @@ public class Meeting implements Model {
 
     public Date getDate() {
         return date;
-    }
-
-    public int getParticipants() {
-        return participants;
     }
 
     @Override
@@ -69,5 +62,4 @@ public class Meeting implements Model {
                 ", date=" + date +
                 '}';
     }
-    
 }

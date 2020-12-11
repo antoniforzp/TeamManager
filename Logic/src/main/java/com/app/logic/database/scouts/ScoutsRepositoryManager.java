@@ -3,6 +3,7 @@ package com.app.logic.database.scouts;
 import com.app.logic.model.Scout;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -162,7 +163,11 @@ public class ScoutsRepositoryManager implements ScoutsRepository {
     @Override
     public boolean addRole(int scoutId, int roleId) {
         String QUERY = "INSERT INTO SCOUTS_ROLES(scout_id, role_id) VALUES(?,?)";
-        return jdbcTemplate.update(QUERY, scoutId, roleId) >= 1;
+        try {
+            return jdbcTemplate.update(QUERY, scoutId, roleId) >= 1;
+        } catch (DuplicateKeyException e) {
+            return false;
+        }
     }
 
     @Override

@@ -27,7 +27,7 @@ public class MeetingsRepositoryManager implements MeetingsRepository {
 
     @Override
     public boolean add(String title, String place, Date date, int members, int team_id) {
-        String QUERY = "INSERT INTO MEETINGS(title, place, date, participants, team_id) VALUES(?,?,?,?,?)";
+        String QUERY = "INSERT INTO MEETINGS(title, place, date, team_id) VALUES(?,?,?,?)";
         return jdbcTemplate.update(QUERY, title, place, date, members, team_id) >= 1;
     }
 
@@ -51,7 +51,7 @@ public class MeetingsRepositoryManager implements MeetingsRepository {
 
     @Override
     public boolean update(int meetingId, String title, String place, Date date, int participants) {
-        String QUERY = "UPDATE MEETINGS SET title=?, place=?, date=?, participants=? WHERE meeting_id=?";
+        String QUERY = "UPDATE MEETINGS SET title=?, place=?, date=? WHERE meeting_id=?";
         return jdbcTemplate.update(QUERY, title, place, date, participants, meetingId) >= 1;
     }
 

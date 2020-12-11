@@ -52,4 +52,9 @@ class ScoutsRepositoryManagerTest {
     @Test
     void update() {
     }
+
+    @Test
+    void name() {
+        repository.addRole(1, 1);
+    }
 }

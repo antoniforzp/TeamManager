@@ -5,14 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5123e7f0-b137-4d95-83b0-3babcc9c671f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutRowMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutsRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutsRepositoryManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Scout.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/scouts/ScoutsRepositoryManagerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backup_of_Icons.cdr" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Icons.cdr" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/presence/JourneysPresenceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/presence/JourneysPresenceRepositoryManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/presence/MeetingsPresenceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/presence/MeetingsPresenceRepositoryManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/presence/MeetingsPresenceRepositoryManagerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TeamManagerSchema.drawio" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dbBackup/5EY9CPMxwB_INSTRUCTOR_RANKS.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dbBackup/5EY9CPMxwB_JOURNEYS.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dbBackup/5EY9CPMxwB_MEETINGS.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dbBackup/5EY9CPMxwB_RANKS.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dbBackup/5EY9CPMxwB_ROLES.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dbBackup/5EY9CPMxwB_TEAMS.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dbBackup/5EY9CPMxwB_USERS.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/schema-database.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/92262efa-64ff-4529-894e-b401dee030f1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/92262efa-64ff-4529-894e-b401dee030f1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/utils/StringResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/utils/StringResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/meetings/MeetingRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/meetings/MeetingRowMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/meetings/MeetingsRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/meetings/MeetingsRepositoryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutsRepositoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/database/scouts/ScoutsRepositoryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Meeting.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/model/Meeting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/scouts/ScoutsRepositoryManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/test/java/com/app/logic/database/scouts/ScoutsRepositoryManagerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +38,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="JUnit5 Test Class" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -70,85 +85,68 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.app.logic.database.presence" />
       <recent name="com.app.logic.database.scouts" />
       <recent name="com.app.logic.database.troops" />
       <recent name="com.app.logic.database.roles" />
       <recent name="com.app.logic.database.meetings" />
-      <recent name="com.app.logic.database.instructorRanks" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ScoutsRepositoryManagerTest.getById">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.MeetingsPresenceRepositoryManagerTest.remove">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ScoutsRepositoryManagerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Logic" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.app.logic.database.scouts.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.scouts" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.scouts.ScoutsRepositoryManagerTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ScoutsRepositoryManagerTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MeetingsPresenceRepositoryManagerTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.scouts.*" />
+          <option name="PATTERN" value="com.app.logic.database.presence.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.scouts" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.scouts.ScoutsRepositoryManagerTest" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.presence" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.presence.MeetingsPresenceRepositoryManagerTest" />
       <option name="METHOD_NAME" value="add" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ScoutsRepositoryManagerTest.countByTeamId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MeetingsPresenceRepositoryManagerTest.countPresent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.scouts.*" />
+          <option name="PATTERN" value="com.app.logic.database.presence.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.scouts" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.scouts.ScoutsRepositoryManagerTest" />
-      <option name="METHOD_NAME" value="countByTeamId" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.presence" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.presence.MeetingsPresenceRepositoryManagerTest" />
+      <option name="METHOD_NAME" value="countPresent" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ScoutsRepositoryManagerTest.getAllByTeamIdTroopId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MeetingsPresenceRepositoryManagerTest.remove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.app.logic.database.scouts.*" />
+          <option name="PATTERN" value="com.app.logic.database.presence.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.app.logic.database.scouts" />
-      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.scouts.ScoutsRepositoryManagerTest" />
-      <option name="METHOD_NAME" value="getAllByTeamIdTroopId" />
+      <option name="PACKAGE_NAME" value="com.app.logic.database.presence" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.presence.MeetingsPresenceRepositoryManagerTest" />
+      <option name="METHOD_NAME" value="remove" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -165,6 +163,22 @@
       <option name="PACKAGE_NAME" value="com.app.logic.database.scouts" />
       <option name="MAIN_CLASS_NAME" value="com.app.logic.database.scouts.ScoutsRepositoryManagerTest" />
       <option name="METHOD_NAME" value="getById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ScoutsRepositoryManagerTest.name" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Logic" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.app.logic.database.scouts.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.app.logic.database.scouts" />
+      <option name="MAIN_CLASS_NAME" value="com.app.logic.database.scouts.ScoutsRepositoryManagerTest" />
+      <option name="METHOD_NAME" value="name" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -201,11 +215,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MeetingsPresenceRepositoryManagerTest.remove" />
+        <item itemvalue="JUnit.MeetingsPresenceRepositoryManagerTest.countPresent" />
+        <item itemvalue="JUnit.MeetingsPresenceRepositoryManagerTest.add" />
+        <item itemvalue="JUnit.ScoutsRepositoryManagerTest.name" />
         <item itemvalue="JUnit.ScoutsRepositoryManagerTest.getById" />
-        <item itemvalue="JUnit.ScoutsRepositoryManagerTest.getAllByTeamIdTroopId" />
-        <item itemvalue="JUnit.ScoutsRepositoryManagerTest.countByTeamId" />
-        <item itemvalue="JUnit.ScoutsRepositoryManagerTest" />
-        <item itemvalue="JUnit.ScoutsRepositoryManagerTest.add" />
       </list>
     </recent_temporary>
   </component>
@@ -223,7 +237,8 @@
       <workItem from="1607543320052" duration="1399000" />
       <workItem from="1607544974533" duration="221000" />
       <workItem from="1607552411863" duration="11491000" />
-      <workItem from="1607591066617" duration="11771000" />
+      <workItem from="1607591066617" duration="11869000" />
+      <workItem from="1607691281536" duration="2937000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1607543639715</created>
@@ -267,7 +282,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607593173433</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Scouts and ScoutsRoles Repository Implementation + Tested">
+      <created>1607604207579</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1607604207579</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,6 +306,7 @@
     <MESSAGE value="Ranks and InstructorRank Repository implementation + tested" />
     <MESSAGE value="Roles Repository implementation + tested" />
     <MESSAGE value="Troops Repository implementation + tested" />
-    <option name="LAST_COMMIT_MESSAGE" value="Troops Repository implementation + tested" />
+    <MESSAGE value="Scouts and ScoutsRoles Repository Implementation + Tested" />
+    <option name="LAST_COMMIT_MESSAGE" value="Scouts and ScoutsRoles Repository Implementation + Tested" />
   </component>
 </project>
