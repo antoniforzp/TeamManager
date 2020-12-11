@@ -1,13 +1,9 @@
 package com.app.logic.database.meetings;
 
 import com.app.logic.AppContext;
-import com.app.logic.database.journeys.JourneysRepository;
-import com.app.logic.database.journeys.JourneysRepositoryManager;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MeetingsRepositoryManagerTest {
 

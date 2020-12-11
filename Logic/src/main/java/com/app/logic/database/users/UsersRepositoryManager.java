@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class UsersRepositoryManager implements UsersRepository {
+public
+class UsersRepositoryManager implements UsersRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

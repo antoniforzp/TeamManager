@@ -1,13 +1,9 @@
 package com.app.logic.database.journeys;
 
 import com.app.logic.AppContext;
-import com.app.logic.database.teams.TeamsRepository;
-import com.app.logic.database.teams.TeamsRepositoryManager;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class JourneysRepositoryManagerTest {
 

@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MeetingRowMapper implements RowMapper<Meeting> {
+class MeetingRowMapper implements RowMapper<Meeting> {
     @Override
     public Meeting mapRow(ResultSet resultSet, int i) throws SQLException {
         return new Meeting(resultSet.getInt("meeting_id"),

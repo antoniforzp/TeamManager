@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MeetingsPresenceRepositoryManager implements MeetingsPresenceRepository {
+class MeetingsPresenceRepositoryManager implements MeetingsPresenceRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

@@ -1,11 +1,7 @@
 package com.app.logic.database.ranks;
 
 import com.app.logic.AppContext;
-import com.app.logic.database.journeys.JourneysRepository;
-import com.app.logic.database.journeys.JourneysRepositoryManager;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RanksRepositoryManagerTest {
 

@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class JourneysRepositoryManager implements JourneysRepository {
+class JourneysRepositoryManager implements JourneysRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

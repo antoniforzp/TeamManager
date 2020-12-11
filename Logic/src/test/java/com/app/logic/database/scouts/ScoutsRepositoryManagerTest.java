@@ -1,13 +1,9 @@
 package com.app.logic.database.scouts;
 
 import com.app.logic.AppContext;
-import com.app.logic.database.troops.TroopsRepository;
-import com.app.logic.database.troops.TroopsRepositoryManager;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ScoutsRepositoryManagerTest {
 

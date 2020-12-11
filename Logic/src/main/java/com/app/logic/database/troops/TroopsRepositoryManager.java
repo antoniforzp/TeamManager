@@ -1,7 +1,5 @@
 package com.app.logic.database.troops;
 
-import com.app.logic.database.roles.RoleRowMapper;
-import com.app.logic.model.Role;
 import com.app.logic.model.Troop;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TroopsRepositoryManager implements TroopsRepository {
+public
+class TroopsRepositoryManager implements TroopsRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class MeetingsRepositoryManager implements MeetingsRepository {
+class MeetingsRepositoryManager implements MeetingsRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

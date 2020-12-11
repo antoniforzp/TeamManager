@@ -1,11 +1,7 @@
 package com.app.logic.database.troops;
 
 import com.app.logic.AppContext;
-import com.app.logic.database.teams.TeamsRepository;
-import com.app.logic.database.teams.TeamsRepositoryManager;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TroopsRepositoryManagerTest {
 

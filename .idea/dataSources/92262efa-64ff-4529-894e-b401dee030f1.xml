@@ -1196,19 +1196,19 @@ scout_id</ColNames>
       <Position>9</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="349" parent="282" name="team_id">
+    <column id="349" parent="282" name="troop_id">
       <Position>10</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="350" parent="282" name="troop_id">
+    <column id="350" parent="282" name="rank_id">
       <Position>11</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="351" parent="282" name="rank_id">
+    <column id="351" parent="282" name="instructor_rank_id">
       <Position>12</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="352" parent="282" name="instructor_rank_id">
+    <column id="352" parent="282" name="team_id">
       <Position>13</Position>
       <DataType>int(11)|0s</DataType>
     </column>
@@ -1217,20 +1217,20 @@ scout_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="354" parent="282" name="SCOUTS_fk_TEAMS_team_id">
-      <ColNames>team_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="355" parent="282" name="SCOUTS_fk_TROOPS_troop_id">
+    <index id="354" parent="282" name="SCOUTS_fk_TROOPS_troop_id">
       <ColNames>troop_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="356" parent="282" name="SCOUTS_fk_RANKS_rank_id">
+    <index id="355" parent="282" name="SCOUTS_fk_RANKS_rank_id">
       <ColNames>rank_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="357" parent="282" name="SCOUTS_fk_INSTRUCTOR_RANKS_rank_id">
+    <index id="356" parent="282" name="SCOUTS_fk_INSTRUCTOR_RANKS_rank_id">
       <ColNames>instructor_rank_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="357" parent="282" name="SCOUTS_fk_TEAMS_team_id">
+      <ColNames>team_id</ColNames>
       <Type>btree</Type>
     </index>
     <key id="358" parent="282" name="PRIMARY">
@@ -1242,31 +1242,31 @@ scout_id</ColNames>
       <ColNames>scout_id</ColNames>
       <UnderlyingIndexName>scout_id</UnderlyingIndexName>
     </key>
-    <foreign-key id="360" parent="282" name="SCOUTS_fk_TEAMS_team_id">
-      <ColNames>team_id</ColNames>
-      <RefTableName>TEAMS</RefTableName>
-      <RefColNames>team_id</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>set-null</OnDelete>
-    </foreign-key>
-    <foreign-key id="361" parent="282" name="SCOUTS_fk_TROOPS_troop_id">
+    <foreign-key id="360" parent="282" name="SCOUTS_fk_TROOPS_troop_id">
       <ColNames>troop_id</ColNames>
       <RefTableName>TROOPS</RefTableName>
       <RefColNames>troop_id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>set-null</OnDelete>
     </foreign-key>
-    <foreign-key id="362" parent="282" name="SCOUTS_fk_RANKS_rank_id">
+    <foreign-key id="361" parent="282" name="SCOUTS_fk_RANKS_rank_id">
       <ColNames>rank_id</ColNames>
       <RefTableName>RANKS</RefTableName>
       <RefColNames>rank_id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>set-null</OnDelete>
     </foreign-key>
-    <foreign-key id="363" parent="282" name="SCOUTS_fk_INSTRUCTOR_RANKS_rank_id">
+    <foreign-key id="362" parent="282" name="SCOUTS_fk_INSTRUCTOR_RANKS_rank_id">
       <ColNames>instructor_rank_id</ColNames>
       <RefTableName>INSTRUCTOR_RANKS</RefTableName>
       <RefColNames>rank_id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>set-null</OnDelete>
+    </foreign-key>
+    <foreign-key id="363" parent="282" name="SCOUTS_fk_TEAMS_team_id">
+      <ColNames>team_id</ColNames>
+      <RefTableName>TEAMS</RefTableName>
+      <RefColNames>team_id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>set-null</OnDelete>
     </foreign-key>

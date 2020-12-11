@@ -1,11 +1,7 @@
 package com.app.logic.database.roles;
 
 import com.app.logic.AppContext;
-import com.app.logic.database.ranks.RanksRepository;
-import com.app.logic.database.ranks.RanksRepositoryManager;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RolesRepositoryManagerTest {
 

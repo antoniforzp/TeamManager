@@ -1,11 +1,7 @@
 package com.app.logic.database.teams;
 
 import com.app.logic.AppContext;
-import com.app.logic.database.users.UsersRepository;
-import com.app.logic.database.users.UsersRepositoryManager;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TeamsRepositoryManagerTest {
 

@@ -1,8 +1,6 @@
 package com.app.logic.database.instructorRanks;
 
-import com.app.logic.database.ranks.RankRowMapper;
 import com.app.logic.model.InstructorRank;
-import com.app.logic.model.Rank;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -10,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class InstructorRanksRepositoryManager implements InstructorRanksRepository {
+class InstructorRanksRepositoryManager implements InstructorRanksRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

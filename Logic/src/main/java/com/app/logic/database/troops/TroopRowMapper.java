@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TroopRowMapper implements RowMapper<Troop> {
+class TroopRowMapper implements RowMapper<Troop> {
     @Override
     public Troop mapRow(ResultSet resultSet, int i) throws SQLException {
         return new Troop(resultSet.getInt("troop_id"),

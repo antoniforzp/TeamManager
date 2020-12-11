@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TeamsRepositoryManager implements TeamsRepository {
+class TeamsRepositoryManager implements TeamsRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

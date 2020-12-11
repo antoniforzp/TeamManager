@@ -17,10 +17,10 @@ public interface ScoutsRepository {
                 String postalCode,
                 String city,
                 String phone,
-                int teamId,
                 int troopId,
                 int rankId,
-                int instructorRankId);
+                int instructorRankId,
+                int teamId);
 
     List<Scout> getAllByTeamId(int teamId);
 
@@ -42,6 +42,8 @@ public interface ScoutsRepository {
                    int instructorRankId);
 
     boolean addRole(int scoutId, int roleId);
+
+    boolean deleteById(int scoutId);
 
     boolean deleteRole(int scoutId, int roleId);
 

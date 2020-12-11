@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ScoutRowMapper implements RowMapper<Scout> {
+class ScoutRowMapper implements RowMapper<Scout> {
     @Override
     public Scout mapRow(ResultSet resultSet, int i) throws SQLException {
         
