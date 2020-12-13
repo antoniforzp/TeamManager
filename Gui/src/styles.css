@@ -94,17 +94,32 @@ body {
   background-color: var(--primary-color);
 }
 
-.my-form {
+.my-form-container {
+  display: block;
+  margin: 0 auto;
+}
+
+.my-form{
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-flow: column;
+  margin-bottom: 20px;
+}
+
+.my-form-section {
+  display: flex;
+  flex-flow: column;
+
+  margin-bottom: 10px;
   width: 100%;
 }
 
-.my-form-column {
+.my-form-buttons-container {
   display: flex;
-  flex-flow: column;
-  margin: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+
+  width: 100%;
 }
 
 .my-checkbox input {
@@ -117,12 +132,14 @@ body {
   cursor: pointer;
   outline: inherit;
 
-  margin: 5px 2px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 
   padding: 8px;
   opacity: 1.0;
 
   width: 200px;
+  height: 40px;
   transition: opacity 0.5s;
 }
 

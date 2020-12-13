@@ -5,53 +5,54 @@
     header="Edytuj użytkownika"
     src="assets/img/icons/editUser.png"></app-page-header>
 
-  <div class="my-form">
 
-    <!--  CREDENTIALS FORM-->
-    <form class="my-form-column">
-      <h5>Dane osobowe</h5>
-      <label>
-        <input class="my-input" name="first" ngModel required placeholder="Imię">
-      </label>
-      <label>
-        <input class="my-input" name="last" ngModel required placeholder="Nazwisko">
-      </label>
-      <label>
-        <input disabled="disabled" class="my-input" name="email" ngModel required placeholder="Email">
-      </label>
+  <div class="app-form-container">
 
-      <button class="button-secondary">Edytuj</button>
+    <form class="app-form" #credentials="ngForm" [formGroup]="credentialsForm">
+
+      <div class="app-form-section">
+        <h5>Edytuj swoje dane osobowe</h5>
+        <label>
+          <input formControlName="userName"
+                 [ngClass]="displayFieldCssCredentials(credentials.form, 'userName')"
+                 type="text" class="form-control" placeholder="Imię">
+        </label>
+        <label>
+          <input formControlName="userSurname"
+                 [ngClass]="displayFieldCssCredentials(credentials.form, 'userSurname')"
+                 type="text" class="form-control" placeholder="Nazwisko">
+        </label>
+        <label>
+          <input formControlName="userEmail"
+                 type="text" class="form-control" placeholder="Email">
+        </label>
+
+        <button (click)="onSubmit(credentials.form)" class="button-secondary">Edytuj</button>
+      </div>
     </form>
 
-    <!--  PASSWORD FORM-->
-    <form class="my-form-column">
-      <h5>Hasło</h5>
-      <label>
-        <input class="my-input" name="password" ngModel required placeholder="Stare hasło">
-      </label>
-      <label class="my-checkbox">
-        <input type="checkbox" id="showOldPasswd" name="remember">Pokaż hasło
-      </label>
-      <label>
-        <input class="my-input" name="repeatPasswd" ngModel required placeholder="Nowe hasło">
-      </label>
-      <label>
-        <input class="my-input" name="repeatPasswd" ngModel required placeholder="Powtórz nowe hasło">
-      </label>
-      <label class="my-checkbox">
-        <input type="checkbox" id="showNewPasswd" name="remember">Pokaż hasło
-      </label>
+    <!--    -->
 
-      <button class="button-secondary">Edytuj</button>
+    <form class="app-form" [formGroup]="passwordsFrom">
+
+      <div class="app-form-section">
+        <h5>Zmień hasło</h5>
+        <label>
+          <input formControlName="userOldPassword"
+                 type="text" class="form-control" placeholder="Aktualne hasło">
+        </label>
+        <label>
+          <input formControlName="userNewPassword"
+                 type="text" class="form-control" placeholder="Nowe Hasło">
+        </label>
+        <label>
+          <input formControlName="userNewPasswordRepeat"
+                 type="text" class="form-control" placeholder="Powtórz nowe hasło">
+        </label>
+
+        <button class="button-secondary">Edytuj</button>
+      </div>
     </form>
 
-    <!--  FIRST TEAM FORM-->
-    <div class="my-form-column">
-      <app-user-team-manager></app-user-team-manager>
-    </div>
-  </div>
-
-  <div class="buttons-container">
-    <button routerLink="/home" class="button-primary">Powrót</button>
   </div>
 </div>

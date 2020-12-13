@@ -13,7 +13,11 @@ import javax.sql.DataSource;
 import java.util.Objects;
 
 @Configuration
-@ComponentScan(basePackages = {"com.app.logic.database.*"})
+@ComponentScan(basePackages = {
+        "com.app.logic.database.*",
+        "com.app.logic.core",
+        "com.app.logic.controllers"
+})
 @PropertySource("classpath:application.properties")
 public class AppConfig {
 

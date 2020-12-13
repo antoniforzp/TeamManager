@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {Component} from '@angular/core';
 import {AbstractComponent} from '../../AbstractComponent';
+import {User} from "../../../model/user";
+import {Team} from "../../../model/team";
+import {UsersService} from "../../../services/users.service";
 
 @Component({
   selector: 'app-add-user-page',
@@ -9,11 +11,36 @@ import {AbstractComponent} from '../../AbstractComponent';
 })
 export class AddUserPageComponent extends AbstractComponent {
 
-  constructor() {
+  public userModel: User = new User(0, '', '', '', '');
+  public teamModel: Team = new Team(0, '', '');
+  public passwordRepeat: string;
+
+  public isPasswordMatched: boolean = false;
+  public isPolicyChecked: boolean = false;
+  public isEmailExists: boolean = false;
+
+  public success: boolean = false;
+
+  constructor(public usersService: UsersService) {
     super();
   }
 
-  onSubmit(f: NgForm): void {
-    console.log(f);
+  ngOnInit() {
+    super.ngOnInit();
+  }
+
+  validateEmail(value) {
+    this.usersService.checkIfUserExists(value).subscribe(v => {
+      this.isEmailExists = v;
+    });
+  }
+
+  validatePasswords(value) {
+    this.isPasswordMatched = (this.userModel.password == value && value != '');
+  }
+
+  submit(): void {
+    this.usersService.addUser(this.userModel).subscribe(value => this.success);
+    console.log(this.success);
   }
 }

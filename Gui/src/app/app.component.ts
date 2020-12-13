@@ -1,6 +1,4 @@
 import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {PagesUrls} from './utils/PagesUrls';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +6,6 @@ import {PagesUrls} from './utils/PagesUrls';
 })
 export class AppComponent {
 
-  pagesUrlsLocal = PagesUrls;
-
-  constructor(public router: Router) {
+  constructor() {
   }
 }

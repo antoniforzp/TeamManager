@@ -6,6 +6,7 @@ import com.app.logic.model.User;
 import com.app.logic.utils.PasswordHasher;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -18,7 +19,12 @@ public class UserController {
         this.appCore = appCore;
     }
 
-    @PostMapping("/login")
+    @GetMapping("/check")
+    public boolean checkIfExists(@RequestParam("email") String email) {
+        return repository.checkIfExists(email);
+    }
+
+    @GetMapping("/login")
     public boolean login() {
         User loggedUser = repository.getByCredentials("admin@admin.com", PasswordHasher.hash("admin"));
         if (loggedUser != null) {
@@ -38,9 +44,9 @@ public class UserController {
 
     @PostMapping("/update")
     public boolean updateUser(@RequestParam("userId") int userId,
-                           @RequestParam("name") String name,
-                           @RequestParam("surname") String surname,
-                           @RequestParam("password") String password) {
+                              @RequestParam("name") String name,
+                              @RequestParam("surname") String surname,
+                              @RequestParam("password") String password) {
         return repository.update(userId, name, surname, password);
     }
 }

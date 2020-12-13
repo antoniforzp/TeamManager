@@ -1,6 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
 import {LoginPageComponent} from './components/pages/login-page/login-page.component';
@@ -8,7 +9,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AddUserPageComponent} from './components/pages/add-user-page/add-user-page.component';
 import {FooterComponent} from './components/elements/footer/footer.component';
 import {PageHeaderComponent} from './components/global/page-header/page-header.component';
-import {FormsModule} from '@angular/forms';
 import {HomePageComponent} from './components/pages/home-page/home-page.component';
 import {MenuComponent} from './components/elements/menu/menu.component';
 import {UserInfoComponent} from './components/structures/user-info/user-info.component';
@@ -41,6 +41,7 @@ import {ScoutsRecordsPageComponent} from './components/pages/scouts-records-page
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule
   ],
   providers: [],
