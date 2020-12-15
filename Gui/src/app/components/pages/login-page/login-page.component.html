@@ -1,27 +1,47 @@
 <div class="page-container">
 
   <div class="content-container">
-    <h1>Menadżer jednostki harcerskiej</h1>
-    <br>
+
+    <!--    app title-->
+    <h2 id="name">Menadżer jednostki harcerskiej</h2>
 
     <div class="login-container">
-      <p id="title">Witaj w menadżerze Twojej jednostki harcerskiej!</p>
 
-      <label>
-        <input class="my-login-input" placeholder="Email">
-      </label>
-      <label>
-        <input class="my-login-input" placeholder="Hasło">
-      </label>
+      <!--      invitation-->
+      <p>Witaj w swoim serwisie zarządzania jednostką harcerską!</p>
 
-      <label class="my-checkbox"><input type="checkbox" id="rememberMe" name="remember">Zapamiętaj mnie</label>
+      <div class="app-form-container">
+        <form class="app-form" #credentials="ngForm" [formGroup]="credentialsForm">
 
-      <p class="alert"></p>
-      <button [routerLink]="PagesUrlsLocal.HOME" class="button-primary">Zaloguj</button>
-      <button [routerLink]="PagesUrlsLocal.ADD_USER" class="button-primary">Dodaj użytkownika</button>
+          <!-- email input-->
+          <label>
+            <input formControlName="userEmail"
+                   type="text" class="form-control" placeholder="Email">
+          </label>
+
+          <!-- password input-->
+          <label>
+            <input formControlName="userPassword"
+                   type="password" class="form-control" placeholder="Hasło">
+          </label>
+
+          <!-- alert-->
+          <small *ngIf="credentials.invalid && submitted"
+                 class="text-danger">Nieprawidłowe hasło lub email</small>
+          <br>
+
+          <!-- control buttons-->
+          <div>
+            <button (click)="submit(credentialsForm)" class="button-primary">Zaloguj</button>
+            <button (click)="nav.goToAddUser()" class="button-primary">Dodaj użytkownika</button>
+          </div>
+
+        </form>
+      </div>
     </div>
 
-    <button class="button-secondary">Informacje</button>
+    <br>
+    <button class="button-secondary" disabled>Informacje</button>
   </div>
 
 </div>

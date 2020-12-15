@@ -1,17 +1,1 @@
-.app-form-container {
-  display: block;
-  margin: 0 auto;
-  width: 100%;
-}
 
-.app-form {
-  display: flex;
-  flex-flow: column;
-  margin-bottom: 20px;
-}
-
-.app-form-section {
-  display: flex;
-  flex-flow: column;
-  margin-bottom: 10px;
-}

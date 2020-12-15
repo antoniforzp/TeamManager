@@ -5,29 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5123e7f0-b137-4d95-83b0-3babcc9c671f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_security_2_4_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_config_5_4_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_core_5_4_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_web_5_4_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Gui/proxy.conf.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Gui/src/app/model/team.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Gui/src/app/model/user.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/forms/LoginForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Gui/src/app/services/navigation.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Gui/src/assets/img/backgrounds/login-bg-1.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gui/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/app.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gui/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/add-user-page/add-user-page.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/add-user-page/add-user-page.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/add-user-page/add-user-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/add-user-page/add-user-page.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/add-user-page/add-user-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/add-user-page/add-user-page.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/src/app/components/AbstractComponent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/AbstractComponent.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/edit-user-page/edit-user-page.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/edit-user-page/edit-user-page.component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/edit-user-page/edit-user-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/edit-user-page/edit-user-page.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/edit-user-page/edit-user-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/edit-user-page/edit-user-page.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gui/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/login-page/login-page.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/login-page/login-page.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/login-page/login-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/login-page/login-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/src/app/components/pages/login-page/login-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/app/components/pages/login-page/login-page.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gui/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/AppConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/src/main/java/com/app/logic/controllers/UserController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,8 +29,8 @@
         <option value="Enum" />
         <option value="Interface" />
         <option value="JUnit5 Test Class" />
-        <option value="TypeScript File" />
         <option value="Class" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -105,6 +94,17 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.LogicApplication">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MeetingsPresenceRepositoryManagerTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Logic" />
       <extension name="coverage">
@@ -243,7 +243,10 @@
       <workItem from="1607726401772" duration="2719000" />
       <workItem from="1607775480710" duration="20043000" />
       <workItem from="1607811140885" duration="12898000" />
-      <workItem from="1607859637549" duration="6836000" />
+      <workItem from="1607859637549" duration="6960000" />
+      <workItem from="1607937308928" duration="2789000" />
+      <workItem from="1607966755420" duration="870000" />
+      <workItem from="1608048171127" duration="13618000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1607543639715</created>
@@ -322,7 +325,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607729089637</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Edit user reactive form">
+      <created>1607866586836</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1607866586836</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -344,6 +354,7 @@
     <MESSAGE value="Database adjusted, refactored. Added users and troops" />
     <MESSAGE value="User, Scouts REST Controllers" />
     <MESSAGE value="Core, Scouts, Teams, User RESTControllers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Core, Scouts, Teams, User RESTControllers" />
+    <MESSAGE value="Edit user reactive form" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edit user reactive form" />
   </component>
 </project>

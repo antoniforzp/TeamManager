@@ -5,7 +5,7 @@
   --primary-color: #00562b;
   --secondary-color: #70201f;
   --accent-color: #fea521;
-  --background-color: #e7dfc5;
+  --background-color: #e5dfc7;
 }
 
 /*Fonts*/
@@ -122,6 +122,16 @@ body {
   width: 100%;
 }
 
+.my-form-buttons-container-column {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-flow: column;
+  justify-content: space-around;
+
+  width: 100%;
+}
+
 .my-checkbox input {
   width: 20px
 }
@@ -174,4 +184,22 @@ body {
   border-collapse: separate;
   border-spacing: 15px 5px;
   margin: 0;
+}
+
+.app-form-container {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.app-form {
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 20px;
+}
+
+.app-form-section {
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 10px;
 }

@@ -19,6 +19,8 @@ import {UserTeamManagerComponent} from './components/structures/user-team-manage
 import {TeamComponent} from './components/structures/user-team-manager/team/team.component';
 import {ScoutsRecordsPageComponent} from './components/pages/scouts-records-page/scouts-records-page.component';
 
+import {NavigationService} from "./services/navigation.service";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +46,7 @@ import {ScoutsRecordsPageComponent} from './components/pages/scouts-records-page
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [NavigationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -12,11 +12,19 @@
 
       <div class="app-form-section">
         <h5>Edytuj swoje dane osobowe</h5>
+
+        <div>
+          <small>Imię jest wymagane</small>
+        </div>
         <label>
           <input formControlName="userName"
                  [ngClass]="displayFieldCssCredentials(credentials.form, 'userName')"
                  type="text" class="form-control" placeholder="Imię">
         </label>
+
+        <div>
+          <small>Nazwisko jest wymagane</small>
+        </div>
         <label>
           <input formControlName="userSurname"
                  [ngClass]="displayFieldCssCredentials(credentials.form, 'userSurname')"
@@ -28,6 +36,7 @@
         </label>
 
         <button (click)="onSubmit(credentials.form)" class="button-secondary">Edytuj</button>
+
       </div>
     </form>
 
