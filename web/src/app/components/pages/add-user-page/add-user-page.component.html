@@ -1,0 +1,133 @@
+<div class="my-page-content-container">
+
+  <app-page-header
+    header="Dodaj użytkownika"
+    src="assets/img/icons/addUser.png"></app-page-header>
+
+  <div class="my-form-container">
+
+    <form #userForm="ngForm" class="my-form" (ngSubmit)="submit()" novalidate>
+
+      <!--  CREDENTIALS SECTION-->
+      <div class="my-form-section" ngModelGroup="credentials">
+        <h5>Dane osobowe</h5>
+
+        <!--        NAME-->
+        <small class="text-danger" [class.d-none]="!name.invalid || !name.touched">Imię jest wymagane</small>
+        <label>
+          <input class="form-control" placeholder="Imię" name="name"
+                 #name="ngModel" [(ngModel)]="userModel.name"
+                 [class.is-invalid]="name.invalid && name.touched" required>
+        </label>
+
+        <!--        SURNAME-->
+        <small class="text-danger" [class.d-none]="!surname.invalid || !surname.touched">Nazwisko jest wymagane</small>
+        <label>
+          <input class="form-control" placeholder="Nazwisko" name="surname"
+                 #surname="ngModel" [(ngModel)]="userModel.surname"
+                 [class.is-invalid]="surname.invalid && surname.touched" required>
+        </label>
+
+        <!--        EMAIL-->
+        <div>
+          <ng-container *ngIf="email.errors && email.invalid && email.touched">
+            <small class="text-danger" *ngIf="email.errors.required">Adres email jest wymagany</small>
+            <small class="text-danger" *ngIf="email.errors.pattern">Wymagany format adresu email:
+              email@email.com</small>
+          </ng-container>
+          <ng-container *ngIf="isEmailExists">
+            <small class="text-danger" *ngIf="isEmailExists">Podany adres istnieje w bazie danych</small>
+          </ng-container>
+        </div>
+        <label>
+          <input (blur)="validateEmail(email.value)" class="form-control" placeholder="Email"
+                 name="email" #email="ngModel" [(ngModel)]="userModel.email"
+                 [class.is-invalid]="(email.invalid || isEmailExists) && email.touched" required
+                 pattern="[\w\d!#$%&'*+-=?^_`{|]+@[a-zA-z.]+">
+        </label>
+      </div>
+
+
+      <!--  PASSWORD SECTION-->
+      <div class="my-form-section" ngModelGroup="passwords">
+        <h5>Hasło</h5>
+
+        <!--        FIRST PASSWORD-->
+        <div *ngIf="passwd.errors && passwd.invalid && passwd.touched">
+          <small class="text-danger" *ngIf="passwd.errors.pattern">Hasło musi zawierać co najmniej
+            1 cyfrę oraz 1 wielką i małą literę oraz co najmniej 8 lub więcej znaków</small>
+          <small class="text-danger" *ngIf="passwd.errors.required">Hasło jest wymagane</small>
+        </div>
+        <label>
+          <input class="form-control" type="password" placeholder="Hasło" name="password"
+                 #passwd="ngModel" [(ngModel)]="userModel.password"
+                 [class.is-invalid]="passwd.invalid && passwd.touched"
+                 [class.is-valid]="passwd.valid && passwd.touched" required
+                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+        </label>
+
+        <!--        REPEAT PASSWORD-->
+        <div *ngIf="!isPasswordMatched && passwdRepeat.touched">
+          <small class="text-danger" *ngIf="!isPasswordMatched">Podane hasła nie są takie same</small>
+        </div>
+        <label>
+          <input (blur)="validatePasswords(passwdRepeat.value)" class="form-control" type="password"
+                 placeholder="Powtórz hasło" name="passwordRepeat"
+                 #passwdRepeat="ngModel" [(ngModel)]="passwordRepeat"
+                 [class.is-invalid]="!isPasswordMatched && passwdRepeat.touched"
+                 [class.is-valid]="isPasswordMatched && passwdRepeat.touched">
+        </label>
+      </div>
+
+      <!--  FIRST TEAM SECTION-->
+      <h5>Pierwsza jednostka</h5>
+      <div class="my-form-section" ngModelGroup="firstTeam">
+
+        <!--      TEAM NAME-->
+        <small class="text-danger" [class.d-none]="!teamName.invalid || !teamName.touched">Nazwa drużyny jest
+          wymagana</small>
+        <label>
+          <input class="form-control" placeholder="Nazwa" name="teamName"
+                 #teamName="ngModel" [(ngModel)]="teamModel.name" required
+                 [class.is-invalid]="teamName.invalid && teamName.touched">
+        </label>
+
+        <!--      TEAM PATRON-->
+        <label>
+          <input class="form-control" placeholder="Patron" [(ngModel)]="teamModel.patron" name="teamPatron">
+        </label>
+        <small>Patrona drużyny proszę wpisać w odmienionej formie: im. Adama Małkowskiego</small>
+      </div>
+
+
+      <br>
+      <br>
+      <!--  POLICY SECTION-->
+      <div class="my-form-section" ngModelGroup="policy">
+        <h5>Dodatkowe informacje</h5>
+        <p class="policy-container">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel ullamcorper
+          tortor. Sed et urna diam.
+          Maecenas ringilla convallis sem, eu consectetur ex congue ut. Nunc in erat a nibh tempor pretium. Sed lectus
+          odio,
+          consectetur id fermentum elementum, lobortis eu eros. Nullam at rutrum ligula. Nulla ut eros sed nisl pretium
+          tempor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel pharetra neque, sed dignissim urna.
+          Proin sed ipsum vel neque volutpat bibendum. Pellentesque convallis efficitur justo, a ultrices enim.
+          Curabitur eu fringilla ipsum, at vulputate felis. Aliquam a molestie ex, vitae molestie magna.</p>
+
+        <label class="my-checkbox">
+          <input #policyCheck="ngModel" type="checkbox" id="acceptPolicy" [(ngModel)]="isPolicyChecked" name="policy"
+                 required>Akceptuję
+        </label>
+        <small class="text-danger" [class.invisible]="!policyCheck.invalid">Pole jest wymagane</small>
+      </div>
+
+      <div class="my-form-buttons-container">
+        <button class="button-secondary" type="reset" [routerLink]="PagesUrlsLocal.LOGIN">Powrót</button>
+        <button class="button-primary" type="submit" [disabled]="userForm.invalid">Dodaj</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+

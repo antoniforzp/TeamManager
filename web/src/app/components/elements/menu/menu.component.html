@@ -1,0 +1,33 @@
+<nav class="navigation">
+
+  <button routerLink="/home"
+          [ngClass]="{'nav-button': true, 'nav-button-curr': false}">Home
+  </button>
+  <button routerLink="/scouts-records"
+          [ngClass]="{'nav-button': true, 'nav-button-curr': false}">Ewidencja
+  </button>
+  <button (click)="navigate('/kontakt')"
+          disabled="disabled"
+          [ngClass]="{'nav-button': true, 'nav-button-curr': false}">Stopnie
+  </button>
+  <button (click)="navigate('/aktualnosci')"
+          disabled="disabled"
+          [ngClass]="{'nav-button': true, 'nav-button-curr': false}">Sprawności
+  </button>
+  <button (click)="navigate('/oferta')"
+          disabled="disabled"
+          [ngClass]="{'nav-button': true, 'nav-button-curr': false}">Obecność
+  </button>
+  <button (click)="navigate('/terminarz')"
+          disabled="disabled"
+          [ngClass]="{'nav-button': true, 'nav-button-curr': false}">Zbiórki
+  </button>
+  <button (click)="navigate('/o-nas')"
+          disabled="disabled"
+          [ngClass]="{'nav-button': true, 'nav-button-curr': false}">Punktacja
+  </button>
+  <button [routerLink]="PagesUrlsLocal.LOGIN"
+          [ngClass]="{'nav-button': true, 'nav-button-curr': true}">Wyjdź
+  </button>
+</nav>
+
