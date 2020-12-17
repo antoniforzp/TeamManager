@@ -1,0 +1,36 @@
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  background-image: url("src/assets/img/backgrounds/login-bg-1.png");
+  object-fit: cover;
+
+  min-height: 100vh;
+}
+
+.content-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+
+  text-align: center;
+}
+
+.login-container {
+  box-shadow: 5px 5px 5px;
+  background-color: var(--background-color);
+
+  max-width: 400px;
+
+  padding-top: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+#name {
+  margin-bottom: 20px;
+  font-size: 50px;
+}
