@@ -1,17 +1,16 @@
-import {Injectable} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import { Injectable } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FormsService {
-
   /**
    * Function checking the valid state of form control
    * @param form - form group (parent)
    * @param field - name of form control of form group
    */
-  public isFieldValid(form: FormGroup, field: string) {
+  public isFieldValid(form: FormGroup, field: string): boolean {
     return !form.get(field)?.valid && form.get(field)?.touched;
   }
 
@@ -20,12 +19,10 @@ export class FormsService {
    * @param form
    */
   public clearAllForms(form: FormGroup) {
-    Object.keys(form.controls).forEach(field => {
-
+    Object.keys(form.controls).forEach((field) => {
       const control = form.get(field);
       if (control instanceof FormControl) {
-        control.markAsUntouched({onlySelf: true});
-
+        control.markAsUntouched({ onlySelf: true });
       } else if (control instanceof FormGroup) {
         this.clearAllForms(control);
       }
@@ -38,12 +35,10 @@ export class FormsService {
    * @param form - form group needed to be validated
    */
   public validateAllFormFields(form: FormGroup) {
-    Object.keys(form.controls).forEach(field => {
-
+    Object.keys(form.controls).forEach((field) => {
       const control = form.get(field);
       if (control instanceof FormControl) {
-        control.markAsTouched({onlySelf: true});
-
+        control.markAsTouched({ onlySelf: true });
       } else if (control instanceof FormGroup) {
         this.validateAllFormFields(control);
       }
@@ -56,9 +51,15 @@ export class FormsService {
    * @param field - the name of the form control linked to the html input
    * @param submit - controlling flag on submit hit
    */
-  public displayFieldCssCredentials(form: FormGroup, field: string, submit: boolean) {
-    return submit ? {
-      'is-invalid': this.isFieldValid(form, field)
-    } : {};
+  public displayFieldCssCredentials(
+    form: FormGroup,
+    field: string,
+    submit: boolean
+  ) {
+    return submit
+      ? {
+          'is-invalid': this.isFieldValid(form, field),
+        }
+      : {};
   }
 }

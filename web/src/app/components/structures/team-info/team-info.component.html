@@ -1,12 +1,11 @@
 <div class="team-info-container">
   <img class="team-img" src="assets/img/icons/tent.png" alt="user-img">
-  <h3>10 Lodzka Druzyna Harcerzy "Serviam"</h3>
-  <h5>im. Jerzego Grodynskiego</h5>
+  <h3>{{name}}</h3>
+  <h5>{{patron}}</h5>
 
   <label>Zmień jednostkę <br>
-    <select disabled="disabled" class="my-select" name="teams">
-      <option value="volvo">Volvo</option>
-      <option value="volvo">Volvo</option>
+    <select class="my-select" name="teams">
+      <option [value]="team.teamId" *ngFor="let team of userTeams">{{team.name}} {{team.patron}}</option>
     </select>
   </label>
 </div>

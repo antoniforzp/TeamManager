@@ -1,17 +1,21 @@
-import {Component, ViewChild} from '@angular/core';
-import {AbstractComponent} from "../../AbstractComponent";
-import {NavigationService} from "../../../services/navigation.service";
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {FormsService} from "../../../services/forms.service";
-import {UsersService} from "../../../services/users.service";
+import { Component, ViewChild } from '@angular/core';
+import { AbstractComponent } from '../../AbstractComponent';
+import { NavigationService } from '../../../services/navigation.service';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { FormsService } from '../../../services/forms.service';
+import { UsersService } from '../../../services/users.service';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css']
+  styleUrls: ['./login-page.component.css'],
 })
 export class LoginPageComponent extends AbstractComponent {
-
   submitted: boolean = false;
   valid: boolean = true;
 
@@ -20,10 +24,12 @@ export class LoginPageComponent extends AbstractComponent {
     userPassword: ['', [Validators.required, this.checkPassword]],
   });
 
-  constructor(public nav: NavigationService,
-              public formBuilder: FormBuilder,
-              public forms: FormsService,
-              public user: UsersService) {
+  constructor(
+    public nav: NavigationService,
+    public formBuilder: FormBuilder,
+    public forms: FormsService,
+    public user: UsersService
+  ) {
     super();
   }
 
@@ -37,8 +43,8 @@ export class LoginPageComponent extends AbstractComponent {
   }
 
   checkPassword(control: AbstractControl): { [key: string]: any } | null {
-    let matches = (control.value == 'admin');
-    return matches ? null : {'password': 'not-matching'};
+    let matches = control.value == 'admin';
+    return matches ? null : { password: 'not-matching' };
   }
 
   onNewInput(form: FormGroup) {
@@ -50,10 +56,7 @@ export class LoginPageComponent extends AbstractComponent {
     this.valid = form.valid;
 
     if (this.valid) {
-
-      //TODO: sprawdzić czy hasło się zgadza z podanym mailem (if true przejść do /home)
-      //this.user.
-
+      this.nav.goToHomePage();
     } else {
       this.forms.validateAllFormFields(form);
       console.log('form invalid');

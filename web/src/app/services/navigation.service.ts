@@ -1,17 +1,16 @@
-import {Injectable} from '@angular/core';
-import {Router} from "@angular/router";
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NavigationService {
+  constructor(private router: Router) {}
 
-  constructor(private router: Router) {
-  }
-
-  private navigateTo(url: string) {
-    this.router.navigateByUrl(url)
-      .then(value => console.log('Navigated to: ' + value));
+  private navigateTo(url: string): void {
+    this.router
+      .navigateByUrl(url)
+      .then((value) => console.log('Navigated to: ' + value));
   }
 
   /**
@@ -25,23 +24,23 @@ export class NavigationService {
    * Parameterless (to static)
    */
 
-  public goToLoginPage() {
+  public goToLoginPage(): void {
     this.navigateTo('/');
   }
 
-  public goToAddUser() {
+  public goToAddUser(): void {
     this.navigateTo('/add-user');
   }
 
-  public goToHomePage() {
+  public goToHomePage(): void {
     this.navigateTo('/home');
   }
 
-  public goToEditUser() {
+  public goToEditUser(): void {
     this.navigateTo('/user');
   }
 
-  public goToRecords() {
+  public goToRecords(): void {
     this.navigateTo('/records');
   }
 }
