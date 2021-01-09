@@ -1,5 +1,6 @@
 package com.app.server.database.scouts;
 
+import com.app.server.exceptions.DatabaseErrorException;
 import com.app.server.model.Scout;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,7 +35,7 @@ class ScoutsRepositoryManager implements ScoutsRepository {
             return jdbcTemplate.update(QUERY, name, surname, pesel, birthDate, address, postalCode, city, phone, troopId, rankId, instructorRankId, teamId) >= 1;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            throw new DatabaseErrorException(e.getMessage());
         }
     }
 
@@ -143,7 +144,8 @@ class ScoutsRepositoryManager implements ScoutsRepository {
         try {
             scout = jdbcTemplate.queryForObject(QUERY, new ScoutRowMapper(), scoutId);
         } catch (Exception e) {
-            return null;
+            e.printStackTrace();
+            throw new DatabaseErrorException(e.getMessage());
         }
         return scout;
     }
@@ -155,7 +157,7 @@ class ScoutsRepositoryManager implements ScoutsRepository {
             return jdbcTemplate.update(QUERY, name, surname, pesel, birthDate, address, postalCode, city, phone, troopId, rankId, instructorRankId, scoutId) >= 1;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            throw new DatabaseErrorException(e.getMessage());
         }
     }
 
@@ -166,7 +168,7 @@ class ScoutsRepositoryManager implements ScoutsRepository {
             return jdbcTemplate.update(QUERY, scoutId, roleId) >= 1;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            throw new DatabaseErrorException(e.getMessage());
         }
     }
 
