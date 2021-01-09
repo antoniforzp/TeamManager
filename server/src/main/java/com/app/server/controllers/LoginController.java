@@ -27,7 +27,7 @@ public class LoginController {
         this.appCore = appCore;
     }
 
-    //PUT: add scout's role
+    //PUT: Login with credentials
     @CrossOrigin
     @PostMapping(value = "/login")
     public ResponseEntity<Boolean> addRole(@RequestBody UserCredentials credentials) {
