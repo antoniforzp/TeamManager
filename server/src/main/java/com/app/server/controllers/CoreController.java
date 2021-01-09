@@ -5,10 +5,7 @@ import com.app.server.model.Team;
 import com.app.server.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
@@ -19,6 +16,13 @@ public class CoreController {
 
     public CoreController(AppCore appCore) {
         this.appCore = appCore;
+    }
+
+    //TEST
+    @CrossOrigin
+    @PostMapping(value = "/test")
+    public ResponseEntity<Boolean> test() {
+        return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
     }
 
     //PUT: Get current logged user

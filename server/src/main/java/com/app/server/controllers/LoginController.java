@@ -6,6 +6,7 @@ import com.app.server.database.users.UsersRepository;
 import com.app.server.model.Team;
 import com.app.server.model.User;
 import com.app.server.model.UserCredentials;
+import com.app.server.utils.PasswordHasher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,9 @@ public class LoginController {
 
         //Setup core data
         if (check) {
-            User loggedUser = usersRepository.getByCredentials(credentials.getEmail(), credentials.getPassword());
+            User loggedUser = usersRepository.getByCredentials(
+                    credentials.getEmail(),
+                    credentials.getPassword());
             appCore.setCurrentUser(loggedUser);
 
             //Assign first of assigned teams of users
