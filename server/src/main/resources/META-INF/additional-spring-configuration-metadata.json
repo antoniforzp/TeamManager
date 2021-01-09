@@ -39,6 +39,11 @@
       "name": "datasource.apidb.password-local",
       "type": "java.lang.String",
       "description": "Description for datasource.apidb.password-local."
+    },
+    {
+      "name": "spring.datasource.initialize",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.initialize."
     }
   ]
 }

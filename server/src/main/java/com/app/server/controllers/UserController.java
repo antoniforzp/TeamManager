@@ -35,10 +35,15 @@ public class UserController {
     @CrossOrigin
     @GetMapping(value = "/edit{userId}")
     public ResponseEntity<Boolean> editUser(@PathVariable int userId, @RequestBody User newUser) {
-        return new ResponseEntity<>(repository.update(userId,
+        boolean check = repository.update(userId,
                 newUser.getName(),
                 newUser.getSurname(),
-                newUser.getPassword()), HttpStatus.ACCEPTED);
+                newUser.getPassword());
+        //Update current user
+        if (check) {
+            appCore.setCurrentUser(repository.getById(userId));
+        }
+        return new ResponseEntity<>(check, HttpStatus.ACCEPTED);
     }
 
     //PUT: Remove user
