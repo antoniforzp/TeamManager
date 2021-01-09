@@ -4,6 +4,8 @@ import com.app.server.core.AppCore;
 import com.app.server.database.users.UsersRepository;
 import com.app.server.model.User;
 import com.app.server.utils.PasswordHasher;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -19,34 +21,30 @@ public class UserController {
         this.appCore = appCore;
     }
 
-    @GetMapping("/check")
-    public boolean checkIfExists(@RequestParam("email") String email) {
-        return repository.checkIfExists(email);
+    //PUT: Add user
+    @CrossOrigin
+    @PostMapping(value = "/add")
+    public ResponseEntity<Boolean> addUser(@RequestBody User newUser) {
+        return new ResponseEntity<>(repository.add(newUser.getName(),
+                newUser.getSurname(),
+                newUser.getPassword(),
+                newUser.getEmail()), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/login")
-    public boolean login() {
-        User loggedUser = repository.getByCredentials("admin@admin.com", PasswordHasher.hash("admin"));
-        if (loggedUser != null) {
-            appCore.setCurrentUser(loggedUser);
-            return true;
-        }
-        return false;
+    //PUT: Edit user
+    @CrossOrigin
+    @GetMapping(value = "/edit{userId}")
+    public ResponseEntity<Boolean> editUser(@PathVariable int userId, @RequestBody User newUser) {
+        return new ResponseEntity<>(repository.update(userId,
+                newUser.getName(),
+                newUser.getSurname(),
+                newUser.getPassword()), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/add")
-    public boolean addUser(@RequestParam("name") String name,
-                           @RequestParam("surname") String surname,
-                           @RequestParam("password") String password,
-                           @RequestParam("email") String email) {
-        return repository.add(name, surname, password, email);
-    }
-
-    @PostMapping("/update")
-    public boolean updateUser(@RequestParam("userId") int userId,
-                              @RequestParam("name") String name,
-                              @RequestParam("surname") String surname,
-                              @RequestParam("password") String password) {
-        return repository.update(userId, name, surname, password);
+    //PUT: Remove user
+    @CrossOrigin
+    @PostMapping(value = "/remove{userId}")
+    public ResponseEntity<Boolean> updateUser(@PathVariable int userId) {
+        return new ResponseEntity<>(repository.deleteById(userId), HttpStatus.ACCEPTED);
     }
 }
