@@ -1,6 +1,7 @@
 package com.app.server;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,11 +14,8 @@ import javax.sql.DataSource;
 import java.util.Objects;
 
 @Configuration
-@ComponentScan(basePackages = {
-        "com.app.logic.database.*",
-        "com.app.logic.core",
-        "com.app.logic.controllers"
-})
+@ComponentScan
+@EnableAutoConfiguration
 @PropertySource("classpath:application.properties")
 public class AppConfig {
 

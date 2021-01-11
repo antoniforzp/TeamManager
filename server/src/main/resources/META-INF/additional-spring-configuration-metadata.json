@@ -44,6 +44,11 @@
       "name": "spring.datasource.initialize",
       "type": "java.lang.String",
       "description": "Description for spring.datasource.initialize."
+    },
+    {
+      "name": "com.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize",
+      "type": "java.lang.String",
+      "description": "Description for com.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize."
     }
   ]
 }
