@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppCore {
 
-    private User currentUser;
-    private Team currentTeam;
+    private User currentUser = new User();
+    private Team currentTeam = new Team();
 
     public User getCurrentUser() {
         return currentUser;
