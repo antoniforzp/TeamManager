@@ -1,0 +1,12 @@
+.page-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100vh;
+}
+
+.login-container {
+  text-align: center;
+  width: 300px;
+}

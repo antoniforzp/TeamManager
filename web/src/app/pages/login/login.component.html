@@ -1,0 +1,21 @@
+<div class="page-container">
+    <div class="login-container">
+        <div class="login-form">
+            <form [formGroup]="loginForm" (submit)="onSubmit()">
+                <h2 class="text-center">Menadżer drużyny harcerskiej</h2>
+                <br>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Email" formControlName="email" autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Hasło" formControlName="password">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"
+                        [disabled]="!loginForm.valid">Zaloguj</button>
+                </div>
+            </form>
+            <p class="text-center"><a href="#">Dodaj użytkownika</a></p>
+        </div>
+    </div>
+</div>
