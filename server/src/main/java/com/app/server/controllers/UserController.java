@@ -21,7 +21,14 @@ public class UserController {
         this.appCore = appCore;
     }
 
-    //PUT: Add user
+    //POST: Add user
+    @CrossOrigin
+    @PostMapping(value = "/check{userMail}")
+    public ResponseEntity<Boolean> addUser(@PathVariable String userMail) {
+        return new ResponseEntity<>(repository.checkIfExists(userMail), HttpStatus.ACCEPTED);
+    }
+
+    //POST: Add user
     @CrossOrigin
     @PostMapping(value = "/add")
     public ResponseEntity<Boolean> addUser(@RequestBody User newUser) {
@@ -31,9 +38,9 @@ public class UserController {
                 newUser.getEmail()), HttpStatus.ACCEPTED);
     }
 
-    //PUT: Edit user
+    //POST: Edit user
     @CrossOrigin
-    @GetMapping(value = "/edit{userId}")
+    @PostMapping(value = "/edit{userId}")
     public ResponseEntity<Boolean> editUser(@PathVariable int userId, @RequestBody User newUser) {
         boolean check = repository.update(userId,
                 newUser.getName(),
@@ -46,9 +53,9 @@ public class UserController {
         return new ResponseEntity<>(check, HttpStatus.ACCEPTED);
     }
 
-    //PUT: Remove user
+    //DELETE: Remove user
     @CrossOrigin
-    @PostMapping(value = "/remove{userId}")
+    @DeleteMapping(value = "/remove{userId}")
     public ResponseEntity<Boolean> updateUser(@PathVariable int userId) {
         return new ResponseEntity<>(repository.deleteById(userId), HttpStatus.ACCEPTED);
     }

@@ -1,0 +1,75 @@
+<div id="wrap">
+    <main role="main" class="container">
+        <h1 class="mt-5">Dodaj użytkownika</h1>
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut ipsum eleifend, lacinia elit
+            non, pharetra justo.</p>
+
+        <button class="btn btn-dark btn-block mb-3" (click)="fillTestingData()">Fill data</button>
+        <form [formGroup]="addUserForm">
+            <div class="form-group">
+                <h5>Dane osobowe</h5>
+                <input type="text" class="form-control mt-2" placeholder="Imię" formControlName="userName">
+                <div class="d-flex flex-column" *ngIf="userName.invalid && (userName.dirty || userName.touched)">
+                    <small class="alert-danger" *ngIf="userName.errors.required">Pole wymagane</small>
+                </div>
+                <input type="text" class="form-control mt-2" placeholder="Nazwisko" formControlName="userSurname">
+                <div class="d-flex flex-column"
+                    *ngIf="userSurname.invalid && (userSurname.dirty || userSurname.touched)">
+                    <small class="alert-danger" *ngIf="userSurname.errors.required">Pole wymagane</small>
+                </div>
+                <input type="text" class="form-control mt-2" placeholder="Email" formControlName="userEmail">
+                <div class="d-flex flex-column" *ngIf="userEmail.invalid && (userEmail.dirty || userEmail.touched)">
+                    <small class="alert-danger" *ngIf="userEmail.errors?.required">Pole wymagane</small>
+                    <small class="alert-danger" *ngIf="userEmail.errors?.pattern">Nieprawidłowy format adresu email.
+                        Poprawny: email@email.com</small>
+                </div>
+            </div>
+
+            <!-- TODO: teraz walidacja haseł -->
+            <div class="form-group">
+                <h5>Dane logowania</h5>
+                <input type="password" class="form-control mt-2" placeholder="Hasło" formControlName="password">
+                <div class="d-flex flex-column" *ngIf="password.invalid && (password.dirty || password.touched)">
+                    <small class="alert-danger" *ngIf="password.errors?.required">Pole wymagane</small>
+                    <small class="alert-danger" *ngIf="password.errors?.hasNumber">Hasło musi posiadać co najmniej jedną
+                        cyfrę</small>
+                    <small class="alert-danger" *ngIf="password.errors?.hasCapitalCase">Hasło musi posiadać co najmniej
+                        jedną wielką literę</small>
+                    <small class="alert-danger" *ngIf="password.errors?.hasSmallCase">Hasło musi posiadać co najmniej
+                        jedną małą literę</small>
+                    <small class="alert-danger" *ngIf="password.errors?.minLength">Hasło musi posiadać co najmniej 8
+                        cyfr</small>
+                </div>
+
+                <input type="password" class="form-control mt-2" placeholder="Powtórz hasło"
+                    formControlName="passwordRepeat">
+                <div class="d-flex flex-column"
+                    *ngIf="(passwordRepeat.invalid || addUserForm.invalid) && (passwordRepeat.dirty || passwordRepeat.touched)">
+                    <small class="alert-danger" *ngIf="passwordRepeat.errors?.required">Pole wymagane</small>
+                    <small class="alert-danger" *ngIf="addUserForm.errors?.passwordDifferent">Hasła się nie
+                        zgadzają</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h5>Pierwsza jednostka</h5>
+                <p>Aby rozpocząć pracę, należy podać jednostkę, którą zarządzasz.</p>
+                <input type="text" class="form-control mt-2" placeholder="Nazwa" formControlName="teamName">
+                <div class="d-flex flex-column" *ngIf="teamName.invalid && (teamName.dirty || teamName.touched)">
+                    <small class="alert-danger" *ngIf="teamName.errors?.required">Pole wymagane</small>
+                </div>
+                <input type="text" class="form-control mt-2" placeholder="Patron" formControlName="teamPatron">
+                <small>Proszę wpisać patrona w formie odmienionej np. "im. Jerzego Grodyńskiego".</small>
+            </div>
+
+            <div>
+                <div class="d-flex flex-column">
+                    <small *ngIf="mailExists" class="alert-danger">Podany adres emial już istnieje w naszej bazie danych</small>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit" (click)="onSubmit()"
+                    [disabled]="!addUserForm.valid">Dodaj</button>
+                <button class="btn btn-secondary btn-block" routerLink="/login">Powrót</button>
+            </div>
+        </form>
+    </main>
+</div>

@@ -6,14 +6,12 @@ import com.app.server.database.users.UsersRepository;
 import com.app.server.model.Team;
 import com.app.server.model.User;
 import com.app.server.model.UserCredentials;
-import com.app.server.utils.PasswordHasher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
 @RestController
 @RequestMapping(value = "/login")
 public class LoginController {
