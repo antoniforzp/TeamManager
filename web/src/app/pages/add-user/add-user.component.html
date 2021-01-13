@@ -25,7 +25,6 @@
                 </div>
             </div>
 
-            <!-- TODO: teraz walidacja haseł -->
             <div class="form-group">
                 <h5>Dane logowania</h5>
                 <input type="password" class="form-control mt-2" placeholder="Hasło" formControlName="password">
@@ -64,7 +63,8 @@
 
             <div>
                 <div class="d-flex flex-column">
-                    <small *ngIf="mailExists" class="alert-danger">Podany adres emial już istnieje w naszej bazie danych</small>
+                    <small *ngIf="mailExists" class="alert-danger">Podany adres emial już istnieje w naszej bazie
+                        danych</small>
                 </div>
                 <button class="btn btn-primary btn-block" type="submit" (click)="onSubmit()"
                     [disabled]="!addUserForm.valid">Dodaj</button>
@@ -72,4 +72,7 @@
             </div>
         </form>
     </main>
+
+    <app-progress-modal></app-progress-modal>
+    <app-success-modal></app-success-modal>
 </div>

@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { ProgressModalComponent } from 'src/app/global/progress-modal/progress-modal.component';
+import { SuccessModalComponent } from 'src/app/global/success-modal/success-modal.component';
 import { CustomValidators } from 'src/app/validators/custom-validators';
-import { runInThisContext } from 'vm';
 import { AddUserService } from './add-user.service';
 
 @Component({
@@ -41,6 +38,12 @@ export class AddUserComponent implements OnInit {
     teamPatron: [''],
   });
 
+  @ViewChild(SuccessModalComponent)
+  private successModal!: SuccessModalComponent;
+
+  @ViewChild(ProgressModalComponent)
+  private progressModal!: ProgressModalComponent;
+
   constructor(private fb: FormBuilder, private addUserService: AddUserService) {
     this.addUserForm.setValidators(
       CustomValidators.passwordMatchValidator(this.addUserForm, {
@@ -66,15 +69,25 @@ export class AddUserComponent implements OnInit {
   onSubmit(): void {
     this.addUserService
       .checkEmail(this.userEmail.value)
-      .pipe(tap((x) => (this.mailExists = x)))
-      .subscribe((x) => {
-        if (!x) {
-          this.addUserService.addUser({
-            name: this.userName.value,
-            surname: this.userName.value,
-            password: this.userName.value,
-            email: this.userName.value,
-          }).subscribe(console.log);
+      .pipe(tap((mailExists) => (this.mailExists = mailExists)))
+      .subscribe((mailExists) => {
+        if (mailExists) {
+          console.log('user email exists in database!');
+        } else {
+          this.progressModal.open();
+          this.addUserService
+            .addUser({
+              name: this.userName.value,
+              surname: this.userSurname.value,
+              password: this.password.value,
+              email: this.userEmail.value,
+            })
+            .subscribe((result) => {
+              if (result) {
+                this.progressModal.close();
+                this.successModal.open('Udało sie');
+              }
+            });
         }
       });
   }
