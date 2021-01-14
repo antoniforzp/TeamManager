@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { LoginService } from './login.service';
 
 @Component({
@@ -7,13 +9,17 @@ import { LoginService } from './login.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  // Login form storing input credentials
+  loginResult: boolean | undefined = undefined;
   loginForm = this.fb.group({
     email: ['admin@admin.com', Validators.required],
     password: ['Password', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private login: LoginService) {}
+  constructor(
+    private fb: FormBuilder,
+    private login: LoginService,
+    private router: Router
+  ) {}
 
   get email(): string {
     return this.loginForm.get('email')?.value;
@@ -26,6 +32,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
-    this.login.login(this.email, this.password);
+    this.login.login(this.email, this.password).subscribe((x) => {
+      this.loginResult = x;
+      if (x) {
+        this.router.navigateByUrl('/home');
+      }
+    });
   }
 }

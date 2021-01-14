@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AddUserComponent } from './pages/add-user/add-user.component';
 import { ProgressModalComponent } from './global/progress-modal/progress-modal.component';
 import { SuccessModalComponent } from './global/success-modal/success-modal.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { SuccessModalComponent } from './global/success-modal/success-modal.comp
     AddUserComponent,
     ProgressModalComponent,
     SuccessModalComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
