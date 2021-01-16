@@ -15,6 +15,7 @@ import { ProgressModalComponent } from './global/progress-modal/progress-modal.c
 import { SuccessModalComponent } from './global/success-modal/success-modal.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MenuComponent } from './global/menu/menu.component';
+import { EditUserComponent } from './pages/edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MenuComponent } from './global/menu/menu.component';
     SuccessModalComponent,
     HomeComponent,
     MenuComponent,
+    EditUserComponent,
   ],
   imports: [
     BrowserModule,

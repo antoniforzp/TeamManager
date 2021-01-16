@@ -1,6 +1,5 @@
 import {
   AbstractControl,
-  FormGroup,
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
@@ -16,13 +15,22 @@ export class CustomValidators {
   }
 
   static passwordMatchValidator(
-    form: FormGroup,
+    password: AbstractControl,
+    passwordRepeat: AbstractControl,
     error: ValidationErrors
   ): ValidatorFn {
     return (): { [key: string]: any } | null => {
-      return form.get('password')?.value === form.get('passwordRepeat')?.value
-        ? null
-        : error;
+      return password?.value === passwordRepeat?.value ? null : error;
+    };
+  }
+
+  static userPasswordMatchValidator(
+    userPassword: string,
+    newPassword: AbstractControl,
+    error: ValidationErrors
+  ): ValidatorFn {
+    return (): { [key: string]: any } | null => {
+      return newPassword?.value === userPassword ? null : error;
     };
   }
 }

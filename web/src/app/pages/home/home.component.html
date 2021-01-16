@@ -1,7 +1,8 @@
+
 <app-menu></app-menu>
 <main role="main">
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron mt-5">
+    <div class="jumbotron">
         <div class="container">
             <div class="row">
                 <ng-container *ngIf="pageData$ | async as pageData">
@@ -20,7 +21,7 @@
                             <h5>{{pageData.currentUser.name}} {{pageData.currentUser.surname}}<br>{{pageData.currentUser.email}}</h5>
         
                             <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary">Edytuj</button>
+                                <button class="btn btn-primary" routerLink="/editUser">Edytuj</button>
                             </div>
                         </div>
                     </div>

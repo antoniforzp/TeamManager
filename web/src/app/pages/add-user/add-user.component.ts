@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ProgressModalComponent } from 'src/app/global/progress-modal/progress-modal.component';
 import { SuccessModalComponent } from 'src/app/global/success-modal/success-modal.component';
-import { CustomValidators } from 'src/app/validators/custom-validators';
+import { CustomValidators } from 'src/app/validators/Customvalidators';
 import { AddUserService } from './add-user.service';
 
 @Component({
@@ -46,9 +46,13 @@ export class AddUserComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private addUserService: AddUserService) {
     this.addUserForm.setValidators(
-      CustomValidators.passwordMatchValidator(this.addUserForm, {
-        passwordDifferent: true,
-      })
+      CustomValidators.passwordMatchValidator(
+        this.password,
+        this.passwordRepeat,
+        {
+          passwordDifferent: true,
+        }
+      )
     );
   }
 
