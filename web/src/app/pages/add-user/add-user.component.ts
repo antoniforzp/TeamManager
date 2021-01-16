@@ -77,6 +77,7 @@ export class AddUserComponent implements OnInit {
           this.progressModal.open();
           this.addUserService
             .addUser({
+              userId: -1,
               name: this.userName.value,
               surname: this.userSurname.value,
               password: this.password.value,

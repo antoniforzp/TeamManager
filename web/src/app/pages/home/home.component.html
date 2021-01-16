@@ -4,23 +4,27 @@
     <div class="jumbotron mt-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <h3 class="display-5">Witaj, Antoni!</h3>
-                    <h5>10 Łódzka Drużyna Harcerzy "Serviam"</h5>
-                    <h5 class="mt-n2">im. Jerzego Grodyńskiego</h5>
-                    <button class="btn btn-primary mr-2">Zmień jednostkę</button>
-                </div>
+                <ng-container *ngIf="pageData$ | async as pageData">
+                    <div class="col-md-6">
+                        <h3 class="display-5">Witaj, {{pageData.currentUser.name}}!</h3>
+                        <h5>{{pageData.currentTeam.name}}<br>{{pageData.currentTeam.patron}}</h5>
+                        <button class="btn btn-primary mr-2">Zmień jednostkę</button>
+                    </div>
+                </ng-container>
+                
 
-                <div class="col-md-6 d-flex justify-content-end">
-                    <div class="text-right">
-                        <img class="mb-2" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="50" height="50">
-                        <h5>Antoni Forzpańczyk <br> antonio25698@gmail.com</h5>
-    
-                        <div class="d-flex justify-content-end">
-                            <button class="btn btn-primary">Edytuj</button>
+                <ng-container *ngIf="pageData$ | async as pageData">
+                    <div class="col-md-6 d-flex justify-content-end">
+                        <div class="text-right">
+                            <img class="mb-2" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="50" height="50">
+                            <h5>{{pageData.currentUser.name}} {{pageData.currentUser.surname}}<br>{{pageData.currentUser.email}}</h5>
+        
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-primary">Edytuj</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
             </div>
         </div>
     </div>
