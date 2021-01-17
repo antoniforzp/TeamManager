@@ -4,16 +4,23 @@ import { forkJoin, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
-import { Result } from 'src/app/utils/Result';
+import { hideWithTimeout, Result } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 import { HomeService } from '../home/home.service';
 import { EditUserService } from './edit-user.service';
+
+interface TeamForm {
+  teamId: number;
+  formGroup: FormGroup;
+  result$: Subject<Result>;
+}
 
 @Component({
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.css'],
 })
 export class EditUserComponent implements OnInit {
+  pageLoaded$ = new Subject<boolean>();
   currentUser$ = new Subject<User>();
   userTeams$ = new Subject<Team[]>();
   wrongUserPassword = false;
@@ -42,7 +49,7 @@ export class EditUserComponent implements OnInit {
     passwordRepeat: ['', Validators.compose([Validators.required])],
   });
 
-  editTeamsForms = [] as FormGroup[];
+  editTeamsForms: TeamForm[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -70,16 +77,18 @@ export class EditUserComponent implements OnInit {
       this.userEmail.disable();
     });
 
+    // Load user teams and create custom array of control forms
     this.userTeams$.subscribe((x) => {
-      // Load user teams and create custom array of control forms
       x.forEach((t) => {
-        this.editTeamsForms.push(
-          this.fb.group({
+        this.editTeamsForms.push({
+          teamId: t.teamId,
+          result$: new Subject<Result>(),
+          formGroup: this.fb.group({
             teamId: [t.teamId],
             teamName: [t.name, Validators.required],
             teamPatron: [t.patron, Validators.required],
-          })
-        );
+          }),
+        });
       });
     });
   }
@@ -91,6 +100,8 @@ export class EditUserComponent implements OnInit {
     }).subscribe((x) => {
       this.currentUser$.next(x.user);
       this.userTeams$.next(x.teams);
+
+      this.pageLoaded$.next(true);
     });
   }
 
@@ -111,14 +122,14 @@ export class EditUserComponent implements OnInit {
               show: true,
               result: res,
             });
-            this.hideWithTimeout(this.editUserResult$);
+            hideWithTimeout(this.editUserResult$);
           },
           error: () => {
             this.editUserResult$.next({
               show: true,
               result: false,
             });
-            this.hideWithTimeout(this.editUserResult$);
+            hideWithTimeout(this.editUserResult$);
           },
         })
     );
@@ -151,14 +162,14 @@ export class EditUserComponent implements OnInit {
                     show: true,
                     result: res,
                   });
-                  this.hideWithTimeout(this.editPasswordResult$);
+                  hideWithTimeout(this.editPasswordResult$);
                 },
                 error: () => {
                   this.editPasswordResult$.next({
                     show: true,
                     result: false,
                   });
-                  this.hideWithTimeout(this.editPasswordResult$);
+                  hideWithTimeout(this.editPasswordResult$);
                 },
               });
           });
@@ -166,23 +177,49 @@ export class EditUserComponent implements OnInit {
       });
   }
 
-  editTeam(teamName: string, teamPatron: string): void {
+  refreshTeamsList(): void {
+    this.editUserService
+      .getUserTeams()
+      .subscribe((x) => this.userTeams$.next(x));
+  }
+
+  editTeam(
+    teamId: number,
+    teamName: string,
+    teamPatron: string,
+    result: Subject<Result>
+  ): void {
     console.log({
-      name: teamName,
-      patron: teamPatron,
+      teamId,
+      teamName,
+      teamPatron,
     });
-  }
-
-  deleteTeam(teamId: number): void {
-    this.editUserService.deleteTeam(teamId);
-  }
-
-  hideWithTimeout(subject: Subject<Result>): void {
-    setTimeout(() => {
-      subject.next({
-        show: false,
+    this.editUserService
+      .editTeam(teamId, { teamId: -1, name: teamName, patron: teamPatron })
+      .subscribe({
+        next: (res) => {
+          result.next({ show: true, result: res });
+          hideWithTimeout(result);
+        },
+        error: () => {
+          result.next({ show: true, result: false });
+          hideWithTimeout(result);
+        },
       });
-    }, 1000);
+  }
+
+  deleteTeam(teamId: number, result: Subject<Result>): void {
+    this.editUserService.deleteTeam(teamId).subscribe({
+      next: (res) => {
+        result.next({ show: true, result: res });
+        hideWithTimeout(result);
+      },
+      error: () => {
+        result.next({ show: true, result: false });
+        hideWithTimeout(result);
+      },
+    });
+    this.refreshTeamsList();
   }
 
   get userName(): any {
@@ -210,6 +247,6 @@ export class EditUserComponent implements OnInit {
   }
 
   teamGroup(index: number): FormGroup {
-    return this.editTeamsForms[index];
+    return this.editTeamsForms[index].formGroup;
   }
 }

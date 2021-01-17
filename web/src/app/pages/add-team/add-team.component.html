@@ -1,0 +1,31 @@
+<app-menu></app-menu>
+
+<main role="main" class="container mb-3">
+    <h1 class="mt-5">Dodaj jednostkę</h1>
+    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut ipsum eleifend, lacinia elit
+        non, pharetra justo.</p>
+
+    <form [formGroup]="addTeamForm">
+        <h5>Dane jednostki</h5>
+        <div class="form-group">
+            <input type="text" class="form-control mt-2" placeholder="Nazwa jednostki" formControlName="name">
+            <div class="d-flex flex-column" *ngIf="name.invalid && (name.dirty || name.touched)">
+                <small class="alert-danger" *ngIf="name.errors?.required">Pole wymagane</small>
+            </div>
+            <input type="text" class="form-control mt-2" placeholder="Patron jednostki" formControlName="patron">
+            <div class="d-flex flex-column" *ngIf="patron.invalid && (patron.dirty || patron.touched)">
+                <small class="alert-danger" *ngIf="patron.errors?.required">Pole wymagane</small>
+            </div>
+
+            <button class="btn btn-success mt-2" type="submit" [disabled]="!addTeamForm.valid"
+                (click)="addTeam()">Dodaj</button>
+            <div class="d-flex flex-column" *ngIf="result$ | async as result">
+                <small class="alert-success" *ngIf="result.result && result.show">Jednostka dodana</small>
+                <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
+            </div>
+        </div>
+    </form>
+    <div>
+        <button class="btn btn-secondary btn-block" routerLink="/editUser">Powrót</button>
+    </div>
+</main>

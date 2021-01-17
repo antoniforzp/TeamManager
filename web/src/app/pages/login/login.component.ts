@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   loginResult: boolean | undefined = undefined;
   loginForm = this.fb.group({
     email: ['admin@admin.com', Validators.required],
-    password: ['Password', Validators.required],
+    password: ['Password1', Validators.required],
   });
 
   constructor(

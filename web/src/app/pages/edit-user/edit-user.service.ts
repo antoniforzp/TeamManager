@@ -8,14 +8,30 @@ import { User } from 'src/app/model/User';
   providedIn: 'root',
 })
 export class EditUserService {
-  getUserTeamsUrl = 'http://localhost:8080/teams/list';
   editUserDataUrl = 'http://localhost:8080/user/edit';
+  getTeamsUrl = 'http://localhost:8080/teams/list';
+  editTeamsUrl = 'http://localhost:8080/teams/edit';
+  deleteTeamUrl = 'http://localhost:8080/teams/remove';
 
   constructor(private http: HttpClient) {}
 
-  deleteTeam(teamId: number): void {
-    console.log({
-      toDelete: teamId,
+  editTeam(teamId: number, newTeam: Team): Observable<any> {
+    const myHeaders = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    return this.http.post(this.editTeamsUrl + teamId, JSON.stringify(newTeam), {
+      headers: myHeaders,
+    });
+  }
+
+  deleteTeam(teamId: number): Observable<any> {
+    const myHeaders = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    return this.http.delete(this.deleteTeamUrl + teamId, {
+      headers: myHeaders,
     });
   }
 
@@ -24,7 +40,7 @@ export class EditUserService {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
-    return this.http.get<Team[]>(this.getUserTeamsUrl, {
+    return this.http.get<Team[]>(this.getTeamsUrl, {
       headers: myHeaders,
     });
   }
@@ -34,8 +50,12 @@ export class EditUserService {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
-    return this.http.post(this.editUserDataUrl + newUser.userId, JSON.stringify(newUser), {
-      headers: myHeaders,
-    });
+    return this.http.post(
+      this.editUserDataUrl + newUser.userId,
+      JSON.stringify(newUser),
+      {
+        headers: myHeaders,
+      }
+    );
   }
 }
