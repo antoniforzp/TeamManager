@@ -47,29 +47,18 @@
                     zgadzają</small>
             </div>
         </div>
-
-        <div class="form-group">
-            <h5>Pierwsza jednostka</h5>
-            <p>Aby rozpocząć pracę, należy podać jednostkę, którą zarządzasz.</p>
-            <input type="text" class="form-control mt-2" placeholder="Nazwa" formControlName="teamName">
-            <div class="d-flex flex-column" *ngIf="teamName.invalid && (teamName.dirty || teamName.touched)">
-                <small class="alert-danger" *ngIf="teamName.errors?.required">Pole wymagane</small>
-            </div>
-            <input type="text" class="form-control mt-2" placeholder="Patron" formControlName="teamPatron">
-            <small>Proszę wpisać patrona w formie odmienionej np. "im. Jerzego Grodyńskiego".</small>
-        </div>
-
         <div>
-            <div class="d-flex flex-column">
-                <small *ngIf="mailExists" class="alert-danger">Podany adres emial już istnieje w naszej bazie
-                    danych</small>
-            </div>
             <button class="btn btn-primary btn-block" type="submit" (click)="onSubmit()"
                 [disabled]="!addUserForm.valid">Dodaj</button>
-            <button class="btn btn-secondary btn-block" routerLink="/login">Powrót</button>
+                <div class="d-flex flex-column">
+                    <small *ngIf="mailExists" class="alert-danger">Podany adres emial już istnieje w naszej bazie
+                        danych</small>
+                </div>
+                <div class="d-flex flex-column" *ngIf="result$ | async as result">
+                    <small class="alert-success" *ngIf="result.result && result.show">Dane zaktualizowane</small>
+                    <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
+                </div>
+            <button class="btn btn-secondary btn-block mt-2" routerLink="/login">Powrót</button>
         </div>
     </form>
 </main>
-
-<app-progress-modal></app-progress-modal>
-<app-success-modal></app-success-modal>

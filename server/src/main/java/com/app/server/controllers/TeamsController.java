@@ -31,6 +31,15 @@ public class TeamsController {
                 appCore.getCurrentUser().getUserId()), HttpStatus.ACCEPTED);
     }
 
+    //PUT: Add team with userId
+    @CrossOrigin
+    @PutMapping(value = "/add{teamId}")
+    public ResponseEntity<Boolean> addTeam(@PathVariable int teamId, @RequestBody Team newTeam) {
+        return new ResponseEntity<>(repository.add(newTeam.getName(),
+                newTeam.getPatron(),
+                teamId), HttpStatus.ACCEPTED);
+    }
+
     //GET: Get all user's teams
     @CrossOrigin
     @GetMapping(value = "/list")

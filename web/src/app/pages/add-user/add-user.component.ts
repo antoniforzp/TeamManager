@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ProgressModalComponent } from 'src/app/global/progress-modal/progress-modal.component';
-import { SuccessModalComponent } from 'src/app/global/success-modal/success-modal.component';
+import { hideWithTimeout, Result } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 import { AddUserService } from './add-user.service';
 
@@ -12,6 +12,7 @@ import { AddUserService } from './add-user.service';
   styleUrls: ['./add-user.component.css'],
 })
 export class AddUserComponent implements OnInit {
+  result$ = new Subject<Result>();
   mailExists = false;
   addUserForm = this.fb.group({
     userName: ['', Validators.required],
@@ -37,12 +38,6 @@ export class AddUserComponent implements OnInit {
     teamName: ['', Validators.required],
     teamPatron: [''],
   });
-
-  @ViewChild(SuccessModalComponent)
-  private successModal!: SuccessModalComponent;
-
-  @ViewChild(ProgressModalComponent)
-  private progressModal!: ProgressModalComponent;
 
   constructor(private fb: FormBuilder, private addUserService: AddUserService) {
     this.addUserForm.setValidators(
@@ -75,23 +70,32 @@ export class AddUserComponent implements OnInit {
       .checkEmail(this.userEmail.value)
       .pipe(tap((mailExists) => (this.mailExists = mailExists)))
       .subscribe((mailExists) => {
-        if (mailExists) {
-          console.log('user email exists in database!');
-        } else {
-          this.progressModal.open();
+        if (!mailExists) {
           this.addUserService
-            .addUser({
-              userId: -1,
-              name: this.userName.value,
-              surname: this.userSurname.value,
-              password: this.password.value,
-              email: this.userEmail.value,
-            })
-            .subscribe((result) => {
-              if (result) {
-                this.progressModal.close();
-                this.successModal.open('Udało sie');
+            .addUser(
+              {
+                userId: -1,
+                name: this.userName.value,
+                surname: this.userSurname.value,
+                password: this.password.value,
+                email: this.userEmail.value,
               }
+            )
+            .subscribe({
+              next: (res) => {
+                this.result$.next({
+                  show: true,
+                  result: res,
+                });
+                hideWithTimeout(this.result$);
+              },
+              error: () => {
+                this.result$.next({
+                  show: true,
+                  result: false,
+                });
+                hideWithTimeout(this.result$);
+              },
             });
         }
       });
@@ -115,13 +119,5 @@ export class AddUserComponent implements OnInit {
 
   get passwordRepeat(): any {
     return this.addUserForm.get('passwordRepeat');
-  }
-
-  get teamName(): any {
-    return this.addUserForm.get('teamName');
-  }
-
-  get teamPatron(): any {
-    return this.addUserForm.get('teamPatron');
   }
 }

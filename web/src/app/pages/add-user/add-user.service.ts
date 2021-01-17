@@ -12,23 +12,27 @@ export class AddUserService {
 
   constructor(private http: HttpClient) {}
 
-  public checkEmail(userEmail: string): Observable<any> {
+  public checkEmail(userEmail: string): Observable<boolean> {
     const myHeaders = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
-    return this.http.post(this.checkUserMailUrl + userEmail, {
+    return this.http.post<boolean>(this.checkUserMailUrl + userEmail, {
       headers: myHeaders,
     });
   }
 
-  public addUser(newUser: User): Observable<any> {
+  public addUser(newUser: User): Observable<boolean> {
     const myHeaders = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
-    return this.http.post(this.addUserMailUrl, JSON.stringify(newUser), {
-      headers: myHeaders,
-    });
+    return this.http.post<boolean>(
+      this.addUserMailUrl,
+      JSON.stringify(newUser),
+      {
+        headers: myHeaders,
+      }
+    );
   }
 }

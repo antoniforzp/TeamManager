@@ -1,6 +1,7 @@
 package com.app.server.controllers;
 
 import com.app.server.core.AppCore;
+import com.app.server.database.teams.TeamsRepository;
 import com.app.server.database.users.UsersRepository;
 import com.app.server.model.User;
 import org.springframework.http.HttpStatus;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     final UsersRepository repository;
+    final TeamsRepository teamsRepository;
     final AppCore appCore;
 
-    public UserController(UsersRepository repository, AppCore appCore) {
+    public UserController(UsersRepository repository, TeamsRepository teamsRepository, AppCore appCore) {
         this.repository = repository;
+        this.teamsRepository = teamsRepository;
         this.appCore = appCore;
     }
 
@@ -46,7 +49,6 @@ public class UserController {
                 newUser.getSurname(),
                 newUser.getPassword());
         //Update current user
-
         if (check) {
             appCore.setCurrentUser(repository.getById(userId));
         }
