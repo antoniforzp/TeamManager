@@ -7,6 +7,7 @@ import { HomeService } from './home.service';
 interface PageData {
   currentUser: User;
   currentTeam: Team;
+  hasTeams: boolean;
 }
 @Component({
   templateUrl: './home.component.html',
@@ -21,11 +22,13 @@ export class HomeComponent implements OnInit {
     forkJoin({
       _currentUser: this.homeService.getCurrentUser(),
       _currentTeam: this.homeService.getCurrentTeam(),
-    }).subscribe((x) =>
+      _userTeams: this.homeService.getCurrentUserTeamsNo(),
+    }).subscribe((x) => {
       this.pageData$.next({
         currentUser: x._currentUser,
         currentTeam: x._currentTeam,
-      })
-    );
+        hasTeams: x._userTeams > 0,
+      });
+    });
   }
 }

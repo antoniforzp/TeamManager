@@ -31,12 +31,9 @@ export class AddUserComponent implements OnInit {
         CustomValidators.patternValidator(/\d/, { hasNumber: true }),
         CustomValidators.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
         CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
-        Validators.minLength(8),
       ]),
     ],
     passwordRepeat: ['', Validators.compose([Validators.required])],
-    teamName: ['', Validators.required],
-    teamPatron: [''],
   });
 
   constructor(private fb: FormBuilder, private addUserService: AddUserService) {
@@ -72,15 +69,13 @@ export class AddUserComponent implements OnInit {
       .subscribe((mailExists) => {
         if (!mailExists) {
           this.addUserService
-            .addUser(
-              {
-                userId: -1,
-                name: this.userName.value,
-                surname: this.userSurname.value,
-                password: this.password.value,
-                email: this.userEmail.value,
-              }
-            )
+            .addUser({
+              userId: -1,
+              name: this.userName.value,
+              surname: this.userSurname.value,
+              password: this.password.value,
+              email: this.userEmail.value,
+            })
             .subscribe({
               next: (res) => {
                 this.result$.next({

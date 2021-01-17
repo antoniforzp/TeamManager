@@ -26,9 +26,18 @@ public class TeamsController {
     @CrossOrigin
     @PutMapping(value = "/add")
     public ResponseEntity<Boolean> addTeam(@RequestBody Team newTeam) {
-        return new ResponseEntity<>(repository.add(newTeam.getName(),
+
+        boolean check = repository.add(newTeam.getName(),
                 newTeam.getPatron(),
-                appCore.getCurrentUser().getUserId()), HttpStatus.ACCEPTED);
+                appCore.getCurrentUser().getUserId());
+
+        //Assign first of assigned teams of users
+        List<Team> usersTeams = repository.getByUserId(appCore.getCurrentUser().getUserId());
+        if (!usersTeams.isEmpty()) {
+            appCore.setCurrentTeam(usersTeams.get(0));
+        }
+
+        return new ResponseEntity<>(check,  HttpStatus.ACCEPTED);
     }
 
     //PUT: Add team with userId
@@ -45,6 +54,13 @@ public class TeamsController {
     @GetMapping(value = "/list")
     public ResponseEntity<List<Team>> getTeams() {
         return new ResponseEntity<>(repository.getByUserId(appCore.getCurrentUser().getUserId()), HttpStatus.ACCEPTED);
+    }
+
+    //GET: Get number of user's teams
+    @CrossOrigin
+    @GetMapping(value = "/count")
+    public ResponseEntity<Integer> countUserTeams() {
+        return new ResponseEntity<>(repository.countUsers(), HttpStatus.ACCEPTED);
     }
 
     //POST: Edit team

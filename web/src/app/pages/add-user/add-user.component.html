@@ -3,7 +3,6 @@
     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut ipsum eleifend, lacinia elit
         non, pharetra justo.</p>
 
-    <button class="btn btn-dark btn-block mb-3" (click)="fillTestingData()">Fill data</button>
     <form [formGroup]="addUserForm">
         <div class="form-group">
             <h5>Dane osobowe</h5>
@@ -50,14 +49,14 @@
         <div>
             <button class="btn btn-primary btn-block" type="submit" (click)="onSubmit()"
                 [disabled]="!addUserForm.valid">Dodaj</button>
-                <div class="d-flex flex-column">
-                    <small *ngIf="mailExists" class="alert-danger">Podany adres emial już istnieje w naszej bazie
-                        danych</small>
-                </div>
-                <div class="d-flex flex-column" *ngIf="result$ | async as result">
-                    <small class="alert-success" *ngIf="result.result && result.show">Dane zaktualizowane</small>
-                    <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
-                </div>
+            <div class="d-flex flex-column">
+                <small *ngIf="mailExists" class="alert-danger">Podany adres emial już istnieje w naszej bazie
+                    danych</small>
+            </div>
+            <div class="d-flex flex-column" *ngIf="result$ | async as result">
+                <small class="alert-success" *ngIf="result.result && result.show">Użytkownik dodany</small>
+                <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
+            </div>
             <button class="btn btn-secondary btn-block mt-2" routerLink="/login">Powrót</button>
         </div>
     </form>

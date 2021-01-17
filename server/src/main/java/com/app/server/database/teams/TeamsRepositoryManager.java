@@ -1,5 +1,6 @@
 package com.app.server.database.teams;
 
+import com.app.server.core.AppCore;
 import com.app.server.model.Team;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,15 +12,25 @@ import java.util.List;
 class TeamsRepositoryManager implements TeamsRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final AppCore appCore;
 
-    public TeamsRepositoryManager(JdbcTemplate jdbcTemplate) {
+    public TeamsRepositoryManager(JdbcTemplate jdbcTemplate, AppCore appCore) {
         this.jdbcTemplate = jdbcTemplate;
+        this.appCore = appCore;
     }
 
     @Override
     public int count() {
         String QUERY = "SELECT COUNT(team_id) FROM TEAMS";
         Integer integer = jdbcTemplate.queryForObject(QUERY, Integer.class);
+        if (integer == null) return 0;
+        return integer;
+    }
+
+    @Override
+    public int countUsers() {
+        String QUERY = "SELECT COUNT(team_id) FROM TEAMS WHERE owner_id=?";
+        Integer integer = jdbcTemplate.queryForObject(QUERY, Integer.class, appCore.getCurrentUser().getUserId());
         if (integer == null) return 0;
         return integer;
     }

@@ -1,5 +1,6 @@
 package com.app.server.database.users;
 
+import com.app.server.core.AppCore;
 import com.app.server.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

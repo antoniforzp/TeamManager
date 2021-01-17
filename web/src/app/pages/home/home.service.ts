@@ -10,6 +10,7 @@ import { User } from 'src/app/model/User';
 export class HomeService {
   currentUserUrl = 'http://localhost:8080/core/user';
   currentTeamUrl = 'http://localhost:8080/core/team';
+  userTeamsUrl = 'http://localhost:8080/teams/count';
 
   constructor(private http: HttpClient) {}
 
@@ -28,5 +29,13 @@ export class HomeService {
     };
 
     return this.http.get<Team>(this.currentTeamUrl, { headers: myHeaders });
+  }
+
+  getCurrentUserTeamsNo(): Observable<number> {
+    const myHeaders = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    return this.http.get<number>(this.userTeamsUrl, { headers: myHeaders });
   }
 }

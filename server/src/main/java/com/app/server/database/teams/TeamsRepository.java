@@ -8,6 +8,8 @@ public interface TeamsRepository {
 
     int count();
 
+    int countUsers();
+
     boolean add(String name, String patron, int ownerId);
 
     List<Team> getAll();

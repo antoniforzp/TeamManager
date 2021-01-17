@@ -13,6 +13,10 @@
                 <small class="alert-danger" *ngIf="name.errors?.required">Pole wymagane</small>
             </div>
             <input type="text" class="form-control mt-2" placeholder="Patron jednostki" formControlName="patron">
+            <div class="d-flex flex-column">
+                <small>Proszę podać patrona w formie odmienionej np. "im. Jerzego Grodyńskiego"</small>
+            </div>
+
             <div class="d-flex flex-column" *ngIf="patron.invalid && (patron.dirty || patron.touched)">
                 <small class="alert-danger" *ngIf="patron.errors?.required">Pole wymagane</small>
             </div>
