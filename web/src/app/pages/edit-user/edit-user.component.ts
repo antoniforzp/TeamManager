@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { multicast, tap } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { forkJoin, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
+import { Result } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 import { HomeService } from '../home/home.service';
 import { EditUserService } from './edit-user.service';
@@ -13,7 +15,12 @@ import { EditUserService } from './edit-user.service';
 })
 export class EditUserComponent implements OnInit {
   currentUser$ = new Subject<User>();
+  userTeams$ = new Subject<Team[]>();
   wrongUserPassword = false;
+
+  // Server feedbacks
+  editUserResult$ = new Subject<Result>();
+  editPasswordResult$ = new Subject<Result>();
 
   editUserDataForm = this.fb.group({
     userName: ['', Validators.required],
@@ -30,11 +37,12 @@ export class EditUserComponent implements OnInit {
         CustomValidators.patternValidator(/\d/, { hasNumber: true }),
         CustomValidators.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
         CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
-        Validators.minLength(8),
       ]),
     ],
     passwordRepeat: ['', Validators.compose([Validators.required])],
   });
+
+  editTeamsForms = [] as FormGroup[];
 
   constructor(
     private fb: FormBuilder,
@@ -61,19 +69,58 @@ export class EditUserComponent implements OnInit {
       ]);
       this.userEmail.disable();
     });
+
+    this.userTeams$.subscribe((x) => {
+      // Load user teams and create custom array of control forms
+      x.forEach((t) => {
+        this.editTeamsForms.push(
+          this.fb.group({
+            teamId: [t.teamId],
+            teamName: [t.name, Validators.required],
+            teamPatron: [t.patron, Validators.required],
+          })
+        );
+      });
+    });
   }
 
   ngOnInit(): void {
-    this.homeService.getCurrentUser().subscribe((x) => {
-      this.currentUser$.next(x);
+    forkJoin({
+      user: this.homeService.getCurrentUser(),
+      teams: this.editUserService.getUserTeams(),
+    }).subscribe((x) => {
+      this.currentUser$.next(x.user);
+      this.userTeams$.next(x.teams);
     });
   }
 
   editUserData(): void {
     this.editUserDataForm.markAllAsTouched();
-    this.editUserService.editUserData(
-      this.userName.value,
-      this.userSurname.value
+    this.homeService.getCurrentUser().subscribe((x) =>
+      this.editUserService
+        .editUserData({
+          userId: x.userId,
+          name: this.userName.value,
+          surname: this.userSurname.value,
+          password: x.password,
+          email: this.userEmail.value,
+        })
+        .subscribe({
+          next: (res) => {
+            this.editUserResult$.next({
+              show: true,
+              result: res,
+            });
+            this.hideWithTimeout(this.editUserResult$);
+          },
+          error: () => {
+            this.editUserResult$.next({
+              show: true,
+              result: false,
+            });
+            this.hideWithTimeout(this.editUserResult$);
+          },
+        })
     );
   }
 
@@ -86,12 +133,56 @@ export class EditUserComponent implements OnInit {
             (this.wrongUserPassword = !(x.password === this.passwordUser.value))
         )
       )
-      .subscribe((x) => {
+      .subscribe(() => {
         this.editUserPasswordsFrom.markAllAsTouched();
         if (!this.wrongUserPassword) {
-          this.editUserService.editUserPassword(this.passwordNew.value);
+          this.homeService.getCurrentUser().subscribe((x) => {
+            this.editUserService
+              .editUserData({
+                userId: x.userId,
+                name: x.name,
+                surname: x.surname,
+                password: this.passwordNew.value,
+                email: x.email,
+              })
+              .subscribe({
+                next: (res) => {
+                  this.editPasswordResult$.next({
+                    show: true,
+                    result: res,
+                  });
+                  this.hideWithTimeout(this.editPasswordResult$);
+                },
+                error: () => {
+                  this.editPasswordResult$.next({
+                    show: true,
+                    result: false,
+                  });
+                  this.hideWithTimeout(this.editPasswordResult$);
+                },
+              });
+          });
         }
       });
+  }
+
+  editTeam(teamName: string, teamPatron: string): void {
+    console.log({
+      name: teamName,
+      patron: teamPatron,
+    });
+  }
+
+  deleteTeam(teamId: number): void {
+    this.editUserService.deleteTeam(teamId);
+  }
+
+  hideWithTimeout(subject: Subject<Result>): void {
+    setTimeout(() => {
+      subject.next({
+        show: false,
+      });
+    }, 1000);
   }
 
   get userName(): any {
@@ -116,5 +207,9 @@ export class EditUserComponent implements OnInit {
 
   get passwordRepeat(): any {
     return this.editUserPasswordsFrom.get('passwordRepeat');
+  }
+
+  teamGroup(index: number): FormGroup {
+    return this.editTeamsForms[index];
   }
 }

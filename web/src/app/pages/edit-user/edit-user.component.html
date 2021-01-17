@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 
-<main role="main mt-5" class="container">
+<main role="main" class="container mb-3">
     <h1 class="mt-5">Edytuj użytkownika</h1>
 
     <form [formGroup]="editUserDataForm">
@@ -16,8 +16,12 @@
             </div>
             <input type="text" class="form-control mt-2" placeholder="Email" formControlName="userEmail">
 
-            <button class="btn btn-primary btn-block mt-2" type="submit" [disabled]="!editUserDataForm.valid"
+            <button class="btn btn-primary mt-2" type="submit" [disabled]="!editUserDataForm.valid"
                 (click)="editUserData()">Edytuj</button>
+            <div class="d-flex flex-column" *ngIf="editUserResult$ | async as result">
+                <small class="alert-success" *ngIf="result.result && result.show">Dane zaktualizowane</small>
+                <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
+            </div>
         </div>
     </form>
 
@@ -43,8 +47,6 @@
                     jedną wielką literę</small>
                 <small class="alert-danger" *ngIf="passwordNew.errors?.hasSmallCase">Hasło musi posiadać co najmniej
                     jedną małą literę</small>
-                <small class="alert-danger" *ngIf="passwordNew.errors?.minLength">Hasło musi posiadać co najmniej 8
-                    cyfr</small>
             </div>
 
             <input type="password" class="form-control mt-2" placeholder="Powtórz hasło"
@@ -56,10 +58,37 @@
                     zgadzają</small>
             </div>
 
-            <button class="btn btn-primary btn-block mt-2" type="submit" [disabled]="!editUserPasswordsFrom.valid"
+            <button class="btn btn-primary mt-2" type="submit" [disabled]="!editUserPasswordsFrom.valid"
                 (click)="editUserPasswords()">Edytuj</button>
+
+            <div class="d-flex flex-column" *ngIf="editPasswordResult$ | async as result">
+                <small class="alert-success" *ngIf="result.result && result.show">Dane zaktualizowane</small>
+                <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
+            </div>
         </div>
     </form>
+
+    <div class="form-group">
+        <h5>Twoje jednostki</h5>
+        <div *ngFor="let teamArray of editTeamsForms; let i=index">
+
+            <form [formGroup]="teamArray" class="mb-3">
+                <div class="d-flex justify-content-start">
+                    <input type="text" class="form-control mr-1" formControlName="teamName">
+                    <input type="text" class="form-control ml-1" formControlName="teamPatron">
+                    <button class="btn btn-primary ml-1" type="submit">Edytuj</button>
+                    <button class="btn btn-danger ml-1" type="submit"
+                        (click)="deleteTeam(teamGroup(i).value?.teamId)">Usuń</button>
+                </div>
+                <div class="d-flex flex-column">
+                    <small class="alert-success">Dane zaktualizowane</small>
+                    <small class="alert-danger">Błąd</small>
+                </div>
+            </form>
+
+        </div>
+        <button class="btn btn-success">Dodaj</button>
+    </div>
 
     <div>
         <button class="btn btn-secondary btn-block" routerLink="/home">Powrót</button>

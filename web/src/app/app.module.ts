@@ -4,12 +4,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import {
   NgbPaginationModule,
-  NgbAlertModule, NgbModule,
+  NgbAlertModule,
+  NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddUserComponent } from './pages/add-user/add-user.component';
 import { ProgressModalComponent } from './global/progress-modal/progress-modal.component';
 import { SuccessModalComponent } from './global/success-modal/success-modal.component';
@@ -32,6 +33,7 @@ import { EditUserComponent } from './pages/edit-user/edit-user.component';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     NgbPaginationModule,
     NgbAlertModule,

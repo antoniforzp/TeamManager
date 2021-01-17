@@ -17,7 +17,6 @@ export class AddUserService {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
-    console.log(this.checkUserMailUrl + userEmail);
     return this.http.post(this.checkUserMailUrl + userEmail, {
       headers: myHeaders,
     });

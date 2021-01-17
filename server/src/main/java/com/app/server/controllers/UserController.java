@@ -47,6 +47,7 @@ public class UserController {
                 newUser.getSurname(),
                 newUser.getPassword());
         //Update current user
+
         if (check) {
             appCore.setCurrentUser(repository.getById(userId));
         }
