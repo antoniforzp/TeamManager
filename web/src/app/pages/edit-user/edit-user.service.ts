@@ -10,30 +10,8 @@ import { User } from 'src/app/model/User';
 export class EditUserService {
   editUserDataUrl = 'http://localhost:8080/user/edit';
   getTeamsUrl = 'http://localhost:8080/teams/list';
-  editTeamsUrl = 'http://localhost:8080/teams/edit';
-  deleteTeamUrl = 'http://localhost:8080/teams/remove';
 
   constructor(private http: HttpClient) {}
-
-  editTeam(teamId: number, newTeam: Team): Observable<any> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.post(this.editTeamsUrl + teamId, JSON.stringify(newTeam), {
-      headers: myHeaders,
-    });
-  }
-
-  deleteTeam(teamId: number): Observable<any> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.delete(this.deleteTeamUrl + teamId, {
-      headers: myHeaders,
-    });
-  }
 
   getUserTeams(): Observable<Team[]> {
     const myHeaders = {

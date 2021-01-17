@@ -17,7 +17,7 @@ import { SuccessModalComponent } from './global/success-modal/success-modal.comp
 import { HomeComponent } from './pages/home/home.component';
 import { MenuComponent } from './global/menu/menu.component';
 import { EditUserComponent } from './pages/edit-user/edit-user.component';
-import { AddTeamComponent } from './pages/add-team/add-team.component';
+import { TeamsComponent } from './pages/teams/teams.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,7 @@ import { AddTeamComponent } from './pages/add-team/add-team.component';
     HomeComponent,
     MenuComponent,
     EditUserComponent,
-    AddTeamComponent,
+    TeamsComponent,
   ],
   imports: [
     BrowserModule,

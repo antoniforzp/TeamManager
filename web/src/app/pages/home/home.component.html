@@ -10,6 +10,7 @@
                         <h3 class="display-5">Witaj, {{pageData.currentUser.name}}!</h3>
                         <h5>{{pageData.currentTeam.name}}<br>{{pageData.currentTeam.patron}}</h5>
                         <button class="btn btn-primary mr-2">Zmień jednostkę</button>
+                        <button class="btn btn-secondary mr-2" routerLink="/teams">Edytuj jednostki</button>
                     </div>
                 </ng-container>
                 
@@ -21,7 +22,7 @@
                             <h5>{{pageData.currentUser.name}} {{pageData.currentUser.surname}}<br>{{pageData.currentUser.email}}</h5>
         
                             <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary" routerLink="/editUser">Edytuj</button>
+                                <button class="btn btn-secondary" routerLink="/editUser">Edytuj</button>
                             </div>
                         </div>
                     </div>

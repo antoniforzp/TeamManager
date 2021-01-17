@@ -1,0 +1,55 @@
+<app-menu></app-menu>
+
+<main role="main" class="container mb-3">
+    <h1 class="mt-5">Dodaj jednostkę</h1>
+    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut ipsum eleifend, lacinia elit
+        non, pharetra justo.</p>
+
+    <form [formGroup]="addTeamForm">
+        <h5>Dane jednostki</h5>
+        <div class="form-group">
+            <input type="text" class="form-control mt-2" placeholder="Nazwa jednostki" formControlName="name">
+            <div class="d-flex flex-column" *ngIf="name.invalid && (name.dirty || name.touched)">
+                <small class="alert-danger" *ngIf="name.errors?.required">Pole wymagane</small>
+            </div>
+            <input type="text" class="form-control mt-2" placeholder="Patron jednostki" formControlName="patron">
+            <div class="d-flex flex-column" *ngIf="patron.invalid && (patron.dirty || patron.touched)">
+                <small class="alert-danger" *ngIf="patron.errors?.required">Pole wymagane</small>
+            </div>
+
+            <button class="btn btn-success mt-2" type="submit" [disabled]="!addTeamForm.valid"
+                (click)="addTeam()">Dodaj</button>
+            <div class="d-flex flex-column" *ngIf="addResult$ | async as result">
+                <small class="alert-success" *ngIf="result.result && result.show">Jednostka dodana</small>
+                <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
+            </div>
+        </div>
+    </form>
+
+    <div class="form-group">
+        <h5>Twoje jednostki</h5>
+        <div *ngFor="let teamArray of editTeamsForms; let i=index">
+
+            <form [formGroup]="teamArray.formGroup" class="mb-3">
+                <div class="d-flex justify-content-start">
+                    <input type="text" class="form-control mr-1" formControlName="teamName">
+                    <input type="text" class="form-control ml-1" formControlName="teamPatron">
+                    <button class="btn btn-primary ml-1" type="submit" (click)="editTeam(teamArray.teamId, 
+                        teamGroup(i).get('teamName')?.value, 
+                        teamGroup(i).get('teamPatron')?.value, 
+                        teamArray.result$)">Edytuj</button>
+                    <button class="btn btn-danger ml-1" type="submit"
+                        (click)="deleteTeam(teamArray.teamId, teamArray.result$)">Usuń</button>
+                </div>
+                <div class="d-flex flex-column" *ngIf="teamArray.result$ | async as result">
+                    <small class="alert-success" *ngIf="result.result && result.show">Dane zaktualizowane</small>
+                    <small class="alert-danger" *ngIf="!result.result && result.show">Błąd</small>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <button class="btn btn-secondary btn-block" routerLink="/home">Powrót</button>
+    </div>
+</main>

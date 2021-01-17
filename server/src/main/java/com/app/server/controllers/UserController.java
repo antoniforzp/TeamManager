@@ -3,7 +3,6 @@ package com.app.server.controllers;
 import com.app.server.core.AppCore;
 import com.app.server.database.users.UsersRepository;
 import com.app.server.model.User;
-import com.app.server.utils.PasswordHasher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

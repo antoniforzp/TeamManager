@@ -24,7 +24,6 @@
             </div>
         </div>
     </form>
-
     <form [formGroup]="editUserPasswordsFrom">
         <div class="form-group">
             <h5>Dane logowania</h5>
@@ -68,32 +67,8 @@
         </div>
     </form>
 
-    <div class="form-group">
-        <h5>Twoje jednostki</h5>
-        <div *ngFor="let teamArray of editTeamsForms; let i=index">
 
-            <form [formGroup]="teamArray.formGroup" class="mb-3">
-                <div class="d-flex justify-content-start">
-                    <input type="text" class="form-control mr-1" formControlName="teamName">
-                    <input type="text" class="form-control ml-1" formControlName="teamPatron">
-                    <button class="btn btn-primary ml-1" type="submit" (click)="editTeam(teamArray.teamId, 
-                        teamGroup(i).get('teamName')?.value, 
-                        teamGroup(i).get('teamPatron')?.value, 
-                        teamArray.result$)">Edytuj</button>
-                    <button class="btn btn-danger ml-1" type="submit"
-                        (click)="deleteTeam(teamArray.teamId, teamArray.result$)">Usuń</button>
-                </div>
-                <div class="d-flex flex-column" *ngIf="teamArray.result$ | async as result">
-                    <small class="alert-success" *ngIf="result.result && result.show">Dane zaktualizowane</small>
-                    <small class="alert-danger" *ngIf="!result.result && result.show">Błąd</small>
-                </div>
-            </form>
-
-        </div>
-        <button class="btn btn-success" routerLink="/addTeam">Dodaj</button>
-    </div>
-
-    <div *ngIf="pageLoaded$ | async pageLoaded">
+    <div>
         <button class="btn btn-secondary btn-block" routerLink="/home">Powrót</button>
     </div>
 </main>
