@@ -10,6 +10,11 @@
                 <li class="nav-item active">
                     <a class="nav-link" routerLink='/home'>Strona główna</a>
                 </li>
+                <div *ngIf="$unlock | async as unlock">
+                    <li class="nav-item" *ngIf="unlock">
+                        <a class="nav-link" routerLink='#'>Ewidencja</a>
+                    </li>
+                </div>
             </ul>
             <ul class="navbar-nav navbar-right">
                 <li class="nav-item">
