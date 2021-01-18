@@ -4,9 +4,9 @@
     <div class="jumbotron">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <h3 class="display-5" *ngIf="currentUser$ | async as user">Witaj, {{user.name}}!</h3>
+                <div class="col-md-6 d-flex flex-column justify-content-end">
 
+                    <h3 class="display-5" *ngIf="currentUser$ | async as user">Witaj, {{user.name}}!</h3>
                     <ng-container *ngIf="allTeams$ | async as allTeams">
                         <div *ngIf="allTeams.length <= 0">
                             <p>Nie masz jeszcze żadnej jednostki. Dodaj swoję pierwszą drużynę, aby móc skorzystać ze
@@ -16,18 +16,27 @@
                     </ng-container>
 
                     <h5 *ngIf="currentTeam$ | async as team">{{team.name}}<br>{{team.patron}}</h5>
-                    <div class="d-flex">
-                        <div class="dropdown show" *ngIf="availableTeams$ | async as teams">
-                            <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Zmień jednostkę
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item cursor-pointer" *ngFor="let team of teams"
-                                    (click)="setCurrentTeam(team)">{{team.name}}<br>{{team.patron}}</a>
+                    <div class="row ml-0">
+                        <ng-container *ngIf="availableTeams$ | async as teams" class="col-md-5">
+                            <div>
+                                <div class="dropdown show" *ngIf="teams.length > 0">
+                                    <a class="btn btn-primary dropdown-toggle" href="#" role="button"
+                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Zmień jednostkę
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item cursor-pointer" *ngFor="let team of teams"
+                                            (click)="setCurrentTeam(team)">{{team.name}}<br>{{team.patron}}</a>
+                                    </div>
+                                </div>
+
                             </div>
+
+                        </ng-container>
+                        <div class="col-md-5 col-md-offset-1">
+                            <button class="btn btn-secondary" routerLink="/teams">Moje jednostki</button>
                         </div>
-                        <button class="btn btn-secondary ml-2" routerLink="/teams">Moje jednostki</button>
                     </div>
                 </div>
 
@@ -39,7 +48,7 @@
                             <h5>{{user.name}}
                                 {{user.surname}}<br>{{user.email}}</h5>
 
-                            <div class="d-flex justify-content-end">
+                            <div>
                                 <button class="btn btn-secondary" routerLink="/editUser">Edytuj</button>
                             </div>
                         </div>
