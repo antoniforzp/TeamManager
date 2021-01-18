@@ -1,33 +1,44 @@
-
 <app-menu></app-menu>
 <main role="main">
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
         <div class="container">
             <div class="row">
-                <ng-container *ngIf="pageData$ | async as pageData">
-                    <div class="col-md-6">
-                        <h3 class="display-5">Witaj, {{pageData.currentUser.name}}!</h3>
-                        
-                        <div *ngIf="!pageData.hasTeams">
-                            <p>Nie masz jeszcze żadnej jednostki. Dodaj swoję pierwszą drużynę, aby móc skorzystać ze wszystkich fukcjonalności.</p>
+                <div class="col-md-6">
+                    <h3 class="display-5" *ngIf="currentUser$ | async as user">Witaj, {{user.name}}!</h3>
+
+                    <ng-container *ngIf="allTeams$ | async as allTeams">
+                        <div *ngIf="allTeams.length <= 0">
+                            <p>Nie masz jeszcze żadnej jednostki. Dodaj swoję pierwszą drużynę, aby móc skorzystać ze
+                                wszystkich fukcjonalności.</p>
                             <button class="btn btn-success mr-2" routerLink="/teams">Dodaj jednostkę</button>
                         </div>
-                        <div *ngIf="pageData.hasTeams">
-                            <h5>{{pageData.currentTeam.name}}<br>{{pageData.currentTeam.patron}}</h5>
-                            <button class="btn btn-primary mr-2">Zmień jednostkę</button>
-                        <button class="btn btn-secondary mr-2" routerLink="/teams">Moje jednostki</button>
-                        </div>
-                    </div>
-                </ng-container>
-                
+                    </ng-container>
 
-                <ng-container *ngIf="pageData$ | async as pageData">
+                    <h5 *ngIf="currentTeam$ | async as team">{{team.name}}<br>{{team.patron}}</h5>
+                    <div class="d-flex">
+                        <div class="dropdown show" *ngIf="availableTeams$ | async as teams">
+                            <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Zmień jednostkę
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item cursor-pointer" *ngFor="let team of teams"
+                                    (click)="setCurrentTeam(team)">{{team.name}}<br>{{team.patron}}</a>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary ml-2" routerLink="/teams">Moje jednostki</button>
+                    </div>
+                </div>
+
+                <ng-container *ngIf="currentUser$ | async as user">
                     <div class="col-md-6 d-flex justify-content-end">
                         <div class="text-right">
-                            <img class="mb-2" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="50" height="50">
-                            <h5>{{pageData.currentUser.name}} {{pageData.currentUser.surname}}<br>{{pageData.currentUser.email}}</h5>
-        
+                            <img class="mb-2" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
+                                alt="" width="50" height="50">
+                            <h5>{{user.name}}
+                                {{user.surname}}<br>{{user.email}}</h5>
+
                             <div class="d-flex justify-content-end">
                                 <button class="btn btn-secondary" routerLink="/editUser">Edytuj</button>
                             </div>

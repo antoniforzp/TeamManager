@@ -8,27 +8,56 @@ interface PageData {
   currentUser: User;
   currentTeam: Team;
   hasTeams: boolean;
+  availableTeams: Team[];
 }
 @Component({
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  pageData$ = new Subject<PageData>();
+  currentUser$ = new Subject<User>();
+  currentTeam$ = new Subject<Team>();
+  availableTeams$ = new Subject<Team[]>();
+  allTeams$ = new Subject<Team[]>();
 
   constructor(private homeService: HomeService) {}
 
   ngOnInit(): void {
-    forkJoin({
-      _currentUser: this.homeService.getCurrentUser(),
-      _currentTeam: this.homeService.getCurrentTeam(),
-      _userTeams: this.homeService.getCurrentUserTeamsNo(),
-    }).subscribe((x) => {
-      this.pageData$.next({
-        currentUser: x._currentUser,
-        currentTeam: x._currentTeam,
-        hasTeams: x._userTeams > 0,
-      });
+    // Get current user
+    this.homeService
+      .getCurrentUser()
+      .subscribe((x) => this.currentUser$.next(x));
+
+    // Get current team
+    this.homeService.getCurrentTeam().subscribe((x) => {
+      // Fetch available teams (all - current)
+      this.currentTeam$.next(x);
+      this.homeService
+        .getCurrentUserTeams()
+        .subscribe((t) =>
+          this.availableTeams$.next(t.filter((k) => k.teamId !== x.teamId))
+        );
+    });
+
+    // Get all teams
+    this.homeService
+      .getCurrentUserTeams()
+      .subscribe((x) => this.allTeams$.next(x));
+  }
+
+  setCurrentTeam(newTeam: Team): void {
+    this.homeService.setCurrentTeam(newTeam).subscribe({
+      next: (x) => {
+        this.currentTeam$.next(newTeam);
+
+        // Update available teams
+        this.homeService
+        .getCurrentUserTeams()
+        .subscribe((t) =>
+          this.availableTeams$.next(t.filter((k) => k.teamId !== newTeam.teamId))
+        );
+      },
+      error: () => {},
     });
   }
 }

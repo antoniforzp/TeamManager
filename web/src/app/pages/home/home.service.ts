@@ -8,9 +8,11 @@ import { User } from 'src/app/model/User';
   providedIn: 'root',
 })
 export class HomeService {
-  currentUserUrl = 'http://localhost:8080/core/user';
-  currentTeamUrl = 'http://localhost:8080/core/team';
-  userTeamsUrl = 'http://localhost:8080/teams/count';
+  private currentUserUrl = 'http://localhost:8080/core/user';
+  private currentTeamUrl = 'http://localhost:8080/core/team';
+  private userTeamsNoUrl = 'http://localhost:8080/teams/count';
+  private userTeamsUrl = 'http://localhost:8080/teams/list';
+  private setCurrentTeamUrl = 'http://localhost:8080/core/team';
 
   constructor(private http: HttpClient) {}
 
@@ -36,6 +38,24 @@ export class HomeService {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
-    return this.http.get<number>(this.userTeamsUrl, { headers: myHeaders });
+    return this.http.get<number>(this.userTeamsNoUrl, { headers: myHeaders });
+  }
+
+  getCurrentUserTeams(): Observable<Team[]> {
+    const myHeaders = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    return this.http.get<Team[]>(this.userTeamsUrl, { headers: myHeaders });
+  }
+
+  setCurrentTeam(newTeam: Team): Observable<boolean> {
+    const myHeaders = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    return this.http.post<boolean>(this.setCurrentTeamUrl + newTeam.teamId, {
+      headers: myHeaders,
+    });
   }
 }

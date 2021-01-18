@@ -10,5 +10,5 @@ export function hideWithTimeout(subject: Subject<Result>): void {
     subject.next({
       show: false,
     });
-  }, 1000);
+  }, 2000);
 }

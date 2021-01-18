@@ -79,11 +79,6 @@ export class TeamsComponent implements OnInit {
     teamPatron: string,
     result: Subject<Result>
   ): void {
-    console.log({
-      teamId,
-      teamName,
-      teamPatron,
-    });
     this.teamsService
       .editTeam(teamId, { teamId: -1, name: teamName, patron: teamPatron })
       .subscribe({
