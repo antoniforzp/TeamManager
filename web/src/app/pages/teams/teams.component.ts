@@ -3,7 +3,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Team } from 'src/app/model/Team';
 import { hideWithTimeout, Result } from 'src/app/utils/Result';
-import { TeamsService } from './teams.service';
+import { TeamsService } from '../../services/teams.service';
 
 interface TeamForm {
   teamId: number;

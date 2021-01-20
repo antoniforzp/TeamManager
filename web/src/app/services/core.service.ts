@@ -7,7 +7,7 @@ import { User } from 'src/app/model/User';
 @Injectable({
   providedIn: 'root',
 })
-export class HomeService {
+export class CoreService {
   private currentUserUrl = 'http://localhost:8080/core/user';
   private currentTeamUrl = 'http://localhost:8080/core/team';
   private userTeamsNoUrl = 'http://localhost:8080/teams/count';

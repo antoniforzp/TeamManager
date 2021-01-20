@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
-import { HomeService } from './home.service';
+import { CoreService } from '../../services/core.service';
 
 @Component({
   templateUrl: './home.component.html',
@@ -14,19 +14,19 @@ export class HomeComponent implements OnInit {
   availableTeams$ = new Subject<Team[]>();
   allTeams$ = new Subject<Team[]>();
 
-  constructor(private homeService: HomeService) {}
+  constructor(private coreService: CoreService) {}
 
   ngOnInit(): void {
     // Get current user
-    this.homeService
+    this.coreService
       .getCurrentUser()
       .subscribe((x) => this.currentUser$.next(x));
 
     // Get current team
-    this.homeService.getCurrentTeam().subscribe((x) => {
+    this.coreService.getCurrentTeam().subscribe((x) => {
       // Fetch available teams (all - current)
       this.currentTeam$.next(x);
-      this.homeService
+      this.coreService
         .getCurrentUserTeams()
         .subscribe((t) =>
           this.availableTeams$.next(t.filter((k) => k.teamId !== x.teamId))
@@ -34,19 +34,19 @@ export class HomeComponent implements OnInit {
     });
 
     // Get all teams
-    this.homeService
+    this.coreService
       .getCurrentUserTeams()
       .subscribe((x) => this.allTeams$.next(x));
   }
 
   setCurrentTeam(newTeam: Team): void {
-    this.homeService.setCurrentTeam(newTeam).subscribe({
+    this.coreService.setCurrentTeam(newTeam).subscribe({
       next: (x) => {
         if (x) {
           this.currentTeam$.next(newTeam);
         }
         // Update available teams
-        this.homeService
+        this.coreService
           .getCurrentUserTeams()
           .subscribe((t) =>
             this.availableTeams$.next(

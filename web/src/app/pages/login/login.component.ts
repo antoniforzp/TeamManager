@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { LoginService } from './login.service';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   templateUrl: './login.component.html',

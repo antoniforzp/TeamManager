@@ -1,11 +1,10 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { forkJoin, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UserService } from 'src/app/services/user.service';
 import { hideWithTimeout, Result } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
-import { AddUserService } from './add-user.service';
 
 @Component({
   templateUrl: './add-user.component.html',
@@ -36,7 +35,7 @@ export class AddUserComponent implements OnInit {
     passwordRepeat: ['', Validators.compose([Validators.required])],
   });
 
-  constructor(private fb: FormBuilder, private addUserService: AddUserService) {
+  constructor(private fb: FormBuilder, private userService: UserService) {
     this.addUserForm.setValidators(
       CustomValidators.passwordMatchValidator(
         this.password,
@@ -63,12 +62,12 @@ export class AddUserComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.addUserService
+    this.userService
       .checkEmail(this.userEmail.value)
       .pipe(tap((mailExists) => (this.mailExists = mailExists)))
       .subscribe((mailExists) => {
         if (!mailExists) {
-          this.addUserService
+          this.userService
             .addUser({
               userId: -1,
               name: this.userName.value,

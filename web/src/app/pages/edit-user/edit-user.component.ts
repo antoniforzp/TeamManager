@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { forkJoin, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
 import { hideWithTimeout, Result } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
-import { HomeService } from '../home/home.service';
-import { EditUserService } from './edit-user.service';
+import { CoreService } from '../../services/core.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   templateUrl: './edit-user.component.html',
@@ -44,8 +44,8 @@ export class EditUserComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private homeService: HomeService,
-    private editUserService: EditUserService
+    private coreService: CoreService,
+    private userService: UserService
   ) {
     this.currentUser$.subscribe((x) => {
       // Load user data
@@ -71,8 +71,8 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit(): void {
     forkJoin({
-      user: this.homeService.getCurrentUser(),
-      teams: this.editUserService.getUserTeams(),
+      user: this.coreService.getCurrentUser(),
+      teams: this.userService.getUserTeams(),
     }).subscribe((x) => {
       this.currentUser$.next(x.user);
       this.userTeams$.next(x.teams);
@@ -81,8 +81,8 @@ export class EditUserComponent implements OnInit {
 
   editUserData(): void {
     this.editUserDataForm.markAllAsTouched();
-    this.homeService.getCurrentUser().subscribe((x) =>
-      this.editUserService
+    this.coreService.getCurrentUser().subscribe((x) =>
+      this.userService
         .editUserData({
           userId: x.userId,
           name: this.userName.value,
@@ -110,7 +110,7 @@ export class EditUserComponent implements OnInit {
   }
 
   editUserPasswords(): void {
-    this.homeService
+    this.coreService
       .getCurrentUser()
       .pipe(
         tap(
@@ -121,8 +121,8 @@ export class EditUserComponent implements OnInit {
       .subscribe(() => {
         this.editUserPasswordsFrom.markAllAsTouched();
         if (!this.wrongUserPassword) {
-          this.homeService.getCurrentUser().subscribe((x) => {
-            this.editUserService
+          this.coreService.getCurrentUser().subscribe((x) => {
+            this.userService
               .editUserData({
                 userId: x.userId,
                 name: x.name,
@@ -152,9 +152,7 @@ export class EditUserComponent implements OnInit {
   }
 
   refreshTeamsList(): void {
-    this.editUserService
-      .getUserTeams()
-      .subscribe((x) => this.userTeams$.next(x));
+    this.userService.getUserTeams().subscribe((x) => this.userTeams$.next(x));
   }
 
   get userName(): any {

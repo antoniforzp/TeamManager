@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Scout } from 'src/app/model/Scout';
-import { ScoutsService } from './scouts.service';
+import { ScoutsService } from '../../services/scouts.service';
 
 @Component({
   templateUrl: './scouts.component.html',
