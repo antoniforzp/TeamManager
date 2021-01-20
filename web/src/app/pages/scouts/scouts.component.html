@@ -1,0 +1,88 @@
+<app-menu></app-menu>
+
+<main role="main" class="container mb-3">
+    <h1 class="mt-5">Ewidencja harcerzy</h1>
+
+    <div class="d-flex justify-content-between mb-2">
+        <button class="btn btn-success">Dodaj</button>
+
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary mr-2">Statystyki</button>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Opcje
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Edytuj</a>
+                    <a class="dropdown-item" href="#">Usuń</a>
+                    <a class="dropdown-item" href="#">Exportuj csv</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover" *ngIf="scoutsData$ | async as scouts">
+        <thead>
+            <th class="active">
+                <input type="checkbox" class="select-all checkbox cursor-pointer" name="select-all" />
+            </th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Zastęp</th>
+            <th>Funkcja</th>
+            <th>Stopień</th>
+            <th>&nbsp;</th>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let scout of scouts; let i=index">
+                <tr class="cursor-pointer">
+                    <td>
+                        <input type="checkbox" class="select-item checkbox" name="select-item" value="1000" />
+                    </td>
+                    <td>
+                        <span *ngIf="scout.name; else noData">
+                            {{scout.name}}
+                        </span>
+                    </td>
+                    <td>
+                        <span *ngIf="scout.surname; else noData">
+                            {{scout.surname}}
+                        </span>
+                    </td>
+                    <td>
+                        <span *ngIf="scout.troop.name; else noData">
+                            {{scout.troop.name}}
+                        </span>
+                    </td>
+                    <td>
+                        todo
+                    </td>
+                    <td>
+                        <span *ngIf="scout.rank.name; else noData">
+                            <span *ngIf="scout.instructorRank?.abbreviation">
+                                {{scout.instructorRank?.abbreviation}}
+                            </span> {{scout.rank.name}}
+                        </span>
+                    </td>
+                    <td style="width: 110px;">
+                        <button class="btn btn-info">Więcej</button>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+    <div>
+        <button class="btn btn-secondary btn-block" routerLink="/home">Powrót</button>
+    </div>
+</main>
+
+<ng-template #noTableData>
+    <tr colspan="8">
+        Brak danych
+    </tr>
+</ng-template>
+
+<ng-template #noData>
+    -
+</ng-template>

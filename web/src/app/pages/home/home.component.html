@@ -1,6 +1,5 @@
 <app-menu></app-menu>
 <main role="main">
-    <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
         <div class="container">
             <div class="row">
@@ -16,7 +15,7 @@
                     </ng-container>
 
                     <h5 *ngIf="currentTeam$ | async as team">{{team.name}}<br>{{team.patron}}</h5>
-                    <div class="row ml-0">
+                    <div class="row ml-0 mb-n1">
                         <ng-container *ngIf="availableTeams$ | async as teams" class="col-md-5">
                             <div>
                                 <div class="dropdown show" *ngIf="teams.length > 0">

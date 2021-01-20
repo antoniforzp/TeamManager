@@ -18,6 +18,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { MenuComponent } from './global/menu/menu.component';
 import { EditUserComponent } from './pages/edit-user/edit-user.component';
 import { TeamsComponent } from './pages/teams/teams.component';
+import { ScoutsComponent } from './pages/scouts/scouts.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { TeamsComponent } from './pages/teams/teams.component';
     MenuComponent,
     EditUserComponent,
     TeamsComponent,
+    ScoutsComponent,
   ],
   imports: [
     BrowserModule,
