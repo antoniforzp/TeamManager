@@ -2,3 +2,15 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.my-row:hover{
+  background-color: rgb(230, 227, 227);
+}
+
+.my-row-selected{
+  background-color: rgb(173, 214, 255);
+}
+
+.my-row-selected:hover{
+  background-color: rgb(106, 178, 250);
+}

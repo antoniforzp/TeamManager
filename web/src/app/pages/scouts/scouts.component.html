@@ -7,7 +7,7 @@
         <button class="btn btn-success">Dodaj</button>
 
         <div class="d-flex justify-content-end">
-            <button class="btn btn-primary mr-2">Statystyki</button>
+            <button class="btn btn-primary mr-2" (click)="test()">Statystyki</button>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -22,56 +22,70 @@
         </div>
     </div>
 
-    <table class="table table-hover" *ngIf="scoutsData$ | async as scouts">
-        <thead>
-            <th class="active">
-                <input type="checkbox" class="select-all checkbox cursor-pointer" name="select-all" />
-            </th>
-            <th>Imię</th>
-            <th>Nazwisko</th>
-            <th>Zastęp</th>
-            <th>Funkcja</th>
-            <th>Stopień</th>
-            <th>&nbsp;</th>
-        </thead>
-        <tbody>
-            <ng-container *ngFor="let scout of scouts; let i=index">
-                <tr class="cursor-pointer">
-                    <td>
-                        <input type="checkbox" class="select-item checkbox" name="select-item" value="1000" />
-                    </td>
-                    <td>
-                        <span *ngIf="scout.name; else noData">
-                            {{scout.name}}
-                        </span>
-                    </td>
-                    <td>
-                        <span *ngIf="scout.surname; else noData">
-                            {{scout.surname}}
-                        </span>
-                    </td>
-                    <td>
-                        <span *ngIf="scout.troop.name; else noData">
-                            {{scout.troop.name}}
-                        </span>
-                    </td>
-                    <td>
-                        todo
-                    </td>
-                    <td>
-                        <span *ngIf="scout.rank.name; else noData">
-                            <span *ngIf="scout.instructorRank?.abbreviation">
-                                {{scout.instructorRank?.abbreviation}}
-                            </span> {{scout.rank.name}}
-                        </span>
-                    </td>
-                    <td style="width: 110px;">
-                        <button class="btn btn-info">Więcej</button>
-                    </td>
-                </tr>
-            </ng-container>
-        </tbody>
-    </table>
+    <!-- Page content -->
+    <div>
+        <table class="table">
+            <thead>
+                <th class="active">
+                    <input type="checkbox" class="select-all checkbox cursor-pointer" name="select-all"
+                        (click)="toggleSelectAll()" [(ngModel)]="allSelected" />
+                </th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Zastęp</th>
+                <th>Funkcja</th>
+                <th>Stopień</th>
+                <th>&nbsp;</th>
+            </thead>
+            <tbody *ngIf="pageLoaded">
+                <ng-container *ngFor="let row of scoutsRows; let i=index">
+                    <tr class="cursor-pointer" [ngClass]="{'my-row': true, 'my-row-selected': row.isSelected}"
+                        (click)="toggleSelect(row)">
+                        <td>
+                            <input type="checkbox" class="select-item checkbox" name="select-item" value="1000"
+                                [(ngModel)]="row.isSelected" />
+                        </td>
+                        <td>
+                            <span *ngIf="row.scoutInfo.name; else noData">
+                                {{row.scoutInfo.name}}
+                            </span>
+                        </td>
+                        <td>
+                            <span *ngIf="row.scoutInfo.surname; else noData">
+                                {{row.scoutInfo.surname}}
+                            </span>
+                        </td>
+                        <td *ngIf="row.scoutInfo.troop.name; else noData">
+                            <span>{{row.scoutInfo.troop.name}}</span>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="row.scoutRoles.length > 0; else noData">
+                                <span *ngFor="let role of row.scoutRoles">
+                                    {{role.name}}<br>
+                                </span>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <span *ngIf="row.scoutInfo.rank.name; else noData">
+                                <span *ngIf="row.scoutInfo.instructorRank?.abbreviation">
+                                    {{row.scoutInfo.instructorRank?.abbreviation}}
+                                </span> {{row.scoutInfo.rank.name}}
+                            </span>
+                        </td>
+                        <td style="width: 110px;">
+                            <button class="btn btn-secondary" (click)="$event.stopPropagation()">Więcej</button>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="!pageLoaded" class="d-flex justify-content-center mb-4 mt-4">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
     <div>
         <button class="btn btn-secondary btn-block" routerLink="/home">Powrót</button>
     </div>

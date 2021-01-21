@@ -10,6 +10,8 @@ public interface RolesRepository {
 
     List<Role> getAll();
 
+    List<Role> getAllByScoutId(int scoutId);
+
     Role getById(int roleId);
 
     boolean deleteById(int roleId);

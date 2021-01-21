@@ -29,6 +29,12 @@ class RolesRepositoryManager implements RolesRepository {
     }
 
     @Override
+    public List<Role> getAllByScoutId(int scoutId) {
+        String QUERY = "SELECT SR.role_id as role_id, R.name as name FROM SCOUTS_ROLES SR JOIN ROLES R on R.role_id = SR.role_id WHERE SR.scout_id=?";
+        return jdbcTemplate.query(QUERY, new RoleRowMapper(), scoutId);
+    }
+
+    @Override
     public Role getById(int roleId) {
         String QUERY = "SELECT * FROM ROLES WHERE role_id=?";
         Role role;
