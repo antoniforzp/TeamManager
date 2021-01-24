@@ -19,6 +19,7 @@ import { MenuComponent } from './global/menu/menu.component';
 import { EditUserComponent } from './pages/edit-user/edit-user.component';
 import { TeamsComponent } from './pages/teams/teams.component';
 import { ScoutsComponent } from './pages/scouts/scouts.component';
+import { ManageScoutComponent } from './pages/manage-scout/manage-scout.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ScoutsComponent } from './pages/scouts/scouts.component';
     EditUserComponent,
     TeamsComponent,
     ScoutsComponent,
+    ManageScoutComponent,
   ],
   imports: [
     BrowserModule,

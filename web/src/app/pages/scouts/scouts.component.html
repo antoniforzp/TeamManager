@@ -24,7 +24,7 @@
 
     <!-- Page content -->
     <div>
-        <table class="table" id="sortTable">
+        <table class="table">
             <thead>
                 <th class="active">
                     <input type="checkbox" class="select-all checkbox cursor-pointer" name="select-all"
@@ -73,8 +73,7 @@
                             </span>
                         </td>
                         <td style="width: 110px;">
-                            <button class="btn btn-secondary"
-                                (click)="$event.stopPropagation(); toggleMore(row)">Więcej</button>
+                            <button class="btn btn-secondary" (click)="$event.stopPropagation(); toggleMore(row)">Więcej</button>
                         </td>
                     </tr>
                     <tr *ngIf="row.moreVisible">
