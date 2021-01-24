@@ -1,8 +1,16 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { forkJoin, Subject } from 'rxjs';
-import { map, toArray } from 'rxjs/operators';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { ManageScoutModalComponent } from 'src/app/modals/manage-scout-modal/manage-scout-modal.component';
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
+import { PageModes } from 'src/app/utils/PageModes';
 import { ScoutsService } from '../../services/scouts.service';
 
 interface ScoutRow {
@@ -16,14 +24,21 @@ interface ScoutRow {
   templateUrl: './scouts.component.html',
   styleUrls: ['./scouts.component.css'],
 })
-export class ScoutsComponent implements OnInit {
+export class ScoutsComponent implements OnInit, AfterViewInit {
   scoutsRows = [] as ScoutRow[];
   pageLoaded = false;
 
   allSelected = false;
   anySelected = false;
 
+  @ViewChild('manageScouts')
+  public manageScouts!: ManageScoutModalComponent;
+
   constructor(private scoutsService: ScoutsService) {}
+
+  ngAfterViewInit(): void {
+    this.openAddScouts();
+  }
 
   ngOnInit(): void {
     forkJoin({
@@ -66,5 +81,9 @@ export class ScoutsComponent implements OnInit {
 
   toggleMore(row: ScoutRow): void {
     row.moreVisible = !row.moreVisible;
+  }
+
+  openAddScouts(): void {
+    this.manageScouts.open(PageModes.Add);
   }
 }

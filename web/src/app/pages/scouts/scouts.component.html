@@ -1,10 +1,12 @@
 <app-menu></app-menu>
 
+<app-manage-scouts-modal></app-manage-scouts-modal>
+
 <main role="main" class="container mb-3">
     <h1 class="mt-5">Ewidencja harcerzy</h1>
 
     <div class="d-flex justify-content-between mb-2">
-        <button class="btn btn-success">Dodaj</button>
+        <button class="btn btn-success" (click)="openAddScouts()">Dodaj</button>
 
         <div class="d-flex justify-content-end">
             <button class="btn btn-primary mr-2">Statystyki</button>
@@ -120,3 +122,5 @@
 <ng-template #noData>
     -
 </ng-template>
+
+<app-manage-scouts-modal #manageScouts></app-manage-scouts-modal>

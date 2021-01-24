@@ -3,14 +3,29 @@
   cursor: pointer;
 }
 
-.my-row:hover{
+.no-outline {
+  outline: none;
+}
+
+.my-row:hover {
   background-color: rgb(230, 227, 227);
 }
 
-.my-row-selected{
+.my-row-selected {
   background-color: rgb(173, 214, 255);
 }
 
-.my-row-selected:hover{
+.my-row-selected:hover {
   background-color: rgb(106, 178, 250);
+}
+
+.dark-modal .modal-content {
+  background-color: #292b2c;
+  color: white;
+}
+.dark-modal .close {
+  color: white;
+}
+.light-blue-backdrop {
+  background-color: #5cb3fd;
 }

@@ -1,0 +1,138 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h2 class="modal-title">Dodaj harcerza</h2>
+    </div>
+    <div class="modal-body">
+
+        <form>
+            <div class="form-group">
+                <h5>Dane osobowe</h5>
+
+                <input type="text" class="form-control mt-2" placeholder="Imię">
+                <div class="d-flex flex-column">
+                    <small>Pole wymagane</small>
+                </div>
+                <input type="text" class="form-control mt-2" placeholder="Nazwisko">
+                <div class="d-flex flex-column">
+                    <small>Pole wymagane</small>
+                </div>
+                <input type="text" class="form-control mt-2" placeholder="PESEL">
+                <div class="d-flex flex-column">
+                    <small>Pole wymagane</small>
+                </div>
+                <input type="text" class="form-control mt-2" placeholder="Data urodzenia">
+                <div class="d-flex flex-column">
+                    <small>Pole wymagane</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h5>Przydział</h5>
+
+                <div class="d-flex mt-2">
+                    <input type="text" class="form-control" placeholder="Zastęp">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle text-left ml-2" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Wybierz
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Edytuj</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h5>Fuknkcje w drużynie</h5>
+                <div class="mt-2">
+                    <div class='d-flex justify-content-between'>
+                        <div class="d-flex flex-column ml-4">
+                            <div class='row'>
+                                <div class="col-sm">Drużynowy</div>
+                                <div class="col-sm">
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle text-left" type="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Wybierz
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Edytuj</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <h5>Stopnie</h5>
+
+                <div class="d-flex mt-2">
+                    <input type="text" class="form-control" placeholder="Stopień harcerski">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle text-left ml-2" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Wybierz
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Edytuj</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex mt-2">
+                    <input type="text" class="form-control" placeholder="Stopień instruktorski">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle text-left ml-2" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Wybierz
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Edytuj</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h5>Adres zamieszkania</h5>
+
+                <input type="text" class="form-control mt-2" placeholder="Ulica">
+                <div class="d-flex flex-column">
+                    <small>Pole wymagane</small>
+                </div>
+                <input type="text" class="form-control mt-2" placeholder="Kod pocztowy">
+                <div class="d-flex flex-column">
+                    <small>Pole wymagane</small>
+                </div>
+                <input type="text" class="form-control mt-2" placeholder="Miasto">
+                <div class="d-flex flex-column">
+                    <small>Pole wymagane</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h5>Dane kontaktowe</h5>
+
+                <input type="text" class="form-control mt-2" placeholder="Numer telefonu">
+                <div class="d-flex flex-column">
+                    <small>Pole wymagane</small>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="close()">Zamknij</button>
+        <button type="button" class="btn btn-success">Dodaj</button>
+    </div>
+</ng-template>
