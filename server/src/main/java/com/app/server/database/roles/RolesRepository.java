@@ -10,6 +10,8 @@ public interface RolesRepository {
 
     List<Role> getAll();
 
+    List<Role> getAllInTeam(int teamId);
+
     List<Role> getAllByScoutId(int scoutId);
 
     Role getById(int roleId);

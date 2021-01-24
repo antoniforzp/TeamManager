@@ -9,7 +9,8 @@ import { Role } from '../model/Role';
 })
 export class ScoutsService {
   getScoutsUrl = 'http://localhost:8080/scouts/list';
-  getRolesUrl = 'http://localhost:8080/scouts/roles/list';
+  getRolesScoutUrl = 'http://localhost:8080/scouts/roles/list';
+  getRolesAllUrl = 'http://localhost:8080/scouts/roles/list/all';
 
   constructor(private http: HttpClient) {}
 
@@ -28,7 +29,17 @@ export class ScoutsService {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
-    return this.http.get<Role[]>(this.getRolesUrl + scoutId, {
+    return this.http.get<Role[]>(this.getRolesScoutUrl + scoutId, {
+      headers: myHeaders,
+    });
+  }
+
+  getAllRoles(): Observable<Role[]> {
+    const myHeaders = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    return this.http.get<Role[]>(this.getRolesAllUrl, {
       headers: myHeaders,
     });
   }

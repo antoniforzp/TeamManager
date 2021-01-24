@@ -7,7 +7,7 @@
         <button class="btn btn-success">Dodaj</button>
 
         <div class="d-flex justify-content-end">
-            <button class="btn btn-primary mr-2" (click)="test()">Statystyki</button>
+            <button class="btn btn-primary mr-2">Statystyki</button>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -24,7 +24,7 @@
 
     <!-- Page content -->
     <div>
-        <table class="table">
+        <table class="table" id="sortTable">
             <thead>
                 <th class="active">
                     <input type="checkbox" class="select-all checkbox cursor-pointer" name="select-all"
@@ -73,7 +73,28 @@
                             </span>
                         </td>
                         <td style="width: 110px;">
-                            <button class="btn btn-secondary" (click)="$event.stopPropagation()">Więcej</button>
+                            <button class="btn btn-secondary"
+                                (click)="$event.stopPropagation(); toggleMore(row)">Więcej</button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="row.moreVisible">
+                        <td></td>
+                        <td colspan="6">
+                            <div class='row'>
+                                <div class="col-md-2">
+                                    <div class="row">Pesel:</div>
+                                    <div class="row">Data urodzenia:</div>
+                                    <div class="row">Adres:</div>
+                                    <div class="row">Numer kontaktowy:</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">{{row.scoutInfo.pesel}}</div>
+                                    <div class="row">{{row.scoutInfo.birthDate | date: 'dd-MM-yyyy'}}</div>
+                                    <div class="row">{{row.scoutInfo.address}} {{row.scoutInfo.postalCode}}
+                                        {{row.scoutInfo.city}}</div>
+                                    <div class="row">{{row.scoutInfo.phone}}</div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </ng-container>

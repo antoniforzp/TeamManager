@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { forkJoin, Subject } from 'rxjs';
+import { map, toArray } from 'rxjs/operators';
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
 import { ScoutsService } from '../../services/scouts.service';
@@ -8,6 +9,7 @@ interface ScoutRow {
   scoutInfo: Scout;
   scoutRoles: Role[];
   isSelected: boolean;
+  moreVisible: boolean;
 }
 
 @Component({
@@ -16,7 +18,7 @@ interface ScoutRow {
 })
 export class ScoutsComponent implements OnInit {
   scoutsRows = [] as ScoutRow[];
-  pageLoaded = true;
+  pageLoaded = false;
 
   allSelected = false;
   anySelected = false;
@@ -24,18 +26,30 @@ export class ScoutsComponent implements OnInit {
   constructor(private scoutsService: ScoutsService) {}
 
   ngOnInit(): void {
-    this.scoutsService.getScouts().subscribe((x) => {
-      x.forEach((scout) => {
-        this.scoutsService.getRoles(scout.scoutId).subscribe((roles) =>
-          // Creating scouts row data
-          this.scoutsRows.push({
-            scoutInfo: scout,
-            scoutRoles: roles,
-            isSelected: false,
-          })
-        );
+    forkJoin({
+      scouts: this.scoutsService.getScouts(),
+      roles: this.scoutsService.getAllRoles(),
+    })
+      .pipe(
+        map((x) => {
+          const rows = [] as ScoutRow[];
+          x.scouts.forEach((scout) =>
+            rows.push({
+              scoutInfo: scout,
+              scoutRoles: x.roles.filter(
+                (role) => role.scoutId === scout.scoutId
+              ),
+              isSelected: false,
+              moreVisible: false,
+            })
+          );
+          return rows;
+        })
+      )
+      .subscribe((result) => {
+        this.scoutsRows = result;
+        this.pageLoaded = true;
       });
-    });
   }
 
   toggleSelectAll(): void {
@@ -50,7 +64,7 @@ export class ScoutsComponent implements OnInit {
       this.scoutsRows.filter((x) => !x.isSelected).length === 0;
   }
 
-  test(): void {
-    console.log(this.scoutsRows.filter((x) => x.isSelected));
+  toggleMore(row: ScoutRow): void {
+    row.moreVisible = !row.moreVisible;
   }
 }
