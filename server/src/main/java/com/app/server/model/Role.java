@@ -6,12 +6,16 @@ public class Role {
 
     private final int roleId;
     private final String name;
-    private final int scoutId;
+    private int scoutId;
 
     public Role() {
         this.roleId = 0;
         this.name = "name";
-        this.scoutId = 0;
+    }
+
+    public Role(int roleId, String name) {
+        this.roleId = roleId;
+        this.name = name;
     }
 
     public Role(int roleId, String name, int scoutId) {

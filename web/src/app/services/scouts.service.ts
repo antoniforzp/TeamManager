@@ -8,9 +8,9 @@ import { Role } from '../model/Role';
   providedIn: 'root',
 })
 export class ScoutsService {
-  getScoutsUrl = 'http://localhost:8080/scouts/list';
-  getRolesScoutUrl = 'http://localhost:8080/scouts/roles/list';
-  getRolesAllUrl = 'http://localhost:8080/scouts/roles/list/all';
+  private getScoutsUrl = 'http://localhost:8080/scouts/list';
+  private getRolesScoutUrl = 'http://localhost:8080/scouts/roles/list';
+  private getRolesAllUrl = 'http://localhost:8080/scouts/roles/list/all';
 
   constructor(private http: HttpClient) {}
 

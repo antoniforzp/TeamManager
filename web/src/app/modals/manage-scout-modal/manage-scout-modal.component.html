@@ -4,100 +4,148 @@
     </div>
     <div class="modal-body">
 
-        <form>
+        <form [formGroup]="form">
             <div class="form-group">
                 <h5>Dane osobowe</h5>
 
-                <input type="text" class="form-control mt-2" placeholder="Imię">
-                <div class="d-flex flex-column">
-                    <small>Pole wymagane</small>
+                <!-- Name -->
+                <input type="text" class="form-control mt-2" placeholder="Imię" formControlName="name"
+                    [ngClass]="{'is-invalid': name.invalid && (name.touched || name.dirty)}">
+                <div class="d-flex flex-column" *ngIf="name.invalid && (name.touched || name.dirty)">
+                    <span class="text-danger" *ngIf="name.errors?.required">
+                        Pole wymagane
+                    </span>
                 </div>
-                <input type="text" class="form-control mt-2" placeholder="Nazwisko">
-                <div class="d-flex flex-column">
-                    <small>Pole wymagane</small>
+
+                <!-- Surname -->
+                <input type="text" class="form-control mt-2" placeholder="Nazwisko" formControlName="surname"
+                    [ngClass]="{'is-invalid': surname.invalid && (surname.touched || surname.dirty)}">
+                <div class="d-flex flex-column" *ngIf="surname.invalid && (surname.touched || surname.dirty)">
+                    <span class="text-danger" *ngIf="surname.errors?.required">
+                        Pole wymagane
+                    </span>
                 </div>
-                <input type="text" class="form-control mt-2" placeholder="PESEL">
-                <div class="d-flex flex-column">
-                    <small>Pole wymagane</small>
+
+                <!-- Pesel -->
+                <input type="text" class="form-control mt-2" placeholder="PESEL" formControlName="pesel"
+                    [ngClass]="{'is-invalid': pesel.invalid && (pesel.pristine || pesel.dirty)}">
+                <div class="d-flex flex-column" *ngIf="pesel.invalid && (pesel.touched || pesel.dirty)">
+                    <span class="text-danger" *ngIf="pesel.errors?.pattern">
+                        Zły format
+                    </span>
                 </div>
-                <input type="text" class="form-control mt-2" placeholder="Data urodzenia">
-                <div class="d-flex flex-column">
-                    <small>Pole wymagane</small>
+
+                <!-- Birth date -->
+                <input type="text" class="form-control mt-2" placeholder="Data urodzenia" formControlName="pesel"
+                    [ngClass]="{'is-invalid': pesel.invalid && (pesel.pristine || pesel.dirty)}">
+                <div class="d-flex flex-column" *ngIf="pesel.invalid && (pesel.touched || pesel.dirty)">
+                    <span class="text-danger" *ngIf="pesel.errors?.pattern">
+                        Prawidłowy format daty to dd/mm/yyyyw
+                    </span>
                 </div>
             </div>
 
+            <!-- Troop -->
             <div class="form-group">
                 <h5>Przydział</h5>
-
-                <div class="d-flex mt-2">
-                    <input type="text" class="form-control" placeholder="Zastęp">
+                <div class="d-flex">
+                    <input type="text" class="form-control" placeholder="Zastęp" formControlName="troop" readonly>
+                    <button type="button" class="close ml-1" aria-label="Close" (click)="clearTroop()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle text-left ml-2" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Wybierz
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Edytuj</a>
+                            <a class="dropdown-item cursor-pointer" *ngFor="let troop of availableTroops"
+                                (click)="setTroop(troop)">{{troop.name}}</a>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Roles -->
             <div class="form-group">
                 <h5>Fuknkcje w drużynie</h5>
-                <div class="mt-2">
-                    <div class='d-flex justify-content-between'>
-                        <div class="d-flex flex-column ml-4">
-                            <div class='row'>
-                                <div class="col-sm">Drużynowy</div>
-                                <div class="col-sm">
-                                    <button type="button" class="close" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle text-left" type="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Wybierz
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Edytuj</a>
-                            </div>
+                <div class='d-flex justify-content-between'>
+                    <div class="d-flex flex-column">
+                        <table class="table mb-n2">
+                            <tbody>
+                                <tr *ngFor="let role of scoutRoles">
+                                    <td>
+                                        {{role.name}}
+                                    </td>
+                                    <td>
+                                        <button type="button" class="close" aria-label="Close"
+                                            (click)="removeRole(role)">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex flex-column" *ngIf="scoutRoles?.length <= 0 && pageLoaded">
+                            <span class="text-danger">
+                                Pole wymagane
+                            </span>
                         </div>
                     </div>
-
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle text-left" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" (click)="filterRoles()">
+                            Wybierz
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item cursor-pointer" *ngFor="let role of availableRoles"
+                                (click)="addRole(role)">{{role.name}}</a>
+                        </div>
+                    </div>
                 </div>
-
             </div>
 
             <div class="form-group">
                 <h5>Stopnie</h5>
 
-                <div class="d-flex mt-2">
-                    <input type="text" class="form-control" placeholder="Stopień harcerski">
+                <!-- Ranks -->
+                <div class="d-flex">
+                    <div style="width: 100%;">
+                        <input type="text" class="form-control" placeholder="Stopień harcerski" formControlName="rank"
+                            [ngClass]="{'is-invalid': rank.invalid && (rank.pristine || rank.dirty) && pageLoaded}"
+                            readonly>
+                        <div class="d-flex flex-column" *ngIf="rank.errors?.required && pageLoaded">
+                            <span class="text-danger">
+                                Pole wymagane
+                            </span>
+                        </div>
+                    </div>
+
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle text-left ml-2" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Wybierz
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Edytuj</a>
+                            <a class="dropdown-item cursor-pointer" *ngFor="let rank of availableRanks"
+                                (click)="addRank(rank)">{{rank.name}}</a>
                         </div>
                     </div>
                 </div>
 
+                <!-- Instructor ranks -->
                 <div class="d-flex mt-2">
-                    <input type="text" class="form-control" placeholder="Stopień instruktorski">
+                    <input type="text" class="form-control" placeholder="Stopień instruktorski" readonly>
+                    <button type="button" class="close ml-1" aria-label="Close" (click)="clearTroop()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle text-left ml-2" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Wybierz
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Edytuj</a>
+                            <a class="dropdown-item cursor-pointer" *ngFor="let rank of availableInstructorRanls">{{rank.name}}</a>
                         </div>
                     </div>
                 </div>

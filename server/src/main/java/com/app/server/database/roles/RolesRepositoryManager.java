@@ -34,13 +34,13 @@ class RolesRepositoryManager implements RolesRepository {
                 "JOIN ROLES R on R.role_id = SR.role_id\n" +
                 "JOIN SCOUTS S on SR.scout_id = S.scout_id\n" +
                 "WHERE S.team_id=?";
-        return jdbcTemplate.query(QUERY, new RoleRowMapper(), teamId);
+        return jdbcTemplate.query(QUERY, new RoleScoutRowMapper(), teamId);
     }
 
     @Override
     public List<Role> getAllByScoutId(int scoutId) {
         String QUERY = "SELECT SR.role_id as role_id, R.name as name, SR.scout_id as scout_id FROM SCOUTS_ROLES SR JOIN ROLES R on R.role_id = SR.role_id WHERE SR.scout_id=?";
-        return jdbcTemplate.query(QUERY, new RoleRowMapper(), scoutId);
+        return jdbcTemplate.query(QUERY, new RoleScoutRowMapper(), scoutId);
     }
 
     @Override
@@ -48,7 +48,7 @@ class RolesRepositoryManager implements RolesRepository {
         String QUERY = "SELECT * FROM ROLES WHERE role_id=?";
         Role role;
         try {
-            role = jdbcTemplate.queryForObject(QUERY, new RoleRowMapper(), roleId);
+            role = jdbcTemplate.queryForObject(QUERY, new RoleScoutRowMapper(), roleId);
         } catch (DataAccessException e) {
             return null;
         }

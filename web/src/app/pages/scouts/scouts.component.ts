@@ -37,7 +37,7 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
   constructor(private scoutsService: ScoutsService) {}
 
   ngAfterViewInit(): void {
-    this.openAddScouts();
+    // this.openAddScouts();
   }
 
   ngOnInit(): void {

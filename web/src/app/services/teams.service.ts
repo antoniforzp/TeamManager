@@ -7,10 +7,10 @@ import { Team } from 'src/app/model/Team';
   providedIn: 'root',
 })
 export class TeamsService {
-  getTeamsUrl = 'http://localhost:8080/teams/list';
-  addTeamUrl = 'http://localhost:8080/teams/add';
-  editTeamsUrl = 'http://localhost:8080/teams/edit';
-  deleteTeamUrl = 'http://localhost:8080/teams/remove';
+  private getTeamsUrl = 'http://localhost:8080/teams/list';
+  private addTeamUrl = 'http://localhost:8080/teams/add';
+  private editTeamsUrl = 'http://localhost:8080/teams/edit';
+  private deleteTeamUrl = 'http://localhost:8080/teams/remove';
 
   constructor(private http: HttpClient) {}
 

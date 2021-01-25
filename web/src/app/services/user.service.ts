@@ -8,10 +8,10 @@ import { Team } from '../model/Team';
   providedIn: 'root',
 })
 export class UserService {
-  checkUserMailUrl = 'http://localhost:8080/user/check';
-  addUserMailUrl = 'http://localhost:8080/user/add';
-  editUserDataUrl = 'http://localhost:8080/user/edit';
-  getTeamsUrl = 'http://localhost:8080/teams/list';
+  private checkUserMailUrl = 'http://localhost:8080/user/check';
+  private addUserMailUrl = 'http://localhost:8080/user/add';
+  private editUserDataUrl = 'http://localhost:8080/user/edit';
+  private getTeamsUrl = 'http://localhost:8080/teams/list';
 
   constructor(private http: HttpClient) {}
 
