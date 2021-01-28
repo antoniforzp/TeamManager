@@ -142,7 +142,7 @@ export class ManageScoutModalComponent implements OnInit {
 
   // FUNCTIONALITIES
 
-  public async open(): Promise<any> {
+  public async open(mode: PageModes): Promise<any> {
     this.modal.open(this.content);
   }
 

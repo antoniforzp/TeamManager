@@ -15,8 +15,8 @@
                     </ng-container>
 
                     <h5 *ngIf="currentTeam$ | async as team">{{team.name}}<br>{{team.patron}}</h5>
-                    <div class="row ml-0 mb-n1">
-                        <ng-container *ngIf="availableTeams$ | async as teams" class="col-md-5">
+                    <div class="row ml-0 mb-n1" *ngIf="availableTeams$ | async as teams">
+                        <ng-container class="col-md-5">
                             <div>
                                 <div class="dropdown show" *ngIf="teams.length > 0">
                                     <a class="btn btn-primary dropdown-toggle" href="#" role="button"
@@ -33,7 +33,7 @@
                             </div>
 
                         </ng-container>
-                        <div class="col-md-5 col-md-offset-1">
+                        <div class="col-md-5 col-md-offset-1" *ngIf="teams.length > 0">
                             <button class="btn btn-secondary" routerLink="/teams">Moje jednostki</button>
                         </div>
                     </div>

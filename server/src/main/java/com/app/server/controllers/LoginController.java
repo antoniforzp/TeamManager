@@ -44,7 +44,7 @@ public class LoginController {
             if (!usersTeams.isEmpty()) {
                 appCore.setCurrentTeam(usersTeams.get(0));
             } else {
-                appCore.setCurrentTeam(new Team());
+                appCore.setCurrentTeam(null);
             }
         }
 
