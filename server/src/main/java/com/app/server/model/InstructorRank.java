@@ -8,11 +8,11 @@ public class InstructorRank implements Model {
     private final String name;
     private final String abbreviation;
 
-    public InstructorRank() {
-        this.rankId = 0;
-        this.name = "name";
-        this.abbreviation = "n.";
-    }
+//    public InstructorRank() {
+//        this.rankId = 0;
+//        this.name = "name";
+//        this.abbreviation = "n.";
+//    }
 
     public InstructorRank(int rankId, String name, String abbreviation) {
         this.rankId = rankId;

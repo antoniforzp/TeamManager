@@ -8,11 +8,11 @@ public class Team implements Model {
     private final String name;
     private final String patron;
 
-    public Team() {
-        this.teamId = 0;
-        this.name = "name";
-        this.patron = "patron";
-    }
+//    public Team() {
+//        this.teamId = 0;
+//        this.name = "name";
+//        this.patron = "patron";
+//    }
 
     public Team(int teamId, String name, String patron) {
         this.teamId = teamId;

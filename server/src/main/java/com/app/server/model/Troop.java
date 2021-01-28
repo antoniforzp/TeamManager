@@ -7,10 +7,10 @@ public class Troop implements Model {
     private final int troopId;
     private final String name;
 
-    public Troop() {
-        this.troopId = 0;
-        this.name = "name";
-    }
+//    public Troop() {
+//        this.troopId = 0;
+//        this.name = "name";
+//    }
 
     public Troop(int troopId, String name) {
         this.troopId = troopId;

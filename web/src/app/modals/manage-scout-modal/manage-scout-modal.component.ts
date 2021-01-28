@@ -6,15 +6,18 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { forkJoin, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { InstruktorRank } from 'src/app/model/InstructorRank';
 import { Rank } from 'src/app/model/Rank';
 import { Role } from 'src/app/model/Role';
+import { Scout } from 'src/app/model/Scout';
 import { Troop } from 'src/app/model/Troop';
 import { RanksService } from 'src/app/services/ranks.service';
 import { RolesService } from 'src/app/services/roles.service';
+import { ScoutsService } from 'src/app/services/scouts.service';
 import { TroopsService } from 'src/app/services/troops.service';
 import { PageModes } from 'src/app/utils/PageModes';
+import { hideWithTimeout, Result } from 'src/app/utils/Result';
 import { ModalsService } from '../modals.service';
 
 @Component({
@@ -24,7 +27,9 @@ import { ModalsService } from '../modals.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class ManageScoutModalComponent implements OnInit {
-  mode$ = new Subject<PageModes>();
+  mode!: PageModes;
+
+  result$ = new Subject<Result>();
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -36,13 +41,17 @@ export class ManageScoutModalComponent implements OnInit {
     postalCode: ['', Validators.pattern(/\d{2}-\d{3}/)],
     city: [''],
 
-    contact: [''],
+    contact: ['', Validators.pattern(/\d{3}-\d{3}-\d{3}/)],
 
-    troop: [''],
+    troop: ['', Validators.required],
     rank: ['', Validators.required],
-    instructorRank: [''],
+    instructorRank: ['', Validators.required],
   });
 
+  // Additional data holders (controlForm holds only a string)
+  troopData!: Troop | undefined;
+  rankData!: Rank | undefined;
+  instructorRankData!: InstruktorRank | undefined;
 
   scoutRoles = [] as Role[];
   allRoles = [] as Role[];
@@ -61,7 +70,8 @@ export class ManageScoutModalComponent implements OnInit {
     private fb: FormBuilder,
     private rolesService: RolesService,
     private troopsService: TroopsService,
-    private ranksService: RanksService
+    private ranksService: RanksService,
+    private scoutsService: ScoutsService
   ) {}
 
   ngOnInit(): void {
@@ -71,20 +81,15 @@ export class ManageScoutModalComponent implements OnInit {
       ranks: this.ranksService.getRanks(),
       instructorRanks: this.ranksService.getInstructorRanks(),
     }).subscribe((x) => {
+      //
       // Load roles
       x.roles.forEach((role) => this.allRoles.push(role));
-      if (x.roles.length > 0) {
-        this.scoutRoles.push(x.roles[0]);
-      }
 
       // Load troops
       x.troops.forEach((troop) => this.availableTroops.push(troop));
 
       // Load ranks
       x.ranks.forEach((rank) => this.availableRanks.push(rank));
-      if (x.ranks.length > 0) {
-        this.rank.setValue(x.ranks[0].name);
-      }
 
       // Load instructor ranks
       x.instructorRanks.forEach((rank) =>
@@ -95,14 +100,26 @@ export class ManageScoutModalComponent implements OnInit {
     });
   }
 
+  // INIT
+
+  resetForm(): void {
+    this.form.reset();
+    this.pageLoaded = false;
+    this.troopData = undefined;
+    this.rankData = undefined;
+    this.instructorRankData = undefined;
+  }
+
   // TROOPS
 
-  setTroop(troop: Troop): void {
+  addTroop(troop: Troop): void {
     this.troop.setValue(troop.name);
+    this.troopData = troop;
   }
 
   clearTroop(): void {
     this.troop.setValue(undefined);
+    this.troopData = undefined;
   }
 
   // ROLES
@@ -126,24 +143,93 @@ export class ManageScoutModalComponent implements OnInit {
 
   // RANK
 
-  addRank(role: Rank): void {
-    this.rank.setValue(role.name);
+  addRank(rank: Rank): void {
+    this.rank.setValue(rank.name);
+    this.rankData = rank;
+  }
+
+  removeRank(): void {
+    this.rank.setValue(undefined);
+    this.rankData = undefined;
   }
 
   // INSTRUCTOR RANK
 
-  addInstructorRank(role: InstruktorRank): void {
-    this.rank.setValue(role.name);
+  addInstructorRank(rank: InstruktorRank): void {
+    this.instructorRank.setValue(rank.name);
+    this.instructorRankData = rank;
   }
 
   removeInstructorRank(): void {
-    this.rank.setValue(undefined);
+    this.instructorRank.setValue(undefined);
+    this.instructorRankData = undefined;
   }
 
   // FUNCTIONALITIES
 
   public async open(mode: PageModes): Promise<any> {
+    this.resetForm();
+    this.mode = mode;
     this.modal.open(this.content);
+  }
+
+  public manageScout(): void {
+    if (this.form.valid) {
+      const newScout = {
+        scoutId: -1,
+        name: this.name.value,
+        surname: this.surname.value,
+        pesel: this.pesel.value,
+        birthDate: this.birthDate.value
+          ? new Date(this.birthDate.value)
+          : undefined,
+        address: this.address.value,
+        postalCode: this.postalCode.value,
+        city: this.city.value,
+        phone: this.contact.value,
+
+        troop: this.troopData,
+        rank: this.rankData,
+        instructorRank: this.instructorRankData,
+      } as Scout;
+
+      if (this.mode) {
+        let operation: Observable<boolean> | null = null;
+        switch (this.mode) {
+          case PageModes.Add:
+            {
+              operation = this.scoutsService.addScout(newScout);
+            }
+            break;
+          case PageModes.Edit:
+            {
+              // operation = this.scoutsService.editcout(newScout);
+            }
+            break;
+        }
+        if (operation) {
+          operation.subscribe({
+            next: (res) => {
+              this.result$.next({
+                show: true,
+                result: res,
+              });
+              hideWithTimeout(this.result$);
+            },
+            error: () => {
+              this.result$.next({
+                show: true,
+                result: false,
+              });
+              hideWithTimeout(this.result$);
+            },
+          });
+        }
+      }
+    } else {
+      this.form.markAllAsTouched();
+      this.form.markAsDirty();
+    }
   }
 
   public async close(): Promise<any> {
@@ -190,5 +276,9 @@ export class ManageScoutModalComponent implements OnInit {
 
   get rank(): any {
     return this.form.get('rank');
+  }
+
+  get instructorRank(): any {
+    return this.form.get('instructorRank');
   }
 }

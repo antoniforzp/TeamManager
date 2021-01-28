@@ -10,13 +10,13 @@ public class Rank implements Model {
     private final int minAge;
     private final int maxAge;
 
-    public Rank() {
-        this.rankId = 0;
-        this.name = "name";
-        this.abbreviation = "n.";
-        this.minAge = 0;
-        this.maxAge = 100;
-    }
+//    public Rank() {
+//        this.rankId = 0;
+//        this.name = "name";
+//        this.abbreviation = "n.";
+//        this.minAge = 0;
+//        this.maxAge = 100;
+//    }
 
     public Rank(int rankId, String name, String abbreviation, int minAge, int maxAge) {
         this.rankId = rankId;

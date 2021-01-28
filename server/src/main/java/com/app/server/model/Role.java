@@ -8,10 +8,10 @@ public class Role {
     private final String name;
     private int scoutId;
 
-    public Role() {
-        this.roleId = 0;
-        this.name = "name";
-    }
+//    public Role() {
+//        this.roleId = 0;
+//        this.name = "name";
+//    }
 
     public Role(int roleId, String name) {
         this.roleId = roleId;

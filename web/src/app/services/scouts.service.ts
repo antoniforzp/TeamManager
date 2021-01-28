@@ -11,6 +11,8 @@ export class ScoutsService {
   private getScoutsUrl = 'http://localhost:8080/scouts/list';
   private getRolesScoutUrl = 'http://localhost:8080/scouts/roles/list';
   private getRolesAllUrl = 'http://localhost:8080/scouts/roles/list/all';
+  private addScoutUrl = 'http://localhost:8080/scouts/add';
+  private editScoutUrl = 'http://localhost:8080/scouts/edit';
 
   constructor(private http: HttpClient) {}
 
@@ -42,5 +44,29 @@ export class ScoutsService {
     return this.http.get<Role[]>(this.getRolesAllUrl, {
       headers: myHeaders,
     });
+  }
+
+  addScout(newScout: Scout): Observable<boolean> {
+    const myHeaders = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    return this.http.post<boolean>(this.addScoutUrl, JSON.stringify(newScout), {
+      headers: myHeaders,
+    });
+  }
+
+  editScout(scoutId: string, newScout: Scout): Observable<boolean> {
+    const myHeaders = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    return this.http.post<boolean>(
+      this.editScoutUrl + scoutId,
+      JSON.stringify(newScout),
+      {
+        headers: myHeaders,
+      }
+    );
   }
 }
