@@ -44,6 +44,7 @@ export class ManageScoutModalComponent implements OnInit {
 
     contact: ['', Validators.pattern(/\d{3}-\d{3}-\d{3}/)],
 
+    role: [''],
     troop: ['', Validators.required],
     rank: ['', Validators.required],
     instructorRank: ['', Validators.required],
@@ -62,9 +63,6 @@ export class ManageScoutModalComponent implements OnInit {
   availableInstructorRanls = [] as InstruktorRank[];
 
   pageLoaded = false;
-
-  // Autofill sugestions
-  filteredTroops$ = new Subject<Troop[]>();
 
   @ViewChild('content')
   public content!: TemplateRef<any>;
@@ -297,6 +295,10 @@ export class ManageScoutModalComponent implements OnInit {
 
   get troop(): any {
     return this.form.get('troop');
+  }
+
+  get role(): any {
+    return this.form.get('role');
   }
 
   get rank(): any {

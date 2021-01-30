@@ -6,13 +6,13 @@
 
         <form [formGroup]="form">
 
-            <div class="form-group">
+            <div class="form-group mb-5">
                 <h5>Dane osobowe</h5>
 
                 <!-- Name -->
-                <div class="form-group row">
-                    <label for="name" class="col-sm-2 col-form-label required">Imię</label>
-                    <div class="col-sm-10">
+                <div class="row mb-2">
+                    <label for="name" class="col-sm-3 col-form-label required">Imię</label>
+                    <div class="col-sm-9">
                         <input id="name" type="text" class="form-control" formControlName="name"
                             [ngClass]="{'is-invalid': name.invalid && (name.touched || name.dirty)}">
 
@@ -26,10 +26,10 @@
                 </div>
 
                 <!-- Surname -->
-                <div class="form-group row">
-                    <label for="surname" class="col-sm-2 col-form-label required">Nazwisko</label>
-                    <div class="col-sm-10">
-                        <input id="surname" type="text" class="form-control mt-2" formControlName="surname"
+                <div class="row mb-2">
+                    <label for="surname" class="col-sm-3 col-form-label required">Nazwisko</label>
+                    <div class="col-sm-9">
+                        <input id="surname" type="text" class="form-control" formControlName="surname"
                             [ngClass]="{'is-invalid': surname.invalid && (surname.touched || surname.dirty)}">
 
                         <!-- (!) Surname -->
@@ -42,9 +42,9 @@
                 </div>
 
                 <!-- Pesel -->
-                <div class="form-group row">
-                    <label for="pesel" class="col-sm-2 col-form-label">PESEL</label>
-                    <div class="col-sm-10">
+                <div class="row mb-2">
+                    <label for="pesel" class="col-sm-3 col-form-label">PESEL</label>
+                    <div class="col-sm-9">
                         <input id="pesel" type="text" class="form-control" formControlName="pesel"
                             [ngClass]="{'is-invalid': pesel.invalid && (pesel.pristine || pesel.dirty)}">
 
@@ -58,9 +58,9 @@
                 </div>
 
                 <!-- Birth date -->
-                <div class="form-group row">
-                    <label for="birthDate" class="col-sm-2 col-form-label">Data urodzenia</label>
-                    <div class="col-sm-10">
+                <div class="row mb-2">
+                    <label for="birthDate" class="col-sm-3 col-form-label">Data urodzenia</label>
+                    <div class="col-sm-9">
                         <input id="birthDate" type="text" class="form-control" formControlName="birthDate"
                             [ngClass]="{'is-invalid': birthDate.invalid && (birthDate.pristine || birthDate.dirty)}">
 
@@ -76,100 +76,76 @@
             </div>
 
             <!-- Troop -->
-            <div class="form-group">
+            <div class="form-group mb-5">
                 <h5>Przydział</h5>
-            </div>
 
+                <div class="row mb-2">
+                    <label for="troop" class="col-sm-3 col-form-label required">Zastęp</label>
+                    <div class="col-sm-9">
+                        <input id="troop" type="text" class="form-control" formControlName="troop"
+                            [ngClass]="{'is-invalid': troop.invalid && (troop.touched || troop.dirty)}">
 
-            <!-- Roles -->
-            <div class="form-group">
-                <h5>Funkcje w drużynie</h5>
-
-                <div class='d-flex justify-content-between'>
-                    <div class="d-flex flex-column">
-                        <table class="table mb-n2">
-                            <tbody>
-                                <tr *ngFor="let role of scoutRoles">
-                                    <td>
-                                        {{role.name}}
-                                    </td>
-                                    <td>
-                                        <button type="button" class="close" aria-label="Close"
-                                            (click)="removeRole(role)">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="d-flex flex-column" *ngIf="scoutRoles.length <= 0">
-                            <span class="text-danger">
+                        <!-- (!) Troop -->
+                        <div class="d-flex flex-column" *ngIf="troop.invalid && (troop.touched || troop.dirty)">
+                            <span class="text-danger" *ngIf="troop.errors?.required">
                                 Pole wymagane
                             </span>
                         </div>
                     </div>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle text-left" type="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false" (click)="filterRoles()">
-                            Wybierz
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item cursor-pointer" *ngFor="let role of availableRoles"
-                                (click)="addRole(role)">{{role.name}}</a>
+                </div>
+
+                <!-- Role -->
+                <div class="row mb-2">
+                    <label for="roleInput" class="col-sm-3 col-form-label required">Funkcje w drużynie</label>
+                    <div class="col-sm-9">
+                        <input id="roleInput" type="text" class="form-control" formControlName="role"
+                            [ngClass]="{'is-invalid': scoutRoles.length <= 0 && (role.touched || role.dirty)}">
+
+                        <!-- (!) Role -->
+                        <div class="d-flex flex-column"
+                            *ngIf=" scoutRoles.length === 0  && (role.touched || role.dirty)">
+                            <span class="text-danger">
+                                Hacerz musi posiadać przynajmniej jedną rolę w drużynie
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-5">
                 <h5>Stopnie</h5>
 
-                <!-- Ranks -->
-                <div class="d-flex">
-                    <div style="width: 100%;">
-                        <input type="text" class="form-control" placeholder="Stopień harcerski*" formControlName="rank"
-                            [ngClass]="{'is-invalid': rank.invalid && (rank.touched || rank.dirty)}" readonly>
+                <!-- Rank -->
+                <div class="row mb-2">
+                    <label for="rankInput" class="col-sm-3 col-form-label required">Stopień harcerski</label>
+                    <div class="col-sm-9">
+                        <input id="rankInput" type="text" class="form-control" formControlName="rank"
+                            [ngClass]="{'is-invalid': rank.invalid && (rank.touched || rank.dirty)}">
+
+                        <!-- (!) Rank -->
                         <div class="d-flex flex-column" *ngIf="rank.invalid && (rank.touched || rank.dirty)">
                             <span class="text-danger" *ngIf="rank.errors?.required">
                                 Pole wymagane
                             </span>
                         </div>
                     </div>
-
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle text-left ml-2" type="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Wybierz
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item cursor-pointer" *ngFor="let rank of availableRanks"
-                                (click)="addRank(rank)">{{rank.name}}</a>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Instructor ranks -->
-                <div class="d-flex mt-2">
-                    <div style="width: 100%;">
-                        <input type="text" class="form-control" placeholder="Stopień instruktorski*" readonly
+                <!-- Instructor Rank -->
+                <div class="row mb-2">
+                    <label for="instructorRankInput" class="col-sm-3 col-form-label required">Stopień
+                        instruktorski</label>
+                    <div class="col-sm-9">
+                        <input id="instructorRankInput" type="text" class="form-control"
                             formControlName="instructorRank"
                             [ngClass]="{'is-invalid': instructorRank.invalid && (instructorRank.touched || instructorRank.dirty)}">
+
+                        <!-- (!) Instructor Rank -->
                         <div class="d-flex flex-column"
                             *ngIf="instructorRank.invalid && (instructorRank.touched || instructorRank.dirty)">
                             <span class="text-danger" *ngIf="instructorRank.errors?.required">
                                 Pole wymagane
                             </span>
-                        </div>
-                    </div>
-
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle text-left ml-2" type="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Wybierz
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item cursor-pointer" *ngFor="let rank of availableInstructorRanls"
-                                (click)="addInstructorRank(rank)">{{rank.name}}</a>
                         </div>
                     </div>
                 </div>
@@ -179,34 +155,61 @@
                 <h5>Adres zamieszkania</h5>
 
                 <!-- Address -->
-                <input type="text" class="form-control mt-2" placeholder="Ulica i numer mieszkania"
-                    formControlName="address">
+                <div class="row mb-2">
+                    <label for="address" class="col-sm-3 col-form-label">
+                        Adres</label>
+                    <div class="col-sm-9">
+                        <input id="address" type="text" class="form-control" formControlName="address">
+                    </div>
+                </div>
 
                 <!-- Postal code -->
-                <input type="text" class="form-control mt-2" placeholder="Kod pocztowy" formControlName="postalCode"
-                    [ngClass]="{'is-invalid': postalCode.invalid && (postalCode.touched || postalCode.dirty)}">
-                <div class="d-flex flex-column" *ngIf="postalCode.invalid && (postalCode.touched || postalCode.dirty)">
-                    <span class="text-danger" *ngIf="postalCode.errors?.pattern">
-                        Prawidłowy format to: 00-000
-                    </span>
+                <div class="row mb-2">
+                    <label for="postalCode" class="col-sm-3 col-form-label">Kod pocztowy</label>
+                    <div class="col-sm-9">
+                        <input id="postalCode" type="text" class="form-control" formControlName="postalCode"
+                            [ngClass]="{'is-invalid': postalCode.invalid && (postalCode.touched || postalCode.dirty)}">
+
+                        <!-- (!) Postal code -->
+                        <div class="d-flex flex-column"
+                            *ngIf="postalCode.invalid && (postalCode.touched || postalCode.dirty)">
+                            <span class="text-danger" *ngIf="postalCode.errors?.pattern">
+                                Prawidłowy format to: 00-000
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- City -->
-                <input type="text" class="form-control mt-2" placeholder="Miasto" formControlName="city">
+                <div class="row mb-2">
+                    <label for="city" class="col-sm-3 col-form-label">
+                        Miasto</label>
+                    <div class="col-sm-9">
+                        <input id="city" type="text" class="form-control" formControlName="city">
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
                 <h5>Dane kontaktowe</h5>
 
                 <!-- Contact -->
-                <input type="text" class="form-control mt-2" placeholder="Telefon kontaktowy" formControlName="contact"
-                    [ngClass]="{'is-invalid': contact.invalid && (contact.touched || contact.dirty)}">
-                <div class="d-flex flex-column" *ngIf="contact.invalid && (contact.touched || contact.dirty)">
-                    <span class="text-danger" *ngIf="contact.errors?.pattern">
-                        Prawidłowy format to: 123-123-123
-                    </span>
+                <div class="row mb-2">
+                    <label for="contact" class="col-sm-3 col-form-label">Telefon komórkowy</label>
+                    <div class="col-sm-9">
+                        <input id="contact" type="text" class="form-control" formControlName="contact"
+                            [ngClass]="{'is-invalid': contact.invalid && (contact.touched || contact.dirty)}">
+
+                        <!-- (!) Contact -->
+                        <div class="d-flex flex-column" *ngIf="contact.invalid && (contact.touched || contact.dirty)">
+                            <span class="text-danger" *ngIf="contact.errors?.pattern">
+                                Prawidłowy format to: 123-123-123
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </form>
 
     </div>

@@ -24,7 +24,6 @@
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@ng-bootstrap/ng-bootstrap": "^9.0.2",
     "bootstrap": "^4.5.0",
-    "mdb-angular-ui-kit": "^1.0.0-alpha2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

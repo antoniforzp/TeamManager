@@ -13,7 +13,6 @@ import { TeamsComponent } from './pages/teams/teams.component';
 import { ScoutsComponent } from './pages/scouts/scouts.component';
 import { ManageScoutModalComponent } from './modals/manage-scout-modal/manage-scout-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdbModule } from 'mdb-angular-ui-kit';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -35,7 +34,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MdbModule,
     NgbModule,
   ],
   providers: [],
