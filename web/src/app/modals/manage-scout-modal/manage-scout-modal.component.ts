@@ -40,7 +40,7 @@ export class ManageScoutModalComponent implements OnInit {
     name: ['', Validators.required],
     surname: ['', Validators.required],
     pesel: ['', Validators.pattern(/\d{11}/)],
-    birthDate: ['', Validators.pattern(/^\d{2}\/\d{2}\/\d{4}$/)],
+    birthDate: [''],
 
     address: [''],
     postalCode: ['', Validators.pattern(/\d{2}-\d{3}/)],
@@ -60,11 +60,12 @@ export class ManageScoutModalComponent implements OnInit {
   instructorRankData!: InstruktorRank | undefined;
 
   scoutRoles = [] as Role[];
-  allRoles = [] as Role[];
   availableRoles = [] as Role[];
-  availableTroops = [] as Troop[];
-  availableRanks = [] as Rank[];
-  availableInstructorRanls = [] as InstruktorRank[];
+
+  allRoles$ = new Subject<Role[]>();
+  allTroops$ = new Subject<Troop[]>();
+  allRanks$ = new Subject<Rank[]>();
+  allInstructorRanks$ = new Subject<InstruktorRank[]>();
 
   pageLoaded = false;
 
@@ -86,6 +87,8 @@ export class ManageScoutModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.birthDate.valueChanges.subscribe(console.log);
+
     //
     forkJoin({
       roles: this.rolesService.getRoles(),
@@ -93,20 +96,19 @@ export class ManageScoutModalComponent implements OnInit {
       ranks: this.ranksService.getRanks(),
       instructorRanks: this.ranksService.getInstructorRanks(),
     }).subscribe((x) => {
+  
       //
-      // Load roles
-      x.roles.forEach((role) => this.allRoles.push(role));
-
       // Load troops
-      x.troops.forEach((troop) => this.availableTroops.push(troop));
+      this.allTroops$.next(x.troops);
+
+      // Load roles
+      this.allRoles$.next(x.roles);
 
       // Load ranks
-      x.ranks.forEach((rank) => this.availableRanks.push(rank));
+      this.allRanks$.next(x.ranks);
 
       // Load instructor ranks
-      x.instructorRanks.forEach((rank) =>
-        this.availableInstructorRanls.push(rank)
-      );
+      this.allInstructorRanks$.next(x.instructorRanks);
 
       this.pageLoaded = true;
     });
@@ -152,9 +154,9 @@ export class ManageScoutModalComponent implements OnInit {
   // ROLES
 
   filterRoles(): void {
-    this.availableRoles = this.allRoles.filter(
-      (role) => !this.scoutRoles.includes(role)
-    );
+    // this.availableRoles = this.allRoles.filter(
+    //   (role) => !this.scoutRoles.includes(role)
+    // );
   }
 
   addRole(role: Role): void {

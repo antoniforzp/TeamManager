@@ -61,15 +61,15 @@
                 <div class="row mb-2">
                     <label for="birthDate" class="col-sm-3 col-form-label">Data urodzenia</label>
                     <div class="col-sm-9">
-                        <input id="birthDate" type="text" class="form-control" formControlName="birthDate"
-                            [ngClass]="{'is-invalid': birthDate.invalid && (birthDate.pristine || birthDate.dirty)}">
-
-                        <!-- (!) Birth date -->
-                        <div class="d-flex flex-column"
-                            *ngIf="birthDate.invalid && (birthDate.touched || birthDate.dirty)">
-                            <span class="text-danger" *ngIf="birthDate.errors?.pattern">
-                                Prawidłowy format daty to dd/mm/yyyyw
-                            </span>
+                        <div class="d-flex align-items-baseline"><input id="birthDate" type="text" matInput
+                                [matDatepicker]="picker" class="form-control" formControlName="birthDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker>
+                                <mat-date-range-picker-actions>
+                                    <button mat-button matDateRangePickerCancel>Cancel</button>
+                                    <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+                                </mat-date-range-picker-actions>
+                            </mat-datepicker>
                         </div>
                     </div>
                 </div>
@@ -82,8 +82,14 @@
                 <div class="row mb-2">
                     <label for="troop" class="col-sm-3 col-form-label required">Zastęp</label>
                     <div class="col-sm-9">
-                        <input id="troop" type="text" class="form-control" formControlName="troop"
+                        <input type="text" class="form-control" matInput [formControl]="myControl"
+                            [matAutocomplete]="auto" formControlName="troop"
                             [ngClass]="{'is-invalid': troop.invalid && (troop.touched || troop.dirty)}">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of allTroops$ | async" [value]="option">
+                                {{option.name}}
+                            </mat-option>
+                        </mat-autocomplete>
 
                         <!-- (!) Troop -->
                         <div class="d-flex flex-column" *ngIf="troop.invalid && (troop.touched || troop.dirty)">
@@ -98,8 +104,14 @@
                 <div class="row mb-2">
                     <label for="roleInput" class="col-sm-3 col-form-label required">Funkcje w drużynie</label>
                     <div class="col-sm-9">
-                        <input id="roleInput" type="text" class="form-control" formControlName="role"
+                        <input type="text" class="form-control" matInput [formControl]="myControl"
+                            [matAutocomplete]="auto" formControlName="role"
                             [ngClass]="{'is-invalid': scoutRoles.length <= 0 && (role.touched || role.dirty)}">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of allRoles$ | async" [value]="option">
+                                {{option.name}}
+                            </mat-option>
+                        </mat-autocomplete>
 
                         <!-- (!) Role -->
                         <div class="d-flex flex-column"
