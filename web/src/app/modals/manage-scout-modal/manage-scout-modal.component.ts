@@ -1,11 +1,13 @@
 import {
   Component,
+  Inject,
   OnInit,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { InstruktorRank } from 'src/app/model/InstructorRank';
@@ -19,7 +21,9 @@ import { ScoutsService } from 'src/app/services/scouts.service';
 import { TroopsService } from 'src/app/services/troops.service';
 import { PageModes } from 'src/app/utils/PageModes';
 import { hideWithTimeout, Result } from 'src/app/utils/Result';
-import { ModalsService } from '../modals.service';
+export interface ManageScoutDialogData {
+  mode: PageModes;
+}
 
 @Component({
   selector: 'app-manage-scouts-modal',
@@ -67,22 +71,22 @@ export class ManageScoutModalComponent implements OnInit {
   @ViewChild('content')
   public content!: TemplateRef<any>;
 
-
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions!: Observable<string[]>;
 
-
   constructor(
-    private modal: ModalsService,
     private fb: FormBuilder,
     private rolesService: RolesService,
     private troopsService: TroopsService,
     private ranksService: RanksService,
-    private scoutsService: ScoutsService
+    private scoutsService: ScoutsService,
+    public dialogRef: MatDialogRef<ManageScoutModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ManageScoutDialogData
   ) {}
 
   ngOnInit(): void {
+    //
     forkJoin({
       roles: this.rolesService.getRoles(),
       troops: this.troopsService.getTroops(),
@@ -107,12 +111,10 @@ export class ManageScoutModalComponent implements OnInit {
       this.pageLoaded = true;
     });
 
-
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
   }
 
   // INIT
@@ -130,7 +132,9 @@ export class ManageScoutModalComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return this.options.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   // TROOPS
@@ -191,9 +195,9 @@ export class ManageScoutModalComponent implements OnInit {
   // FUNCTIONALITIES
 
   public async open(mode: PageModes): Promise<any> {
-    this.resetForm();
-    this.mode = mode;
-    this.modal.open(this.content);
+    // this.resetForm();
+    // this.mode = mode;
+    // this.modal.open(this.content);
   }
 
   public manageScout(): void {
@@ -256,7 +260,7 @@ export class ManageScoutModalComponent implements OnInit {
   }
 
   public async close(): Promise<any> {
-    this.modal.close();
+    this.dialogRef.close('Pizza!');
   }
 
   // FORMS

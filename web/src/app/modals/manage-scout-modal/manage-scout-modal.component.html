@@ -1,4 +1,4 @@
-<ng-template #content let-modal>
+<mat-dialog-content>
     <div class="modal-header">
         <h2 class="modal-title">Dodaj harcerza</h2>
     </div>
@@ -211,20 +211,19 @@
             </div>
 
         </form>
-
     </div>
-    <div class="modal-footer d-flex flex-column align-content-end">
-        <div>
-            <button type="button" class="btn btn-light mr-2" (click)="close()">Zamknij</button>
-            <button type="button" class="btn btn-success" (click)="manageScout()">Dodaj</button>
-        </div>
-        <div class="d-flex flex-column align-content-end" *ngIf="result$ | async as result">
-            <span class="text-success" *ngIf="result.result && result.show">
-                Dodano nowego harcerza
-            </span>
-            <span class="text-danger" *ngIf="!result.result && result.show">
-                Błąd
-            </span>
-        </div>
+</mat-dialog-content>
+<mat-dialog-actions class="modal-footer d-flex flex-column align-content-end">
+    <div>
+        <button type="button" class="btn btn-light mr-2" (click)="close()">Zamknij</button>
+        <button type="button" class="btn btn-success" (click)="manageScout()">Dodaj</button>
     </div>
-</ng-template>
+    <div class="d-flex flex-column align-content-end" *ngIf="result$ | async as result">
+        <span class="text-success" *ngIf="result.result && result.show">
+            Dodano nowego harcerza
+        </span>
+        <span class="text-danger" *ngIf="!result.result && result.show">
+            Błąd
+        </span>
+    </div>
+</mat-dialog-actions>

@@ -1,7 +1,5 @@
 <app-menu></app-menu>
 
-<app-manage-scouts-modal></app-manage-scouts-modal>
-
 <main role="main" class="container mb-3">
     <h1 class="mt-5">Ewidencja harcerzy</h1>
 
@@ -75,7 +73,8 @@
                             </span>
                         </td>
                         <td style="width: 110px;">
-                            <button class="btn btn-secondary" (click)="$event.stopPropagation(); toggleMore(row)">Więcej</button>
+                            <button class="btn btn-secondary"
+                                (click)="$event.stopPropagation(); toggleMore(row)">Więcej</button>
                         </td>
                     </tr>
                     <tr *ngIf="row.moreVisible">
@@ -122,5 +121,3 @@
 <ng-template #noData>
     -
 </ng-template>
-
-<app-manage-scouts-modal #manageScouts></app-manage-scouts-modal>

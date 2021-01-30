@@ -13,8 +13,13 @@ import { TeamsComponent } from './pages/teams/teams.component';
 import { ScoutsComponent } from './pages/scouts/scouts.component';
 import { ManageScoutModalComponent } from './modals/manage-scout-modal/manage-scout-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { MaterialModule } from './app-material.module';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import {
+  MatDialogModule,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+} from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,11 +37,25 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
+    MaterialModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    NgbModule,
+    MatDialogModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'fill' },
+    },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: {},
+    },
+    {
+      provide: MatDialogRef,
+      useValue: {},
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

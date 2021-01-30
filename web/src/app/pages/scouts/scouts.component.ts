@@ -1,13 +1,8 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ManageScoutModalComponent } from 'src/app/modals/manage-scout-modal/manage-scout-modal.component';
+import { ManageScoutModal } from 'src/app/modals/manage-scout-modal/ManageScoutModal';
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
 import { PageModes } from 'src/app/utils/PageModes';
@@ -31,10 +26,10 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
   allSelected = false;
   anySelected = false;
 
-  @ViewChild('manageScouts')
-  public manageScouts!: ManageScoutModalComponent;
-
-  constructor(private scoutsService: ScoutsService) {}
+  constructor(
+    private scoutsService: ScoutsService,
+    private dialog: MatDialog
+  ) {}
 
   ngAfterViewInit(): void {
     this.openAddScouts();
@@ -84,6 +79,6 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
   }
 
   openAddScouts(): void {
-    this.manageScouts.open(PageModes.Add);
+    new ManageScoutModal(this.dialog).open(PageModes.Add);
   }
 }
