@@ -24,7 +24,7 @@ import { ModalsService } from '../modals.service';
 @Component({
   selector: 'app-manage-scouts-modal',
   templateUrl: './manage-scout-modal.component.html',
-  styleUrls: ['./manage-scout-modal.component.css'],
+  styleUrls: ['./manage-scout-modal.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class ManageScoutModalComponent implements OnInit {
