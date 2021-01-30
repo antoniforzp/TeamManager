@@ -5,76 +5,86 @@
     <div class="modal-body">
 
         <form [formGroup]="form">
+
             <div class="form-group">
                 <h5>Dane osobowe</h5>
 
                 <!-- Name -->
-                <input type="text" class="form-control mt-2" placeholder="Imię*" formControlName="name"
-                    [ngClass]="{'is-invalid': name.invalid && (name.touched || name.dirty)}">
-                <div class="d-flex flex-column" *ngIf="name.invalid && (name.touched || name.dirty)">
-                    <span class="text-danger" *ngIf="name.errors?.required">
-                        Pole wymagane
-                    </span>
+                <div class="form-group row">
+                    <label for="name" class="col-sm-2 col-form-label required">Imię</label>
+                    <div class="col-sm-10">
+                        <input id="name" type="text" class="form-control" formControlName="name"
+                            [ngClass]="{'is-invalid': name.invalid && (name.touched || name.dirty)}">
+
+                        <!-- (!) Name -->
+                        <div class="d-flex flex-column" *ngIf="name.invalid && (name.touched || name.dirty)">
+                            <span class="text-danger" *ngIf="name.errors?.required">
+                                Pole wymagane
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Surname -->
-                <input type="text" class="form-control mt-2" placeholder="Nazwisko*" formControlName="surname"
-                    [ngClass]="{'is-invalid': surname.invalid && (surname.touched || surname.dirty)}">
-                <div class="d-flex flex-column" *ngIf="surname.invalid && (surname.touched || surname.dirty)">
-                    <span class="text-danger" *ngIf="surname.errors?.required">
-                        Pole wymaganeS
-                    </span>
+                <div class="form-group row">
+                    <label for="surname" class="col-sm-2 col-form-label required">Nazwisko</label>
+                    <div class="col-sm-10">
+                        <input id="surname" type="text" class="form-control mt-2" formControlName="surname"
+                            [ngClass]="{'is-invalid': surname.invalid && (surname.touched || surname.dirty)}">
+
+                        <!-- (!) Surname -->
+                        <div class="d-flex flex-column" *ngIf="surname.invalid && (surname.touched || surname.dirty)">
+                            <span class="text-danger" *ngIf="surname.errors?.required">
+                                Pole wymagane
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Pesel -->
-                <input type="text" class="form-control mt-2" placeholder="PESEL" formControlName="pesel"
-                    [ngClass]="{'is-invalid': pesel.invalid && (pesel.pristine || pesel.dirty)}">
-                <div class="d-flex flex-column" *ngIf="pesel.invalid && (pesel.touched || pesel.dirty)">
-                    <span class="text-danger" *ngIf="pesel.errors?.pattern">
-                        Zły format
-                    </span>
+                <div class="form-group row">
+                    <label for="pesel" class="col-sm-2 col-form-label">PESEL</label>
+                    <div class="col-sm-10">
+                        <input id="pesel" type="text" class="form-control" formControlName="pesel"
+                            [ngClass]="{'is-invalid': pesel.invalid && (pesel.pristine || pesel.dirty)}">
+
+                        <!-- (!) Pesel -->
+                        <div class="d-flex flex-column" *ngIf="pesel.invalid && (pesel.touched || pesel.dirty)">
+                            <span class="text-danger" *ngIf="pesel.errors?.pattern">
+                                Zły format
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Birth date -->
-                <input type="text" class="form-control mt-2" placeholder="Data urodzenia" formControlName="birthDate"
-                    [ngClass]="{'is-invalid': birthDate.invalid && (birthDate.pristine || birthDate.dirty)}">
-                <div class="d-flex flex-column" *ngIf="birthDate.invalid && (birthDate.touched || birthDate.dirty)">
-                    <span class="text-danger" *ngIf="birthDate.errors?.pattern">
-                        Prawidłowy format daty to dd/mm/yyyyw
-                    </span>
+                <div class="form-group row">
+                    <label for="birthDate" class="col-sm-2 col-form-label">Data urodzenia</label>
+                    <div class="col-sm-10">
+                        <input id="birthDate" type="text" class="form-control" formControlName="birthDate"
+                            [ngClass]="{'is-invalid': birthDate.invalid && (birthDate.pristine || birthDate.dirty)}">
+
+                        <!-- (!) Birth date -->
+                        <div class="d-flex flex-column"
+                            *ngIf="birthDate.invalid && (birthDate.touched || birthDate.dirty)">
+                            <span class="text-danger" *ngIf="birthDate.errors?.pattern">
+                                Prawidłowy format daty to dd/mm/yyyyw
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Troop -->
             <div class="form-group">
                 <h5>Przydział</h5>
-                <div class="d-flex">
-                    <div style="width: 100%;">
-                        <input type="text" class="form-control required" placeholder="Zastęp*" formControlName="troop"
-                            [ngClass]="{'is-invalid': troop.invalid && (troop.touched || troop.dirty)}" readonly>
-                        <div class="d-flex flex-column" *ngIf="troop.invalid && (troop.touched || troop.dirty)">
-                            <span class="text-danger" *ngIf="troop.errors?.required">
-                                Pole wymagane
-                            </span>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle text-left ml-2" type="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Wybierz
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item cursor-pointer" *ngFor="let troop of availableTroops"
-                                (click)="addTroop(troop)">{{troop.name}}</a>
-                        </div>
-                    </div>
-
-                </div>
             </div>
+
 
             <!-- Roles -->
             <div class="form-group">
                 <h5>Funkcje w drużynie</h5>
+
                 <div class='d-flex justify-content-between'>
                     <div class="d-flex flex-column">
                         <table class="table mb-n2">

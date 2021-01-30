@@ -22,7 +22,7 @@ interface ScoutRow {
 
 @Component({
   templateUrl: './scouts.component.html',
-  styleUrls: ['./scouts.component.css'],
+  styleUrls: ['./scouts.component.scss'],
 })
 export class ScoutsComponent implements OnInit, AfterViewInit {
   scoutsRows = [] as ScoutRow[];

@@ -11,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 
 @Component({
   templateUrl: './edit-user.component.html',
-  styleUrls: ['./edit-user.component.css'],
+  styleUrls: ['./edit-user.component.scss'],
 })
 export class EditUserComponent implements OnInit {
   currentUser$ = new Subject<User>();

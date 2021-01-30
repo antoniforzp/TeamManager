@@ -2,12 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import {
-  NgbPaginationModule,
-  NgbAlertModule,
-  NgbModule,
-} from '@ng-bootstrap/ng-bootstrap';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +12,8 @@ import { EditUserComponent } from './pages/edit-user/edit-user.component';
 import { TeamsComponent } from './pages/teams/teams.component';
 import { ScoutsComponent } from './pages/scouts/scouts.component';
 import { ManageScoutModalComponent } from './modals/manage-scout-modal/manage-scout-modal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MdbModule } from 'mdb-angular-ui-kit';
 
 @NgModule({
   declarations: [
@@ -37,9 +33,8 @@ import { ManageScoutModalComponent } from './modals/manage-scout-modal/manage-sc
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbPaginationModule,
-    NgbAlertModule,
-    NgbModule,
+    BrowserAnimationsModule,
+    MdbModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

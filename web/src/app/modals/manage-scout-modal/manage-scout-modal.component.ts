@@ -5,8 +5,9 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { forkJoin, Observable, Subject } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { InstruktorRank } from 'src/app/model/InstructorRank';
 import { Rank } from 'src/app/model/Rank';
 import { Role } from 'src/app/model/Role';
@@ -62,8 +63,17 @@ export class ManageScoutModalComponent implements OnInit {
 
   pageLoaded = false;
 
+  // Autofill sugestions
+  filteredTroops$ = new Subject<Troop[]>();
+
   @ViewChild('content')
   public content!: TemplateRef<any>;
+
+
+  myControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions!: Observable<string[]>;
+
 
   constructor(
     private modal: ModalsService,
@@ -98,6 +108,13 @@ export class ManageScoutModalComponent implements OnInit {
 
       this.pageLoaded = true;
     });
+
+
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
   }
 
   // INIT
@@ -108,6 +125,14 @@ export class ManageScoutModalComponent implements OnInit {
     this.troopData = undefined;
     this.rankData = undefined;
     this.instructorRankData = undefined;
+  }
+
+  // AUTOFILL
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   // TROOPS

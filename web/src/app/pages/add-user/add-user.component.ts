@@ -8,7 +8,7 @@ import { CustomValidators } from 'src/app/validators/Customvalidators';
 
 @Component({
   templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.css'],
+  styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent implements OnInit {
   result$ = new Subject<Result>();
