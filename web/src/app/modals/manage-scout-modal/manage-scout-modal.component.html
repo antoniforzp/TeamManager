@@ -82,11 +82,12 @@
                 <div class="row mb-2">
                     <label for="troop" class="col-sm-3 col-form-label required">Zastęp</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" matInput [formControl]="myControl"
-                            [matAutocomplete]="auto" formControlName="troop"
+                        <input type="text" class="form-control" matInput [matAutocomplete]="matTroops"
+                            formControlName="troop"
                             [ngClass]="{'is-invalid': troop.invalid && (troop.touched || troop.dirty)}">
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of allTroops$ | async" [value]="option">
+                        <mat-autocomplete #matTroops="matAutocomplete">
+                            <mat-option *ngFor="let option of allTroops$ | async" [value]="option.name"
+                                (click)="addTroop(option)">
                                 {{option.name}}
                             </mat-option>
                         </mat-autocomplete>
@@ -104,22 +105,36 @@
                 <div class="row mb-2">
                     <label for="roleInput" class="col-sm-3 col-form-label required">Funkcje w drużynie</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" matInput [formControl]="myControl"
-                            [matAutocomplete]="auto" formControlName="role"
-                            [ngClass]="{'is-invalid': scoutRoles.length <= 0 && (role.touched || role.dirty)}">
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of allRoles$ | async" [value]="option">
+                        <input type="text" class="form-control" matInput [matAutocomplete]="matRoles"
+                            formControlName="role"
+                            [ngClass]="{'is-invalid': scoutRoles$.value.length <= 0 && (role.touched || role.dirty)}">
+                        <mat-autocomplete #matRoles="matAutocomplete">
+                            <mat-option *ngFor="let option of availableRoles$ | async" [value]="option.name"
+                                (click)="addRole(option)">
                                 {{option.name}}
                             </mat-option>
                         </mat-autocomplete>
 
                         <!-- (!) Role -->
                         <div class="d-flex flex-column"
-                            *ngIf=" scoutRoles.length === 0  && (role.touched || role.dirty)">
+                            *ngIf="scoutRoles$.value.length === 0  && (role.touched || role.dirty)">
                             <span class="text-danger">
                                 Hacerz musi posiadać przynajmniej jedną rolę w drużynie
                             </span>
                         </div>
+
+                        <mat-list>
+                            <ng-container *ngFor="let role of scoutRoles$ | async">
+                                <mat-list-item>{{role.name}}
+                                    <button type="button" class="ml-2 close" aria-label="Close"
+                                        (click)="removeRole(role)">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                            </ng-container>
+                        </mat-list>
+
                     </div>
                 </div>
             </div>
@@ -131,8 +146,15 @@
                 <div class="row mb-2">
                     <label for="rankInput" class="col-sm-3 col-form-label required">Stopień harcerski</label>
                     <div class="col-sm-9">
-                        <input id="rankInput" type="text" class="form-control" formControlName="rank"
+                        <input id="rankInput" type="text" class="form-control" matInput [matAutocomplete]="matRanks"
+                            formControlName="rank"
                             [ngClass]="{'is-invalid': rank.invalid && (rank.touched || rank.dirty)}">
+                        <mat-autocomplete #matRanks="matAutocomplete">
+                            <mat-option *ngFor="let option of allRanks$ | async" [value]="option.name"
+                                (click)="addRank(option)">
+                                {{option.name}}
+                            </mat-option>
+                        </mat-autocomplete>
 
                         <!-- (!) Rank -->
                         <div class="d-flex flex-column" *ngIf="rank.invalid && (rank.touched || rank.dirty)">
@@ -148,9 +170,15 @@
                     <label for="instructorRankInput" class="col-sm-3 col-form-label required">Stopień
                         instruktorski</label>
                     <div class="col-sm-9">
-                        <input id="instructorRankInput" type="text" class="form-control"
-                            formControlName="instructorRank"
-                            [ngClass]="{'is-invalid': instructorRank.invalid && (instructorRank.touched || instructorRank.dirty)}">
+                        <input id="instructorRankInput" type="text" class="form-control" matInput
+                            [matAutocomplete]="matInstructorRanks" formControlName="instructorRank"
+                            [ngClass]="{'is-invalid': rank.invalid && (instructorRank.touched || instructorRank.dirty)}">
+                        <mat-autocomplete #matInstructorRanks="matAutocomplete">
+                            <mat-option *ngFor="let option of allInstructorRanks$ | async" [value]="option.name"
+                                (click)="addInstructorRank(option)">
+                                {{option.name}}
+                            </mat-option>
+                        </mat-autocomplete>
 
                         <!-- (!) Instructor Rank -->
                         <div class="d-flex flex-column"

@@ -8,7 +8,13 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { forkJoin, Observable, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  forkJoin,
+  Observable,
+  ReplaySubject,
+  Subject,
+} from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { InstruktorRank } from 'src/app/model/InstructorRank';
 import { Rank } from 'src/app/model/Rank';
@@ -59,13 +65,16 @@ export class ManageScoutModalComponent implements OnInit {
   rankData!: Rank | undefined;
   instructorRankData!: InstruktorRank | undefined;
 
-  scoutRoles = [] as Role[];
-  availableRoles = [] as Role[];
+  scoutRoles$ = new BehaviorSubject<Role[]>([]);
+  availableRoles$ = new BehaviorSubject<Role[]>([]);
 
-  allRoles$ = new Subject<Role[]>();
-  allTroops$ = new Subject<Troop[]>();
-  allRanks$ = new Subject<Rank[]>();
-  allInstructorRanks$ = new Subject<InstruktorRank[]>();
+  allRoles$ = new BehaviorSubject<Role[]>([]);
+  allTroops$ = new BehaviorSubject<Troop[]>([]);
+  allRanks$ = new BehaviorSubject<Rank[]>([]);
+  allInstructorRanks$ = new BehaviorSubject<InstruktorRank[]>([]);
+
+  rolesNames = [] as string[];
+  troopsNames = [] as string[];
 
   pageLoaded = false;
 
@@ -87,8 +96,6 @@ export class ManageScoutModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.birthDate.valueChanges.subscribe(console.log);
-
     //
     forkJoin({
       roles: this.rolesService.getRoles(),
@@ -96,13 +103,13 @@ export class ManageScoutModalComponent implements OnInit {
       ranks: this.ranksService.getRanks(),
       instructorRanks: this.ranksService.getInstructorRanks(),
     }).subscribe((x) => {
-  
       //
       // Load troops
       this.allTroops$.next(x.troops);
 
       // Load roles
       this.allRoles$.next(x.roles);
+      this.availableRoles$.next(x.roles);
 
       // Load ranks
       this.allRanks$.next(x.ranks);
@@ -142,7 +149,6 @@ export class ManageScoutModalComponent implements OnInit {
   // TROOPS
 
   addTroop(troop: Troop): void {
-    this.troop.setValue(troop.name);
     this.troopData = troop;
   }
 
@@ -153,20 +159,20 @@ export class ManageScoutModalComponent implements OnInit {
 
   // ROLES
 
-  filterRoles(): void {
-    // this.availableRoles = this.allRoles.filter(
-    //   (role) => !this.scoutRoles.includes(role)
-    // );
-  }
-
-  addRole(role: Role): void {
-    this.scoutRoles.push(role);
+  addRole(newRole: Role): void {
+    this.scoutRoles$.next(this.scoutRoles$.value.concat(newRole));
+    this.availableRoles$.next(
+      this.allRoles$.value.filter((x) => x.roleId !== newRole.roleId)
+    );
+    setTimeout(() => this.role.patchValue(''), 1000);
   }
 
   removeRole(role: Role): void {
-    const index = this.scoutRoles.indexOf(role);
+    const index = this.scoutRoles$.value.indexOf(role);
     if (index > -1) {
-      this.scoutRoles.splice(index, 1);
+      this.scoutRoles$.next(
+        this.scoutRoles$.value.filter((x) => x.roleId !== role.roleId)
+      );
     }
   }
 

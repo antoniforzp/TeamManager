@@ -11,6 +11,7 @@ export class ManageScoutModal {
   open(mode: PageModes): MatDialogRef<ManageScoutModalComponent> {
     return this.dialog.open(ManageScoutModalComponent, {
       width: '80%',
+      disableClose: true,
       data: {
         mode,
       } as ManageScoutDialogData,

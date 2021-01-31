@@ -31,9 +31,7 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog
   ) {}
 
-  ngAfterViewInit(): void {
-    this.openAddScouts();
-  }
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     forkJoin({
