@@ -13,13 +13,16 @@ import { TeamsComponent } from './pages/teams/teams.component';
 import { ScoutsComponent } from './pages/scouts/scouts.component';
 import { ManageScoutModalComponent } from './modals/manage-scout-modal/manage-scout-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './app-material.module';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import {
   MatDialogModule,
   MAT_DIALOG_DATA,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { FailureModalComponent } from './modals/common/failure-modal/failure-modal.component';
+import { SuccessModalComponent } from './modals/common/success-modal/success-modal.component';
+import { MaterialModule } from './material/app-material.module';
+import { ProgressModalComponent } from './modals/common/progress-modal/progress-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,16 +34,20 @@ import {
     TeamsComponent,
     ScoutsComponent,
     ManageScoutModalComponent,
+    SuccessModalComponent,
+    FailureModalComponent,
+    ProgressModalComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    MaterialModule,
+    MatDialogModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MaterialModule
   ],
   providers: [
     {
