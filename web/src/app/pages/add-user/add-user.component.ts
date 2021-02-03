@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
-import { hideWithTimeout, Result } from 'src/app/utils/Result';
+import { hideWithTimeout, Result, ResultOld } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 
 @Component({
@@ -11,7 +11,7 @@ import { CustomValidators } from 'src/app/validators/Customvalidators';
   styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent implements OnInit {
-  result$ = new Subject<Result>();
+  result$ = new Subject<ResultOld>();
   mailExists = false;
   addUserForm = this.fb.group({
     userName: ['', Validators.required],

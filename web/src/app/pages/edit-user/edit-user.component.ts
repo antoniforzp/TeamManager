@@ -4,7 +4,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
-import { hideWithTimeout, Result } from 'src/app/utils/Result';
+import { hideWithTimeout, Result, ResultOld } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 import { CoreService } from '../../services/core.service';
 import { UserService } from 'src/app/services/user.service';
@@ -19,8 +19,8 @@ export class EditUserComponent implements OnInit {
   wrongUserPassword = false;
 
   // Server feedbacks
-  editUserResult$ = new Subject<Result>();
-  editPasswordResult$ = new Subject<Result>();
+  editUserResult$ = new Subject<ResultOld>();
+  editPasswordResult$ = new Subject<ResultOld>();
 
   editUserDataForm = this.fb.group({
     userName: ['', Validators.required],

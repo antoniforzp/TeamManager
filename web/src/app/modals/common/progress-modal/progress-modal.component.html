@@ -2,20 +2,35 @@
 
     <div class="modal-body">
 
-        <div class="d-flex justify-content-between">
-            <h5>Przetwarzam...</h5>
-
+        <div *ngIf="isLoadng" class="d-flex align-self-baseline">
             <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
+            <h3 class="ml-2">Przetwarzam...</h3>
         </div>
-
-
+        <div *ngIf="!isLoadng && result === Result.Success">
+            <div class="d-flex align-self-baseline">
+                <img src="../../../../assets/icons/success.svg" alt="" width="35" height="35">
+                <h3 class="ml-2">Sukces!</h3>
+            </div>
+            <p *ngIf="data.options?.successMessage">
+                {{data?.options?.successMessage}}
+            </p>
+        </div>
+        <div *ngIf="!isLoadng && result === Result.Failure">
+            <div class="d-flex align-self-baseline">
+                <img src="../../../../assets/icons/failure.svg" alt="" width="35" height="35">
+                <h3 class="ml-2">Błąd</h3>
+            </div>
+            <p *ngIf="data.options?.failureMessage">
+                {{data?.options?.failureMessage}}
+            </p>
+        </div>
     </div>
 
 </mat-dialog-content>
 <mat-dialog-actions class="modal-footer d-flex flex-column align-content-end">
     <div>
-        <button type="button" class="btn btn-light mr-2" (click)="close()">Zamknij</button>
+        <button [disabled]="isLoadng" type="button" class="btn btn-light mr-2" (click)="close()">Zamknij</button>
     </div>
 </mat-dialog-actions>

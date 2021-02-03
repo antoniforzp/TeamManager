@@ -1,16 +1,14 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
+import { concatMap, delay, map } from 'rxjs/operators';
 import { ManageScoutModal } from 'src/app/modals/manage-scout-modal/ManageScoutModal';
-import { SuccessModal } from 'src/app/modals/common/success-modal/SuccessModal';
 
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
 import { PageModes } from 'src/app/utils/PageModes';
+import { Result } from 'src/app/utils/Result';
 import { ScoutsService } from '../../services/scouts.service';
-import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
-import { FailureModal } from 'src/app/modals/common/failure-modal/FailureModal';
 
 interface ScoutRow {
   scoutInfo: Scout;
@@ -35,13 +33,13 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog
   ) {}
 
-  ngAfterViewInit(): void {
-    new SuccessModal(this.dialog).open();
-    new FailureModal(this.dialog).open();
-    new ProgressModal(this.dialog).open();
-  }
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
     forkJoin({
       scouts: this.scoutsService.getScouts(),
       roles: this.scoutsService.getAllRoles(),
@@ -85,6 +83,13 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
   }
 
   openAddScouts(): void {
-    new ManageScoutModal(this.dialog).open(PageModes.Add);
+    new ManageScoutModal(this.dialog)
+      .open(PageModes.Add)
+      .afterClosed()
+      .subscribe((x) => {
+        if (x === Result.Success) {
+          this.loadData();
+        }
+      });
   }
 }

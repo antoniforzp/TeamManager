@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Team } from 'src/app/model/Team';
-import { hideWithTimeout, Result } from 'src/app/utils/Result';
+import { hideWithTimeout, Result, ResultOld } from 'src/app/utils/Result';
 import { TeamsService } from '../../services/teams.service';
 
 interface TeamForm {
@@ -22,8 +22,8 @@ export class TeamsComponent implements OnInit {
     patron: ['', Validators.required],
   });
 
-  editResult$ = new Subject<Result>();
-  addResult$ = new Subject<Result>();
+  editResult$ = new Subject<ResultOld>();
+  addResult$ = new Subject<ResultOld>();
 
   editTeamsForms: TeamForm[] = [];
 
@@ -77,7 +77,7 @@ export class TeamsComponent implements OnInit {
     teamId: number,
     teamName: string,
     teamPatron: string,
-    result: Subject<Result>
+    result: Subject<ResultOld>
   ): void {
     this.teamsService
       .editTeam(teamId, { teamId: -1, name: teamName, patron: teamPatron })
@@ -93,7 +93,7 @@ export class TeamsComponent implements OnInit {
       });
   }
 
-  deleteTeam(teamId: number, result: Subject<Result>): void {
+  deleteTeam(teamId: number, result: Subject<ResultOld>): void {
     this.teamsService.deleteTeam(teamId).subscribe({
       next: (res) => {
         result.next({ show: true, result: res });

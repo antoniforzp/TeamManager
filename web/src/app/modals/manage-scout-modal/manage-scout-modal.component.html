@@ -258,12 +258,4 @@
         <button type="button" class="btn btn-light mr-2" (click)="close()">Zamknij</button>
         <button type="button" class="btn btn-success" (click)="manageScout()">Dodaj</button>
     </div>
-    <div class="d-flex flex-column align-content-end" *ngIf="result$ | async as result">
-        <span class="text-success" *ngIf="result.result && result.show">
-            Dodano nowego harcerza
-        </span>
-        <span class="text-danger" *ngIf="!result.result && result.show">
-            Błąd
-        </span>
-    </div>
 </mat-dialog-actions>

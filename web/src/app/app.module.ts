@@ -19,8 +19,6 @@ import {
   MAT_DIALOG_DATA,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { FailureModalComponent } from './modals/common/failure-modal/failure-modal.component';
-import { SuccessModalComponent } from './modals/common/success-modal/success-modal.component';
 import { MaterialModule } from './material/app-material.module';
 import { ProgressModalComponent } from './modals/common/progress-modal/progress-modal.component';
 @NgModule({
@@ -34,8 +32,6 @@ import { ProgressModalComponent } from './modals/common/progress-modal/progress-
     TeamsComponent,
     ScoutsComponent,
     ManageScoutModalComponent,
-    SuccessModalComponent,
-    FailureModalComponent,
     ProgressModalComponent,
   ],
   imports: [
@@ -47,7 +43,7 @@ import { ProgressModalComponent } from './modals/common/progress-modal/progress-
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    MaterialModule
+    MaterialModule,
   ],
   providers: [
     {

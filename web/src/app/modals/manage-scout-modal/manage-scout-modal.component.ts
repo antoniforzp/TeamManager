@@ -7,14 +7,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
-  BehaviorSubject,
-  forkJoin,
-  Observable,
-  ReplaySubject,
-  Subject,
-} from 'rxjs';
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import { BehaviorSubject, forkJoin, Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { InstruktorRank } from 'src/app/model/InstructorRank';
 import { Rank } from 'src/app/model/Rank';
@@ -26,7 +24,8 @@ import { RolesService } from 'src/app/services/roles.service';
 import { ScoutsService } from 'src/app/services/scouts.service';
 import { TroopsService } from 'src/app/services/troops.service';
 import { PageModes } from 'src/app/utils/PageModes';
-import { hideWithTimeout, Result } from 'src/app/utils/Result';
+import { Result } from 'src/app/utils/Result';
+import { ProgressModal } from '../common/progress-modal/ProgressModal';
 export interface ManageScoutDialogData {
   mode: PageModes;
 }
@@ -91,9 +90,12 @@ export class ManageScoutModalComponent implements OnInit {
     private troopsService: TroopsService,
     private ranksService: RanksService,
     private scoutsService: ScoutsService,
+    public dialog: MatDialog,
     public dialogRef: MatDialogRef<ManageScoutModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ManageScoutDialogData
-  ) {}
+  ) {
+    this.mode = data.mode;
+  }
 
   ngOnInit(): void {
     //
@@ -202,7 +204,7 @@ export class ManageScoutModalComponent implements OnInit {
 
   // FUNCTIONALITIES
 
-  public async open(mode: PageModes): Promise<any> {
+  public async open(): Promise<any> {
     // this.resetForm();
     // this.mode = mode;
     // this.modal.open(this.content);
@@ -229,11 +231,16 @@ export class ManageScoutModalComponent implements OnInit {
       } as Scout;
 
       if (this.mode) {
-        let operation: Observable<boolean> | null = null;
         switch (this.mode) {
           case PageModes.Add:
             {
-              operation = this.scoutsService.addScout(newScout);
+              new ProgressModal(this.dialog)
+                .open(this.scoutsService.addScout(newScout), {
+                  failureMessage:
+                    'Nie udało się dodać harcerza. Sprawdź wszystkie dane.',
+                })
+                .afterClosed()
+                .subscribe((x) => this.dialogRef.close(x));
             }
             break;
           case PageModes.Edit:
@@ -241,24 +248,6 @@ export class ManageScoutModalComponent implements OnInit {
               // operation = this.scoutsService.editcout(newScout);
             }
             break;
-        }
-        if (operation) {
-          operation.subscribe({
-            next: (res) => {
-              this.result$.next({
-                show: true,
-                result: res,
-              });
-              hideWithTimeout(this.result$);
-            },
-            error: () => {
-              this.result$.next({
-                show: true,
-                result: false,
-              });
-              hideWithTimeout(this.result$);
-            },
-          });
         }
       }
     } else {
