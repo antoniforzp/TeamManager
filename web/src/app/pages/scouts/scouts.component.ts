@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ManageScoutModal } from 'src/app/modals/manage-scout-modal/ManageScoutModal';
 
@@ -135,6 +135,15 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
             b.rank + a.instructorRank,
             isAsc
           );
+        case 'function': {
+          let rolesA = '';
+          a.scoutRoles.forEach((x) => (rolesA = rolesA + x.name));
+
+          let rolesB = '';
+          b.scoutRoles.forEach((x) => (rolesB = rolesB + x.name));
+
+          return this.compare(rolesA, rolesB, isAsc);
+        }
         default:
           return 0;
       }
