@@ -1,6 +1,7 @@
 <mat-dialog-content>
     <div class="modal-header">
-        <h2 class="modal-title">Dodaj harcerza</h2>
+        <h2 *ngIf="mode === PageModes.Add" class="modal-title">Dodaj harcerza</h2>
+        <h2 *ngIf="mode === PageModes.Edit" class="modal-title">Edytuj harcerza</h2>
     </div>
     <div class="modal-body">
 
@@ -101,42 +102,6 @@
                     </div>
                 </div>
 
-                <!-- Role -->
-                <div class="row mb-2">
-                    <label for="roleInput" class="col-sm-3 col-form-label required">Funkcje w drużynie</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" matInput [matAutocomplete]="matRoles"
-                            formControlName="role"
-                            [ngClass]="{'is-invalid': scoutRoles$.value.length <= 0 && (role.touched || role.dirty)}">
-                        <mat-autocomplete #matRoles="matAutocomplete">
-                            <mat-option *ngFor="let option of availableRoles$ | async" [value]="option.name"
-                                (click)="addRole(option)">
-                                {{option.name}}
-                            </mat-option>
-                        </mat-autocomplete>
-
-                        <!-- (!) Role -->
-                        <div class="d-flex flex-column"
-                            *ngIf="scoutRoles$.value.length === 0  && (role.touched || role.dirty)">
-                            <span class="text-danger">
-                                Hacerz musi posiadać przynajmniej jedną rolę w drużynie
-                            </span>
-                        </div>
-
-                        <mat-list>
-                            <ng-container *ngFor="let role of scoutRoles$ | async">
-                                <mat-list-item>{{role.name}}
-                                    <button type="button" class="ml-2 close" aria-label="Close"
-                                        (click)="removeRole(role)">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </mat-list-item>
-                                <mat-divider></mat-divider>
-                            </ng-container>
-                        </mat-list>
-
-                    </div>
-                </div>
             </div>
 
             <div class="form-group mb-5">
@@ -256,6 +221,9 @@
 <mat-dialog-actions class="modal-footer d-flex flex-column align-content-end">
     <div>
         <button type="button" class="btn btn-light mr-2" (click)="close()">Zamknij</button>
-        <button type="button" class="btn btn-success" (click)="manageScout()">Dodaj</button>
+        <button *ngIf="mode === PageModes.Edit" type="button" class="btn btn-success"
+            (click)="manageScout()">Edytuj</button>
+        <button *ngIf="mode === PageModes.Add" type="button" class="btn btn-success"
+            (click)="manageScout()">Dodaj</button>
     </div>
 </mat-dialog-actions>

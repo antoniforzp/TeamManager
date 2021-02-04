@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 
-<main role="main" class="container mb-3">
+<main role="main" class="container">
     <h1 class="mt-5">Ewidencja harcerzy</h1>
 
     <div class="d-flex justify-content-between mb-2">
@@ -10,13 +10,14 @@
             <button class="btn btn-primary mr-2">Statystyki</button>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="setActions()">
                     Opcje
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Edytuj</a>
-                    <a class="dropdown-item" href="#">Usuń</a>
-                    <a class="dropdown-item" href="#">Exportuj csv</a>
+                    <ng-container *ngFor="let action of menuActions | keyvalue">
+                        <button class="dropdown-item cursor-pointer" [disabled]="!action.value.isEnabled"
+                            (click)="action.value.execute()">{{action.value.label}}</button>
+                    </ng-container>
                 </div>
             </div>
         </div>
@@ -24,17 +25,17 @@
 
     <!-- Page content -->
     <div>
-        <table class="table">
+        <table class="table" matSort (matSortChange)="sortData($event)">
             <thead>
                 <th class="active">
                     <input type="checkbox" class="select-all checkbox cursor-pointer" name="select-all"
                         (click)="toggleSelectAll()" [(ngModel)]="allSelected" />
                 </th>
-                <th>Imię</th>
-                <th>Nazwisko</th>
-                <th>Zastęp</th>
+                <th mat-sort-header="name">Imię</th>
+                <th mat-sort-header="surname">Nazwisko</th>
+                <th mat-sort-header="troop">Zastęp</th>
                 <th>Funkcja</th>
-                <th>Stopień</th>
+                <th mat-sort-header="rank">Stopień</th>
                 <th>&nbsp;</th>
             </thead>
             <tbody *ngIf="pageLoaded">
@@ -47,16 +48,16 @@
                         </td>
                         <td>
                             <span *ngIf="row.scoutInfo.name; else noData">
-                                {{row.scoutInfo.name}}
+                                {{row.name}}
                             </span>
                         </td>
                         <td>
                             <span *ngIf="row.scoutInfo.surname; else noData">
-                                {{row.scoutInfo.surname}}
+                                {{row.surname}}
                             </span>
                         </td>
                         <td *ngIf="row.scoutInfo.troop.name; else noData">
-                            <span>{{row.scoutInfo.troop.name}}</span>
+                            <span>{{row.troop}}</span>
                         </td>
                         <td>
                             <ng-container *ngIf="row.scoutRoles.length > 0; else noData">
@@ -69,7 +70,7 @@
                             <span *ngIf="row.scoutInfo.rank.name; else noData">
                                 <span *ngIf="row.scoutInfo.instructorRank?.abbreviation">
                                     {{row.scoutInfo.instructorRank?.abbreviation}}
-                                </span> {{row.scoutInfo.rank.name}}
+                                </span> {{row.rank}}
                             </span>
                         </td>
                         <td style="width: 110px;">

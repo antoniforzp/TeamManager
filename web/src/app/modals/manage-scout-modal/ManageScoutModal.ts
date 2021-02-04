@@ -8,12 +8,23 @@ import {
 export class ManageScoutModal {
   constructor(private dialog: MatDialog) {}
 
-  open(mode: PageModes): MatDialogRef<ManageScoutModalComponent> {
+  openAdd(): MatDialogRef<ManageScoutModalComponent> {
     return this.dialog.open(ManageScoutModalComponent, {
       width: '80%',
       disableClose: true,
       data: {
-        mode,
+        mode: PageModes.Add,
+      } as ManageScoutDialogData,
+    });
+  }
+
+  openEdit(scoutId: number): MatDialogRef<ManageScoutModalComponent> {
+    return this.dialog.open(ManageScoutModalComponent, {
+      width: '80%',
+      disableClose: true,
+      data: {
+        mode: PageModes.Edit,
+        scoutId
       } as ManageScoutDialogData,
     });
   }

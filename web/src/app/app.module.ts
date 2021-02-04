@@ -21,6 +21,9 @@ import {
 } from '@angular/material/dialog';
 import { MaterialModule } from './material/app-material.module';
 import { ProgressModalComponent } from './modals/common/progress-modal/progress-modal.component';
+import { ManageScoutsRolesModalComponent } from './modals/manage-scouts-roles-modal/manage-scouts-roles-modal.component';
+import { DeleteScoutModalComponent } from './modals/delete-scout-modal/delete-scout-modal.component';
+import { ExportCsvScoutsModalComponent } from './modals/export-csv-scouts-modal/export-csv-scouts-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +36,9 @@ import { ProgressModalComponent } from './modals/common/progress-modal/progress-
     ScoutsComponent,
     ManageScoutModalComponent,
     ProgressModalComponent,
+    ManageScoutsRolesModalComponent,
+    DeleteScoutModalComponent,
+    ExportCsvScoutsModalComponent,
   ],
   imports: [
     BrowserModule,

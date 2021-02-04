@@ -45,7 +45,7 @@ public class ScoutsController {
         ), HttpStatus.ACCEPTED);
     }
 
-    //PUT: add scout's role
+    //POST: add scout's role
     @CrossOrigin
     @PostMapping(value = "/add/role{scoutId}/{roleId}")
     public ResponseEntity<Boolean> addRole(@PathVariable int scoutId, @PathVariable int roleId) {
