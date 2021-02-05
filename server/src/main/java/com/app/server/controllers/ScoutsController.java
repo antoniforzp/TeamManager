@@ -59,6 +59,13 @@ public class ScoutsController {
         return new ResponseEntity<>(scoutsRepository.getAllByTeamId(appCore.getCurrentTeam().getTeamId()), HttpStatus.ACCEPTED);
     }
 
+    //GET: Get scout
+    @CrossOrigin
+    @GetMapping(value = "/{scoutId}")
+    public ResponseEntity<Scout> getScout(@PathVariable int scoutId) {
+        return new ResponseEntity<>(scoutsRepository.getById(scoutId), HttpStatus.ACCEPTED);
+    }
+
     //GET: Get all roles by scoutId
     @CrossOrigin
     @GetMapping(value = "/roles/list{scoutId}")

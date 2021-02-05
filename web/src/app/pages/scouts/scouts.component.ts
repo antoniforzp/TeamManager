@@ -4,6 +4,7 @@ import { Sort } from '@angular/material/sort';
 import { forkJoin, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ManageScoutModal } from 'src/app/modals/manage-scout-modal/ManageScoutModal';
+import { ManageScoutRolesModal } from 'src/app/modals/manage-scouts-roles-modal/ManageScoutRolesModal';
 
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
@@ -212,7 +213,19 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openEditRoles(): void {}
+  openEditRoles(): void {
+    const selected = this.scoutsRows.filter((x) => x.isSelected);
+    if (selected.length === 1) {
+      new ManageScoutRolesModal(this.dialog)
+        .open(selected[0].scoutInfo.scoutId)
+        .afterClosed()
+        .subscribe((x) => {
+          if (x === Result.Success) {
+            this.loadData();
+          }
+        });
+    }
+  }
 
   openDelete(): void {}
 

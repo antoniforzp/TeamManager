@@ -33,7 +33,7 @@ export class ScoutsService {
       'Content-Type': 'application/json',
     };
     return this.http.post<boolean>(
-      `http://localhost:8080/scots/add/role${scoutId}/${roleId}`,
+      `http://localhost:8080/scouts/add/role${scoutId}/${roleId}`,
       {
         headers: myHeaders,
       }
@@ -66,6 +66,16 @@ export class ScoutsService {
       'Content-Type': 'application/json',
     };
     return this.http.post<boolean>(this.addScoutUrl, JSON.stringify(newScout), {
+      headers: myHeaders,
+    });
+  }
+
+  getScout(scoutId: number): Observable<Scout> {
+    const myHeaders = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    return this.http.get<Scout>(`http://localhost:8080/scouts/${scoutId}`, {
       headers: myHeaders,
     });
   }

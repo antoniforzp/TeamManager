@@ -1,27 +1,16 @@
-import { ThrowStmt } from '@angular/compiler';
-import {
-  Component,
-  Inject,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { BehaviorSubject, forkJoin, Observable, of, Subject } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
 import { InstruktorRank } from 'src/app/model/InstructorRank';
 import { Rank } from 'src/app/model/Rank';
-import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
 import { Troop } from 'src/app/model/Troop';
 import { RanksService } from 'src/app/services/ranks.service';
-import { RolesService } from 'src/app/services/roles.service';
 import { ScoutsService } from 'src/app/services/scouts.service';
 import { TroopsService } from 'src/app/services/troops.service';
 import { PageModes } from 'src/app/utils/PageModes';
@@ -244,7 +233,7 @@ export class ManageScoutModalComponent implements OnInit {
   }
 
   public async close(): Promise<any> {
-    this.dialogRef.close('Pizza!');
+    this.dialogRef.close();
   }
 
   // FORMS
