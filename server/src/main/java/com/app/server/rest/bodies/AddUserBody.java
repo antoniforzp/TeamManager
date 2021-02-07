@@ -1,6 +1,7 @@
 package com.app.server.rest.bodies;
 
 import com.app.server.rest.Body;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class AddUserBody implements Body {
 
@@ -9,6 +10,7 @@ public class AddUserBody implements Body {
     private final String password;
     private final String email;
 
+    @JsonCreator
     public AddUserBody(String name, String surname, String password, String email) {
         this.name = name;
         this.surname = surname;

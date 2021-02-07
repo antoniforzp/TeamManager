@@ -1,23 +1,18 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Troop } from '../model/Troop';
+import { REST, RestService } from '../web/rest.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TroopsService {
-  private getTroopsUrl = 'http://localhost:8080/troops/list';
-
-  constructor(private http: HttpClient) {}
+  constructor(private rest: RestService) {}
 
   getTroops(): Observable<Troop[]> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<Troop[]>(this.getTroopsUrl, {
-      headers: myHeaders,
+    return this.rest.resolve<Troop[]>({
+      method: REST.DELETE,
+      url: `/troops`,
     });
   }
 }

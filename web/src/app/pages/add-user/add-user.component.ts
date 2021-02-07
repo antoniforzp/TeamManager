@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
 import { UserService } from 'src/app/services/user.service';
-import { hideWithTimeout, Result, ResultOld } from 'src/app/utils/Result';
+import { ResultOld } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 
 @Component({
@@ -35,7 +37,11 @@ export class AddUserComponent implements OnInit {
     passwordRepeat: ['', Validators.compose([Validators.required])],
   });
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private dialog: MatDialog
+  ) {
     this.addUserForm.setValidators(
       CustomValidators.passwordMatchValidator(
         this.password,
@@ -49,48 +55,26 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  fillTestingData(): void {
-    this.addUserForm.patchValue({
-      userName: 'Jan',
-      userSurname: 'Kowalski',
-      userEmail: 'jan@kowalski.com',
-      password: 'Password1',
-      passwordRepeat: 'Password1',
-      teamName: '1 Drużyna Harcerzy "Test"',
-      teamPatron: 'im. Szarych Szeregów',
-    });
-  }
-
   onSubmit(): void {
     this.userService
-      .checkEmail(this.userEmail.value)
+      .checkUser(this.userEmail.value)
       .pipe(tap((mailExists) => (this.mailExists = mailExists)))
       .subscribe((mailExists) => {
         if (!mailExists) {
-          this.userService
-            .addUser({
-              userId: -1,
-              name: this.userName.value,
-              surname: this.userSurname.value,
-              password: this.password.value,
-              email: this.userEmail.value,
-            })
-            .subscribe({
-              next: (res) => {
-                this.result$.next({
-                  show: true,
-                  result: res,
-                });
-                hideWithTimeout(this.result$);
-              },
-              error: () => {
-                this.result$.next({
-                  show: true,
-                  result: false,
-                });
-                hideWithTimeout(this.result$);
-              },
-            });
+          new ProgressModal(this.dialog).open(
+            this.userService.addUser(
+              this.userName.value,
+              this.userSurname.value,
+              this.password.value,
+              this.userEmail.value
+            ),
+            {
+              successMessage:
+                'Udało się stworzyć konto. Zaloguj się do aplikacji.',
+              failureMessage:
+                'Nie udało się zaktualizować dane harcerza. Sprawdź wszystkie dane.',
+            }
+          );
         }
       });
   }

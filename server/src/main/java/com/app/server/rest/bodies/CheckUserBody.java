@@ -1,16 +1,19 @@
 package com.app.server.rest.bodies;
 
 import com.app.server.rest.Body;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CheckUserBody implements Body {
 
-    private final String email;
+    private final String userEmail;
 
-    public CheckUserBody(String email) {
-        this.email = email;
+    @JsonCreator
+    public CheckUserBody(@JsonProperty String userEmail) {
+        this.userEmail = userEmail;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserEmail() {
+        return userEmail;
     }
 }

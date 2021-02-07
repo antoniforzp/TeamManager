@@ -1,96 +1,122 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Scout } from 'src/app/model/Scout';
 import { Role } from '../model/Role';
+import { REST, RestService } from '../web/rest.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ScoutsService {
-  private getScoutsUrl = 'http://localhost:8080/scouts/list';
-  private getRolesScoutUrl = 'http://localhost:8080/scouts/roles/list';
-  private getRolesAllUrl = 'http://localhost:8080/scouts/roles/list/all';
-  private addScoutUrl = 'http://localhost:8080/scouts/add';
-  private editScoutUrl = 'http://localhost:8080/scouts/edit';
-  // private addScoutRole = 'http://localhost:8080/scots/add/role';
-
-  constructor(private http: HttpClient) {}
+  constructor(private rest: RestService) {}
 
   getScouts(): Observable<Scout[]> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<Scout[]>(this.getScoutsUrl, {
-      headers: myHeaders,
+    return this.rest.resolve<Scout[]>({
+      method: REST.GET,
+      url: `/scouts`,
     });
   }
 
   addRole(scoutId: number, roleId: number): Observable<boolean> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.post<boolean>(
-      `http://localhost:8080/scouts/add/role${scoutId}/${roleId}`,
-      {
-        headers: myHeaders,
-      }
-    );
+    return this.rest.resolve<boolean>({
+      method: REST.POST,
+      url: `/scouts${scoutId}/roles${roleId}`,
+    });
+  }
+
+  addRoles(scoutId: number, rolesIds: number[]): Observable<boolean> {
+    return this.rest.resolve<boolean>({
+      method: REST.POST,
+      url: `/scouts${scoutId}/roles`,
+      body: {
+        rolesIds,
+      },
+    });
   }
 
   getRoles(scoutId: number): Observable<Role[]> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<Role[]>(this.getRolesScoutUrl + scoutId, {
-      headers: myHeaders,
+    return this.rest.resolve<Role[]>({
+      method: REST.GET,
+      url: `/scouts${scoutId}/roles`,
     });
   }
 
   getAllRoles(): Observable<Role[]> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<Role[]>(this.getRolesAllUrl, {
-      headers: myHeaders,
+    return this.rest.resolve<Role[]>({
+      method: REST.GET,
+      url: `/scouts/roles`,
     });
   }
 
-  addScout(newScout: Scout): Observable<boolean> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.post<boolean>(this.addScoutUrl, JSON.stringify(newScout), {
-      headers: myHeaders,
+  addScout(
+    name: string,
+    surname: string,
+    pesel: string,
+    birthDate: Date,
+    address: string,
+    postalCode: string,
+    city: string,
+    phone: string,
+    troopId: number,
+    rankId: number,
+    instructorRank: number
+  ): Observable<boolean> {
+    return this.rest.resolve<boolean>({
+      method: REST.POST,
+      url: `/scouts/add`,
+      body: {
+        name,
+        surname,
+        pesel,
+        birthDate,
+        address,
+        postalCode,
+        city,
+        phone,
+        troopId,
+        rankId,
+        instructorRank,
+      },
     });
   }
 
   getScout(scoutId: number): Observable<Scout> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<Scout>(`http://localhost:8080/scouts/${scoutId}`, {
-      headers: myHeaders,
+    return this.rest.resolve<Scout>({
+      method: REST.GET,
+      url: `/scouts${scoutId}`,
     });
   }
 
-  editScout(scoutId: number, newScout: Scout): Observable<boolean> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.post<boolean>(
-      this.editScoutUrl + scoutId,
-      JSON.stringify(newScout),
-      {
-        headers: myHeaders,
-      }
-    );
+  patchScout(
+    scoutId: number,
+    name: string,
+    surname: string,
+    pesel: string,
+    birthDate: Date,
+    address: string,
+    postalCode: string,
+    city: string,
+    phone: string,
+    troopId: number,
+    rankId: number,
+    instructorRank: number
+  ): Observable<boolean> {
+    return this.rest.resolve<boolean>({
+      method: REST.PATCH,
+      url: `/scouts${scoutId}`,
+      body: {
+        name,
+        surname,
+        pesel,
+        birthDate,
+        address,
+        postalCode,
+        city,
+        phone,
+        troopId,
+        rankId,
+        instructorRank,
+      },
+    });
   }
 }

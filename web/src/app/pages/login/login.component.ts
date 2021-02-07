@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 import { LoginService } from '../../services/login.service';
 
 @Component({
@@ -16,8 +17,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private login: LoginService,
-    private router: Router
+    private router: Router,
+    private loginService: LoginService
   ) {}
 
   get email(): string {
@@ -31,11 +32,13 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
-    this.login.login(this.email, this.password).subscribe((x) => {
-      this.loginResult = x;
-      if (x) {
-        this.router.navigateByUrl('/home');
-      }
-    });
+    this.loginService
+      .login(this.email, this.password)
+      .pipe(tap((x) => (this.loginResult = x)))
+      .subscribe((x) => {
+        if (x) {
+          this.router.navigateByUrl('/home');
+        }
+      });
   }
 }

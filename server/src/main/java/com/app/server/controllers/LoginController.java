@@ -28,14 +28,17 @@ public class LoginController {
 
     @CrossOrigin
     @PostMapping(value = "/login")
-    public ResponseEntity<Response<Boolean>> login(@RequestBody UserCredentialsBody credentials) {
-        boolean check = usersRepository.checkCredentials(credentials.getEmail(), credentials.getPassword());
+    public ResponseEntity<Response<Boolean>> login(@RequestBody UserCredentialsBody body) {
+
+        System.out.println("BODY: " + body);
+
+        boolean check = usersRepository.checkCredentials(body.getEmail(), body.getPassword());
 
         //Setup core data
         if (check) {
             User loggedUser = usersRepository.getByCredentials(
-                    credentials.getEmail(),
-                    credentials.getPassword());
+                    body.getEmail(),
+                    body.getPassword());
             appCore.setCurrentUser(loggedUser);
 
             //Assign first of assigned teams of users
@@ -46,8 +49,7 @@ public class LoginController {
         }
 
         return new ResponseEntity<>(new Response<>(
-                check,
-                appCore.getCurrentUser().getUserId()),
+                check),
                 HttpStatus.ACCEPTED);
     }
 }

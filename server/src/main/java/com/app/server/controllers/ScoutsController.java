@@ -50,7 +50,7 @@ public class ScoutsController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/scouts/add{scoutId}/roles{roleId}")
+    @PostMapping(value = "/scouts{scoutId}/roles{roleId}")
     public ResponseEntity<Response<Boolean>> addRole(@PathVariable int scoutId, @PathVariable int roleId) {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
@@ -60,7 +60,7 @@ public class ScoutsController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/scouts/add{scoutId}/roles")
+    @PostMapping(value = "/scouts{scoutId}/roles")
     public ResponseEntity<Response<Boolean>> addRoles(@PathVariable int scoutId, @RequestBody AddScoutRolesBody body) {
         appCore.checkCoreInit();
 

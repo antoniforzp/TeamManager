@@ -26,10 +26,9 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping(value = "/users/check")
-    public ResponseEntity<Response<Boolean>> addUser(@RequestBody CheckUserBody body) {
+    public ResponseEntity<Response<Boolean>> checkUser(@RequestBody CheckUserBody body) {
         return new ResponseEntity<>(new Response<>(
-                repository.checkIfExists(body.getEmail()),
-                appCore.getCurrentUser().getUserId()),
+                repository.checkIfExists(body.getUserEmail())),
                 HttpStatus.ACCEPTED);
     }
 
@@ -40,8 +39,7 @@ public class UserController {
                 repository.add(body.getName(),
                         body.getSurname(),
                         body.getPassword(),
-                        body.getEmail()),
-                appCore.getCurrentUser().getUserId()),
+                        body.getEmail())),
                 HttpStatus.ACCEPTED);
     }
 
@@ -59,8 +57,7 @@ public class UserController {
         }
 
         return new ResponseEntity<>(new Response<>(
-                check,
-                appCore.getCurrentUser().getUserId()),
+                check),
                 HttpStatus.ACCEPTED);
     }
 
@@ -68,8 +65,7 @@ public class UserController {
     @DeleteMapping(value = "/users{userId}")
     public ResponseEntity<Response<Boolean>> updateUser(@PathVariable int userId) {
         return new ResponseEntity<>(new Response<>(
-                repository.deleteById(userId),
-                appCore.getCurrentUser().getUserId()),
+                repository.deleteById(userId)),
                 HttpStatus.ACCEPTED);
     }
 }

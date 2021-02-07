@@ -83,13 +83,13 @@ export class EditUserComponent implements OnInit {
     this.editUserDataForm.markAllAsTouched();
     this.coreService.getCurrentUser().subscribe((x) =>
       this.userService
-        .editUserData({
-          userId: x.userId,
-          name: this.userName.value,
-          surname: this.userSurname.value,
-          password: x.password,
-          email: this.userEmail.value,
-        })
+        .editUserData(
+          x.userId,
+          this.userName.value,
+          this.userSurname.value,
+          x.password,
+          this.userEmail.value
+        )
         .subscribe({
           next: (res) => {
             this.editUserResult$.next({
@@ -123,13 +123,13 @@ export class EditUserComponent implements OnInit {
         if (!this.wrongUserPassword) {
           this.coreService.getCurrentUser().subscribe((x) => {
             this.userService
-              .editUserData({
-                userId: x.userId,
-                name: x.name,
-                surname: x.surname,
-                password: this.passwordNew.value,
-                email: x.email,
-              })
+              .editUserData(
+                x.userId,
+                x.name,
+                x.surname,
+                this.passwordNew.value,
+                x.email
+              )
               .subscribe({
                 next: (res) => {
                   this.editPasswordResult$.next({

@@ -46,8 +46,8 @@
                         (click)="deleteTeam(teamArray.teamId, teamArray.result$)">Usuń</button>
                 </div>
                 <div class="d-flex flex-column" *ngIf="teamArray.result$ | async as result">
-                    <small class="alert-success" *ngIf="result.result && result.show">Dane zaktualizowane</small>
-                    <small class="alert-danger" *ngIf="!result.result && result.show">Błąd</small>
+                    <!-- <small class="alert-success" *ngIf="result.result && result.show">Dane zaktualizowane</small>
+                    <small class="alert-danger" *ngIf="!result.result && result.show">Błąd</small> -->
                 </div>
             </form>
         </div>

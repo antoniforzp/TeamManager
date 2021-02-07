@@ -1,23 +1,18 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Role } from '../model/Role';
+import { REST, RestService } from '../web/rest.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RolesService {
-  private getRolesUrl = 'http://localhost:8080/roles/list';
-
-  constructor(private http: HttpClient) {}
+  constructor(private rest: RestService) {}
 
   getRoles(): Observable<Role[]> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<Role[]>(this.getRolesUrl, {
-      headers: myHeaders,
+    return this.rest.resolve<Role[]>({
+      method: REST.GET,
+      url: `/roles`,
     });
   }
 }

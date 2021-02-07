@@ -1,20 +1,21 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Team } from 'src/app/model/Team';
+import { REST, RestService } from 'src/app/web/rest.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MenuService {
-  userTeamsUrl = 'http://localhost:8080/teams/count';
-
-  constructor(private http: HttpClient) {}
+  constructor(private rest: RestService) {}
 
   getCurrentUserTeamsNo(): Observable<number> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<number>(this.userTeamsUrl, { headers: myHeaders });
+    return this.rest
+      .resolve<Team[]>({
+        method: REST.GET,
+        url: `/teams`,
+      })
+      .pipe(map((x) => x.length));
   }
 }

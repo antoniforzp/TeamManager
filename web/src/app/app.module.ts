@@ -24,6 +24,7 @@ import { ProgressModalComponent } from './modals/common/progress-modal/progress-
 import { ManageScoutsRolesModalComponent } from './modals/manage-scouts-roles-modal/manage-scouts-roles-modal.component';
 import { DeleteScoutModalComponent } from './modals/delete-scout-modal/delete-scout-modal.component';
 import { ExportCsvScoutsModalComponent } from './modals/export-csv-scouts-modal/export-csv-scouts-modal.component';
+import { FooterComponent } from './global/footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +40,7 @@ import { ExportCsvScoutsModalComponent } from './modals/export-csv-scouts-modal/
     ManageScoutsRolesModalComponent,
     DeleteScoutModalComponent,
     ExportCsvScoutsModalComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

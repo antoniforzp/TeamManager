@@ -54,23 +54,17 @@ export class TeamsComponent implements OnInit {
   }
 
   addTeam(): void {
-    this.teamsService
-      .addTeam({
-        teamId: -1,
-        name: this.name.value,
-        patron: this.patron.value,
-      })
-      .subscribe({
-        next: (res) => {
-          this.addResult$.next({ show: true, result: res });
-          hideWithTimeout(this.addResult$);
-          this.refreshPage();
-        },
-        error: () => {
-          this.addResult$.next({ show: true, result: false });
-          hideWithTimeout(this.addResult$);
-        },
-      });
+    this.teamsService.addTeam(this.name.value, this.patron.value).subscribe({
+      next: (res) => {
+        this.addResult$.next({ show: true, result: res });
+        hideWithTimeout(this.addResult$);
+        this.refreshPage();
+      },
+      error: () => {
+        this.addResult$.next({ show: true, result: false });
+        hideWithTimeout(this.addResult$);
+      },
+    });
   }
 
   editTeam(
@@ -79,18 +73,16 @@ export class TeamsComponent implements OnInit {
     teamPatron: string,
     result: Subject<ResultOld>
   ): void {
-    this.teamsService
-      .editTeam(teamId, { teamId: -1, name: teamName, patron: teamPatron })
-      .subscribe({
-        next: (res) => {
-          result.next({ show: true, result: res });
-          hideWithTimeout(result);
-        },
-        error: () => {
-          result.next({ show: true, result: false });
-          hideWithTimeout(result);
-        },
-      });
+    this.teamsService.patchTeam(teamId, teamName, teamPatron).subscribe({
+      next: (res) => {
+        result.next({ show: true, result: res });
+        hideWithTimeout(result);
+      },
+      error: () => {
+        result.next({ show: true, result: false });
+        hideWithTimeout(result);
+      },
+    });
   }
 
   deleteTeam(teamId: number, result: Subject<ResultOld>): void {

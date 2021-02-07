@@ -1,5 +1,5 @@
-<main role="main" class="container mb-3">
-    <h1 class="mt-5">Dodaj użytkownika</h1>
+<div class="container my-container">
+    <h1>Dodaj drużynowego</h1>
     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut ipsum eleifend, lacinia elit
         non, pharetra justo.</p>
 
@@ -46,8 +46,34 @@
                     zgadzają</small>
             </div>
         </div>
-        <div>
-            <button class="btn btn-primary btn-block" type="submit" (click)="onSubmit()"
+
+        <div class="form-group">
+            <h5>Dane logowania</h5>
+            <input type="password" class="form-control mt-2" placeholder="Hasło" formControlName="password">
+            <div class="d-flex flex-column" *ngIf="password.invalid && (password.dirty || password.touched)">
+                <small class="alert-danger" *ngIf="password.errors?.required">Pole wymagane</small>
+                <small class="alert-danger" *ngIf="password.errors?.hasNumber">Hasło musi posiadać co najmniej jedną
+                    cyfrę</small>
+                <small class="alert-danger" *ngIf="password.errors?.hasCapitalCase">Hasło musi posiadać co najmniej
+                    jedną wielką literę</small>
+                <small class="alert-danger" *ngIf="password.errors?.hasSmallCase">Hasło musi posiadać co najmniej
+                    jedną małą literę</small>
+                <small class="alert-danger" *ngIf="password.errors?.minLength">Hasło musi posiadać co najmniej 8
+                    cyfr</small>
+            </div>
+
+            <input type="password" class="form-control mt-2" placeholder="Powtórz hasło"
+                formControlName="passwordRepeat">
+            <div class="d-flex flex-column"
+                *ngIf="(passwordRepeat.invalid || addUserForm.invalid) && (passwordRepeat.dirty || passwordRepeat.touched)">
+                <small class="alert-danger" *ngIf="passwordRepeat.errors?.required">Pole wymagane</small>
+                <small class="alert-danger" *ngIf="addUserForm.errors?.passwordDifferent">Hasła się nie
+                    zgadzają</small>
+            </div>
+        </div>
+
+        <div class="button-bottom-bar">
+            <button type="button" class="btn btn-primary" type="submit" (click)="onSubmit()"
                 [disabled]="!addUserForm.valid">Dodaj</button>
             <div class="d-flex flex-column">
                 <small *ngIf="mailExists" class="alert-danger">Podany adres emial już istnieje w naszej bazie
@@ -57,7 +83,8 @@
                 <small class="alert-success" *ngIf="result.result && result.show">Użytkownik dodany</small>
                 <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
             </div>
-            <button class="btn btn-secondary btn-block mt-2" routerLink="/login">Powrót</button>
+            <button type="button" class="btn btn-secondary" routerLink="/login">Powrót</button>
         </div>
     </form>
-</main>
+</div>
+<app-footer></app-footer>

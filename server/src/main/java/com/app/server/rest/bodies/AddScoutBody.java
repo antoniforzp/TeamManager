@@ -1,6 +1,8 @@
 package com.app.server.rest.bodies;
 
 import com.app.server.rest.Body;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 
@@ -19,7 +21,18 @@ public class AddScoutBody implements Body {
     private final int rankId;
     private final int instructorRankId;
 
-    public AddScoutBody(String name, String surname, String pesel, Date birthDate, String address, String postalCode, String city, String phone, int troopId, int rankId, int instructorRankId) {
+    @JsonCreator
+    public AddScoutBody(@JsonProperty String name,
+                        @JsonProperty String surname,
+                        @JsonProperty String pesel,
+                        @JsonProperty Date birthDate,
+                        @JsonProperty String address,
+                        @JsonProperty String postalCode,
+                        @JsonProperty String city,
+                        @JsonProperty String phone,
+                        @JsonProperty int troopId,
+                        @JsonProperty int rankId,
+                        @JsonProperty int instructorRankId) {
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;

@@ -1,61 +1,40 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
+import { REST, RestService } from '../web/rest.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoreService {
-  private currentUserUrl = 'http://localhost:8080/core/user';
-  private currentTeamUrl = 'http://localhost:8080/core/team';
-  private userTeamsNoUrl = 'http://localhost:8080/teams/count';
-  private userTeamsUrl = 'http://localhost:8080/teams/list';
-  private setCurrentTeamUrl = 'http://localhost:8080/core/team';
-
-  constructor(private http: HttpClient) {}
+  constructor(private rest: RestService) {}
 
   getCurrentUser(): Observable<User> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<User>(this.currentUserUrl, { headers: myHeaders });
+    return this.rest.resolve<User>({
+      method: REST.GET,
+      url: `/core/user`,
+    });
   }
 
   getCurrentTeam(): Observable<Team> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-
-    return this.http.get<Team>(this.currentTeamUrl, { headers: myHeaders });
-  }
-
-  getCurrentUserTeamsNo(): Observable<number> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<number>(this.userTeamsNoUrl, { headers: myHeaders });
+    return this.rest.resolve<Team>({
+      method: REST.GET,
+      url: `/core/team`,
+    });
   }
 
   getCurrentUserTeams(): Observable<Team[]> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<Team[]>(this.userTeamsUrl, { headers: myHeaders });
+    return this.rest.resolve<Team[]>({
+      method: REST.GET,
+      url: `/teams`,
+    });
   }
 
-  setCurrentTeam(newTeam: Team): Observable<boolean> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.post<boolean>(this.setCurrentTeamUrl + newTeam.teamId, {
-      headers: myHeaders,
+  setCurrentTeam(teamId: number): Observable<boolean> {
+    return this.rest.resolve<boolean>({
+      method: REST.POST,
+      url: `/core/team${teamId}`,
     });
   }
 }

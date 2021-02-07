@@ -1,36 +1,26 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { InstruktorRank } from '../model/InstructorRank';
 import { Rank } from '../model/Rank';
+import { REST, RestService } from '../web/rest.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RanksService {
-  private getRanksUrl = 'http://localhost:8080/ranks/ranks/list';
-  private getInstruktorRanksUrl =
-    'http://localhost:8080/ranks/instructors/list';
-
-  constructor(private http: HttpClient) {}
+  constructor(private rest: RestService) {}
 
   getRanks(): Observable<Rank[]> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<Rank[]>(this.getRanksUrl, {
-      headers: myHeaders,
+    return this.rest.resolve<Rank[]>({
+      method: REST.GET,
+      url: `/ranks`,
     });
   }
 
   getInstructorRanks(): Observable<InstruktorRank[]> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<InstruktorRank[]>(this.getInstruktorRanksUrl, {
-      headers: myHeaders,
+    return this.rest.resolve<InstruktorRank[]>({
+      method: REST.GET,
+      url: `/iranks`,
     });
   }
 }

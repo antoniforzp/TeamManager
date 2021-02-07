@@ -1,56 +1,47 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Team } from 'src/app/model/Team';
+import { REST, RestService } from '../web/rest.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TeamsService {
-  private getTeamsUrl = 'http://localhost:8080/teams/list';
-  private addTeamUrl = 'http://localhost:8080/teams/add';
-  private editTeamsUrl = 'http://localhost:8080/teams/edit';
-  private deleteTeamUrl = 'http://localhost:8080/teams/remove';
+  constructor(private rest: RestService) {}
 
-  constructor(private http: HttpClient) {}
-
-  editTeam(teamId: number, newTeam: Team): Observable<any> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.post(this.editTeamsUrl + teamId, JSON.stringify(newTeam), {
-      headers: myHeaders,
-    });
-  }
-
-  deleteTeam(teamId: number): Observable<any> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.delete(this.deleteTeamUrl + teamId, {
-      headers: myHeaders,
-    });
-  }
-
-  addTeam(newTeam: Team): Observable<any> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.put(this.addTeamUrl, JSON.stringify(newTeam), {
-      headers: myHeaders,
+  addTeam(name: string, patron: string): Observable<any> {
+    return this.rest.resolve<boolean>({
+      method: REST.POST,
+      url: `/teams`,
+      body: {
+        name,
+        patron,
+      },
     });
   }
 
   getUserTeams(): Observable<Team[]> {
-    const myHeaders = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    };
-    return this.http.get<Team[]>(this.getTeamsUrl, {
-      headers: myHeaders,
+    return this.rest.resolve<Team[]>({
+      method: REST.POST,
+      url: `/teams`,
+    });
+  }
+
+  patchTeam(teamId: number, name: string, patron: string): Observable<any> {
+    return this.rest.resolve<boolean>({
+      method: REST.POST,
+      url: `/teams${teamId}`,
+      body: {
+        name,
+        patron,
+      },
+    });
+  }
+
+  deleteTeam(teamId: number): Observable<any> {
+    return this.rest.resolve<boolean>({
+      method: REST.DELETE,
+      url: `/teams${teamId}`,
     });
   }
 }

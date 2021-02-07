@@ -33,7 +33,7 @@ class UsersRepositoryManager implements UsersRepository {
     public boolean checkIfExists(String email) {
         try {
             String QUERY = "SELECT * FROM USERS WHERE email = ?";
-            return jdbcTemplate.queryForObject(QUERY, new UserRowMapper(), email) != null;
+            return !jdbcTemplate.query(QUERY, new UserRowMapper(), email).isEmpty();
 
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);

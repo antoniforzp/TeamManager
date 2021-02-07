@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   setCurrentTeam(newTeam: Team): void {
-    this.coreService.setCurrentTeam(newTeam).subscribe({
+    this.coreService.setCurrentTeam(newTeam.teamId).subscribe({
       next: (x) => {
         if (x) {
           this.currentTeam$.next(newTeam);

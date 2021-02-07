@@ -87,8 +87,7 @@
                             formControlName="troop"
                             [ngClass]="{'is-invalid': troop.invalid && (troop.touched || troop.dirty)}">
                         <mat-autocomplete #matTroops="matAutocomplete">
-                            <mat-option *ngFor="let option of allTroops$ | async" [value]="option.name"
-                                (click)="addTroop(option)">
+                            <mat-option *ngFor="let option of allTroops$ | async" [value]="option.name">
                                 {{option.name}}
                             </mat-option>
                         </mat-autocomplete>
@@ -115,8 +114,7 @@
                             formControlName="rank"
                             [ngClass]="{'is-invalid': rank.invalid && (rank.touched || rank.dirty)}">
                         <mat-autocomplete #matRanks="matAutocomplete">
-                            <mat-option *ngFor="let option of allRanks$ | async" [value]="option.name"
-                                (click)="addRank(option)">
+                            <mat-option *ngFor="let option of allRanks$ | async" [value]="option.name">
                                 {{option.name}}
                             </mat-option>
                         </mat-autocomplete>
@@ -139,8 +137,7 @@
                             [matAutocomplete]="matInstructorRanks" formControlName="instructorRank"
                             [ngClass]="{'is-invalid': rank.invalid && (instructorRank.touched || instructorRank.dirty)}">
                         <mat-autocomplete #matInstructorRanks="matAutocomplete">
-                            <mat-option *ngFor="let option of allInstructorRanks$ | async" [value]="option.name"
-                                (click)="addInstructorRank(option)">
+                            <mat-option *ngFor="let option of allInstructorRanks$ | async" [value]="option.name">
                                 {{option.name}}
                             </mat-option>
                         </mat-autocomplete>

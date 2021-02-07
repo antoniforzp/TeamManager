@@ -1,7 +1,6 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -20,13 +19,15 @@ $web-warn: mat-palette($mat-red);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$web-theme: mat-light-theme((
-  color: (
-    primary: $web-primary,
-    accent: $web-accent,
-    warn: $web-warn,
+$web-theme: mat-light-theme(
+  (
+    color: (
+      primary: $web-primary,
+      accent: $web-accent,
+      warn: $web-warn,
+    ),
   )
-));
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -34,40 +35,61 @@ $web-theme: mat-light-theme((
 @include angular-material-theme($web-theme);
 
 .cursor-pointer {
-    cursor: pointer;
-  }
-  
-  .no-outline {
-    outline: none;
-  }
-  
-  .required:after {
-    content: "*";
-    color: red;
-  }
-  
-  .my-row:hover {
-    background-color: rgb(230, 227, 227);
-  }
-  
-  .my-row-selected {
-    background-color: rgb(173, 214, 255);
-  }
-  
-  .my-row-selected:hover {
-    background-color: rgb(106, 178, 250);
-  }
-  
-  .dark-modal .modal-content {
-    background-color: #292b2c;
-    color: white;
-  }
-  .dark-modal .close {
-    color: white;
-  }
-  .light-blue-backdrop {
-    background-color: #5cb3fd;
-  }
+  cursor: pointer;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.no-outline {
+  outline: none;
+}
+
+.required:after {
+  content: "*";
+  color: red;
+}
+
+.my-row:hover {
+  background-color: rgb(230, 227, 227);
+}
+
+.my-row-selected {
+  background-color: rgb(173, 214, 255);
+}
+
+.my-row-selected:hover {
+  background-color: rgb(106, 178, 250);
+}
+
+.dark-modal .modal-content {
+  background-color: #292b2c;
+  color: white;
+}
+.dark-modal .close {
+  color: white;
+}
+.light-blue-backdrop {
+  background-color: #5cb3fd;
+}
+
+.my-container {
+  min-height: 90vh;
+  padding-top: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+
+  position: relative;
+}
+
+.my-app-container {
+  background-color: antiquewhite;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

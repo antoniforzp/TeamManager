@@ -50,11 +50,6 @@ export class ManageScoutModalComponent implements OnInit {
     instructorRank: ['', Validators.required],
   });
 
-  // Additional data holders (controlForm holds only a string)
-  troopData!: Troop | undefined;
-  rankData!: Rank | undefined;
-  instructorRankData!: InstruktorRank | undefined;
-
   allTroops$ = new BehaviorSubject<Troop[]>([]);
   allRanks$ = new BehaviorSubject<Rank[]>([]);
   allInstructorRanks$ = new BehaviorSubject<InstruktorRank[]>([]);
@@ -93,14 +88,8 @@ export class ManageScoutModalComponent implements OnInit {
       instructorRanks: this.ranksService.getInstructorRanks(),
       scouts: this.scoutsService.getScouts(),
     }).subscribe((x) => {
-      //
-      // Load troops
       this.allTroops$.next(x.troops);
-
-      // Load ranks
       this.allRanks$.next(x.ranks);
-
-      // Load instructor ranks
       this.allInstructorRanks$.next(x.instructorRanks);
 
       const scout = x.scouts.find((s) => s.scoutId === this.scoutId);
@@ -117,9 +106,6 @@ export class ManageScoutModalComponent implements OnInit {
   resetForm(): void {
     this.form.reset();
     this.pageLoaded = false;
-    this.troopData = undefined;
-    this.rankData = undefined;
-    this.instructorRankData = undefined;
   }
 
   patchScoutData(scout: Scout): void {
@@ -137,45 +123,6 @@ export class ManageScoutModalComponent implements OnInit {
       rank: scout.rank.name,
       instructorRank: scout.instructorRank?.name,
     });
-
-    this.troopData = scout.troop;
-    this.rankData = scout.rank;
-    this.instructorRankData = scout.instructorRank;
-  }
-
-  // TROOPS
-
-  addTroop(troop: Troop): void {
-    this.troopData = troop;
-  }
-
-  clearTroop(): void {
-    this.troop.setValue(undefined);
-    this.troopData = undefined;
-  }
-
-  // RANK
-
-  addRank(rank: Rank): void {
-    this.rank.setValue(rank.name);
-    this.rankData = rank;
-  }
-
-  removeRank(): void {
-    this.rank.setValue(undefined);
-    this.rankData = undefined;
-  }
-
-  // INSTRUCTOR RANK
-
-  addInstructorRank(rank: InstruktorRank): void {
-    this.instructorRank.setValue(rank.name);
-    this.instructorRankData = rank;
-  }
-
-  removeInstructorRank(): void {
-    this.instructorRank.setValue(undefined);
-    this.instructorRankData = undefined;
   }
 
   // FUNCTIONALITIES
@@ -187,28 +134,43 @@ export class ManageScoutModalComponent implements OnInit {
         name: this.name.value,
         surname: this.surname.value,
         pesel: this.pesel.value,
-        birthDate: this.birthDate.value
-          ? new Date(this.birthDate.value)
-          : undefined,
+        birthDate: new Date(this.birthDate.value),
         address: this.address.value,
         postalCode: this.postalCode.value,
         city: this.city.value,
         phone: this.contact.value,
-
-        troop: this.troopData,
-        rank: this.rankData,
-        instructorRank: this.instructorRankData,
-      } as Scout;
+        troopId: this.troop.troopId,
+        rankId: this.rank.rankId,
+        instructorRankId: this.instructorRank.rankId,
+      };
 
       if (this.mode) {
         switch (this.mode) {
           case PageModes.Add:
             {
               new ProgressModal(this.dialog)
-                .open(this.scoutsService.addScout(newScout), {
-                  failureMessage:
-                    'Nie udało się dodać harcerza. Sprawdź wszystkie dane.',
-                })
+                .open(
+                  this.scoutsService.addScout(
+                    newScout.name,
+                    newScout.surname,
+                    newScout.pesel,
+                    newScout.birthDate,
+                    newScout.address,
+                    newScout.postalCode,
+                    newScout.city,
+                    newScout.phone,
+                    0,
+                    0,
+                    0
+                  ),
+                  // newScout.troopId,
+                  // newScout.rankId,
+                  // newScout.instructorRankId
+                  {
+                    failureMessage:
+                      'Nie udało się dodać harcerza. Sprawdź wszystkie dane.',
+                  }
+                )
                 .afterClosed()
                 .subscribe((x) => this.dialogRef.close(x));
             }
@@ -216,10 +178,29 @@ export class ManageScoutModalComponent implements OnInit {
           case PageModes.Edit:
             {
               new ProgressModal(this.dialog)
-                .open(this.scoutsService.editScout(this.scoutId, newScout), {
-                  failureMessage:
-                    'Nie udało się zaktualizować dane harcerza. Sprawdź wszystkie dane.',
-                })
+                .open(
+                  this.scoutsService.patchScout(
+                    this.scoutId,
+                    newScout.name,
+                    newScout.surname,
+                    newScout.pesel,
+                    newScout.birthDate,
+                    newScout.address,
+                    newScout.postalCode,
+                    newScout.city,
+                    newScout.phone,
+                    0,
+                    0,
+                    0
+                  ),
+                  // newScout.troopId,
+                  // newScout.rankId,
+                  // newScout.instructorRankId
+                  {
+                    failureMessage:
+                      'Nie udało się zaktualizować dane harcerza. Sprawdź wszystkie dane.',
+                  }
+                )
                 .afterClosed()
                 .subscribe((x) => this.dialogRef.close(x));
             }
