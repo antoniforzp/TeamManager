@@ -12,5 +12,8 @@ public interface TroopsRepository {
 
     Troop getById(int troopId);
 
+    boolean editTroop(int troopId, String name);
+
     boolean deleteById(int troopId);
+
 }
