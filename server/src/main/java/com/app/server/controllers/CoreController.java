@@ -4,13 +4,12 @@ import com.app.server.core.AppCore;
 import com.app.server.database.teams.TeamsRepository;
 import com.app.server.model.Team;
 import com.app.server.model.User;
+import com.app.server.rest.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
 @RestController
-@RequestMapping(value = "/core")
 public class CoreController {
 
     final private AppCore appCore;
@@ -21,38 +20,36 @@ public class CoreController {
         this.teamsRepository = teamsRepository;
     }
 
-    //TEST
     @CrossOrigin
-    @PostMapping(value = "/test")
-    public ResponseEntity<Boolean> test() {
-        return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+    @GetMapping(value = "/core/user")
+    public ResponseEntity<Response<User>> getCurrentUser() {
+        return new ResponseEntity<>(new Response<>(
+                appCore.getCurrentUser(),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 
-    //PUT: Get current logged user
     @CrossOrigin
-    @GetMapping(value = "/user")
-    public ResponseEntity<User> getCurrentUser() {
-        return new ResponseEntity<>(appCore.getCurrentUser(), HttpStatus.ACCEPTED);
+    @GetMapping(value = "/core/team")
+    public ResponseEntity<Response<Team>> getCurrentTeam() {
+        return new ResponseEntity<>(new Response<>(
+                appCore.getCurrentTeam(),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 
-    //PUT: Get current chosen team
     @CrossOrigin
-    @GetMapping(value = "/team")
-    public ResponseEntity<Team> getCurrentTeam() {
-        return new ResponseEntity<>(appCore.getCurrentTeam(), HttpStatus.ACCEPTED);
-    }
-
-    //POST: Set current chosen team
-    @CrossOrigin
-    @PostMapping(value = "/team{teamId}")
-    public ResponseEntity<Boolean> setCurrentTeam(@PathVariable int teamId) {
-
+    @PostMapping(value = "/core/team{teamId}")
+    public ResponseEntity<Response<Boolean>> setCurrentTeam(@PathVariable int teamId) {
         Team team = teamsRepository.getById(teamId);
         boolean check = (team != null);
-        if(check){
+        if (check) {
             appCore.setCurrentTeam(team);
-            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<>(false, HttpStatus.ACCEPTED);
+
+        return new ResponseEntity<>(new Response<>(
+                check,
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 }

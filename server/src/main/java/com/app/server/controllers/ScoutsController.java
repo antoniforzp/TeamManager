@@ -5,15 +5,17 @@ import com.app.server.database.roles.RolesRepository;
 import com.app.server.database.scouts.ScoutsRepository;
 import com.app.server.model.Role;
 import com.app.server.model.Scout;
+import com.app.server.rest.Response;
+import com.app.server.rest.bodies.AddScoutBody;
+import com.app.server.rest.bodies.AddScoutRolesBody;
+import com.app.server.rest.bodies.EditScoutBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
 @RestController
-@RequestMapping(value = "/scouts")
 public class ScoutsController {
 
     private final ScoutsRepository scoutsRepository;
@@ -26,98 +28,130 @@ public class ScoutsController {
         this.appCore = appCore;
     }
 
-    //PUT: Add scout
     @CrossOrigin
-    @PostMapping(value = "/add")
-    public ResponseEntity<Boolean> addScout(@RequestBody Scout newScout) {
-        return new ResponseEntity<>(scoutsRepository.add(newScout.getName(),
-                newScout.getSurname(),
-                newScout.getPesel(),
-                newScout.getBirthDate(),
-                newScout.getAddress(),
-                newScout.getPostalCode(),
-                newScout.getCity(),
-                newScout.getPhone(),
-                newScout.getTroop().getTroopId(),
-                newScout.getRank().getRankId(),
-                newScout.getInstructorRank().getRankId(),
-                appCore.getCurrentTeam().getTeamId()
-        ), HttpStatus.ACCEPTED);
+    @PostMapping(value = "/scouts/add")
+    public ResponseEntity<Response<Boolean>> addScout(@RequestBody AddScoutBody body) {
+        return new ResponseEntity<>(new Response<>(
+                scoutsRepository.add(body.getName(),
+                        body.getSurname(),
+                        body.getPesel(),
+                        body.getBirthDate(),
+                        body.getAddress(),
+                        body.getPostalCode(),
+                        body.getCity(),
+                        body.getPhone(),
+                        body.getTroopId(),
+                        body.getRankId(),
+                        body.getRankId(),
+                        appCore.getCurrentTeam().getTeamId()),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 
-    //POST: add scout's role
     @CrossOrigin
-    @PostMapping(value = "/add/role{scoutId}/{roleId}")
-    public ResponseEntity<Boolean> addRole(@PathVariable int scoutId, @PathVariable int roleId) {
-        return new ResponseEntity<>(scoutsRepository.addRole(scoutId, roleId), HttpStatus.ACCEPTED);
+    @PostMapping(value = "/scouts/add{scoutId}/roles{roleId}")
+    public ResponseEntity<Response<Boolean>> addRole(@PathVariable int scoutId, @PathVariable int roleId) {
+        return new ResponseEntity<>(new Response<>(
+                scoutsRepository.addRole(scoutId, roleId),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 
-    //GET: List of scouts
     @CrossOrigin
-    @GetMapping(value = "/list")
-    public ResponseEntity<List<Scout>> getScouts() {
-        return new ResponseEntity<>(scoutsRepository.getAllByTeamId(appCore.getCurrentTeam().getTeamId()), HttpStatus.ACCEPTED);
+    @PostMapping(value = "/scouts/add{scoutId}/roles")
+    public ResponseEntity<Response<Boolean>> addRoles(@PathVariable int scoutId, @RequestBody AddScoutRolesBody body) {
+
+        boolean check = true;
+        for (int roleId : body.getRolesId()) {
+            check = scoutsRepository.addRole(scoutId, roleId);
+            if (!check) break;
+        }
+        return new ResponseEntity<>(new Response<>(
+                check,
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 
-    //GET: Get scout
     @CrossOrigin
-    @GetMapping(value = "/{scoutId}")
-    public ResponseEntity<Scout> getScout(@PathVariable int scoutId) {
-        return new ResponseEntity<>(scoutsRepository.getById(scoutId), HttpStatus.ACCEPTED);
+    @GetMapping(value = "/scouts")
+    public ResponseEntity<Response<List<Scout>>> getScouts() {
+        return new ResponseEntity<>(new Response<>(
+                scoutsRepository.getAllByTeamId(appCore.getCurrentTeam().getTeamId()),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 
-    //GET: Get all roles by scoutId
     @CrossOrigin
-    @GetMapping(value = "/roles/list{scoutId}")
-    public ResponseEntity<List<Role>> getScoutRolesList(@PathVariable int scoutId) {
-        return new ResponseEntity<>(rolesRepository.getAllByScoutId(scoutId), HttpStatus.ACCEPTED);
+    @GetMapping(value = "/scouts{scoutId}")
+    public ResponseEntity<Response<Scout>> getScout(@PathVariable int scoutId) {
+        return new ResponseEntity<>(new Response<>(
+                scoutsRepository.getById(scoutId),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 
-    //GET: Get all roles of all scouts of the current team
     @CrossOrigin
-    @GetMapping(value = "/roles/list/all")
-    public ResponseEntity<List<Role>> getScoutRoles() {
-        return new ResponseEntity<>(rolesRepository.getAllInTeam(appCore.getCurrentTeam().getTeamId()
-        ), HttpStatus.ACCEPTED);
+    @GetMapping(value = "/scouts/roles")
+    public ResponseEntity<Response<List<Role>>> getAllRoles() {
+        return new ResponseEntity<>(new Response<>(
+                rolesRepository.getAllInTeam(appCore.getCurrentTeam().getTeamId()),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 
-    //PUT: Edit scout
     @CrossOrigin
-    @PostMapping(value = "/edit{scoutId}")
-    public ResponseEntity<Boolean> editScout(@PathVariable int scoutId, @RequestBody Scout newScout) {
-        return new ResponseEntity<>(scoutsRepository.update(scoutId,
-                newScout.getName(),
-                newScout.getSurname(),
-                newScout.getPesel(),
-                newScout.getBirthDate(),
-                newScout.getAddress(),
-                newScout.getPostalCode(),
-                newScout.getCity(),
-                newScout.getPhone(),
-                newScout.getTroop().getTroopId(),
-                newScout.getRank().getRankId(),
-                newScout.getInstructorRank().getRankId()
-        ), HttpStatus.CREATED);
+    @GetMapping(value = "/scouts{scoutId}/roles")
+    public ResponseEntity<Response<List<Role>>> getScoutRoles(@PathVariable int scoutId) {
+        return new ResponseEntity<>(new Response<>(
+                rolesRepository.getAllByScoutId(scoutId),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 
-    //DELETE: Remove scout
     @CrossOrigin
-    @DeleteMapping(value = "/remove{scoutId}")
-    public ResponseEntity<Boolean> deleteScout(@PathVariable int scoutId) {
-        return new ResponseEntity<>(scoutsRepository.deleteById(scoutId), HttpStatus.ACCEPTED);
+    @PatchMapping(value = "/scouts{scoutId}")
+    public ResponseEntity<Response<Boolean>> editScout(@PathVariable int scoutId, @RequestBody EditScoutBody body) {
+        return new ResponseEntity<>(new Response<>(
+                scoutsRepository.update(scoutId,
+                        body.getName(),
+                        body.getSurname(),
+                        body.getPesel(),
+                        body.getBirthDate(),
+                        body.getAddress(),
+                        body.getPostalCode(),
+                        body.getCity(),
+                        body.getPhone(),
+                        body.getTroopId(),
+                        body.getRankId(),
+                        body.getRankId()),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.CREATED);
     }
 
-    //DELETE: Remove scout role
     @CrossOrigin
-    @DeleteMapping(value = "/remove/role{scoutId}/{roleId}")
-    public ResponseEntity<Boolean> deleteScoutRole(@PathVariable int scoutId, @PathVariable int roleId) {
-        return new ResponseEntity<>(scoutsRepository.deleteRole(scoutId, roleId), HttpStatus.ACCEPTED);
+    @DeleteMapping(value = "/scouts{scoutId}")
+    public ResponseEntity<Response<Boolean>> deleteScout(@PathVariable int scoutId) {
+        return new ResponseEntity<>(new Response<>(
+                scoutsRepository.deleteById(scoutId),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 
-    //DELETE: Remove all scout roles
     @CrossOrigin
-    @DeleteMapping(value = "/remove/roles{scoutId}")
-    public ResponseEntity<Boolean> deleteScoutRole(@PathVariable int scoutId) {
-        return new ResponseEntity<>(scoutsRepository.deleteAllRoles(scoutId), HttpStatus.ACCEPTED);
+    @DeleteMapping(value = "/scouts{scoutId}/roles")
+    public ResponseEntity<Response<Boolean>> deleteScoutRoles(@PathVariable int scoutId) {
+        return new ResponseEntity<>(new Response<>(
+                scoutsRepository.deleteAllRoles(scoutId),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
+    }
+
+    @CrossOrigin
+    @DeleteMapping(value = "/scouts{scoutId}/roles{roleId}")
+    public ResponseEntity<Response<Boolean>> deleteScoutRole(@PathVariable int scoutId, @PathVariable int roleId) {
+        return new ResponseEntity<>(new Response<>(
+                scoutsRepository.deleteRole(scoutId, roleId),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 }

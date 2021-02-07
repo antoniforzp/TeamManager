@@ -5,7 +5,8 @@ import com.app.server.database.teams.TeamsRepository;
 import com.app.server.database.users.UsersRepository;
 import com.app.server.model.Team;
 import com.app.server.model.User;
-import com.app.server.model.UserCredentials;
+import com.app.server.rest.Response;
+import com.app.server.rest.bodies.UserCredentialsBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/login")
 public class LoginController {
 
     private final UsersRepository usersRepository;
@@ -26,10 +26,9 @@ public class LoginController {
         this.appCore = appCore;
     }
 
-    //PUT: Login with credentials
     @CrossOrigin
     @PostMapping(value = "/login")
-    public ResponseEntity<Boolean> addRole(@RequestBody UserCredentials credentials) {
+    public ResponseEntity<Response<Boolean>> login(@RequestBody UserCredentialsBody credentials) {
         boolean check = usersRepository.checkCredentials(credentials.getEmail(), credentials.getPassword());
 
         //Setup core data
@@ -43,11 +42,12 @@ public class LoginController {
             List<Team> usersTeams = teamsRepository.getByUserId(loggedUser.getUserId());
             if (!usersTeams.isEmpty()) {
                 appCore.setCurrentTeam(usersTeams.get(0));
-            } else {
-                appCore.setCurrentTeam(null);
             }
         }
 
-        return new ResponseEntity<>(check, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new Response<>(
+                check,
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
     }
 }

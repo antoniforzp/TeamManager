@@ -1,11 +1,13 @@
-package com.app.server.model;
+package com.app.server.rest.bodies;
 
-public class UserCredentials {
+import com.app.server.rest.Body;
+
+public class UserCredentialsBody implements Body {
 
     private final String email;
     private final String password;
 
-    public UserCredentials(String email, String password) {
+    public UserCredentialsBody(String email, String password) {
         this.email = email;
         this.password = password;
     }

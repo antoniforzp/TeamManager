@@ -19,21 +19,6 @@ public class Scout {
     private final Rank rank;
     private final InstructorRank instructorRank;
 
-//    public Scout() {
-//        this.scoutId = 0;
-//        this.name = "name";
-//        this.surname = "surname";
-//        this.pesel = "00000000000";
-//        this.birthDate = new Date();
-//        this.address = "address";
-//        this.postalCode = "postalCode";
-//        this.city = "city";
-//        this.phone = "phone";
-//        this.troop = new Troop();
-//        this.rank = new Rank();
-//        this.instructorRank = new InstructorRank();
-//    }
-
     public Scout(int scoutId,
                  String name,
                  String surname,
