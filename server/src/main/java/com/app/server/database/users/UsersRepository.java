@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface UsersRepository {
 
-    int count();
-
     boolean checkCredentials(String email, String password);
 
     boolean checkIfExists(String email);

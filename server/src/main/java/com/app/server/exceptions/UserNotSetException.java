@@ -1,18 +1,14 @@
 package com.app.server.exceptions;
 
-import org.springframework.dao.DataAccessException;
-
 import java.util.Date;
 
-public class DatabaseErrorException extends RuntimeException {
+public class UserNotSetException extends RuntimeException {
 
     private final String message;
     private final Date occurred;
 
-    public DatabaseErrorException(DataAccessException ex) {
-        super(ex.getMessage());
-
-        this.message = ex.getMessage();
+    public UserNotSetException() {
+        this.message = "External Server Error: User is not set";
         this.occurred = new Date();
     }
 

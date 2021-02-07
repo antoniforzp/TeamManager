@@ -23,6 +23,7 @@ public class CoreController {
     @CrossOrigin
     @GetMapping(value = "/core/user")
     public ResponseEntity<Response<User>> getCurrentUser() {
+        appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 appCore.getCurrentUser(),
                 appCore.getCurrentUser().getUserId()),
@@ -32,6 +33,7 @@ public class CoreController {
     @CrossOrigin
     @GetMapping(value = "/core/team")
     public ResponseEntity<Response<Team>> getCurrentTeam() {
+        appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 appCore.getCurrentTeam(),
                 appCore.getCurrentUser().getUserId()),
@@ -41,6 +43,7 @@ public class CoreController {
     @CrossOrigin
     @PostMapping(value = "/core/team{teamId}")
     public ResponseEntity<Response<Boolean>> setCurrentTeam(@PathVariable int teamId) {
+        appCore.checkCoreInit();
         Team team = teamsRepository.getById(teamId);
         boolean check = (team != null);
         if (check) {

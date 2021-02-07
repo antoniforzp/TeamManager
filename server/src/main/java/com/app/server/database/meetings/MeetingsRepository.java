@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface MeetingsRepository {
 
-    int countByTeamId(int teamId);
-
     boolean add(String title, String place, Date date, int members, int team_id);
 
     List<Meeting> getAllByTeamId(int teamId);

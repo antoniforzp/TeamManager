@@ -1,5 +1,6 @@
 package com.app.server.database.roles;
 
+import com.app.server.exceptions.DatabaseErrorException;
 import com.app.server.model.Role;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,46 +19,67 @@ class RolesRepositoryManager implements RolesRepository {
 
     @Override
     public boolean add(String name) {
-        String QUERY = "INSERT INTO ROLES(name) VALUES(?)";
-        return jdbcTemplate.update(QUERY, name) >= 1;
+        try {
+            String QUERY = "INSERT INTO ROLES(name) VALUES(?)";
+            return jdbcTemplate.update(QUERY, name) >= 1;
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
     }
 
     @Override
     public List<Role> getAll() {
-        String QUERY = "SELECT * FROM ROLES";
-        return jdbcTemplate.query(QUERY, new RoleRowMapper());
+        try {
+            String QUERY = "SELECT * FROM ROLES";
+            return jdbcTemplate.query(QUERY, new RoleRowMapper());
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
     }
 
     @Override
     public List<Role> getAllInTeam(int teamId) {
-        String QUERY = "SELECT SR.role_id as role_id, R.name as name, SR.scout_id as scout_id FROM SCOUTS_ROLES SR \n" +
-                "JOIN ROLES R on R.role_id = SR.role_id\n" +
-                "JOIN SCOUTS S on SR.scout_id = S.scout_id\n" +
-                "WHERE S.team_id=?";
-        return jdbcTemplate.query(QUERY, new RoleScoutRowMapper(), teamId);
+        try {
+            String QUERY = "SELECT SR.role_id as role_id, R.name as name, SR.scout_id as scout_id FROM SCOUTS_ROLES SR JOIN ROLES R on R.role_id = SR.role_id JOIN SCOUTS S on SR.scout_id = S.scout_id WHERE S.team_id = ?";
+            return jdbcTemplate.query(QUERY, new RoleScoutRowMapper(), teamId);
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
     }
 
     @Override
     public List<Role> getAllByScoutId(int scoutId) {
-        String QUERY = "SELECT SR.role_id as role_id, R.name as name, SR.scout_id as scout_id FROM SCOUTS_ROLES SR JOIN ROLES R on R.role_id = SR.role_id WHERE SR.scout_id=?";
-        return jdbcTemplate.query(QUERY, new RoleScoutRowMapper(), scoutId);
+        try {
+            String QUERY = "SELECT SR.role_id as role_id, R.name as name, SR.scout_id as scout_id FROM SCOUTS_ROLES SR JOIN ROLES R on R.role_id = SR.role_id WHERE SR.scout_id = ?";
+            return jdbcTemplate.query(QUERY, new RoleScoutRowMapper(), scoutId);
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
     }
 
     @Override
     public Role getById(int roleId) {
-        String QUERY = "SELECT * FROM ROLES WHERE role_id=?";
-        Role role;
         try {
-            role = jdbcTemplate.queryForObject(QUERY, new RoleScoutRowMapper(), roleId);
-        } catch (DataAccessException e) {
-            return null;
+            String QUERY = "SELECT * FROM ROLES WHERE role_id = ?";
+            return jdbcTemplate.queryForObject(QUERY, new RoleScoutRowMapper(), roleId);
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
         }
-        return role;
     }
 
     @Override
     public boolean deleteById(int roleId) {
-        String QUERY = "DELETE FROM ROLES WHERE role_id=?";
-        return jdbcTemplate.update(QUERY, roleId) >= 1;
+        try {
+            String QUERY = "DELETE FROM ROLES WHERE role_id = ?";
+            return jdbcTemplate.update(QUERY, roleId) >= 1;
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
     }
 }

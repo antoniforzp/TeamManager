@@ -7,9 +7,7 @@ import java.util.List;
 
 public interface JourneysRepository {
 
-    int countByTeamId(int teamId);
-
-    boolean add(String title, String place, Date start_date, Date end_date, int members, int type, int team_id);
+    boolean add(String title, String place, Date start_date, Date end_date, int type, int team_id);
 
     List<Journey> getAllByTeamId(int teamId);
 

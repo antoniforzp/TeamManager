@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface ScoutsRepository {
 
-    int countByTeamId(int teamId);
-
     boolean add(String name,
                 String surname,
                 String pesel,

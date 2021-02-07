@@ -1,5 +1,6 @@
 package com.app.server.database.instructorRanks;
 
+import com.app.server.exceptions.DatabaseErrorException;
 import com.app.server.model.InstructorRank;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,31 +19,45 @@ class InstructorRanksRepositoryManager implements InstructorRanksRepository {
 
     @Override
     public boolean add(String name, String abbreviation) {
-        String QUERY = "INSERT INTO INSTRUCTOR_RANKS(name, abbreviation) VALUES(?,?)";
-        return jdbcTemplate.update(QUERY, name, abbreviation) >= 1;
+        try {
+            String QUERY = "INSERT INTO INSTRUCTOR_RANKS(name, abbreviation) VALUES(?, ?)";
+            return jdbcTemplate.update(QUERY, name, abbreviation) >= 1;
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
     }
 
     @Override
     public List<InstructorRank> getAll() {
-        String QUERY = "SELECT * FROM INSTRUCTOR_RANKS";
-        return jdbcTemplate.query(QUERY, new InstructorRankRowMapper());
+        try {
+            String QUERY = "SELECT * FROM INSTRUCTOR_RANKS";
+            return jdbcTemplate.query(QUERY, new InstructorRankRowMapper());
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
     }
 
     @Override
     public InstructorRank getById(int rankId) {
-        String QUERY = "SELECT * FROM INSTRUCTOR_RANKS WHERE rank_id=?";
-        InstructorRank rank;
         try {
-            rank = jdbcTemplate.queryForObject(QUERY, new InstructorRankRowMapper(), rankId);
-        } catch (DataAccessException e) {
-            return null;
+            String QUERY = "SELECT * FROM INSTRUCTOR_RANKS WHERE rank_id = ?";
+            return jdbcTemplate.queryForObject(QUERY, new InstructorRankRowMapper(), rankId);
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
         }
-        return rank;
     }
 
     @Override
     public boolean deleteById(int rankId) {
-        String QUERY = "DELETE FROM INSTRUCTOR_RANKS WHERE rank_id=?";
-        return jdbcTemplate.update(QUERY, rankId) >= 1;
+        try {
+            String QUERY = "DELETE FROM INSTRUCTOR_RANKS WHERE rank_id = ?";
+            return jdbcTemplate.update(QUERY, rankId) >= 1;
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
     }
 }

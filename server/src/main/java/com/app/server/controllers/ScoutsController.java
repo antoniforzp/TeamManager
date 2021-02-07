@@ -31,6 +31,7 @@ public class ScoutsController {
     @CrossOrigin
     @PostMapping(value = "/scouts/add")
     public ResponseEntity<Response<Boolean>> addScout(@RequestBody AddScoutBody body) {
+        appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.add(body.getName(),
                         body.getSurname(),
@@ -51,6 +52,7 @@ public class ScoutsController {
     @CrossOrigin
     @PostMapping(value = "/scouts/add{scoutId}/roles{roleId}")
     public ResponseEntity<Response<Boolean>> addRole(@PathVariable int scoutId, @PathVariable int roleId) {
+        appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.addRole(scoutId, roleId),
                 appCore.getCurrentUser().getUserId()),
@@ -60,6 +62,7 @@ public class ScoutsController {
     @CrossOrigin
     @PostMapping(value = "/scouts/add{scoutId}/roles")
     public ResponseEntity<Response<Boolean>> addRoles(@PathVariable int scoutId, @RequestBody AddScoutRolesBody body) {
+        appCore.checkCoreInit();
 
         boolean check = true;
         for (int roleId : body.getRolesId()) {
@@ -75,6 +78,8 @@ public class ScoutsController {
     @CrossOrigin
     @GetMapping(value = "/scouts")
     public ResponseEntity<Response<List<Scout>>> getScouts() {
+        appCore.checkCoreInit();
+
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.getAllByTeamId(appCore.getCurrentTeam().getTeamId()),
                 appCore.getCurrentUser().getUserId()),
@@ -84,6 +89,8 @@ public class ScoutsController {
     @CrossOrigin
     @GetMapping(value = "/scouts{scoutId}")
     public ResponseEntity<Response<Scout>> getScout(@PathVariable int scoutId) {
+        appCore.checkCoreInit();
+
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.getById(scoutId),
                 appCore.getCurrentUser().getUserId()),
@@ -93,6 +100,8 @@ public class ScoutsController {
     @CrossOrigin
     @GetMapping(value = "/scouts/roles")
     public ResponseEntity<Response<List<Role>>> getAllRoles() {
+        appCore.checkCoreInit();
+
         return new ResponseEntity<>(new Response<>(
                 rolesRepository.getAllInTeam(appCore.getCurrentTeam().getTeamId()),
                 appCore.getCurrentUser().getUserId()),
@@ -102,6 +111,8 @@ public class ScoutsController {
     @CrossOrigin
     @GetMapping(value = "/scouts{scoutId}/roles")
     public ResponseEntity<Response<List<Role>>> getScoutRoles(@PathVariable int scoutId) {
+        appCore.checkCoreInit();
+
         return new ResponseEntity<>(new Response<>(
                 rolesRepository.getAllByScoutId(scoutId),
                 appCore.getCurrentUser().getUserId()),
@@ -111,6 +122,8 @@ public class ScoutsController {
     @CrossOrigin
     @PatchMapping(value = "/scouts{scoutId}")
     public ResponseEntity<Response<Boolean>> editScout(@PathVariable int scoutId, @RequestBody EditScoutBody body) {
+        appCore.checkCoreInit();
+
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.update(scoutId,
                         body.getName(),
@@ -131,6 +144,8 @@ public class ScoutsController {
     @CrossOrigin
     @DeleteMapping(value = "/scouts{scoutId}")
     public ResponseEntity<Response<Boolean>> deleteScout(@PathVariable int scoutId) {
+        appCore.checkCoreInit();
+
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.deleteById(scoutId),
                 appCore.getCurrentUser().getUserId()),
@@ -140,6 +155,8 @@ public class ScoutsController {
     @CrossOrigin
     @DeleteMapping(value = "/scouts{scoutId}/roles")
     public ResponseEntity<Response<Boolean>> deleteScoutRoles(@PathVariable int scoutId) {
+        appCore.checkCoreInit();
+
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.deleteAllRoles(scoutId),
                 appCore.getCurrentUser().getUserId()),
@@ -149,6 +166,8 @@ public class ScoutsController {
     @CrossOrigin
     @DeleteMapping(value = "/scouts{scoutId}/roles{roleId}")
     public ResponseEntity<Response<Boolean>> deleteScoutRole(@PathVariable int scoutId, @PathVariable int roleId) {
+        appCore.checkCoreInit();
+
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.deleteRole(scoutId, roleId),
                 appCore.getCurrentUser().getUserId()),

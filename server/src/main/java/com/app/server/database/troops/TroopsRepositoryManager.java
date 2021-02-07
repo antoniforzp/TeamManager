@@ -1,5 +1,6 @@
 package com.app.server.database.troops;
 
+import com.app.server.exceptions.DatabaseErrorException;
 import com.app.server.model.Troop;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,31 +20,45 @@ class TroopsRepositoryManager implements TroopsRepository {
 
     @Override
     public boolean add(String name, int troopId) {
-        String QUERY = "INSERT INTO TROOPS(name, team_id) VALUES(?,?)";
-        return jdbcTemplate.update(QUERY, name, troopId) >= 1;
+        try {
+            String QUERY = "INSERT INTO TROOPS(name, team_id) VALUES(?, ?)";
+            return jdbcTemplate.update(QUERY, name, troopId) >= 1;
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
     }
 
     @Override
     public List<Troop> getAllByTeamId(int teamId) {
-        String QUERY = "SELECT * FROM TROOPS WHERE team_id=?";
-        return jdbcTemplate.query(QUERY, new TroopRowMapper(), teamId);
+        try {
+            String QUERY = "SELECT * FROM TROOPS WHERE team_id = ?";
+            return jdbcTemplate.query(QUERY, new TroopRowMapper(), teamId);
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
     }
 
     @Override
     public Troop getById(int troopId) {
-        String QUERY = "SELECT * FROM TROOPS WHERE troop_id=?";
-        Troop troop;
         try {
-            troop = jdbcTemplate.queryForObject(QUERY, new TroopRowMapper(), troopId);
-        } catch (DataAccessException e) {
-            return null;
+            String QUERY = "SELECT * FROM TROOPS WHERE troop_id = ?";
+            return jdbcTemplate.queryForObject(QUERY, new TroopRowMapper(), troopId);
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
         }
-        return troop;
     }
 
     @Override
     public boolean deleteById(int troopId) {
-        String QUERY = "DELETE FROM TROOPS WHERE troop_id=?";
-        return jdbcTemplate.update(QUERY, troopId) >= 1;
+        try {
+            String QUERY = "DELETE FROM TROOPS WHERE troop_id = ?";
+            return jdbcTemplate.update(QUERY, troopId) >= 1;
+            
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
     }
 }
