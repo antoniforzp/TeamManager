@@ -1,8 +1,28 @@
-.button-bottom-bar {
-  position: absolute;
-  bottom: 0;
+.add-user-bg {
+  background: url("../../../assets/images/add-user-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 
+  min-height: 100vh;
+  width: 70%;
+}
+
+.add-user-container {
+  width: 60%;
+  display: block;
+  position: relative;
+}
+
+.button-add-user {
+  width: 180px;
+}
+
+.buttons-container {
+  position: absolute;
+  right: 0;
+  bottom: 0;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 10px;
 }
