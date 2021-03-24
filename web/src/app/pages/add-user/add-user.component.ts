@@ -35,6 +35,7 @@ export class AddUserComponent implements OnInit {
       ]),
     ],
     passwordRepeat: ['', Validators.compose([Validators.required])],
+    declaration: [null, [Validators.required, Validators.requiredTrue]],
   });
 
   constructor(
@@ -79,6 +80,8 @@ export class AddUserComponent implements OnInit {
       });
   }
 
+  // FORMS
+
   get userName(): any {
     return this.addUserForm.get('userName');
   }
@@ -97,5 +100,9 @@ export class AddUserComponent implements OnInit {
 
   get passwordRepeat(): any {
     return this.addUserForm.get('passwordRepeat');
+  }
+
+  get declaration(): any {
+    return this.addUserForm.get('declaration');
   }
 }

@@ -14,22 +14,45 @@
             <div class="form-group">
                 <h5>Dane osobowe</h5>
 
-                <input type="text" class="form-control mt-2" placeholder="Imię" formControlName="userName">
-                <div class="d-flex flex-column" *ngIf="userName.invalid && (userName.dirty || userName.touched)">
-                    <small class="alert-danger" *ngIf="userName.errors.required">Pole wymagane</small>
+                <!-- Name -->
+                <div class="row mb-2">
+                    <label for="name" class="col-sm-3 col-form-label required">Imię</label>
+                    <div class="col-sm-9">
+                        <input id="name" type="text" class="form-control" formControlName="userName">
+
+                        <!-- Errors -->
+                        <div class="d-flex flex-column" *ngIf="userName.errors && userName.dirty">
+                            <small class="alert-danger" *ngIf="userName.hasError('required')">Pole wymagane</small>
+                        </div>
+                    </div>
                 </div>
 
-                <input type="text" class="form-control mt-2" placeholder="Nazwisko" formControlName="userSurname">
-                <div class="d-flex flex-column"
-                    *ngIf="userSurname.invalid && (userSurname.dirty || userSurname.touched)">
-                    <small class="alert-danger" *ngIf="userSurname.errors.required">Pole wymagane</small>
+                <!-- Surname -->
+                <div class="row mb-2">
+                    <label for="surname" class="col-sm-3 col-form-label required">Nazwisko</label>
+                    <div class="col-sm-9">
+                        <input id="surname" type="text" class="form-control" formControlName="userSurname">
+
+                        <div class="d-flex flex-column" *ngIf="userSurname.errors && userSurname.dirty">
+                            <small class="alert-danger" *ngIf="userSurname.hasError('required')">Pole wymagane</small>
+                        </div>
+                    </div>
                 </div>
 
-                <input type="text" class="form-control mt-2" placeholder="Email" formControlName="userEmail">
-                <div class="d-flex flex-column" *ngIf="userEmail.invalid && (userEmail.dirty || userEmail.touched)">
-                    <small class="alert-danger" *ngIf="userEmail.errors?.required">Pole wymagane</small>
-                    <small class="alert-danger" *ngIf="userEmail.errors?.pattern">Nieprawidłowy format adresu email.
-                        Poprawny: email@email.com</small>
+                <!-- Email -->
+                <div class="row mb-2">
+                    <label for="email" class="col-sm-3 col-form-label required">Email</label>
+                    <div class="col-sm-9">
+                        <input id="email" type="text" class="form-control" formControlName="userEmail">
+
+                        <!-- Errors -->
+                        <div class="d-flex flex-column" *ngIf="userEmail.errors && userEmail.dirty">
+                            <small class="alert-danger" *ngIf="userEmail.hasError('required')">Pole wymagane</small>
+                            <small class="alert-danger" *ngIf="userEmail.hasError('pattern')">Nieprawidłowy format
+                                adresu
+                                email. Poprawny: email@email.com</small>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -37,28 +60,76 @@
             <div class="form-group">
                 <h5>Dane logowania</h5>
 
-                <input type="password" class="form-control mt-2" placeholder="Hasło" formControlName="password">
-                <div class="d-flex flex-column" *ngIf="password.invalid && (password.dirty || password.touched)">
-                    <small class="alert-danger" *ngIf="password.errors?.required">Pole wymagane</small>
-                    <small class="alert-danger" *ngIf="password.errors?.hasNumber">Hasło musi posiadać co najmniej jedną
-                        cyfrę</small>
-                    <small class="alert-danger" *ngIf="password.errors?.hasCapitalCase">Hasło musi posiadać co najmniej
-                        jedną wielką literę</small>
-                    <small class="alert-danger" *ngIf="password.errors?.hasSmallCase">Hasło musi posiadać co najmniej
-                        jedną małą literę</small>
-                    <small class="alert-danger" *ngIf="password.errors?.minLength">Hasło musi posiadać co najmniej 8
-                        cyfr</small>
+                <!-- password -->
+                <div class="row mb-2">
+                    <label for="password" class="col-sm-3 col-form-label required">Hasło</label>
+                    <div class="col-sm-9">
+                        <input id="password" type="password" class="form-control" formControlName="password">
+
+                        <!-- Errors -->
+                        <div class="d-flex flex-column" *ngIf="password.errors && password.dirty">
+                            <small class="alert-danger" *ngIf="password.hasError('required')">Pole wymagane</small>
+                            <small class="alert-danger" *ngIf="password.hasError('hasNumber')">Hasło musi posiadać co
+                                najmniej
+                                jedną cyfrę</small>
+                            <small class="alert-danger" *ngIf="password.hasError('hasCapitalCase')">Hasło musi posiadać
+                                co
+                                najmniej jedną wielką literę</small>
+                            <small class="alert-danger" *ngIf="password.hasError('hasSmallCase')">Hasło musi posiadać co
+                                najmniej jedną małą literę</small>
+                            <small class="alert-danger" *ngIf="password.hasError('minLength')">Hasło musi posiadać co
+                                najmniej 8
+                                cyfr</small>
+                        </div>
+                    </div>
                 </div>
 
-                <input type="password" class="form-control mt-2" placeholder="Powtórz hasło"
-                    formControlName="passwordRepeat">
-                <div class="d-flex flex-column"
-                    *ngIf="(passwordRepeat.invalid || addUserForm.invalid) && (passwordRepeat.dirty || passwordRepeat.touched)">
-                    <small class="alert-danger" *ngIf="passwordRepeat.errors?.required">Pole wymagane</small>
-                    <small class="alert-danger" *ngIf="addUserForm.errors?.passwordDifferent">Hasła się nie
-                        zgadzają</small>
+                <!-- password repeat -->
+                <div class="row mb-2">
+                    <label for="passwordRepeat" class="col-sm-3 col-form-label required">Powtórz hasło</label>
+                    <div class="col-sm-9">
+                        <input id="passwordRepeat" type="password" class="form-control"
+                            formControlName="passwordRepeat">
+
+                        <!-- Errors -->
+                        <div class="d-flex flex-column"
+                            *ngIf="(passwordRepeat.errors || addUserForm.errors) && passwordRepeat.dirty">
+                            <small class="alert-danger" *ngIf="passwordRepeat.hasError('required')">Pole
+                                wymagane</small>
+                            <small class="alert-danger" *ngIf="addUserForm.hasError('passwordDifferent')">Hasła się nie
+                                zgadzają</small>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Declaration -->
+            <div class="form-group mt-3">
+                <h5>Deklaracje</h5>
+                <div class="d-flex flex-column">
+                    <span class="regulations">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dignissim pulvinar odio sit amet
+                        tincidunt. Nunc erat eros, sodales tempus ante non, tincidunt congue libero. Maecenas sit amet
+                        vestibulum dolor, non vehicula turpis. Quisque lacinia nisi in aliquet mollis. Phasellus a
+                        tempor
+                        lectus, eget vulputate nunc.
+                    </span>
+
+                    <div class="mt-2">
+                        <label class="required">
+                            <input formControlName="declaration" type="checkbox"
+                                class="select-all checkbox cursor-pointer" name="select-all" />
+                            Akceptuję
+                        </label>
+
+                        <div class="d-flex flex-column mt-n1" *ngIf="declaration.errors && declaration.dirty">
+                            <small class="alert-danger" *ngIf="declaration.hasError('required')">Pole wymagane</small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
 
             <div class="d-flex justify-content-between buttons-container">
 
