@@ -14,7 +14,7 @@ export class ProgressModal {
     options?: Options
   ): MatDialogRef<ProgressModalComponent> {
     return this.dialog.open(ProgressModalComponent, {
-      width: '50%',
+      width: '30%',
       disableClose: true,
       data: {
         response,
