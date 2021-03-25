@@ -4,9 +4,57 @@
   justify-content: center;
 
   height: 100vh;
+
+  background: url("../../../assets/images/login-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  min-height: 100vh;
 }
 
 .login-container {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+
+  margin-top: 30%;
+}
+
+.login-container-wrapper {
   text-align: center;
-  width: 300px;
+  width: 40%;
+
+  background-color: #141511;
+  padding: 20px;
+  padding-bottom: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-flow: column;
+
+  height: 100vh;
+}
+
+.zhr-logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+
+  text-align: center;
+  color: #edeae6;
+}
+
+.title {
+  font-weight: 200;
+  font-size: 50px;
+  color: #edeae6;
+}
+
+.link {
+  font-weight: 200;
+  color: #edeae6;
 }
