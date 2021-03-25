@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
 import { UserService } from 'src/app/services/user.service';
+import { RegexPatterns } from 'src/app/utils/PatternsDefs';
 import { ResultOld } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 
@@ -20,19 +21,24 @@ export class AddUserComponent implements OnInit {
     userSurname: ['', Validators.required],
     userEmail: [
       '',
-      [
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ],
+      [Validators.required, Validators.pattern(RegexPatterns.EMAIL)],
     ],
     password: [
       '',
-      Validators.compose([
+      [
         Validators.required,
-        CustomValidators.patternValidator(/\d/, { hasNumber: true }),
-        CustomValidators.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
-        CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
-      ]),
+        CustomValidators.patternValidator(
+          new RegExp(RegexPatterns.HAS_NUMBER),
+          { hasNumber: true }
+        ),
+        CustomValidators.patternValidator(
+          new RegExp(RegexPatterns.HAS_CAPITAL),
+          { hasCapitalCase: true }
+        ),
+        CustomValidators.patternValidator(new RegExp(RegexPatterns.HAS_SMALL), {
+          hasSmallCase: true,
+        }),
+      ],
     ],
     passwordRepeat: ['', Validators.compose([Validators.required])],
     declaration: [null, [Validators.required, Validators.requiredTrue]],

@@ -19,6 +19,7 @@ export interface Options {
   failureMessage?: string;
   autoClose?: MatDialogRef<any>;
 }
+
 @Component({
   selector: 'app-progress-modal',
   templateUrl: './progress-modal.component.html',
