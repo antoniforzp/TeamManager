@@ -1,59 +1,76 @@
 <app-menu></app-menu>
-<main role="main">
-    <div class="jumbotron">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 d-flex flex-column justify-content-end">
 
-                    <h3 class="display-5" *ngIf="currentUser$ | async as user">Witaj, {{user.name}}!</h3>
-                    <ng-container *ngIf="allTeams$ | async as allTeams">
-                        <div *ngIf="allTeams.length <= 0">
-                            <p>Nie masz jeszcze żadnej jednostki. Dodaj swoję pierwszą drużynę, aby móc skorzystać ze
-                                wszystkich fukcjonalności.</p>
-                            <button class="btn btn-success mr-2" routerLink="/teams">Dodaj jednostkę</button>
-                        </div>
-                    </ng-container>
+<div class="container-clean-menu">
 
-                    <h5 *ngIf="currentTeam$ | async as team">{{team.name}}<br>{{team.patron}}</h5>
-                    <div class="row ml-0 mb-n1" *ngIf="availableTeams$ | async as teams">
-                        <ng-container class="col-md-5">
-                            <div>
-                                <div class="dropdown show" *ngIf="teams.length > 0">
-                                    <a class="btn btn-primary dropdown-toggle" href="#" role="button"
-                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        Zmień jednostkę
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item cursor-pointer" *ngFor="let team of teams"
-                                            (click)="setCurrentTeam(team)">{{team.name}}<br>{{team.patron}}</a>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="container">
 
-                        </ng-container>
-                        <div class="col-md-5 col-md-offset-1" [ngClass]="{' ml-n3': teams.length <= 0}">
-                            <button class="btn btn-secondary" routerLink="/teams">Moje jednostki</button>
-                        </div>
-                    </div>
-                </div>
+        <div *ngIf="pageLoaded; else loading" class="row">
 
-                <ng-container *ngIf="currentUser$ | async as user">
-                    <div class="col-md-6 d-flex justify-content-end">
-                        <div class="text-right">
-                            <img class="mb-2" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
-                                alt="" width="50" height="50">
-                            <h5>{{user.name}}
-                                {{user.surname}}<br>{{user.email}}</h5>
+            <!-- TEAM SECTION -->
+            <div class="col d-flex justify-content-start flex-column">
 
-                            <div>
-                                <button class="btn btn-secondary" routerLink="/editUser">Edytuj</button>
+                <img class="mb-2" src="../../../assets/icons/team.svg" alt="team-icon" width="75" height="80">
+
+                <ng-container *ngIf="!noTeams">
+                    <h5 class="label">
+                        <span>{{currentTeam.name}}</span><br>
+                        <span>{{currentTeam.patron}}</span>
+                    </h5>
+
+                    <div class="d-flex">
+                        <button class="btn btn-secondary button-home mr-2" routerLink="/teams">
+                            Moje jednostki ({{allTeams.length}}) </button>
+
+                        <div class="dropdown mr-2">
+                            <a class="btn btn-primary dropdown-toggle button-home" href="#" role="button"
+                                id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                [ngClass]="{'disabled': selectableTeams.length <= 0}">
+                                Zmień jednostkę
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a *ngFor="let team of selectableTeams" class="dropdown-item cursor-pointer"
+                                    (click)="setCurrentTeam(team)">
+                                    {{team.name}}<br>{{team.patron}}
+                                </a>
                             </div>
                         </div>
                     </div>
                 </ng-container>
+
+                <ng-container *ngIf="noTeams" class="d-flex flex-column">
+                    <p><span>
+                            Nie masz jeszcze żadnej jednostki. Dodaj swoję pierwszą drużynę, aby móc skorzystać ze
+                            wszystkich fukcjonalności.
+                        </span></p>
+                    <button class="btn btn-success button-home" routerLink="/teams">Dodaj jednostkę</button>
+                </ng-container>
+            </div>
+
+            <!-- USER SECTION -->
+            <div class="col d-flex justify-content-end text-right">
+                <div>
+                    <img class="mb-2" src="../../../assets/icons/user.svg" alt="user-icon" width="75" height="80">
+                    <h5 class="label">
+                        <span>{{currentUser.name}}</span>
+                        <span>{{currentUser.surname}}</span><br>
+                        <span>{{currentUser.email}}</span>
+                    </h5>
+                    <button class="btn btn-secondary button-home" routerLink="/editUser">Edytuj</button>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-</main>
+<app-footer></app-footer>
+
+<ng-template #loading>
+    <div class="mt-5 d-flex justify-content-center">
+        <div class="spinner-border mr-2" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</ng-template>
+
+<!-- <p></p>
+                                <button class="btn btn-success mr-2" routerLink="/teams">Dodaj jednostkę</button> -->

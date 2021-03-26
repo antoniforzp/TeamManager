@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { MenuService } from './menu.service';
 
@@ -6,16 +11,20 @@ import { MenuService } from './menu.service';
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit {
-  // Block options when no teams available
-  $unlock = new Subject<boolean>();
+  lockedOptions = false;
 
-  constructor(private menuService: MenuService) {}
+  constructor(
+    private menuService: MenuService,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.menuService
-      .getCurrentUserTeamsNo()
-      .subscribe((x) => this.$unlock.next(x > 0));
+    this.menuService.getCurrentUserTeamsNo().subscribe((x) => {
+      this.lockedOptions = x <= 0;
+      this.changeDetector.detectChanges();
+    });
   }
 }
