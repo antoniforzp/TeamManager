@@ -3,5 +3,5 @@ export enum RegexPatterns {
     HAS_NUMBER = '\\d',
     HAS_CAPITAL = '[A-Z]',
     HAS_SMALL = '[a-z]',
-
+    AT_LEAST_ONE_CHAR = '.'
 }
