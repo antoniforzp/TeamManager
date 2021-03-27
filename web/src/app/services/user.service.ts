@@ -39,8 +39,8 @@ export class UserService {
 
   getUserTeams(): Observable<Team[]> {
     return this.rest.resolve<Team[]>({
-      method: REST.POST,
-      url: `/teamsk`,
+      method: REST.GET,
+      url: `/teams`,
     });
   }
 
