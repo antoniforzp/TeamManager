@@ -1,3 +1,4 @@
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -17,8 +18,10 @@ import { CoreService } from '../../services/core.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  pageLoaded = false;
   destroy$ = new Subject();
+
+  pageLoaded = false;
+  pageError: HttpErrorResponse;
 
   // Page data
   currentUser!: User;
@@ -61,7 +64,11 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
         },
-        error: () => {},
+        error: (err) => {
+          this.pageLoaded = true;
+          this.pageError = err;
+          this.changeDetector.detectChanges();
+        },
       });
   }
 
