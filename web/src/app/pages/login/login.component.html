@@ -15,14 +15,20 @@
                     <!-- Password -->
                     <input type="password" class="form-control" placeholder="Hasło" formControlName="password">
 
+                    <!-- Submit -->
+                    <button type="submit" class="btn btn-primary btn-block mt-4" [disabled]="!loginForm.valid">
+                        <span *ngIf="!loginInProgress">Zaloguj</span>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                            *ngIf="loginInProgress"></span>
+                    </button>
+
                     <!-- Errors -->
-                    <div class="d-flex flex-column" *ngIf="!loginResult && loginResult !== undefined">
+                    <div class="d-flex flex-column" *ngIf="loginError === true && !loginInProgress">
+                        <small class="alert-danger">Błąd połączenia z serwerem</small>
+                    </div>
+                    <div class="d-flex flex-column" *ngIf="loginResult === false && !loginInProgress">
                         <small class="alert-danger">Nieprawidłowe dane logowania</small>
                     </div>
-
-                    <!-- Submit -->
-                    <button type="submit" class="btn btn-primary btn-block mt-4"
-                        [disabled]="!loginForm.valid">Zaloguj</button>
                 </div>
             </form>
             <p class="text-center"><a class="link" routerLink="/addUser">Dodaj użytkownika</a></p>
