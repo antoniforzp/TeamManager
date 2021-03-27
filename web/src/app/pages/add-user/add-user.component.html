@@ -2,13 +2,7 @@
 
     <div class="container-clean add-user-container">
         <h1>Dodaj drużynowego</h1>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis blandit in felis at posuere.
-            Nullam
-            porttitor viverra pharetra. Suspendisse vel finibus elit, vitae iaculis libero. Vivamus non laoreet metus,
-            sit
-            amet elementum leo. </p>
-
-        <form [formGroup]="addUserForm">
+        <form [formGroup]="form">
 
             <!-- CREDENTIALS -->
             <div class="form-group">
@@ -49,8 +43,7 @@
                         <div class="d-flex flex-column" *ngIf="userEmail.errors && userEmail.dirty">
                             <small class="alert-danger" *ngIf="userEmail.hasError('required')">Pole wymagane</small>
                             <small class="alert-danger" *ngIf="userEmail.hasError('pattern')">Nieprawidłowy format
-                                adresu
-                                email. Poprawny: email@email.com</small>
+                                adresu email. Poprawny: email@email.com</small>
                         </div>
                     </div>
                 </div>
@@ -93,10 +86,10 @@
 
                         <!-- Errors -->
                         <div class="d-flex flex-column"
-                            *ngIf="(passwordRepeat.errors || addUserForm.errors) && passwordRepeat.dirty">
+                            *ngIf="(passwordRepeat.errors || form.errors) && passwordRepeat.dirty">
                             <small class="alert-danger" *ngIf="passwordRepeat.hasError('required')">Pole
                                 wymagane</small>
-                            <small class="alert-danger" *ngIf="addUserForm.hasError('passwordDifferent')">Hasła się nie
+                            <small class="alert-danger" *ngIf="form.hasError('passwordDifferent')">Hasła się nie
                                 zgadzają</small>
                         </div>
                     </div>
@@ -110,9 +103,7 @@
                     <span class="regulations">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dignissim pulvinar odio sit amet
                         tincidunt. Nunc erat eros, sodales tempus ante non, tincidunt congue libero. Maecenas sit amet
-                        vestibulum dolor, non vehicula turpis. Quisque lacinia nisi in aliquet mollis. Phasellus a
-                        tempor
-                        lectus, eget vulputate nunc.
+                        vestibulum dolor, non vehicula turpis.
                     </span>
 
                     <div class="mt-2">
@@ -137,7 +128,7 @@
 
                 <!-- SUBMIT BUTTON -->
                 <button type="button" class="btn btn-primary button-add-user" type="submit" (click)="onSubmit()"
-                    [disabled]="!addUserForm.valid">Dodaj</button>
+                    [disabled]="!form.valid">Dodaj</button>
             </div>
 
             <!-- ERROR HANDLING -->

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -16,51 +16,17 @@ import { CustomValidators } from 'src/app/validators/Customvalidators';
 export class AddUserComponent implements OnInit {
   result$ = new Subject<ResultOld>();
   mailExists = false;
-  addUserForm = this.fb.group({
-    userName: ['', Validators.required],
-    userSurname: ['', Validators.required],
-    userEmail: [
-      '',
-      [Validators.required, Validators.pattern(RegexPatterns.EMAIL)],
-    ],
-    password: [
-      '',
-      [
-        Validators.required,
-        CustomValidators.patternValidator(
-          new RegExp(RegexPatterns.HAS_NUMBER),
-          { hasNumber: true }
-        ),
-        CustomValidators.patternValidator(
-          new RegExp(RegexPatterns.HAS_CAPITAL),
-          { hasCapitalCase: true }
-        ),
-        CustomValidators.patternValidator(new RegExp(RegexPatterns.HAS_SMALL), {
-          hasSmallCase: true,
-        }),
-      ],
-    ],
-    passwordRepeat: ['', Validators.compose([Validators.required])],
-    declaration: [null, [Validators.required, Validators.requiredTrue]],
-  });
+  form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private dialog: MatDialog
-  ) {
-    this.addUserForm.setValidators(
-      CustomValidators.passwordMatchValidator(
-        this.password,
-        this.passwordRepeat,
-        {
-          passwordDifferent: true,
-        }
-      )
-    );
-  }
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.setupForm();
+  }
 
   onSubmit(): void {
     this.userService
@@ -86,29 +52,74 @@ export class AddUserComponent implements OnInit {
       });
   }
 
+  // FORMS SETUP
+
+  setupForm(): void {
+    this.form = this.fb.group({
+      userName: ['', Validators.required],
+      userSurname: ['', Validators.required],
+      userEmail: [
+        '',
+        [Validators.required, Validators.pattern(RegexPatterns.EMAIL)],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          CustomValidators.patternValidator(
+            new RegExp(RegexPatterns.HAS_NUMBER),
+            { hasNumber: true }
+          ),
+          CustomValidators.patternValidator(
+            new RegExp(RegexPatterns.HAS_CAPITAL),
+            { hasCapitalCase: true }
+          ),
+          CustomValidators.patternValidator(
+            new RegExp(RegexPatterns.HAS_SMALL),
+            {
+              hasSmallCase: true,
+            }
+          ),
+        ],
+      ],
+      passwordRepeat: ['', [Validators.required]],
+      declaration: [null, [Validators.required, Validators.requiredTrue]],
+    });
+
+    this.form.setValidators(
+      CustomValidators.passwordMatchValidator(
+        this.password,
+        this.passwordRepeat,
+        {
+          passwordDifferent: true,
+        }
+      )
+    );
+  }
+
   // FORMS
 
-  get userName(): any {
-    return this.addUserForm.get('userName');
+  get userName(): AbstractControl {
+    return this.form.get('userName');
   }
 
-  get userSurname(): any {
-    return this.addUserForm.get('userSurname');
+  get userSurname(): AbstractControl {
+    return this.form.get('userSurname');
   }
 
-  get userEmail(): any {
-    return this.addUserForm.get('userEmail');
+  get userEmail(): AbstractControl {
+    return this.form.get('userEmail');
   }
 
-  get password(): any {
-    return this.addUserForm.get('password');
+  get password(): AbstractControl {
+    return this.form.get('password');
   }
 
-  get passwordRepeat(): any {
-    return this.addUserForm.get('passwordRepeat');
+  get passwordRepeat(): AbstractControl {
+    return this.form.get('passwordRepeat');
   }
 
   get declaration(): any {
-    return this.addUserForm.get('declaration');
+    return this.form.get('declaration');
   }
 }
