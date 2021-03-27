@@ -25,6 +25,8 @@ import { ManageScoutsRolesModalComponent } from './modals/manage-scouts-roles-mo
 import { DeleteScoutModalComponent } from './modals/delete-scout-modal/delete-scout-modal.component';
 import { ExportCsvScoutsModalComponent } from './modals/export-csv-scouts-modal/export-csv-scouts-modal.component';
 import { FooterComponent } from './global/footer/footer.component';
+import { ErrorComponent } from './global/error/error.component';
+import { PageSpinnerComponent } from './global/page-spinner/page-spinner.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +43,8 @@ import { FooterComponent } from './global/footer/footer.component';
     DeleteScoutModalComponent,
     ExportCsvScoutsModalComponent,
     FooterComponent,
+    ErrorComponent,
+    PageSpinnerComponent,
   ],
   imports: [
     BrowserModule,
