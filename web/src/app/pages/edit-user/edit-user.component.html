@@ -1,74 +1,174 @@
 <app-menu></app-menu>
 
-<main role="main" class="container mb-3">
-    <h1 class="mt-5">Edytuj użytkownika</h1>
+<div class="d-flex">
+    <div class="container-clean-menu add-user-container">
+        <ng-container *ngIf="pageLoaded; else loading">
 
-    <form [formGroup]="editUserDataForm">
-        <div class="form-group">
-            <h5>Dane osobowe</h5>
-            <input type="text" class="form-control mt-2" placeholder="Imię" formControlName="userName">
-            <div class="d-flex flex-column" *ngIf="userName.invalid && (userName.dirty || userName.touched)">
-                <small class="alert-danger" *ngIf="userName.errors.required">Pole wymagane</small>
-            </div>
-            <input type="text" class="form-control mt-2" placeholder="Nazwisko" formControlName="userSurname">
-            <div class="d-flex flex-column" *ngIf="userSurname.invalid && (userSurname.dirty || userSurname.touched)">
-                <small class="alert-danger" *ngIf="userSurname.errors.required">Pole wymagane</small>
-            </div>
-            <input type="text" class="form-control mt-2" placeholder="Email" formControlName="userEmail">
-
-            <button class="btn btn-primary mt-2" type="submit" [disabled]="!editUserDataForm.valid"
-                (click)="editUserData()">Edytuj</button>
-            <div class="d-flex flex-column" *ngIf="editUserResult$ | async as result">
-                <small class="alert-success" *ngIf="result.result && result.show">Dane zaktualizowane</small>
-                <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
-            </div>
-        </div>
-    </form>
-    <form [formGroup]="editUserPasswordsFrom">
-        <div class="form-group">
-            <h5>Dane logowania</h5>
-            <input type="password" class="form-control mt-2" placeholder="Aktualne hasło"
-                formControlName="passwordUser">
-            <div class="d-flex flex-column" *ngIf="wrongUserPassword">
-                <small class="alert-danger">Hasło nieprawidłowe</small>
-            </div>
-            <div class="d-flex flex-column"
-                *ngIf="passwordUser.invalid && (passwordUser.dirty || passwordUser.touched)">
-                <small class="alert-danger" *ngIf="passwordUser.errors?.required">Pole wymagane</small>
+            <!-- ERROR HANDLING -->
+            <div *ngIf="pageError">
+                <app-error [error]="pageError"></app-error>
             </div>
 
-            <input type="password" class="form-control mt-2" placeholder="Hasło" formControlName="passwordNew">
-            <div class="d-flex flex-column" *ngIf="passwordNew.invalid && (passwordNew.dirty || passwordNew.touched)">
-                <small class="alert-danger" *ngIf="passwordNew.errors?.required">Pole wymagane</small>
-                <small class="alert-danger" *ngIf="passwordNew.errors?.hasNumber">Hasło musi posiadać co najmniej jedną
-                    cyfrę</small>
-                <small class="alert-danger" *ngIf="passwordNew.errors?.hasCapitalCase">Hasło musi posiadać co najmniej
-                    jedną wielką literę</small>
-                <small class="alert-danger" *ngIf="passwordNew.errors?.hasSmallCase">Hasło musi posiadać co najmniej
-                    jedną małą literę</small>
+            <!-- PAGE CONTENT -->
+            <div *ngIf="!pageError">
+
+                <app-page-header [header]="'Edytuj użytkownika'" [goBackUrl]="'/home'"></app-page-header>
+
+                <form [formGroup]="credentialsForm">
+
+                    <!-- CREDENTIALS -->
+                    <div class="form-group">
+                        <h5>Dane osobowe</h5>
+
+                        <!-- Name -->
+                        <div class="row mb-2">
+                            <label for="name" class="col-sm-3 col-form-label required">Imię</label>
+                            <div class="col-sm-9">
+                                <input id="name" type="text" class="form-control" formControlName="userName">
+
+                                <!-- Errors -->
+                                <div class="d-flex flex-column" *ngIf="userName.errors && userName.dirty">
+                                    <small class="alert-danger" *ngIf="userName.hasError('required')">Pole
+                                        wymagane</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Surname -->
+                        <div class="row mb-2">
+                            <label for="surname" class="col-sm-3 col-form-label required">Nazwisko</label>
+                            <div class="col-sm-9">
+                                <input id="surname" type="text" class="form-control" formControlName="userSurname">
+
+                                <div class="d-flex flex-column" *ngIf="userSurname.errors && userSurname.dirty">
+                                    <small class="alert-danger" *ngIf="userSurname.hasError('required')">Pole
+                                        wymagane</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="row mb-2">
+                            <label for="email" class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                                <input id="email" type="text" class="form-control" formControlName="userEmail">
+
+                                <!-- Errors -->
+                                <div class="d-flex flex-column" *ngIf="userEmail.errors && userEmail.dirty">
+                                    <small class="alert-danger" *ngIf="userEmail.hasError('required')">Pole
+                                        wymagane</small>
+                                    <small class="alert-danger" *ngIf="userEmail.hasError('pattern')">Nieprawidłowy
+                                        format
+                                        adresu
+                                        email. Poprawny: email@email.com</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <!-- SUBMIT BUTTON -->
+                            <button type="button" class="btn btn-primary button-add-user" type="submit"
+                                (click)="editCredentials()" [disabled]="!credentialsForm.valid">Edytuj</button>
+                        </div>
+
+                    </div>
+                </form>
+
+                <form [formGroup]="passwordsForm">
+
+                    <!-- PASSWORD -->
+                    <div class="form-group">
+                        <h5>Dane logowania</h5>
+
+                        <!-- Current password -->
+                        <div class="row mb-2">
+                            <label for="passwordCurrent" class="col-sm-3 col-form-label required">Obecne hasło</label>
+                            <div class="col-sm-9">
+                                <input id="passwordCurrent" type="password" class="form-control"
+                                    formControlName="passwordCurrent">
+
+                                <!-- Errors -->
+                                <div class="d-flex flex-column"
+                                    *ngIf="passwordCurrent.hasError('required') && passwordCurrent.dirty">
+                                    <small class="alert-danger">Pole
+                                        wymagane</small>
+                                </div>
+                                <div class="d-flex flex-column" *ngIf="validCurrentPassword === false">
+                                    <small class="alert-danger">Hasło
+                                        nieprawidłowe</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- password -->
+                        <div class="row mb-2">
+                            <label for="password" class="col-sm-3 col-form-label required">Nowe hasło</label>
+                            <div class="col-sm-9">
+                                <input id="password" type="password" class="form-control" formControlName="passwordNew">
+
+                                <!-- Errors -->
+                                <div class="d-flex flex-column" *ngIf="passwordNew.errors && passwordNew.dirty">
+                                    <small class="alert-danger" *ngIf="passwordNew.hasError('required')">Pole
+                                        wymagane</small>
+                                    <small class="alert-danger" *ngIf="passwordNew.hasError('hasNumber')">Hasło musi
+                                        posiadać
+                                        co
+                                        najmniej
+                                        jedną cyfrę</small>
+                                    <small class="alert-danger" *ngIf="passwordNew.hasError('hasCapitalCase')">Hasło
+                                        musi
+                                        posiadać
+                                        co
+                                        najmniej jedną wielką literę</small>
+                                    <small class="alert-danger" *ngIf="passwordNew.hasError('hasSmallCase')">Hasło musi
+                                        posiadać co
+                                        najmniej jedną małą literę</small>
+                                    <small class="alert-danger" *ngIf="passwordNew.hasError('minLength')">Hasło musi
+                                        posiadać
+                                        co
+                                        najmniej 8
+                                        cyfr</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- password repeat -->
+                        <div class="row mb-2">
+                            <label for="passwordRepeat" class="col-sm-3 col-form-label required">Powtórz hasło</label>
+                            <div class="col-sm-9">
+                                <input id="passwordRepeat" type="password" class="form-control"
+                                    formControlName="passwordRepeat">
+
+                                <!-- Errors -->
+                                <div class="d-flex flex-column"
+                                    *ngIf="(passwordRepeat.errors || passwordsForm.errors) && passwordRepeat.dirty">
+                                    <small class="alert-danger" *ngIf="passwordRepeat.hasError('required')">Pole
+                                        wymagane</small>
+                                    <small class="alert-danger"
+                                        *ngIf="passwordsForm.hasError('passwordDifferent')">Hasła
+                                        się
+                                        nie
+                                        zgadzają</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <!-- SUBMIT BUTTON -->
+                            <button type="button" class="btn btn-primary button-add-user" type="submit"
+                                (click)="editPassword()" [disabled]="!passwordsForm.valid">Edytuj</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-            <input type="password" class="form-control mt-2" placeholder="Powtórz hasło"
-                formControlName="passwordRepeat">
-            <div class="d-flex flex-column"
-                *ngIf="(passwordRepeat.invalid || editUserPasswordsFrom.invalid) && (passwordRepeat.dirty || passwordRepeat.touched)">
-                <small class="alert-danger" *ngIf="passwordRepeat.errors?.required">Pole wymagane</small>
-                <small class="alert-danger" *ngIf="editUserPasswordsFrom.errors?.passwordDifferent">Hasła się nie
-                    zgadzają</small>
-            </div>
-
-            <button class="btn btn-primary mt-2" type="submit" [disabled]="!editUserPasswordsFrom.valid"
-                (click)="editUserPasswords()">Edytuj</button>
-
-            <div class="d-flex flex-column" *ngIf="editPasswordResult$ | async as result">
-                <small class="alert-success" *ngIf="result.result && result.show">Dane zaktualizowane</small>
-                <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
-            </div>
-        </div>
-    </form>
-
-
-    <div>
-        <button class="btn btn-secondary btn-block" routerLink="/home">Powrót</button>
+        </ng-container>
     </div>
-</main>
+
+    <!-- LEFT POSTER -->
+    <div class="add-user-bg"></div>
+</div>
+<app-footer></app-footer>
+
+<ng-template #loading>
+    <app-page-spinner></app-page-spinner>
+</ng-template>

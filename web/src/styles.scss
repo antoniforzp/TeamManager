@@ -90,6 +90,16 @@ $web-theme: mat-light-theme(
   background-color: #f2f0eb;
 }
 
+.buttons-container {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+}
+
 .my-app-container {
   background-color: #f2f0eb;
 }

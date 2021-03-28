@@ -52,8 +52,8 @@ export class UserService {
     email: string
   ): Observable<boolean> {
     return this.rest.resolve<boolean>({
-      method: REST.POST,
-      url: `/teams${userId}`,
+      method: REST.PATCH,
+      url: `/users${userId}`,
       body: {
         name,
         surname,

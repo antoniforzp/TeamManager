@@ -27,6 +27,7 @@ import { ExportCsvScoutsModalComponent } from './modals/export-csv-scouts-modal/
 import { FooterComponent } from './global/footer/footer.component';
 import { ErrorComponent } from './global/error/error.component';
 import { PageSpinnerComponent } from './global/page-spinner/page-spinner.component';
+import { PageHeaderComponent } from './global/page-header/page-header.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +46,7 @@ import { PageSpinnerComponent } from './global/page-spinner/page-spinner.compone
     FooterComponent,
     ErrorComponent,
     PageSpinnerComponent,
+    PageHeaderComponent,
   ],
   imports: [
     BrowserModule,

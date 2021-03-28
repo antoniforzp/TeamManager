@@ -1,181 +1,237 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { forkJoin, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
 import { hideWithTimeout, Result, ResultOld } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 import { CoreService } from '../../services/core.service';
 import { UserService } from 'src/app/services/user.service';
+import { RegexPatterns } from 'src/app/utils/PatternsDefs';
+import { ErrorService } from 'src/app/services/error.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditUserComponent implements OnInit {
-  currentUser$ = new Subject<User>();
-  userTeams$ = new Subject<Team[]>();
-  wrongUserPassword = false;
+export class EditUserComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject();
 
-  // Server feedbacks
-  editUserResult$ = new Subject<ResultOld>();
-  editPasswordResult$ = new Subject<ResultOld>();
+  pageLoaded = false;
+  pageError: HttpErrorResponse;
+  validCurrentPassword: boolean;
 
-  editUserDataForm = this.fb.group({
-    userName: ['', Validators.required],
-    userSurname: ['', Validators.required],
-    userEmail: [''],
-  });
-
-  editUserPasswordsFrom = this.fb.group({
-    passwordUser: ['', Validators.required],
-    passwordNew: [
-      '',
-      Validators.compose([
-        Validators.required,
-        CustomValidators.patternValidator(/\d/, { hasNumber: true }),
-        CustomValidators.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
-        CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
-      ]),
-    ],
-    passwordRepeat: ['', Validators.compose([Validators.required])],
-  });
+  credentialsForm: FormGroup;
+  passwordsForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private coreService: CoreService,
-    private userService: UserService
-  ) {
-    this.currentUser$.subscribe((x) => {
-      // Load user data
-      this.editUserDataForm.patchValue({
-        userName: x.name,
-        userSurname: x.surname,
-        userEmail: x.email,
-      });
-
-      // Load password validators
-      this.editUserPasswordsFrom.setValidators([
-        CustomValidators.passwordMatchValidator(
-          this.passwordNew,
-          this.passwordRepeat,
-          {
-            passwordDifferent: true,
-          }
-        ),
-      ]);
-      this.userEmail.disable();
-    });
-  }
+    private userService: UserService,
+    private changeDetector: ChangeDetectorRef,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
+    this.setupCredentialsForm();
+    this.setupPasswordsForm();
+    this.loadPageData();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+
+  // DATA LOADING
+
+  loadPageData(): void {
+    this.pageLoaded = false;
+
     forkJoin({
       user: this.coreService.getCurrentUser(),
       teams: this.userService.getUserTeams(),
-    }).subscribe((x) => {
-      this.currentUser$.next(x.user);
-      this.userTeams$.next(x.teams);
-    });
-  }
+    })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (x) => {
+          this.patchUserData(x.user);
 
-  editUserData(): void {
-    this.editUserDataForm.markAllAsTouched();
-    this.coreService.getCurrentUser().subscribe((x) =>
-      this.userService
-        .editUserData(
-          x.userId,
-          this.userName.value,
-          this.userSurname.value,
-          x.password,
-          this.userEmail.value
-        )
-        .subscribe({
-          next: (res) => {
-            this.editUserResult$.next({
-              show: true,
-              result: res,
-            });
-            hideWithTimeout(this.editUserResult$);
-          },
-          error: () => {
-            this.editUserResult$.next({
-              show: true,
-              result: false,
-            });
-            hideWithTimeout(this.editUserResult$);
-          },
-        })
-    );
-  }
-
-  editUserPasswords(): void {
-    this.coreService
-      .getCurrentUser()
-      .pipe(
-        tap(
-          (x) =>
-            (this.wrongUserPassword = !(x.password === this.passwordUser.value))
-        )
-      )
-      .subscribe(() => {
-        this.editUserPasswordsFrom.markAllAsTouched();
-        if (!this.wrongUserPassword) {
-          this.coreService.getCurrentUser().subscribe((x) => {
-            this.userService
-              .editUserData(
-                x.userId,
-                x.name,
-                x.surname,
-                this.passwordNew.value,
-                x.email
-              )
-              .subscribe({
-                next: (res) => {
-                  this.editPasswordResult$.next({
-                    show: true,
-                    result: res,
-                  });
-                  hideWithTimeout(this.editPasswordResult$);
-                },
-                error: () => {
-                  this.editPasswordResult$.next({
-                    show: true,
-                    result: false,
-                  });
-                  hideWithTimeout(this.editPasswordResult$);
-                },
-              });
-          });
-        }
+          this.pageLoaded = true;
+          this.changeDetector.detectChanges();
+        },
+        error: (error) => {
+          this.pageLoaded = true;
+          this.pageError = error;
+          this.changeDetector.detectChanges();
+        },
       });
   }
 
-  refreshTeamsList(): void {
-    this.userService.getUserTeams().subscribe((x) => this.userTeams$.next(x));
+  patchUserData(user: User): void {
+    this.credentialsForm.patchValue({
+      userName: user.name,
+      userSurname: user.surname,
+      userEmail: user.email,
+    });
   }
 
-  get userName(): any {
-    return this.editUserDataForm.get('userName');
+  // FUNCTIONALITIES
+
+  editCredentials(): void {
+    this.coreService
+      .getCurrentUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (currUserData) => {
+          new ProgressModal(this.dialog).open(
+            this.userService.editUserData(
+              currUserData.userId,
+              this.userName.value,
+              this.userSurname.value,
+              currUserData.password,
+              currUserData.email
+            ),
+            {
+              successMessage: 'Udało się zaktualizować twoje dane.',
+              failureMessage: 'Nie udało się zaktualizować twoich danych.',
+            }
+          );
+        },
+        error: (err) => {
+          // TODO: Dorobić modala z errorem
+        },
+      });
   }
 
-  get userSurname(): any {
-    return this.editUserDataForm.get('userSurname');
+  editPassword(): void {
+    this.coreService
+      .getCurrentUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (currUserData) => {
+          // Check password
+          this.validCurrentPassword =
+            currUserData.password === this.passwordCurrent.value;
+
+          if (this.validCurrentPassword) {
+            new ProgressModal(this.dialog)
+              .open(
+                this.userService.editUserData(
+                  currUserData.userId,
+                  currUserData.name,
+                  currUserData.surname,
+                  this.passwordNew.value,
+                  currUserData.email
+                ),
+                {
+                  successMessage: 'Udało się zaktualizować hasło.',
+                  failureMessage: 'Nie udało się zaktualizować hasła.',
+                }
+              )
+              .afterClosed()
+              .subscribe(() => this.clearPasswordsForms());
+          }
+        },
+        error: (err) => {
+          // TODO: Dorobić modala z errorem
+        },
+      });
   }
 
-  get userEmail(): any {
-    return this.editUserDataForm.get('userEmail');
+  // FORM STEUP
+
+  setupCredentialsForm(): void {
+    this.credentialsForm = this.fb.group({
+      userName: ['', [Validators.required]],
+      userSurname: ['', [Validators.required]],
+      userEmail: ['', [Validators.required]],
+    });
+    this.userEmail.disable();
   }
 
-  get passwordUser(): any {
-    return this.editUserPasswordsFrom.get('passwordUser');
+  setupPasswordsForm(): void {
+    this.passwordsForm = this.fb.group({
+      passwordCurrent: ['', [Validators.required]],
+      passwordNew: [
+        '',
+        [
+          Validators.required,
+          CustomValidators.patternValidator(
+            new RegExp(RegexPatterns.HAS_NUMBER),
+            { hasNumber: true }
+          ),
+          CustomValidators.patternValidator(
+            new RegExp(RegexPatterns.HAS_CAPITAL),
+            { hasCapitalCase: true }
+          ),
+          CustomValidators.patternValidator(
+            new RegExp(RegexPatterns.HAS_SMALL),
+            { hasSmallCase: true }
+          ),
+        ],
+      ],
+      passwordRepeat: [''],
+    });
+
+    this.passwordsForm.setValidators([
+      CustomValidators.passwordMatchValidator(
+        this.passwordNew,
+        this.passwordRepeat,
+        {
+          passwordDifferent: true,
+        }
+      ),
+    ]);
   }
 
-  get passwordNew(): any {
-    return this.editUserPasswordsFrom.get('passwordNew');
+  clearPasswordsForms(): void {
+    this.passwordsForm.patchValue({
+      passwordCurrent: '',
+      passwordNew: '',
+      passwordRepeat: '',
+    });
+    this.validCurrentPassword = null;
   }
 
-  get passwordRepeat(): any {
-    return this.editUserPasswordsFrom.get('passwordRepeat');
+  // FORMS
+
+  get userName(): AbstractControl {
+    return this.credentialsForm.get('userName');
+  }
+
+  get userSurname(): AbstractControl {
+    return this.credentialsForm.get('userSurname');
+  }
+
+  get userEmail(): AbstractControl {
+    return this.credentialsForm.get('userEmail');
+  }
+
+  get passwordCurrent(): AbstractControl {
+    return this.passwordsForm.get('passwordCurrent');
+  }
+
+  get passwordNew(): AbstractControl {
+    return this.passwordsForm.get('passwordNew');
+  }
+
+  get passwordRepeat(): AbstractControl {
+    return this.passwordsForm.get('passwordRepeat');
   }
 }

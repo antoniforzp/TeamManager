@@ -1,7 +1,9 @@
 <div class="d-flex">
 
     <div class="container-clean add-user-container">
-        <h1>Dodaj drużynowego</h1>
+
+        <app-page-header [header]="'Dodaj użytkownika'" [goBackUrl]="'/login'"></app-page-header>
+
         <form [formGroup]="form">
 
             <!-- CREDENTIALS -->
@@ -121,10 +123,7 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-between buttons-container">
-
-                <!-- GO BACK BUTTON -->
-                <button type="button" class="btn btn-secondary button-add-user" routerLink="/login">Powrót</button>
+            <div class="d-flex justify-content-end buttons-container">
 
                 <!-- SUBMIT BUTTON -->
                 <button type="button" class="btn btn-primary button-add-user" type="submit" (click)="onSubmit()"
