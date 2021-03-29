@@ -1,8 +1,8 @@
 import { Subject } from 'rxjs';
 
 export enum Result {
-  Success,
-  Failure,
+  Failure = 0,
+  Success = 1,
 }
 export interface ResultOld {
   show: boolean;

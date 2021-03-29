@@ -22,7 +22,7 @@ export class TeamsService {
 
   getUserTeams(): Observable<Team[]> {
     return this.rest.resolve<Team[]>({
-      method: REST.POST,
+      method: REST.GET,
       url: `/teams`,
     });
   }

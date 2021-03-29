@@ -10,6 +10,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
+import { checkIfBlank } from 'src/app/utils/FormsUtils';
 import { CoreService } from '../../services/core.service';
 
 @Component({
@@ -22,6 +23,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   pageLoaded = false;
   pageError: HttpErrorResponse;
+
+  noPatron: boolean;
 
   // Page data
   currentUser!: User;
@@ -37,6 +40,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+
+  loadData(): void {
+    this.pageLoaded = false;
     forkJoin({
       user: this.coreService.getCurrentUser(),
       team: this.coreService.getCurrentTeam(),
@@ -60,6 +72,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           );
 
           this.noTeams = this.allTeams.length <= 0;
+          this.noPatron = checkIfBlank(result.team.patron);
 
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
@@ -70,10 +83,6 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.changeDetector.detectChanges();
         },
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
   }
 
   setCurrentTeam(newTeam: Team): void {
@@ -89,8 +98,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           (team) => team.teamId !== this.currentTeam.teamId
         );
 
-        this.pageLoaded = true;
-        this.changeDetector.detectChanges();
+        this.loadData();
       },
       error: () => {},
     });

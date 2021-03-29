@@ -108,7 +108,6 @@ $web-theme: mat-light-theme(
   font-weight: 200;
 }
 
-
 html,
 body {
   height: 100%;
@@ -117,4 +116,50 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.icon-button {
+  display: inline-block;
+  border: none;
+  outline: none;
+  margin: 0;
+  text-decoration: none;
+
+  transition: opacity 0.5s;
+  opacity: 0.6;
+}
+
+.icon-button:hover {
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+
+.checkbox-1x {
+  transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+}
+.checkbox-2x {
+  transform: scale(2);
+  -webkit-transform: scale(2);
+}
+
+// TABle
+
+.table {
+  tr {
+    background-color: #f8f7f4;
+  }
+
+  .selected {
+    background-color: #dbdad5;
+  }
+
+  tr:hover {
+    background-color: #e6e4df;
+  }
+
+  .checkbox-cell {
+    text-align: center;
+    vertical-align: middle;
+  }
 }

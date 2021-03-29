@@ -1,70 +1,114 @@
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import {
+  Validators,
+  FormBuilder,
+  FormGroup,
+  AbstractControl,
+} from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
 import { Team } from 'src/app/model/Team';
 import { hideWithTimeout, Result, ResultOld } from 'src/app/utils/Result';
 import { TeamsService } from '../../services/teams.service';
 
-interface TeamForm {
-  teamId: number;
-  formGroup: FormGroup;
-  result$: Subject<Result>;
+interface TeamDataRow {
+  name: string;
+  patron?: string;
+
+  teamObject: Team;
+  isSelected: boolean;
 }
 
 @Component({
   templateUrl: './teams.component.html',
   styleUrls: ['./teams.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TeamsComponent implements OnInit {
-  teams$ = new Subject<Team[]>();
-  addTeamForm = this.fb.group({
-    name: ['', Validators.required],
-    patron: ['', Validators.required],
-  });
+export class TeamsComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject();
 
-  editResult$ = new Subject<ResultOld>();
-  addResult$ = new Subject<ResultOld>();
+  pageLoaded = false;
+  pageError: HttpErrorResponse;
 
-  editTeamsForms: TeamForm[] = [];
+  form: FormGroup;
 
-  constructor(private fb: FormBuilder, private teamsService: TeamsService) {
-    // Load user teams and create custom array of control forms
-    this.teams$.subscribe((x) => {
-      this.editTeamsForms = [];
-      x.forEach((t) => {
-        this.editTeamsForms.push({
-          teamId: t.teamId,
-          result$: new Subject<Result>(),
-          formGroup: this.fb.group({
-            teamId: [t.teamId],
-            teamName: [t.name, Validators.required],
-            teamPatron: [t.patron, Validators.required],
-          }),
-        });
-      });
-    });
+  teams = [] as TeamDataRow[];
+
+  constructor(
+    private fb: FormBuilder,
+    private teamsService: TeamsService,
+    private changeDetector: ChangeDetectorRef,
+    private dialog: MatDialog
+  ) {}
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
   }
 
   ngOnInit(): void {
-    this.teamsService.getUserTeams().subscribe((x) => this.teams$.next(x));
+    this.setupForm();
+    this.loadData();
   }
 
-  refreshPage(): void {
-    this.teamsService.getUserTeams().subscribe((x) => this.teams$.next(x));
+  // DATA LOADING
+
+  loadData(): void {
+    this.pageLoaded = false;
+    this.teamsService
+      .getUserTeams()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (teams) => {
+          this.teams = teams.map((x) => {
+            return {
+              name: x.name,
+              patron: x.patron,
+              isSelected: false,
+              teamObject: x,
+            } as TeamDataRow;
+          });
+
+          this.pageLoaded = true;
+          this.changeDetector.detectChanges();
+        },
+        error: (err) => {
+          this.pageLoaded = true;
+          this.pageError = err;
+
+          this.changeDetector.detectChanges();
+        },
+      });
   }
+
+  // SELECTION
+
+  toggleSelected(team: TeamDataRow): void {
+    team.isSelected = !team.isSelected;
+  }
+
+  // FUNCTIONALITIES
 
   addTeam(): void {
-    this.teamsService.addTeam(this.name.value, this.patron.value).subscribe({
-      next: (res) => {
-        this.addResult$.next({ show: true, result: res });
-        hideWithTimeout(this.addResult$);
-        this.refreshPage();
-      },
-      error: () => {
-        this.addResult$.next({ show: true, result: false });
-        hideWithTimeout(this.addResult$);
-      },
-    });
+    new ProgressModal(this.dialog)
+      .open(this.teamsService.addTeam(this.name.value, this.patron.value), {
+        successMessage: 'Udało się dodać drużynę',
+        failureMessage: 'Nie udało się dodać drużyny',
+      })
+      .afterClosed()
+      .subscribe((x) => {
+        if (x === Result.Success) {
+          this.loadData();
+        }
+      });
   }
 
   editTeam(
@@ -73,41 +117,52 @@ export class TeamsComponent implements OnInit {
     teamPatron: string,
     result: Subject<ResultOld>
   ): void {
-    this.teamsService.patchTeam(teamId, teamName, teamPatron).subscribe({
-      next: (res) => {
-        result.next({ show: true, result: res });
-        hideWithTimeout(result);
-      },
-      error: () => {
-        result.next({ show: true, result: false });
-        hideWithTimeout(result);
-      },
-    });
+    // this.teamsService.patchTeam(teamId, teamName, teamPatron).subscribe({
+    //   next: (res) => {
+    //     result.next({ show: true, result: res });
+    //     hideWithTimeout(result);
+    //   },
+    //   error: () => {
+    //     result.next({ show: true, result: false });
+    //     hideWithTimeout(result);
+    //   },
+    // });
   }
 
   deleteTeam(teamId: number, result: Subject<ResultOld>): void {
-    this.teamsService.deleteTeam(teamId).subscribe({
-      next: (res) => {
-        result.next({ show: true, result: res });
-        hideWithTimeout(result);
-        this.refreshPage();
-      },
-      error: () => {
-        result.next({ show: true, result: false });
-        hideWithTimeout(result);
-      },
+    // this.teamsService.deleteTeam(teamId).subscribe({
+    //   next: (res) => {
+    //     result.next({ show: true, result: res });
+    //     hideWithTimeout(result);
+    //     this.refreshPage();
+    //   },
+    //   error: () => {
+    //     result.next({ show: true, result: false });
+    //     hideWithTimeout(result);
+    //   },
+    // });
+  }
+
+  // FORM SETTING UP
+
+  setupForm(): void {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      patron: [''],
     });
   }
 
-  get name(): any {
-    return this.addTeamForm.get('name');
+  // FORMS
+
+  get name(): AbstractControl {
+    return this.form.get('name');
   }
 
-  get patron(): any {
-    return this.addTeamForm.get('patron');
+  get patron(): AbstractControl {
+    return this.form.get('patron');
   }
 
   teamGroup(index: number): FormGroup {
-    return this.editTeamsForms[index].formGroup;
+    return this.form[index].formGroup;
   }
 }

@@ -4,7 +4,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { LoginService } from '../../services/login.service';
@@ -17,7 +17,7 @@ import { LoginService } from '../../services/login.service';
 export class LoginComponent implements OnInit {
   loginForm = this.fb.group({
     email: ['admin@admin.com', Validators.required],
-    password: ['Password1', Validators.required],
+    password: ['Admin1', Validators.required],
   });
 
   loginResult!: boolean;
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     this.loginInProgress = true;
     this.changeDetector.detectChanges();
 
-    this.loginService.login(this.email, this.password).subscribe({
+    this.loginService.login(this.email.value, this.password.value).subscribe({
       next: (x) => {
         if (this.resolveLoginStatus(x)) {
           this.router.navigateByUrl('/home');
@@ -71,11 +71,11 @@ export class LoginComponent implements OnInit {
 
   // FROMS
 
-  get email(): string {
-    return this.loginForm.get('email')?.value;
+  get email(): AbstractControl {
+    return this.loginForm.get('email');
   }
 
-  get password(): string {
-    return this.loginForm.get('password')?.value;
+  get password(): AbstractControl {
+    return this.loginForm.get('password');
   }
 }

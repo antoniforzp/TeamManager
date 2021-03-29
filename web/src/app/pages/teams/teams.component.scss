@@ -1,0 +1,67 @@
+.add-user-bg {
+  background: url("../../../assets/images/manage-teams-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  min-height: 90vh;
+  width: 50%;
+}
+
+.add-user-container {
+  width: 60%;
+  display: block;
+  position: relative;
+}
+
+.button-add-user {
+  width: 180px;
+}
+
+.button-dropdown {
+  text-align: right;
+  width: 180px;
+}
+
+.buttons-container {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 10px;
+}
+
+.regulations {
+  text-align: justify;
+}
+
+.my-col-content {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.teams-icon-button {
+  background-size: cover;
+
+  width: 40px;
+  height: 40px;
+}
+
+.add {
+  background-image: url(../../../assets/icons/add.svg);
+}
+
+.remove {
+  background-image: url(../../../assets/icons/remove.svg);
+}
+
+.test {
+  background-color: aquamarine;
+}
+
+.teams-table {
+  max-height: 50vh;
+  overflow-y: scroll;
+}
