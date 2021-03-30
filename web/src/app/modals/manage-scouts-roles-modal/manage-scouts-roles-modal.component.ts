@@ -125,8 +125,9 @@ export class ManageScoutsRolesModalComponent implements OnInit {
           failureMessage:
             'Nie udało się dodać funkcji. Sprawdź wszystkie dane.',
         })
-        .afterClosed()
-        .subscribe((x) => this.dialogRef.close(x));
+        .then((x) =>
+          x.afterClosed().subscribe((result) => this.dialogRef.close(result))
+        );
     }
   }
 }

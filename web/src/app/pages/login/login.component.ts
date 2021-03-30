@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
 import { LoginService } from '../../services/login.service';
 
 @Component({

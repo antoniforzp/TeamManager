@@ -171,8 +171,11 @@ export class ManageScoutModalComponent implements OnInit {
                       'Nie udało się dodać harcerza. Sprawdź wszystkie dane.',
                   }
                 )
-                .afterClosed()
-                .subscribe((x) => this.dialogRef.close(x));
+                .then((x) =>
+                  x
+                    .afterClosed()
+                    .subscribe((result) => this.dialogRef.close(result))
+                );
             }
             break;
           case PageModes.Edit:
@@ -201,8 +204,11 @@ export class ManageScoutModalComponent implements OnInit {
                       'Nie udało się zaktualizować dane harcerza. Sprawdź wszystkie dane.',
                   }
                 )
-                .afterClosed()
-                .subscribe((x) => this.dialogRef.close(x));
+                .then((x) =>
+                  x
+                    .afterClosed()
+                    .subscribe((result) => this.dialogRef.close(result))
+                );
             }
             break;
         }

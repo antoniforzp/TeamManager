@@ -144,8 +144,9 @@ export class EditUserComponent implements OnInit, OnDestroy {
                   failureMessage: 'Nie udało się zaktualizować hasła.',
                 }
               )
-              .afterClosed()
-              .subscribe(() => this.clearPasswordsForms());
+              .then((x) =>
+                x.afterClosed().subscribe(() => this.clearPasswordsForms())
+              );
           }
         },
         error: (err) => {

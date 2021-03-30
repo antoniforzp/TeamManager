@@ -4,7 +4,6 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { Subject } from 'rxjs';
 import { MenuService } from './menu.service';
 
 @Component({

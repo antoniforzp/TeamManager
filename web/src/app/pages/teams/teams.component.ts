@@ -157,12 +157,13 @@ export class TeamsComponent implements OnInit, OnDestroy {
         successMessage: 'Udało się dodać drużynę',
         failureMessage: 'Nie udało się dodać drużyny',
       })
-      .afterClosed()
-      .subscribe((x) => {
-        if (x === Result.Success) {
-          this.loadData();
-        }
-      });
+      .then((x) =>
+        x.afterClosed().subscribe((result) => {
+          if (result === Result.Success) {
+            this.loadData();
+          }
+        })
+      );
   }
 
   editTeam(

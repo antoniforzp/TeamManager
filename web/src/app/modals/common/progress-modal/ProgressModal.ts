@@ -9,10 +9,11 @@ import {
 export class ProgressModal {
   constructor(private dialog: MatDialog) {}
 
-  open<T>(
+  async open<T>(
     response: Observable<T>,
     options?: Options
-  ): MatDialogRef<ProgressModalComponent> {
+  ): Promise<MatDialogRef<ProgressModalComponent>> {
+    await import('./progress-modal.module');
     return this.dialog.open(ProgressModalComponent, {
       width: '30%',
       disableClose: true,
