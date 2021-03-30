@@ -1,0 +1,36 @@
+.table {
+  position: relative !important;
+
+  tr {
+    transition: background-color 0.1s;
+    background-color: #f8f7f4;
+  }
+
+  .selected {
+    transition: background-color 0.1s;
+    background-color: #dbdad5;
+  }
+
+  .selected:hover {
+    transition: background-color 0.1s;
+    background-color: #bebebc;
+  }
+
+  tr:hover {
+    transition: background-color 0.1s;
+    background-color: #e6e4df;
+  }
+
+  .checkbox-cell {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .my-thead th {
+    position: sticky;
+    top: 0;
+    background-color: #141511;
+    color: #f2f0eb !important;
+    font-weight: 200 !important;
+  }
+}

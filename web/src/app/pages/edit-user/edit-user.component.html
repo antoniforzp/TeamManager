@@ -1,7 +1,9 @@
 <app-menu></app-menu>
 
 <div class="d-flex">
-    <div class="container-clean-menu add-user-container">
+
+    <div class="my-page-side-container my-container-menu">
+
         <ng-container *ngIf="pageLoaded; else loading">
 
             <!-- ERROR HANDLING -->
@@ -82,7 +84,8 @@
 
                         <!-- Current password -->
                         <div class="row mb-2">
-                            <label for="passwordCurrent" class="col-sm-3 col-form-label required">Obecne hasło</label>
+                            <label for="passwordCurrent" class="col-sm-3 col-form-label required">Obecne
+                                hasło</label>
                             <div class="col-sm-9">
                                 <input id="passwordCurrent" type="password" class="form-control"
                                     formControlName="passwordCurrent">
@@ -120,7 +123,8 @@
                                         posiadać
                                         co
                                         najmniej jedną wielką literę</small>
-                                    <small class="alert-danger" *ngIf="passwordNew.hasError('hasSmallCase')">Hasło musi
+                                    <small class="alert-danger" *ngIf="passwordNew.hasError('hasSmallCase')">Hasło
+                                        musi
                                         posiadać co
                                         najmniej jedną małą literę</small>
                                     <small class="alert-danger" *ngIf="passwordNew.hasError('minLength')">Hasło musi
@@ -134,7 +138,8 @@
 
                         <!-- password repeat -->
                         <div class="row mb-2">
-                            <label for="passwordRepeat" class="col-sm-3 col-form-label required">Powtórz hasło</label>
+                            <label for="passwordRepeat" class="col-sm-3 col-form-label required">Powtórz
+                                hasło</label>
                             <div class="col-sm-9">
                                 <input id="passwordRepeat" type="password" class="form-control"
                                     formControlName="passwordRepeat">
@@ -165,8 +170,9 @@
     </div>
 
     <!-- LEFT POSTER -->
-    <div class="add-user-bg"></div>
+    <div class="my-page-side-poster"></div>
 </div>
+
 <app-footer></app-footer>
 
 <ng-template #loading>

@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <h5>Dodaj nową jednotkę</h5>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="form">
+
+        <!-- ADD NEW TEAM -->
+        <div class="form-group">
+
+            <!-- Name -->
+            <div class="row mb-2">
+                <label for="name" class="col-sm-2 col-form-label required">Nazwa</label>
+                <div class="col">
+                    <input id="name" type="text" class="form-control" formControlName="name">
+
+                    <!-- Errors -->
+                    <div class="d-flex flex-column" *ngIf="name.errors && name.dirty">
+                        <small class="alert-danger" *ngIf="name.hasError('required')">Pole
+                            wymagane</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patron -->
+            <div class="row mb-2">
+                <label for="patron" class="col-sm-2 col-form-label">Patron</label>
+                <div class="col">
+                    <input id="patron" type="text" class="form-control" formControlName="patron">
+                    <div class="d-flex flex-column">
+                        <small>Proszę podać patrona w formie odmienionej np. "im. Jerzego
+                            Grodyńskiego"</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end mt-3">
+                <!-- SUBMIT BUTTON -->
+
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <div>
+        <button class="btn btn-light my-button" (click)="close()">Close</button>
+        <button type="button" class="btn btn-success my-button" (click)="addTeam()"
+            [disabled]="!form.valid">Dodaj</button>
+    </div>
+</div>

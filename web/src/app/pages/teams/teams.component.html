@@ -1,7 +1,7 @@
 <app-menu></app-menu>
 
 <div class="d-flex">
-    <div class="container-clean-menu add-user-container">
+    <div class="my-container-menu my-page-container">
         <ng-container *ngIf="pageLoaded; else loading">
 
             <!-- ERROR HANDLING -->
@@ -14,49 +14,6 @@
 
                 <app-page-header [header]="'Moje jednostki'" [goBackUrl]="'/home'"></app-page-header>
 
-                <div class="mb-3">
-                    <form [formGroup]="form">
-
-                        <!-- ADD NEW TEAM -->
-                        <div class="form-group">
-                            <h5>Dodaj nową jednotkę</h5>
-
-                            <!-- Name -->
-                            <div class="row mb-2">
-                                <label for="name" class="col-sm-2 col-form-label required">Nazwa</label>
-                                <div class="col">
-                                    <input id="name" type="text" class="form-control" formControlName="name">
-
-                                    <!-- Errors -->
-                                    <div class="d-flex flex-column" *ngIf="name.errors && name.dirty">
-                                        <small class="alert-danger" *ngIf="name.hasError('required')">Pole
-                                            wymagane</small>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Patron -->
-                            <div class="row mb-2">
-                                <label for="patron" class="col-sm-2 col-form-label">Patron</label>
-                                <div class="col">
-                                    <input id="patron" type="text" class="form-control" formControlName="patron">
-                                    <div class="d-flex flex-column">
-                                        <small>Proszę podać patrona w formie odmienionej np. "im. Jerzego
-                                            Grodyńskiego"</small>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="d-flex justify-content-end mt-3">
-                                <!-- SUBMIT BUTTON -->
-                                <button type="button" class="btn btn-success button-add-user" (click)="addTeam()"
-                                    [disabled]="!form.valid">Dodaj</button>
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-
                 <!-- TEAMS -->
                 <div class="pt-3 border-top">
 
@@ -64,7 +21,7 @@
                         <h5>Zarządzaj jednostkami ({{teams.length}})</h5>
 
                         <div class="dropdown">
-                            <button class="btn btn-secondary button-add-user dropdown-toggle" type="button"
+                            <button class="btn btn-secondary dropdown-toggle my-button" type="button"
                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" (click)="setActions()">
                                 Opcje
@@ -79,8 +36,8 @@
                     </div>
 
                     <!-- teams table -->
-                    <div class="mt-3" style="height: 40vh; overflow-y: auto;">
-                        <table class="table table-fixed">
+                    <div class="mt-3" style="max-height:60vh; overflow-y: auto;">
+                        <table class="table">
                             <thead class="my-thead">
                                 <th class="checkbox-cell">
                                     <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
@@ -118,7 +75,7 @@
     </div>
 
     <!-- LEFT POSTER -->
-    <div class="add-user-bg"></div>
+    <div class="my-page-bg"></div>
 </div>
 <app-footer></app-footer>
 

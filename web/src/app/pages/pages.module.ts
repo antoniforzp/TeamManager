@@ -9,6 +9,7 @@ import { TeamsComponent } from './teams/teams.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   ],
   imports: [
     CommonModule,
+    RouterModule,
     FormsModule,
     MatDialogModule,
     ReactiveFormsModule,

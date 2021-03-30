@@ -1,6 +1,5 @@
 <div class="d-flex">
-
-    <div class="container-clean add-user-container">
+    <div class="my-page-side-container my-container relative">
 
         <app-page-header [header]="'Dodaj użytkownika'" [goBackUrl]="'/login'"></app-page-header>
 
@@ -102,7 +101,7 @@
             <div class="form-group mt-3">
                 <h5>Deklaracje</h5>
                 <div class="d-flex flex-column">
-                    <span class="regulations">
+                    <span class="text-justify">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dignissim pulvinar odio sit amet
                         tincidunt. Nunc erat eros, sodales tempus ante non, tincidunt congue libero. Maecenas sit amet
                         vestibulum dolor, non vehicula turpis.
@@ -123,18 +122,13 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-end buttons-container">
-
+            <div class="my-buttons-page-container">
                 <!-- SUBMIT BUTTON -->
-                <button type="button" class="btn btn-primary button-add-user" type="submit" (click)="onSubmit()"
+                <button type="button" class="btn btn-primary my-button" type="submit" (click)="addUser()"
                     [disabled]="!form.valid">Dodaj</button>
             </div>
 
             <!-- ERROR HANDLING -->
-            <div class="d-flex flex-column" *ngIf="result$ | async as result">
-                <small class="alert-success" *ngIf="result.result && result.show">Użytkownik dodany</small>
-                <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
-            </div>
             <div class="d-flex flex-column">
                 <small *ngIf="mailExists" class="alert-danger">Podany adres emial już istnieje w naszej bazie
                     danych</small>
@@ -144,6 +138,6 @@
     </div>
 
     <!-- LEFT POSTER -->
-    <div class="add-user-bg"></div>
+    <div class="my-page-side-poster"></div>
 </div>
 <app-footer></app-footer>

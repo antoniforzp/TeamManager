@@ -4,7 +4,12 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 
@@ -14,10 +19,7 @@ import { LoginService } from '../../services/login.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
-  loginForm = this.fb.group({
-    email: ['admin@admin.com', Validators.required],
-    password: ['Admin1', Validators.required],
-  });
+  loginForm: FormGroup;
 
   loginResult!: boolean;
   loginError!: boolean;
@@ -32,7 +34,9 @@ export class LoginComponent implements OnInit {
     private changeDetector: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.setupForm();
+  }
 
   onSubmit(): void {
     this.loginInProgress = true;
@@ -59,13 +63,21 @@ export class LoginComponent implements OnInit {
     this.pageErrorMessage = this.loginResult
       ? ''
       : 'Nieprawidłowe dane logowania';
-
     return result;
   }
 
   resolveError(): void {
     this.loginError = true;
     this.pageErrorMessage = 'Błąd połączenia z serwerem';
+  }
+
+  // SETTING UP FORM
+
+  setupForm(): void {
+    this.loginForm = this.fb.group({
+      email: ['admin@admin.com', Validators.required],
+      password: ['Admin1', Validators.required],
+    });
   }
 
   // FROMS

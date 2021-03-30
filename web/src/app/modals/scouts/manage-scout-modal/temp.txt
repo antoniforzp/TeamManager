@@ -1,0 +1,226 @@
+<mat-dialog-content>
+    <div class="modal-header">
+        <h2 *ngIf="mode === PageModes.Add" class="modal-title">Dodaj harcerza</h2>
+        <h2 *ngIf="mode === PageModes.Edit" class="modal-title">Edytuj harcerza</h2>
+    </div>
+    <div class="modal-body">
+
+        <form [formGroup]="form">
+
+            <div class="form-group mb-5">
+                <h5>Dane osobowe</h5>
+
+                <!-- Name -->
+                <div class="row mb-2">
+                    <label for="name" class="col-sm-3 col-form-label required">Imię</label>
+                    <div class="col-sm-9">
+                        <input id="name" type="text" class="form-control" formControlName="name"
+                            [ngClass]="{'is-invalid': name.invalid && (name.touched || name.dirty)}">
+
+                        <!-- (!) Name -->
+                        <div class="d-flex flex-column" *ngIf="name.invalid && (name.touched || name.dirty)">
+                            <span class="text-danger" *ngIf="name.errors?.required">
+                                Pole wymagane
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Surname -->
+                <div class="row mb-2">
+                    <label for="surname" class="col-sm-3 col-form-label required">Nazwisko</label>
+                    <div class="col-sm-9">
+                        <input id="surname" type="text" class="form-control" formControlName="surname"
+                            [ngClass]="{'is-invalid': surname.invalid && (surname.touched || surname.dirty)}">
+
+                        <!-- (!) Surname -->
+                        <div class="d-flex flex-column" *ngIf="surname.invalid && (surname.touched || surname.dirty)">
+                            <span class="text-danger" *ngIf="surname.errors?.required">
+                                Pole wymagane
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pesel -->
+                <div class="row mb-2">
+                    <label for="pesel" class="col-sm-3 col-form-label">PESEL</label>
+                    <div class="col-sm-9">
+                        <input id="pesel" type="text" class="form-control" formControlName="pesel"
+                            [ngClass]="{'is-invalid': pesel.invalid && (pesel.pristine || pesel.dirty)}">
+
+                        <!-- (!) Pesel -->
+                        <div class="d-flex flex-column" *ngIf="pesel.invalid && (pesel.touched || pesel.dirty)">
+                            <span class="text-danger" *ngIf="pesel.errors?.pattern">
+                                Zły format
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Birth date -->
+                <div class="row mb-2">
+                    <label for="birthDate" class="col-sm-3 col-form-label">Data urodzenia</label>
+                    <div class="col-sm-9">
+                        <div class="d-flex align-items-baseline"><input id="birthDate" type="text" matInput
+                                [matDatepicker]="picker" class="form-control" formControlName="birthDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker>
+                                <mat-date-range-picker-actions>
+                                    <button mat-button matDateRangePickerCancel>Cancel</button>
+                                    <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+                                </mat-date-range-picker-actions>
+                            </mat-datepicker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troop -->
+            <div class="form-group mb-5">
+                <h5>Przydział</h5>
+
+                <div class="row mb-2">
+                    <label for="troop" class="col-sm-3 col-form-label required">Zastęp</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" matInput [matAutocomplete]="matTroops"
+                            formControlName="troop"
+                            [ngClass]="{'is-invalid': troop.invalid && (troop.touched || troop.dirty)}">
+                        <mat-autocomplete #matTroops="matAutocomplete">
+                            <mat-option *ngFor="let option of allTroops$ | async" [value]="option.name">
+                                {{option.name}}
+                            </mat-option>
+                        </mat-autocomplete>
+
+                        <!-- (!) Troop -->
+                        <div class="d-flex flex-column" *ngIf="troop.invalid && (troop.touched || troop.dirty)">
+                            <span class="text-danger" *ngIf="troop.errors?.required">
+                                Pole wymagane
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group mb-5">
+                <h5>Stopnie</h5>
+
+                <!-- Rank -->
+                <div class="row mb-2">
+                    <label for="rankInput" class="col-sm-3 col-form-label required">Stopień harcerski</label>
+                    <div class="col-sm-9">
+                        <input id="rankInput" type="text" class="form-control" matInput [matAutocomplete]="matRanks"
+                            formControlName="rank"
+                            [ngClass]="{'is-invalid': rank.invalid && (rank.touched || rank.dirty)}">
+                        <mat-autocomplete #matRanks="matAutocomplete">
+                            <mat-option *ngFor="let option of allRanks$ | async" [value]="option.name">
+                                {{option.name}}
+                            </mat-option>
+                        </mat-autocomplete>
+
+                        <!-- (!) Rank -->
+                        <div class="d-flex flex-column" *ngIf="rank.invalid && (rank.touched || rank.dirty)">
+                            <span class="text-danger" *ngIf="rank.errors?.required">
+                                Pole wymagane
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructor Rank -->
+                <div class="row mb-2">
+                    <label for="instructorRankInput" class="col-sm-3 col-form-label required">Stopień
+                        instruktorski</label>
+                    <div class="col-sm-9">
+                        <input id="instructorRankInput" type="text" class="form-control" matInput
+                            [matAutocomplete]="matInstructorRanks" formControlName="instructorRank"
+                            [ngClass]="{'is-invalid': rank.invalid && (instructorRank.touched || instructorRank.dirty)}">
+                        <mat-autocomplete #matInstructorRanks="matAutocomplete">
+                            <mat-option *ngFor="let option of allInstructorRanks$ | async" [value]="option.name">
+                                {{option.name}}
+                            </mat-option>
+                        </mat-autocomplete>
+
+                        <!-- (!) Instructor Rank -->
+                        <div class="d-flex flex-column"
+                            *ngIf="instructorRank.invalid && (instructorRank.touched || instructorRank.dirty)">
+                            <span class="text-danger" *ngIf="instructorRank.errors?.required">
+                                Pole wymagane
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h5>Adres zamieszkania</h5>
+
+                <!-- Address -->
+                <div class="row mb-2">
+                    <label for="address" class="col-sm-3 col-form-label">
+                        Adres</label>
+                    <div class="col-sm-9">
+                        <input id="address" type="text" class="form-control" formControlName="address">
+                    </div>
+                </div>
+
+                <!-- Postal code -->
+                <div class="row mb-2">
+                    <label for="postalCode" class="col-sm-3 col-form-label">Kod pocztowy</label>
+                    <div class="col-sm-9">
+                        <input id="postalCode" type="text" class="form-control" formControlName="postalCode"
+                            [ngClass]="{'is-invalid': postalCode.invalid && (postalCode.touched || postalCode.dirty)}">
+
+                        <!-- (!) Postal code -->
+                        <div class="d-flex flex-column"
+                            *ngIf="postalCode.invalid && (postalCode.touched || postalCode.dirty)">
+                            <span class="text-danger" *ngIf="postalCode.errors?.pattern">
+                                Prawidłowy format to: 00-000
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- City -->
+                <div class="row mb-2">
+                    <label for="city" class="col-sm-3 col-form-label">
+                        Miasto</label>
+                    <div class="col-sm-9">
+                        <input id="city" type="text" class="form-control" formControlName="city">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h5>Dane kontaktowe</h5>
+
+                <!-- Contact -->
+                <div class="row mb-2">
+                    <label for="contact" class="col-sm-3 col-form-label">Telefon komórkowy</label>
+                    <div class="col-sm-9">
+                        <input id="contact" type="text" class="form-control" formControlName="contact"
+                            [ngClass]="{'is-invalid': contact.invalid && (contact.touched || contact.dirty)}">
+
+                        <!-- (!) Contact -->
+                        <div class="d-flex flex-column" *ngIf="contact.invalid && (contact.touched || contact.dirty)">
+                            <span class="text-danger" *ngIf="contact.errors?.pattern">
+                                Prawidłowy format to: 123-123-123
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions class="modal-footer d-flex flex-column align-content-end">
+    <div>
+        <button type="button" class="btn btn-light mr-2" (click)="close()">Zamknij</button>
+        <button *ngIf="mode === PageModes.Edit" type="button" class="btn btn-success"
+            (click)="manageScout()">Edytuj</button>
+        <button *ngIf="mode === PageModes.Add" type="button" class="btn btn-success"
+            (click)="manageScout()">Dodaj</button>
+    </div>
+</mat-dialog-actions>

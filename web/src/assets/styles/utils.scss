@@ -1,0 +1,20 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.no-outline {
+  outline: none;
+}
+
+.required:after {
+  content: "*";
+  color: red;
+}
+
+.label {
+  font-weight: 200;
+}
+
+.relative {
+  position: relative;
+}

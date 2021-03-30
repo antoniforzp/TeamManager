@@ -1,8 +1,6 @@
 <app-menu></app-menu>
 
-<div class="container-clean-menu">
-
-
+<div class="my-container-menu">
 
     <div *ngIf="pageLoaded; else loading">
 
@@ -28,11 +26,11 @@
                             </h5>
 
                             <div class="d-flex">
-                                <button class="btn btn-secondary button-home mr-2" routerLink="/teams">
+                                <button class="btn btn-secondary my-button mr-2" routerLink="/teams">
                                     Moje jednostki ({{allTeams.length}}) </button>
 
                                 <div class="dropdown mr-2">
-                                    <a class="btn btn-primary dropdown-toggle button-home" href="#" role="button"
+                                    <a class="btn btn-primary dropdown-toggle my-button" href="#" role="button"
                                         id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false" [ngClass]="{'disabled': selectableTeams.length <= 0}">
                                         Zmień jednostkę
@@ -47,13 +45,14 @@
                             </div>
                         </ng-container>
 
+                        <!-- No teams section -->
                         <ng-container *ngIf="noTeams" class="d-flex flex-column">
                             <p><span>
                                     Nie masz jeszcze żadnej jednostki. Dodaj swoję pierwszą drużynę, aby móc skorzystać
                                     ze
                                     wszystkich fukcjonalności.
                                 </span></p>
-                            <button class="btn btn-success button-home" routerLink="/teams">Dodaj jednostkę</button>
+                            <button class="btn btn-success my-button" routerLink="/teams">Dodaj jednostkę</button>
                         </ng-container>
                     </div>
 
@@ -67,7 +66,7 @@
                                 <span>{{currentUser.surname}}</span><br>
                                 <span>{{currentUser.email}}</span>
                             </h5>
-                            <button class="btn btn-secondary button-home" routerLink="/editUser">Edytuj</button>
+                            <button class="btn btn-secondary my-button" routerLink="/editUser">Edytuj</button>
                         </div>
                     </div>
 

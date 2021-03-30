@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
+import { EditTeamModal } from 'src/app/modals/teams/add-edit-team-modal/add-edit-team-modal';
 import { Team } from 'src/app/model/Team';
 import { hideWithTimeout, Result, ResultOld } from 'src/app/utils/Result';
 import { TeamsService } from '../../services/teams.service';
@@ -50,7 +51,6 @@ export class TeamsComponent implements OnInit, OnDestroy {
   pageLoaded = false;
   pageError: HttpErrorResponse;
 
-  form: FormGroup;
   actions = new Map<Actions, DropdownAction>();
 
   // Selection
@@ -59,7 +59,6 @@ export class TeamsComponent implements OnInit, OnDestroy {
   teams = [] as TeamDataRow[];
 
   constructor(
-    private fb: FormBuilder,
     private teamsService: TeamsService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
@@ -70,7 +69,6 @@ export class TeamsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.setupForm();
     this.loadData();
   }
 
@@ -112,10 +110,7 @@ export class TeamsComponent implements OnInit, OnDestroy {
     this.actions.set(Actions.EDIT, {
       label: 'Edytuj',
       isEnabled: selected.length === 1,
-      action: () => {
-        // TODO: Dać akcję edit
-        console.log('Edit');
-      },
+      action: () => this.openEditModal(),
     });
 
     this.actions.set(Actions.DELETE, {
@@ -126,6 +121,20 @@ export class TeamsComponent implements OnInit, OnDestroy {
         console.log('Delete');
       },
     });
+  }
+
+  openEditModal(): void {
+    const selected = this.teams
+      .filter((x) => x.isSelected)
+      .map((x) => x.teamObject);
+
+    new EditTeamModal(this.dialog).openEdit(selected[0]).then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Result.Success) {
+          this.loadData();
+        }
+      })
+    );
   }
 
   // SELECTION
@@ -143,81 +152,8 @@ export class TeamsComponent implements OnInit, OnDestroy {
   }
 
   toggleSelectAll(value: boolean): void {
-    console.log(value);
     this.allSelected = value;
     this.teams.forEach((x) => (x.isSelected = this.allSelected));
     this.changeDetector.detectChanges();
-  }
-
-  // FUNCTIONALITIES
-
-  addTeam(): void {
-    new ProgressModal(this.dialog)
-      .open(this.teamsService.addTeam(this.name.value, this.patron.value), {
-        successMessage: 'Udało się dodać drużynę',
-        failureMessage: 'Nie udało się dodać drużyny',
-      })
-      .then((x) =>
-        x.afterClosed().subscribe((result) => {
-          if (result === Result.Success) {
-            this.loadData();
-          }
-        })
-      );
-  }
-
-  editTeam(
-    teamId: number,
-    teamName: string,
-    teamPatron: string,
-    result: Subject<ResultOld>
-  ): void {
-    // this.teamsService.patchTeam(teamId, teamName, teamPatron).subscribe({
-    //   next: (res) => {
-    //     result.next({ show: true, result: res });
-    //     hideWithTimeout(result);
-    //   },
-    //   error: () => {
-    //     result.next({ show: true, result: false });
-    //     hideWithTimeout(result);
-    //   },
-    // });
-  }
-
-  deleteTeam(teamId: number, result: Subject<ResultOld>): void {
-    // this.teamsService.deleteTeam(teamId).subscribe({
-    //   next: (res) => {
-    //     result.next({ show: true, result: res });
-    //     hideWithTimeout(result);
-    //     this.refreshPage();
-    //   },
-    //   error: () => {
-    //     result.next({ show: true, result: false });
-    //     hideWithTimeout(result);
-    //   },
-    // });
-  }
-
-  // FORM SETTING UP
-
-  setupForm(): void {
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      patron: [''],
-    });
-  }
-
-  // FORMS
-
-  get name(): AbstractControl {
-    return this.form.get('name');
-  }
-
-  get patron(): AbstractControl {
-    return this.form.get('patron');
-  }
-
-  teamGroup(index: number): FormGroup {
-    return this.form[index].formGroup;
   }
 }

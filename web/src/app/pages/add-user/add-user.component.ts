@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -28,27 +33,34 @@ export class AddUserComponent implements OnInit {
     this.setupForm();
   }
 
-  onSubmit(): void {
+  // FUNCTIONALITIES
+
+  addUser(): void {
     this.userService
       .checkUser(this.userEmail.value)
       .pipe(tap((mailExists) => (this.mailExists = mailExists)))
-      .subscribe((mailExists) => {
-        if (!mailExists) {
-          new ProgressModal(this.dialog).open(
-            this.userService.addUser(
-              this.userName.value,
-              this.userSurname.value,
-              this.password.value,
-              this.userEmail.value
-            ),
-            {
-              successMessage:
-                'Udało się stworzyć konto. Zaloguj się do aplikacji.',
-              failureMessage:
-                'Nie udało się zaktualizować dane harcerza. Sprawdź wszystkie dane.',
-            }
-          );
-        }
+      .subscribe({
+        next: (mailExists) => {
+          if (!mailExists) {
+            new ProgressModal(this.dialog).open(
+              this.userService.addUser(
+                this.userName.value,
+                this.userSurname.value,
+                this.password.value,
+                this.userEmail.value
+              ),
+              {
+                successMessage:
+                  'Udało się stworzyć konto. Zaloguj się do aplikacji.',
+                failureMessage:
+                  'Nie udało się zaktualizować dane harcerza. Sprawdź wszystkie dane.',
+              }
+            );
+          }
+        },
+        error: (err) => {
+          // TODO: Error handling
+        },
       });
   }
 

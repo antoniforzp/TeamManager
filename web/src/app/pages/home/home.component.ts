@@ -47,6 +47,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
+  // DATA LOADING
+
   loadData(): void {
     this.pageLoaded = false;
     forkJoin({
@@ -85,6 +87,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
   }
 
+  // FUNCTIONALITIES
+
   setCurrentTeam(newTeam: Team): void {
     this.pageLoaded = false;
     this.changeDetector.detectChanges();
@@ -100,7 +104,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         this.loadData();
       },
-      error: () => {},
+      error: () => {
+        // TODO: error handling
+      },
     });
   }
 }

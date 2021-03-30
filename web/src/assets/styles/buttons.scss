@@ -1,0 +1,33 @@
+.my-button {
+  min-width: 120px;
+}
+
+.my-buttons-page-container {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding-left: 80px;
+  padding-right: 80px;
+  padding-bottom: 40px;
+}
+
+.my-icon-button {
+  display: inline-block;
+  border: none;
+  outline: none;
+  margin: 0;
+  text-decoration: none;
+
+  transition: opacity 0.5s;
+  opacity: 0.6;
+}
+
+.my-icon-button:hover {
+  transition: opacity 0.5s;
+  opacity: 1;
+}
