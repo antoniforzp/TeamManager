@@ -1,5 +1,5 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { PageModes } from '../../utils/PageModes';
+import { PageModes } from 'src/app/utils/PageModes';
 import {
   ManageScoutDialogData,
   ManageScoutModalComponent,
@@ -24,7 +24,7 @@ export class ManageScoutModal {
       disableClose: true,
       data: {
         mode: PageModes.Edit,
-        scoutId
+        scoutId,
       } as ManageScoutDialogData,
     });
   }

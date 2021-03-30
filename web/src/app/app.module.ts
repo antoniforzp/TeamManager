@@ -15,8 +15,9 @@ import {
 import { MaterialModule } from './material/app-material.module';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
+import { EditTeamModalComponent } from './modals/teams/edit-team-modal/edit-team-modal.component';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, EditTeamModalComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

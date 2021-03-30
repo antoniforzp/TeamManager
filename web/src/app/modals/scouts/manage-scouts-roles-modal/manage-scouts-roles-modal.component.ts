@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { Role } from 'src/app/model/Role';
 import { RolesService } from 'src/app/services/roles.service';
 import { ScoutsService } from 'src/app/services/scouts.service';
-import { ProgressModal } from '../common/progress-modal/ProgressModal';
+import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 
 export interface ScoutRolesData {
   scoutId: number;

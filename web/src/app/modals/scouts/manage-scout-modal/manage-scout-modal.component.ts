@@ -15,7 +15,7 @@ import { ScoutsService } from 'src/app/services/scouts.service';
 import { TroopsService } from 'src/app/services/troops.service';
 import { PageModes } from 'src/app/utils/PageModes';
 import { Result } from 'src/app/utils/Result';
-import { ProgressModal } from '../common/progress-modal/ProgressModal';
+import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 export interface ManageScoutDialogData {
   mode: PageModes;
   scoutId?: number;
