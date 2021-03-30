@@ -14,7 +14,7 @@ import { RanksService } from 'src/app/services/ranks.service';
 import { ScoutsService } from 'src/app/services/scouts.service';
 import { TroopsService } from 'src/app/services/troops.service';
 import { PageModes } from 'src/app/utils/PageModes';
-import { Result } from 'src/app/utils/Result';
+import { Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 export interface ManageScoutDialogData {
   mode: PageModes;
@@ -31,7 +31,7 @@ export class ManageScoutModalComponent implements OnInit {
   mode!: PageModes;
   PageModes = PageModes;
 
-  result$ = new Subject<Result>();
+  result$ = new Subject<Results>();
 
   form = this.fb.group({
     name: ['', Validators.required],

@@ -1,5 +1,6 @@
 <div class="modal-header">
-    <h5>Dodaj nową jednotkę</h5>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.ADD">Dodaj nową jednotkę</span>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.EDIT">Edytuj jednotkę</span>
 </div>
 
 <div class="modal-body">
@@ -34,19 +35,22 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-end mt-3">
-                <!-- SUBMIT BUTTON -->
-
-            </div>
-
         </div>
     </form>
 </div>
 
 <div class="modal-footer">
-    <div>
-        <button class="btn btn-light my-button" (click)="close()">Close</button>
-        <button type="button" class="btn btn-success my-button" (click)="addTeam()"
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+
+        <button *ngIf="modalMode === ModalModes.ADD" type="button" class="btn btn-success my-button" (click)="addTeam()"
             [disabled]="!form.valid">Dodaj</button>
+
+        <button *ngIf="modalMode === ModalModes.EDIT" type="button" class="btn btn-success my-button"
+            (click)="editTeam()" [disabled]="!form.valid">Edytuj</button>
     </div>
 </div>
+
+<ng-template #loading>
+    <app-page-spinner></app-page-spinner>
+</ng-template>

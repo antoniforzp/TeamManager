@@ -15,7 +15,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
-import { hideWithTimeout, Result, ResultOld } from 'src/app/utils/Result';
+import { hideWithTimeout, Results, ResultOld } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 import { CoreService } from '../../services/core.service';
 import { UserService } from 'src/app/services/user.service';

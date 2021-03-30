@@ -1,41 +1,96 @@
-<mat-dialog-content>
+<div class="modal-header">
 
-    <div class="modal-body">
+    <div class="d-flex align-items-center">
 
-        <!-- LOADING -->
-        <div *ngIf="isLoadng" class="d-flex align-content-center">
+        <!-- Loading -->
+        <ng-container *ngIf="!pageLoaded">
+            <span class="my-modal-title">Przetwarzam...</span>
             <div class="spinner-border mr-2" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
-            <h3>Przetwarzam...</h3>
-        </div>
+        </ng-container>
 
-        <!-- SUCCESS -->
-        <div *ngIf="!isLoadng && result === Result.Success">
-            <div class="d-flex align-content-center">
+        <ng-container *ngIf="pageLoaded">
+
+            <!-- Success -->
+            <ng-container *ngIf="result === Results.SUCCESS">
                 <img src="../../../../assets/icons/success.svg" class="mr-2" alt="success-icon" width="35" height="35">
-                <h3 class="ml-2">Udało się!</h3>
-            </div>
+                <span class="my-modal-title ml-2">Udało się!</span>
+            </ng-container>
 
-            <p *ngIf="data.options?.successMessage" class="mt-3 mb-n2">
-                {{data?.options?.successMessage}}
-            </p>
-        </div>
-
-        <!-- ERROR -->
-        <div *ngIf="!isLoadng && result === Result.Failure">
-            <div class="d-flex align-content-center">
+            <!-- Failure -->
+            <ng-container *ngIf="result === Results.FAILURE">
                 <img src="../../../../assets/icons/failure.svg" class="mr-2" alt="error-icon" width="35" height="35">
-                <h3 class="ml-2">Błąd!</h3>
-            </div>
+                <span class="my-modal-title ml-2">Coś poszło nie tak</span>
+            </ng-container>
 
-            <p *ngIf="data.options?.failureMessage" class="mt-3 mb-n2">
-                {{data?.options?.failureMessage}}
-            </p>
-        </div>
+            <!-- Error -->
+            <ng-container *ngIf="result === Results.ERROR">
+                <img src="../../../../assets/icons/server-error.svg" class="mr-2" alt="error-icon" width="35"
+                    height="35">
+                <span class="my-modal-title ml-2">Błąd serwera</span>
+            </ng-container>
+
+        </ng-container>
+
     </div>
-</mat-dialog-content>
+</div>
 
-<mat-dialog-actions *ngIf="!isLoadng" class="modal-footer d-flex flex-column align-content-end">
+<div class="modal-body">
+
+    <!-- Loading content -->
+    <ng-container *ngIf="!pageLoaded">
+        <p class="mt-3 mb-n2">
+            <span>
+                Proszę czekać   
+            </span>     
+        </p>
+    </ng-container>
+
+    <ng-container *ngIf="pageLoaded">
+  
+        <!-- Success content -->
+        <ng-container *ngIf="result === Results.SUCCESS">
+            <p *ngIf="data.options?.successMessage" class="mt-3 mb-n2">
+                <span>
+                    {{data?.options?.successMessage}}
+                </span>
+            </p>
+        </ng-container>
+    
+        <!-- Failure content -->
+        <ng-container *ngIf="result === Results.FAILURE">
+            <p *ngIf="data.options?.failureMessage" class="mt-3 mb-n2">
+                <span>
+                    {{data?.options?.failureMessage}}
+                </span>
+            </p>
+        </ng-container>
+
+         <!-- Error content -->
+         <ng-container *ngIf="result === Results.ERROR">
+            <div *ngIf="error?.name" class="mb-3 text-center">
+                <h5>
+                    <span>
+                        Nazwa błędu
+                    </span>
+                </h5>
+                <span>{{error.name}}</span>
+            </div>
+    
+            <div *ngIf="error?.message" class="mb-3 text-center">
+                <h5>
+                    <span>
+                        Treść błędu
+                    </span>
+                </h5>
+                <span>{{error.message}}</span>
+            </div>
+        </ng-container>
+
+    </ng-container>
+</div>
+
+<div *ngIf="pageLoaded" class="modal-footer d-flex flex-column align-content-end">
     <button type="button" class="btn btn-secondary" (click)="close()">Zamknij</button>
-</mat-dialog-actions>
+</div>

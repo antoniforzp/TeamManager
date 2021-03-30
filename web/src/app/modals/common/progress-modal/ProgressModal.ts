@@ -1,5 +1,6 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { ModalWidths } from '../../Modals-def';
 import {
   Options,
   ProgressModalComponent,
@@ -15,7 +16,7 @@ export class ProgressModal {
   ): Promise<MatDialogRef<ProgressModalComponent>> {
     await import('./progress-modal.module');
     return this.dialog.open(ProgressModalComponent, {
-      width: '30%',
+      width: ModalWidths.MEDIUM,
       disableClose: true,
       data: {
         response,

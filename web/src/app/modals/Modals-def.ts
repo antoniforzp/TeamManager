@@ -4,3 +4,8 @@ export enum ModalWidths {
   WIDE = '70%',
   EXTRA = '90%',
 }
+
+export enum ModalModes {
+  ADD,
+  EDIT,
+}

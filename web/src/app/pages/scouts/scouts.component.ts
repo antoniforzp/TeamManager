@@ -10,7 +10,7 @@ import { ManageScoutRolesModal } from 'src/app/modals/scouts/manage-scouts-roles
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
 import { MenuAction } from 'src/app/utils/MenuAction';
-import { Result } from 'src/app/utils/Result';
+import { Results } from 'src/app/utils/Result';
 import { ScoutsService } from '../../services/scouts.service';
 
 interface ScoutRow {
@@ -194,7 +194,7 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
       .openAdd()
       .afterClosed()
       .subscribe((x) => {
-        if (x === Result.Success) {
+        if (x === Results.SUCCESS) {
           this.loadData();
         }
       });
@@ -207,7 +207,7 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
         .openEdit(selected[0].scoutInfo.scoutId)
         .afterClosed()
         .subscribe((x) => {
-          if (x === Result.Success) {
+          if (x === Results.SUCCESS) {
             this.loadData();
           }
         });
@@ -221,7 +221,7 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
         .open(selected[0].scoutInfo.scoutId)
         .afterClosed()
         .subscribe((x) => {
-          if (x === Result.Success) {
+          if (x === Results.SUCCESS) {
             this.loadData();
           }
         });

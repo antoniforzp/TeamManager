@@ -18,7 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
 import { EditTeamModal } from 'src/app/modals/teams/add-edit-team-modal/add-edit-team-modal';
 import { Team } from 'src/app/model/Team';
-import { hideWithTimeout, Result, ResultOld } from 'src/app/utils/Result';
+import { hideWithTimeout, Results, ResultOld } from 'src/app/utils/Result';
 import { TeamsService } from '../../services/teams.service';
 
 interface TeamDataRow {
@@ -130,7 +130,7 @@ export class TeamsComponent implements OnInit, OnDestroy {
 
     new EditTeamModal(this.dialog).openEdit(selected[0]).then((x) =>
       x.afterClosed().subscribe((result) => {
-        if (result === Result.Success) {
+        if (result === Results.SUCCESS) {
           this.loadData();
         }
       })

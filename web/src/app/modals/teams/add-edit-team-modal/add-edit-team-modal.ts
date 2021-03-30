@@ -1,6 +1,6 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Team } from 'src/app/model/Team';
-import { ModalWidths } from '../../Modals-def';
+import { ModalModes, ModalWidths } from '../../Modals-def';
 import {
   AddEditTeamModalComponent,
   AddEditTeamModalComponentEntry,
@@ -14,6 +14,9 @@ export class EditTeamModal {
     return this.dialog.open(AddEditTeamModalComponent, {
       width: ModalWidths.MEDIUM,
       disableClose: true,
+      data: {
+        mode: ModalModes.ADD,
+      } as AddEditTeamModalComponentEntry,
     });
   }
 
@@ -23,6 +26,7 @@ export class EditTeamModal {
       width: ModalWidths.MEDIUM,
       disableClose: true,
       data: {
+        mode: ModalModes.EDIT,
         teamData: team,
       } as AddEditTeamModalComponentEntry,
     });

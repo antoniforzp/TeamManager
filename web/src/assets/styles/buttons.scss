@@ -1,5 +1,5 @@
 .my-button {
-  min-width: 120px;
+  min-width: 180px;
 }
 
 .my-buttons-page-container {
@@ -14,6 +14,17 @@
   padding-left: 80px;
   padding-right: 80px;
   padding-bottom: 40px;
+}
+
+.my-buttons-simple-container {
+  // display: flex;
+  // justify-content: flex-end;
+  // align-items: center;
+
+  * {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
 }
 
 .my-icon-button {

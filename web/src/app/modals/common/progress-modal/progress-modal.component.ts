@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,7 +8,7 @@ import {
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { Result } from 'src/app/utils/Result';
+import { Results } from 'src/app/utils/Result';
 
 export interface ProgressModalData {
   response: Observable<any>;
@@ -27,55 +28,61 @@ export interface Options {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgressModalComponent implements OnInit {
-  Result = Result;
-  result: Result = Result.Success;
-  isLoadng = true;
-  observable!: Observable<boolean>;
+  Results = Results;
+  result: Results;
 
-  autoClose: MatDialogRef<any> | undefined;
-  failureMessage: string | undefined;
-  successMessage: string | undefined;
+  pageLoaded = false;
+  task: Observable<boolean>;
+
+  error: HttpErrorResponse;
+
+  failureMessage: string;
+  successMessage: string;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private dialogRef: MatDialogRef<ProgressModalComponent>,
+
     @Inject(MAT_DIALOG_DATA) public data: ProgressModalData
   ) {
     this.failureMessage = data.options?.failureMessage;
     this.successMessage = data.options?.successMessage;
-    this.observable = data.response;
-    this.autoClose = data.options?.autoClose;
+    this.task = data.response;
   }
 
   ngOnInit(): void {
-    if (this.observable) {
-      this.processBoolean(this.observable);
+    if (this.task) {
+      this.processBoolean(this.task);
     }
   }
+
+  // FUNCTIONALITIES
 
   close(): void {
     this.dialogRef.close(this.result);
-    if (this.autoClose) {
-      this.autoClose.close(this.result);
-    }
   }
 
-  processBoolean(observable: Observable<boolean>): void {
-    observable.subscribe({
+  // UTILS
+
+  processBoolean(task: Observable<boolean>): void {
+    task.subscribe({
       next: (x) => {
-        if (x) {
-          this.result = Result.Success;
-          this.isLoadng = false;
+        if (x === true) {
+          this.result = Results.SUCCESS;
+        } else if (x === false) {
+          this.result = Results.FAILURE;
         } else {
-          this.result = Result.Failure;
-          this.isLoadng = false;
+          this.result = Results.FAILURE;
         }
+
+        this.pageLoaded = true;
         this.changeDetector.detectChanges();
       },
       error: (err) => {
-        this.result = Result.Success;
-        this.failureMessage = err;
-        this.isLoadng = false;
+        this.result = Results.ERROR;
+        this.error = err;
+
+        this.pageLoaded = true;
         this.changeDetector.detectChanges();
       },
     });
