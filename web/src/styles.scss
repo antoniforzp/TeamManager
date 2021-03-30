@@ -146,15 +146,25 @@ body {
 // TABle
 
 .table {
+  position: relative !important;
+
   tr {
+    transition: background-color 0.1s;
     background-color: #f8f7f4;
   }
 
   .selected {
+    transition: background-color 0.1s;
     background-color: #dbdad5;
   }
 
+  .selected:hover {
+    transition: background-color 0.1s;
+    background-color: #bebebc;
+  }
+
   tr:hover {
+    transition: background-color 0.1s;
     background-color: #e6e4df;
   }
 
@@ -162,4 +172,35 @@ body {
     text-align: center;
     vertical-align: middle;
   }
+
+  .my-thead th {
+    position: sticky;
+    top: 0;
+    background-color: #141511;
+    color: #f2f0eb !important;
+
+    * {
+      font-weight: lighter !important;
+    }
+  }
+}
+
+// segments
+
+.page-segment {
+  display: block;
+  border-bottom: solid #292b2c;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.page-segment-noline {
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  margin-bottom: 10px;
+  padding-bottom: 10px;
 }

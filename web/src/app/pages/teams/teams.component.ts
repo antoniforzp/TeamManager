@@ -28,6 +28,17 @@ interface TeamDataRow {
   isSelected: boolean;
 }
 
+enum Actions {
+  EDIT,
+  DELETE,
+}
+
+interface DropdownAction {
+  label: string;
+  isEnabled: boolean;
+  action: () => void;
+}
+
 @Component({
   templateUrl: './teams.component.html',
   styleUrls: ['./teams.component.scss'],
@@ -40,6 +51,10 @@ export class TeamsComponent implements OnInit, OnDestroy {
   pageError: HttpErrorResponse;
 
   form: FormGroup;
+  actions = new Map<Actions, DropdownAction>();
+
+  // Selection
+  allSelected = false;
 
   teams = [] as TeamDataRow[];
 
@@ -83,16 +98,55 @@ export class TeamsComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.pageLoaded = true;
           this.pageError = err;
-
           this.changeDetector.detectChanges();
         },
       });
+  }
+
+  // ACTIONS FACTORY
+
+  setActions(): void {
+    const selected = this.teams.filter((x) => x.isSelected);
+    this.actions.clear();
+
+    this.actions.set(Actions.EDIT, {
+      label: 'Edytuj',
+      isEnabled: selected.length === 1,
+      action: () => {
+        // TODO: Dać akcję edit
+        console.log('Edit');
+      },
+    });
+
+    this.actions.set(Actions.DELETE, {
+      label: 'Delete',
+      isEnabled: selected.length >= 1,
+      action: () => {
+        // TODO: Dać akcję Delete
+        console.log('Delete');
+      },
+    });
   }
 
   // SELECTION
 
   toggleSelected(team: TeamDataRow): void {
     team.isSelected = !team.isSelected;
+
+    this.checkAllSelected();
+    this.changeDetector.detectChanges();
+  }
+
+  checkAllSelected(): void {
+    this.allSelected = this.teams.filter((x) => !x.isSelected).length === 0;
+    this.changeDetector.detectChanges();
+  }
+
+  toggleSelectAll(value: boolean): void {
+    console.log(value);
+    this.allSelected = value;
+    this.teams.forEach((x) => (x.isSelected = this.allSelected));
+    this.changeDetector.detectChanges();
   }
 
   // FUNCTIONALITIES

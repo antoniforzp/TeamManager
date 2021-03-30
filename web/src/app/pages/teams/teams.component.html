@@ -14,47 +14,51 @@
 
                 <app-page-header [header]="'Moje jednostki'" [goBackUrl]="'/home'"></app-page-header>
 
-                <form [formGroup]="form">
+                <div class="mb-3">
+                    <form [formGroup]="form">
 
-                    <!-- ADD NEW TEAM -->
-                    <div class="form-group">
-                        <h5>Dodaj nową jednotkę</h5>
-                    </div>
+                        <!-- ADD NEW TEAM -->
+                        <div class="form-group">
+                            <h5>Dodaj nową jednotkę</h5>
 
-                    <!-- Name -->
-                    <div class="row mb-2">
-                        <label for="name" class="col-sm-3 col-form-label required">Nazwa</label>
-                        <div class="col-sm-9">
-                            <input id="name" type="text" class="form-control" formControlName="name">
+                            <!-- Name -->
+                            <div class="row mb-2">
+                                <label for="name" class="col-sm-2 col-form-label required">Nazwa</label>
+                                <div class="col">
+                                    <input id="name" type="text" class="form-control" formControlName="name">
 
-                            <!-- Errors -->
-                            <div class="d-flex flex-column" *ngIf="name.errors && name.dirty">
-                                <small class="alert-danger" *ngIf="name.hasError('required')">Pole
-                                    wymagane</small>
+                                    <!-- Errors -->
+                                    <div class="d-flex flex-column" *ngIf="name.errors && name.dirty">
+                                        <small class="alert-danger" *ngIf="name.hasError('required')">Pole
+                                            wymagane</small>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Patron -->
-                    <div class="row mb-2">
-                        <label for="patron" class="col-sm-3 col-form-label">Patron</label>
-                        <div class="col-sm-9">
-                            <input id="patron" type="text" class="form-control" formControlName="patron">
-                            <div class="d-flex flex-column">
-                                <small>Proszę podać patrona w formie odmienionej np. "im. Jerzego Grodyńskiego"</small>
+                            <!-- Patron -->
+                            <div class="row mb-2">
+                                <label for="patron" class="col-sm-2 col-form-label">Patron</label>
+                                <div class="col">
+                                    <input id="patron" type="text" class="form-control" formControlName="patron">
+                                    <div class="d-flex flex-column">
+                                        <small>Proszę podać patrona w formie odmienionej np. "im. Jerzego
+                                            Grodyńskiego"</small>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="d-flex justify-content-end mt-3">
-                        <!-- SUBMIT BUTTON -->
-                        <button type="button" class="btn btn-success button-add-user" (click)="addTeam()"
-                            [disabled]="!form.valid">Dodaj</button>
-                    </div>
-                </form>
+                            <div class="d-flex justify-content-end mt-3">
+                                <!-- SUBMIT BUTTON -->
+                                <button type="button" class="btn btn-success button-add-user" (click)="addTeam()"
+                                    [disabled]="!form.valid">Dodaj</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
 
                 <!-- TEAMS -->
-                <div class="mt-4">
+                <div class="pt-3 border-top">
 
                     <div class="d-flex justify-content-between mb-2">
                         <h5>Zarządzaj jednostkami ({{teams.length}})</h5>
@@ -62,19 +66,30 @@
                         <div class="dropdown">
                             <button class="btn btn-secondary button-add-user dropdown-toggle" type="button"
                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                                aria-expanded="false" (click)="setActions()">
                                 Opcje
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Edytuj</a>
-                                <a class="dropdown-item" href="#">Usuń</a>
+                                <ng-container *ngFor="let action of actions | keyvalue">
+                                    <button class="dropdown-item" (click)="action.value.action();"
+                                        [disabled]="!action.value.isEnabled">{{action.value.label}}</button>
+                                </ng-container>
                             </div>
                         </div>
                     </div>
 
                     <!-- teams table -->
-                    <div class="teams-table mt-3">
-                        <table class="table">
+                    <div class="mt-3" style="height: 40vh; overflow-y: auto;">
+                        <table class="table table-fixed">
+                            <thead class="my-thead">
+                                <th class="checkbox-cell">
+                                    <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
+                                        (ngModelChange)="toggleSelectAll($event)">
+                                </th>
+                                <th>
+                                    Pełna nazwa jednostki
+                                </th>
+                            </thead>
                             <tbody>
                                 <ng-container *ngFor="let team of teams;">
                                     <tr class="cursor-pointer" (click)="toggleSelected(team)"
@@ -110,65 +125,3 @@
 <ng-template #loading>
     <app-page-spinner></app-page-spinner>
 </ng-template>
-
-
-
-<!-- <app-menu></app-menu>
-
-<main role="main" class="container mb-3">
-    <h1 class="mt-5">Dodaj jednostkę</h1>
-    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut ipsum eleifend, lacinia elit
-        non, pharetra justo.</p>
-
-    <form [formGroup]="addTeamForm">
-        <h5>Dane jednostki</h5>
-        <div class="form-group">
-            <input type="text" class="form-control mt-2" placeholder="Nazwa jednostki" formControlName="name">
-            <div class="d-flex flex-column" *ngIf="name.invalid && (name.dirty || name.touched)">
-                <small class="alert-danger" *ngIf="name.errors?.required">Pole wymagane</small>
-            </div>
-            <input type="text" class="form-control mt-2" placeholder="Patron jednostki" formControlName="patron">
-            <div class="d-flex flex-column">
-                <small>Proszę podać patrona w formie odmienionej np. "im. Jerzego Grodyńskiego"</small>
-            </div>
-
-            <div class="d-flex flex-column" *ngIf="patron.invalid && (patron.dirty || patron.touched)">
-                <small class="alert-danger" *ngIf="patron.errors?.required">Pole wymagane</small>
-            </div>
-
-            <button class="btn btn-success mt-2" type="submit" [disabled]="!addTeamForm.valid"
-                (click)="addTeam()">Dodaj</button>
-            <div class="d-flex flex-column" *ngIf="addResult$ | async as result">
-                <small class="alert-success" *ngIf="result.result && result.show">Jednostka dodana</small>
-                <small class="alert-danger" *ngIf="!result.result  && result.show">Błąd</small>
-            </div>
-        </div>
-    </form>
-
-    <div class="form-group">
-        <h5>Twoje jednostki</h5>
-        <div *ngFor="let teamArray of editTeamsForms; let i=index">
-
-            <form [formGroup]="teamArray.formGroup" class="mb-3">
-                <div class="d-flex justify-content-start">
-                    <input type="text" class="form-control mr-1" formControlName="teamName">
-                    <input type="text" class="form-control ml-1" formControlName="teamPatron">
-                    <button class="btn btn-primary ml-1" type="submit" (click)="editTeam(teamArray.teamId, 
-                        teamGroup(i).get('teamName')?.value, 
-                        teamGroup(i).get('teamPatron')?.value, 
-                        teamArray.result$)">Edytuj</button>
-                    <button class="btn btn-danger ml-1" type="submit"
-                        (click)="deleteTeam(teamArray.teamId, teamArray.result$)">Usuń</button>
-                </div>
-                <div class="d-flex flex-column" *ngIf="teamArray.result$ | async as result">
-                    <!-- <small class="alert-success" *ngIf="result.result && result.show">Dane zaktualizowane</small>
-                    <small class="alert-danger" *ngIf="!result.result && result.show">Błąd</small>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div>
-        <button class="btn btn-secondary btn-block" routerLink="/home">Powrót</button>
-    </div>
-</main> -->
