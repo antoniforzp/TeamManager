@@ -42,3 +42,11 @@
   transition: opacity 0.5s;
   opacity: 1;
 }
+
+.dropdown-item {
+  color: #141511 !important;
+}
+
+.dropdown-item:disabled {
+  color: #d6d3d3 !important;
+}

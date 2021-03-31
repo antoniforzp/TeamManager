@@ -6,6 +6,6 @@ export enum ModalWidths {
 }
 
 export enum ModalModes {
-  ADD,
-  EDIT,
+  ADD = 'ADD',
+  EDIT = 'EDIT',
 }

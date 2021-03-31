@@ -11,7 +11,7 @@ export class ProgressModal {
   constructor(private dialog: MatDialog) {}
 
   async open<T>(
-    response: Observable<T>,
+    response: Observable<T>[],
     options?: Options
   ): Promise<MatDialogRef<ProgressModalComponent>> {
     await import('./progress-modal.module');

@@ -20,6 +20,7 @@ import { CustomValidators } from 'src/app/validators/Customvalidators';
 })
 export class AddUserComponent implements OnInit {
   result$ = new Subject<ResultOld>();
+
   mailExists = false;
   form: FormGroup;
 
@@ -43,12 +44,14 @@ export class AddUserComponent implements OnInit {
         next: (mailExists) => {
           if (!mailExists) {
             new ProgressModal(this.dialog).open(
-              this.userService.addUser(
-                this.userName.value,
-                this.userSurname.value,
-                this.password.value,
-                this.userEmail.value
-              ),
+              [
+                this.userService.addUser(
+                  this.userName.value,
+                  this.userSurname.value,
+                  this.password.value,
+                  this.userEmail.value
+                ),
+              ],
               {
                 successMessage:
                   'Udało się stworzyć konto. Zaloguj się do aplikacji.',

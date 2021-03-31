@@ -7,11 +7,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { Results } from 'src/app/utils/Result';
 
 export interface ProgressModalData {
-  response: Observable<any>;
+  response: Observable<any>[];
   options?: Options;
 }
 
@@ -32,7 +32,7 @@ export class ProgressModalComponent implements OnInit {
   result: Results;
 
   pageLoaded = false;
-  task: Observable<boolean>;
+  tasks: Observable<boolean>[];
 
   error: HttpErrorResponse;
 
@@ -47,12 +47,12 @@ export class ProgressModalComponent implements OnInit {
   ) {
     this.failureMessage = data.options?.failureMessage;
     this.successMessage = data.options?.successMessage;
-    this.task = data.response;
+    this.tasks = data.response;
   }
 
   ngOnInit(): void {
-    if (this.task) {
-      this.processBoolean(this.task);
+    if (this.tasks) {
+      this.processBoolean(this.tasks);
     }
   }
 
@@ -64,12 +64,20 @@ export class ProgressModalComponent implements OnInit {
 
   // UTILS
 
-  processBoolean(task: Observable<boolean>): void {
-    task.subscribe({
+  processBoolean(tasks: Observable<boolean>[]): void {
+    forkJoin(tasks).subscribe({
       next: (x) => {
-        if (x === true) {
+        let checkAll = true;
+
+        x.forEach((callback) => {
+          if (!callback) {
+            checkAll = false;
+          }
+        });
+
+        if (checkAll === true) {
           this.result = Results.SUCCESS;
-        } else if (x === false) {
+        } else if (checkAll === false) {
           this.result = Results.FAILURE;
         } else {
           this.result = Results.FAILURE;

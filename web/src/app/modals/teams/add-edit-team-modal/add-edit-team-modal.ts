@@ -6,7 +6,7 @@ import {
   AddEditTeamModalComponentEntry,
 } from './add-edit-team-modal.component';
 
-export class EditTeamModal {
+export class AddEditTeamModal {
   constructor(private dialog: MatDialog) {}
 
   async openAdd(): Promise<MatDialogRef<AddEditTeamModalComponent>> {

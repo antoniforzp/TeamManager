@@ -1,4 +1,4 @@
-.table {
+.table-hover {
   position: relative !important;
 
   tr {
@@ -19,6 +19,27 @@
   tr:hover {
     transition: background-color 0.1s;
     background-color: #e6e4df;
+  }
+
+  .checkbox-cell {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .my-thead th {
+    position: sticky;
+    top: 0;
+    background-color: #141511;
+    color: #f2f0eb !important;
+    font-weight: 200 !important;
+  }
+}
+
+.table {
+  position: relative !important;
+
+  tr {
+    background-color: #f8f7f4;
   }
 
   .checkbox-cell {

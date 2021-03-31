@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <span *ngIf="teams.length <= 1" class="my-modal-title">Usuń jednostkę</span>
+    <span *ngIf="teams.length > 1" class="my-modal-title">Usuń jednostki</span>
+</div>
+
+<div class="modal-body">
+
+    <div class="d-flex align-items-center">
+        <img src="../../../../assets/icons/alert.svg" width="30" height="30" class="mr-4" />
+        <span>Usunięcie drużyny spowoduje usunięcie wszystkich danych związanych z tą jednostką. Znikną wszystkie dane o
+            harcerzach, wyjazdach, sprawnościach itd.</span>
+    </div>
+
+    <br>
+    <span>
+        Jednostki, które zamierzasz usunąć:
+    </span>
+
+    <div class="my-table-container" style="max-height: 20vh; overflow-y: auto;">
+        <table class="table">
+            <tbody>
+                <tr *ngFor="let team of teams">
+                    <td>{{team.name}} <br> {{team.patron}} </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex align-items-center mt-2">
+        <label class="required">
+            <input type="checkbox" class="select-all checkbox cursor-pointer" [(ngModel)]="accept" />
+            Potwierdzam, że jestem świadom konsekwencji
+        </label>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+        <button class="btn btn-danger my-button" [disabled]="!accept" (click)="delete()">Usuń</button>
+    </div>
+</div>

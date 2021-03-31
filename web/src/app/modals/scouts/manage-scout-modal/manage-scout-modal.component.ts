@@ -150,7 +150,7 @@ export class ManageScoutModalComponent implements OnInit {
             {
               new ProgressModal(this.dialog)
                 .open(
-                  this.scoutsService.addScout(
+                  [this.scoutsService.addScout(
                     newScout.name,
                     newScout.surname,
                     newScout.pesel,
@@ -162,7 +162,7 @@ export class ManageScoutModalComponent implements OnInit {
                     0,
                     0,
                     0
-                  ),
+                  )],
                   // newScout.troopId,
                   // newScout.rankId,
                   // newScout.instructorRankId
@@ -182,7 +182,7 @@ export class ManageScoutModalComponent implements OnInit {
             {
               new ProgressModal(this.dialog)
                 .open(
-                  this.scoutsService.patchScout(
+                  [this.scoutsService.patchScout(
                     this.scoutId,
                     newScout.name,
                     newScout.surname,
@@ -195,7 +195,7 @@ export class ManageScoutModalComponent implements OnInit {
                     0,
                     0,
                     0
-                  ),
+                  )],
                   // newScout.troopId,
                   // newScout.rankId,
                   // newScout.instructorRankId

@@ -16,7 +16,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
-import { EditTeamModal } from 'src/app/modals/teams/add-edit-team-modal/add-edit-team-modal';
+import { AddEditTeamModal } from 'src/app/modals/teams/add-edit-team-modal/add-edit-team-modal';
+import { DeleteTeamModal } from 'src/app/modals/teams/delete-team-modal/delete-team-modal';
 import { Team } from 'src/app/model/Team';
 import { hideWithTimeout, Results, ResultOld } from 'src/app/utils/Result';
 import { TeamsService } from '../../services/teams.service';
@@ -30,6 +31,7 @@ interface TeamDataRow {
 }
 
 enum Actions {
+  ADD,
   EDIT,
   DELETE,
 }
@@ -107,28 +109,55 @@ export class TeamsComponent implements OnInit, OnDestroy {
     const selected = this.teams.filter((x) => x.isSelected);
     this.actions.clear();
 
+    this.actions.set(Actions.ADD, {
+      label: 'Dodaj',
+      isEnabled: true,
+      action: () => this.openAddTeamModal(),
+    });
+
     this.actions.set(Actions.EDIT, {
       label: 'Edytuj',
       isEnabled: selected.length === 1,
-      action: () => this.openEditModal(),
+      action: () => this.openEditTeamModal(),
     });
 
     this.actions.set(Actions.DELETE, {
-      label: 'Delete',
+      label: 'Usuń',
       isEnabled: selected.length >= 1,
-      action: () => {
-        // TODO: Dać akcję Delete
-        console.log('Delete');
-      },
+      action: () => this.openDeleteTeamsModal(),
     });
   }
 
-  openEditModal(): void {
+  openAddTeamModal(): void {
+    new AddEditTeamModal(this.dialog).openAdd().then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
+      })
+    );
+  }
+
+  openEditTeamModal(): void {
     const selected = this.teams
       .filter((x) => x.isSelected)
       .map((x) => x.teamObject);
 
-    new EditTeamModal(this.dialog).openEdit(selected[0]).then((x) =>
+    new AddEditTeamModal(this.dialog).openEdit(selected[0]).then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
+      })
+    );
+  }
+
+  openDeleteTeamsModal(): void {
+    const selected = this.teams
+      .filter((x) => x.isSelected)
+      .map((x) => x.teamObject);
+
+    new DeleteTeamModal(this.dialog).open(selected).then((x) =>
       x.afterClosed().subscribe((result) => {
         if (result === Results.SUCCESS) {
           this.loadData();

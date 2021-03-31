@@ -121,7 +121,7 @@ export class ManageScoutsRolesModalComponent implements OnInit {
       ).pipe(map((x) => !x.includes(false)));
 
       new ProgressModal(this.dialog)
-        .open(combinedAll, {
+        .open([combinedAll], {
           failureMessage:
             'Nie udało się dodać funkcji. Sprawdź wszystkie dane.',
         })

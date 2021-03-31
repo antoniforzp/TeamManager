@@ -100,13 +100,15 @@ export class EditUserComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (currUserData) => {
           new ProgressModal(this.dialog).open(
-            this.userService.editUserData(
-              currUserData.userId,
-              this.userName.value,
-              this.userSurname.value,
-              currUserData.password,
-              currUserData.email
-            ),
+            [
+              this.userService.editUserData(
+                currUserData.userId,
+                this.userName.value,
+                this.userSurname.value,
+                currUserData.password,
+                currUserData.email
+              ),
+            ],
             {
               successMessage: 'Udało się zaktualizować twoje dane.',
               failureMessage: 'Nie udało się zaktualizować twoich danych.',
@@ -132,13 +134,15 @@ export class EditUserComponent implements OnInit, OnDestroy {
           if (this.validCurrentPassword) {
             new ProgressModal(this.dialog)
               .open(
-                this.userService.editUserData(
-                  currUserData.userId,
-                  currUserData.name,
-                  currUserData.surname,
-                  this.passwordNew.value,
-                  currUserData.email
-                ),
+                [
+                  this.userService.editUserData(
+                    currUserData.userId,
+                    currUserData.name,
+                    currUserData.surname,
+                    this.passwordNew.value,
+                    currUserData.email
+                  ),
+                ],
                 {
                   successMessage: 'Udało się zaktualizować hasło.',
                   failureMessage: 'Nie udało się zaktualizować hasła.',
