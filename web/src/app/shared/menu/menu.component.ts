@@ -4,6 +4,10 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { LogoutModal } from 'src/app/modals/home/logout-modal/logout-modal';
+import { Results } from 'src/app/utils/Result';
 import { MenuService } from './menu.service';
 
 @Component({
@@ -17,7 +21,9 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private menuService: MenuService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -25,5 +31,15 @@ export class MenuComponent implements OnInit {
       this.lockedOptions = x <= 0;
       this.changeDetector.detectChanges();
     });
+  }
+
+  logout(): void {
+    new LogoutModal(this.dialog).open().then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.router.navigateByUrl('/login');
+        }
+      })
+    );
   }
 }
