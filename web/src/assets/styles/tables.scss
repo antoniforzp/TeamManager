@@ -3,22 +3,22 @@
 
   tr {
     transition: background-color 0.1s;
-    background-color: #f8f7f4;
-  }
-
-  .selected {
-    transition: background-color 0.1s;
-    background-color: #dbdad5;
-  }
-
-  .selected:hover {
-    transition: background-color 0.1s;
-    background-color: #bebebc;
+    background-color: var(--table-default);
   }
 
   tr:hover {
     transition: background-color 0.1s;
-    background-color: #e6e4df;
+    background-color: var(--table-selected-default);
+  }
+
+  .selected {
+    transition: background-color 0.1s;
+    background-color: var(--table-selected-default);
+  }
+
+  .selected:hover {
+    transition: background-color 0.1s;
+    background-color: var(--table-selected-hover-default);
   }
 
   .checkbox-cell {
@@ -29,8 +29,8 @@
   .my-thead th {
     position: sticky;
     top: 0;
-    background-color: #141511;
-    color: #f2f0eb !important;
+    background-color: var(--primary-default);
+    color: var(--foreground-default) !important;
     font-weight: 200 !important;
   }
 }
@@ -39,7 +39,7 @@
   position: relative !important;
 
   tr {
-    background-color: #f8f7f4;
+    background-color: var(--table-default);
   }
 
   .checkbox-cell {
@@ -50,8 +50,8 @@
   .my-thead th {
     position: sticky;
     top: 0;
-    background-color: #141511;
-    color: #f2f0eb !important;
+    background-color: var(--primary-default);
+    color: var(--foreground-default) !important;
     font-weight: 200 !important;
   }
 }

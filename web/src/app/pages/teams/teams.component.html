@@ -1,7 +1,7 @@
 <app-menu></app-menu>
 
 <div class="d-flex">
-    <div class="my-container-menu my-page-container">
+    <div class="my-page-side-container my-container-menu">
         <ng-container *ngIf="pageLoaded; else loading">
 
             <!-- ERROR HANDLING -->
@@ -75,8 +75,9 @@
     </div>
 
     <!-- LEFT POSTER -->
-    <div class="my-page-bg"></div>
+    <div class="my-page-side-poster"></div>
 </div>
+
 <app-footer></app-footer>
 
 <ng-template #loading>

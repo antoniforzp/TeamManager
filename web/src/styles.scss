@@ -16,6 +16,9 @@ $web-theme: mat-light-theme(
 
 // ============= MY IMPORTS =============
 
+// Theme colors
+@import "assets/styles/themes/colors.scss";
+
 // Main styles
 @import "assets/styles/main.scss";
 

@@ -1,13 +1,27 @@
 .menu {
   min-height: 10vh;
-  background-color: #141511;
+  background-color: var(--primary-default);
 }
 
 .menu-button {
-  color: #abaaa7;
+  transition: opacity 0.2s;
+  opacity: 0.5;
+
+  color: var(--foreground-default);
   cursor: pointer;
 }
 
+.menu-button:hover {
+  transition: opacity 0.2s;
+  opacity: 0.6;
+}
+
 .active {
-  color: #f2f0eb !important;
+  transition: opacity 0.2s;
+  opacity: 0.9;
+}
+
+.active:hover {
+  transition: opacity 0.2s;
+  opacity: 1;
 }

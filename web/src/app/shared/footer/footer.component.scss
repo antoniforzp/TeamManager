@@ -1,7 +1,7 @@
 .footer-container {
   min-height: 10vh;
-  background-color: #141511;
-  color: white;
+  background-color: var(--primary-default);
+  color: var(--foreground-default);
 
   font-size: 15px;
   position: relative;
