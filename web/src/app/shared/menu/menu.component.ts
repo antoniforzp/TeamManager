@@ -7,6 +7,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LogoutModal } from 'src/app/modals/home/logout-modal/logout-modal';
+import { SettingsModal } from 'src/app/modals/home/settings-modal/settings-modal';
 import { Results } from 'src/app/utils/Result';
 import { MenuService } from './menu.service';
 
@@ -31,6 +32,9 @@ export class MenuComponent implements OnInit {
       this.lockedOptions = x <= 0;
       this.changeDetector.detectChanges();
     });
+
+    // TODO:
+    new SettingsModal(this.dialog).open();
   }
 
   logout(): void {
@@ -41,5 +45,9 @@ export class MenuComponent implements OnInit {
         }
       })
     );
+  }
+
+  settings(): void {
+    new SettingsModal(this.dialog).open();
   }
 }

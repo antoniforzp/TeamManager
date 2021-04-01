@@ -3,6 +3,11 @@ export enum ModalWidths {
   MEDIUM = '50%',
   WIDE = '70%',
   EXTRA = '90%',
+  AUTO = 'auto',
+}
+
+export enum ModalHeights {
+  MEDIUM = '50%',
 }
 
 export enum ModalModes {
