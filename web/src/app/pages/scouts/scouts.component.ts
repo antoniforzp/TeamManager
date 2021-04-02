@@ -1,30 +1,33 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Sort } from '@angular/material/sort';
-import { forkJoin, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { forkJoin, of, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { ManageScoutModal } from 'src/app/modals/scouts/manage-scout-modal/ManageScoutModal';
 import { ManageScoutRolesModal } from 'src/app/modals/scouts/manage-scouts-roles-modal/ManageScoutRolesModal';
 
-
-import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
 import { MenuAction } from 'src/app/utils/MenuAction';
 import { Results } from 'src/app/utils/Result';
 import { ScoutsService } from '../../services/scouts.service';
 
-interface ScoutRow {
-  scoutInfo: Scout;
-
-  name: string;
-  surname: string;
+interface ScoutRowData {
+  nameSurname: string;
   troop: string;
-  rank: string;
-  instructorRank: string | undefined;
+  roles: { name: string; label: string }[];
 
-  scoutRoles: Role[];
+  instructorRankLabel: string;
+  rankName: string;
+
   isSelected: boolean;
-  moreVisible: boolean;
+  scoutObject: Scout;
 }
 
 enum MenuActionsTypes {
@@ -37,150 +40,132 @@ enum MenuActionsTypes {
 @Component({
   templateUrl: './scouts.component.html',
   styleUrls: ['./scouts.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScoutsComponent implements OnInit, AfterViewInit {
-  scoutsRows = [] as ScoutRow[];
-
+export class ScoutsComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject();
   pageLoaded = false;
 
-  allSelected = false;
-  anySelected = false;
+  pageError: HttpErrorResponse;
+  validCurrentPassword: boolean;
 
-  menuActions = new Map<MenuActionsTypes, MenuAction>();
+  allSelected = false;
+  scouts = [] as ScoutRowData[];
+
+  actions = new Map<MenuActionsTypes, MenuAction>();
 
   constructor(
     private scoutsService: ScoutsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private changeDetector: ChangeDetectorRef
   ) {}
-
-  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     this.loadData();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+
   // DATA FETCHING
 
   loadData(): void {
+    this.allSelected = false;
+    this.pageLoaded = false;
+
     forkJoin({
       scouts: this.scoutsService.getScouts(),
       roles: this.scoutsService.getAllRoles(),
     })
       .pipe(
+        takeUntil(this.destroy$),
         map((x) => {
-          const rows = [] as ScoutRow[];
+          const rows = [] as ScoutRowData[];
           x.scouts.forEach((scout) =>
             rows.push({
-              scoutInfo: scout,
-
-              name: scout.name,
-              surname: scout.surname,
-              rank: scout.rank.name,
+              nameSurname: scout.name + ' ' + scout.surname,
               troop: scout.troop.name,
-              instructorRank: scout.instructorRank?.name,
+              roles: x.roles
+                .filter((r) => r.scoutId === scout.scoutId)
+                .map((r1) => {
+                  return {
+                    name: r1.name,
+                    label: `role-${r1.roleId}`,
+                  } as { name: string; label: string };
+                }),
 
-              scoutRoles: x.roles.filter(
-                (role) => role.scoutId === scout.scoutId
-              ),
+              instructorRankLabel: `instructor-rank-${scout.instructorRank.rankId}`,
+              rankName: scout.rank.name,
+
               isSelected: false,
-              moreVisible: false,
+              scoutObject: scout,
             })
           );
           return rows;
         })
       )
-      .subscribe((result) => {
-        this.scoutsRows = result;
-        this.pageLoaded = true;
+      .subscribe({
+        next: (result) => {
+          console.log(result);
+
+          this.scouts = result;
+          this.pageLoaded = true;
+          this.changeDetector.detectChanges();
+        },
+        error: (err) => {
+          this.pageError = err;
+          this.pageLoaded = true;
+          this.changeDetector.detectChanges();
+        },
       });
   }
 
   // SELECTION
 
-  toggleSelectAll(): void {
-    this.allSelected = !this.allSelected;
-    this.scoutsRows.forEach((x) => (x.isSelected = this.allSelected));
+  toggleSelected(scout: ScoutRowData): void {
+    scout.isSelected = !scout.isSelected;
+
+    this.checkAllSelected();
+    this.changeDetector.detectChanges();
   }
 
-  toggleSelect(row: ScoutRow): void {
-    row.isSelected = !row.isSelected;
-    // In case that user manually select all records in table
-    this.allSelected =
-      this.scoutsRows.filter((x) => !x.isSelected).length === 0;
+  checkAllSelected(): void {
+    this.allSelected = this.scouts.filter((x) => !x.isSelected).length === 0;
+    this.changeDetector.detectChanges();
   }
 
-  toggleMore(row: ScoutRow): void {
-    row.moreVisible = !row.moreVisible;
-  }
-
-  // SORTING
-
-  sortData(sort: Sort): void {
-    const data = this.scoutsRows.slice();
-    if (!sort.active || sort.direction === '') {
-      this.scoutsRows = data;
-      return;
-    }
-
-    this.scoutsRows = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'name':
-          return this.compare(a.name, b.name, isAsc);
-        case 'surname':
-          return this.compare(a.surname, b.surname, isAsc);
-        case 'troop':
-          return this.compare(a.troop, b.troop, isAsc);
-        case 'rank':
-          return this.compare(
-            a.rank + a.instructorRank,
-            b.rank + a.instructorRank,
-            isAsc
-          );
-        case 'function': {
-          let rolesA = '';
-          a.scoutRoles.forEach((x) => (rolesA = rolesA + x.name));
-
-          let rolesB = '';
-          b.scoutRoles.forEach((x) => (rolesB = rolesB + x.name));
-
-          return this.compare(rolesA, rolesB, isAsc);
-        }
-        default:
-          return 0;
-      }
-    });
-  }
-
-  compare(a: number | string, b: number | string, isAsc: boolean): number {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  toggleSelectAll(value: boolean): void {
+    this.allSelected = value;
+    this.scouts.forEach((x) => (x.isSelected = this.allSelected));
+    this.changeDetector.detectChanges();
   }
 
   // ACTION FACTORY
 
   setActions(): void {
-    const selected = this.scoutsRows.filter((x) => x.isSelected);
-    this.menuActions.clear();
+    const selected = this.scouts.filter((x) => x.isSelected);
+    this.actions.clear();
 
-    this.menuActions.set(MenuActionsTypes.EditData, {
+    this.actions.set(MenuActionsTypes.EditData, {
       label: 'Edytuj dane',
       isEnabled: selected.length === 1,
       execute: () => this.openEditScout(),
     });
 
-    this.menuActions.set(MenuActionsTypes.EditRoles, {
+    this.actions.set(MenuActionsTypes.EditRoles, {
       label: 'Edytuj funkcje',
       isEnabled: selected.length === 1,
       execute: () => this.openEditRoles(),
     });
 
-    this.menuActions.set(MenuActionsTypes.Delete, {
+    this.actions.set(MenuActionsTypes.Delete, {
       label: 'Usuń',
       isEnabled: selected.length > 0,
       execute: () => this.openEditRoles(),
     });
 
-    this.menuActions.set(MenuActionsTypes.ExportCSV, {
+    this.actions.set(MenuActionsTypes.ExportCSV, {
       label: 'Eksportuj do CSV',
       isEnabled: selected.length > 0,
       execute: () => this.openExport(),
@@ -201,10 +186,10 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
   }
 
   openEditScout(): void {
-    const selected = this.scoutsRows.filter((x) => x.isSelected);
+    const selected = this.scouts.filter((x) => x.isSelected);
     if (selected.length === 1) {
       new ManageScoutModal(this.dialog)
-        .openEdit(selected[0].scoutInfo.scoutId)
+        .openEdit(selected[0].scoutObject.scoutId)
         .afterClosed()
         .subscribe((x) => {
           if (x === Results.SUCCESS) {
@@ -215,10 +200,10 @@ export class ScoutsComponent implements OnInit, AfterViewInit {
   }
 
   openEditRoles(): void {
-    const selected = this.scoutsRows.filter((x) => x.isSelected);
+    const selected = this.scouts.filter((x) => x.isSelected);
     if (selected.length === 1) {
       new ManageScoutRolesModal(this.dialog)
-        .open(selected[0].scoutInfo.scoutId)
+        .open(selected[0].scoutObject.scoutId)
         .afterClosed()
         .subscribe((x) => {
           if (x === Results.SUCCESS) {

@@ -1,6 +1,130 @@
 <app-menu></app-menu>
 
-<main role="main" class="container">
+<div class="d-flex">
+
+    <div class="my-page-side-container my-container-menu">
+
+        <ng-container *ngIf="pageLoaded; else loading">
+
+            <!-- ERROR HANDLING -->
+            <div *ngIf="pageError">
+                <app-error [error]="pageError"></app-error>
+            </div>
+
+            <!-- PAGE CONTENT -->
+            <div *ngIf="!pageError">
+
+                <app-page-header [header]="'Ewidencja'" [goBackUrl]="'/home'"></app-page-header>
+
+                <!-- TEAMS -->
+                <div class="pt-3 border-top">
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <h5>Zarządzaj harcerzami ({{scouts.length}})</h5>
+
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle my-button" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" (click)="setActions()">
+                                Opcje
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <ng-container *ngFor="let action of actions | keyvalue">
+                                    <button class="dropdown-item" (click)="action.value.action();"
+                                        [disabled]="!action.value.isEnabled">{{action.value.label}}</button>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- teams table -->
+                    <div class="mt-3" style="height: 55vh; overflow-y: auto;">
+                        <table class="table table-hover">
+                            <thead class="my-thead">
+                                <th class="checkbox-cell">
+                                    <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
+                                        (ngModelChange)="toggleSelectAll($event)">
+                                </th>
+                                <th mat-sort-header="nameSurname">Imię i nazwisko</th>
+                                <th mat-sort-header="troop">Zastęp</th>
+                                <th mat-sort-header="function">Funkcja</th>
+                                <th mat-sort-header="rank">Stopień</th>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let scout of scouts; let i=index">
+                                    <tr class="cursor-pointer" [ngClass]="{'selected': scout.isSelected}"
+                                        (click)="toggleSelected(scout)">
+
+                                        <td class="checkbox-cell">
+                                            <input type="checkbox" class="cursor-pointer ml-n2"
+                                                [(ngModel)]="scout.isSelected">
+                                        </td>
+                                        <td>
+                                            <span *ngIf="scout.nameSurname; else noData">
+                                                <a href="#">{{scout.nameSurname}}</a>
+                                            </span>
+                                        </td>
+                                        <td *ngIf="scout.troop; else noData">
+                                            <span>{{scout.troop}}</span>
+                                        </td>
+                                        <td>
+                                            <ng-container *ngIf="scout.roles.length > 0; else noData">
+                                                <div class="d-flex flex-column">
+                                                    <span *ngFor="let role of scout.roles"
+                                                        [ngClass]="[role.label, 'mb-2']">
+                                                        {{role.name}}
+                                                    </span>
+                                                </div>
+                                            </ng-container>
+                                        </td>
+                                        <td>
+                                            <div *ngIf="scout.rankName; else noData" class="d-flex flex-column">
+                                                <span [ngClass]="[scout.instructorRankLabel]">
+                                                    {{scout.rankName}}
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </ng-container>
+
+    </div>
+
+    <!-- LEFT POSTER -->
+    <div class="my-page-side-poster"></div>
+</div>
+
+<app-footer></app-footer>
+
+<ng-template #loading>
+    <app-page-spinner></app-page-spinner>
+</ng-template>
+
+<ng-template #noTableData>
+    <tr colspan="8">
+        Brak danych
+    </tr>
+</ng-template>
+
+<ng-template #noData>
+    <span>-</span>
+</ng-template>
+
+
+
+
+
+
+
+
+
+<!-- <main role="main" class="container">
     <h1 class="mt-5">Ewidencja harcerzy</h1>
 
     <div class="d-flex justify-content-between mb-2">
@@ -23,7 +147,6 @@
         </div>
     </div>
 
-    <!-- Page content -->
     <div>
         <table class="table" matSort (matSortChange)="sortData($event)">
             <thead>
@@ -39,61 +162,61 @@
                 <th>&nbsp;</th>
             </thead>
             <tbody *ngIf="pageLoaded">
-                <ng-container *ngFor="let row of scoutsRows; let i=index">
-                    <tr class="cursor-pointer" [ngClass]="{'my-row': true, 'my-row-selected': row.isSelected}"
-                        (click)="toggleSelect(row)">
+                <ng-container *ngFor="let scout of scoutsscouts; let i=index">
+                    <tr class="cursor-pointer" [ngClass]="{'my-scout': true, 'my-scout-selected': scout.isSelected}"
+                        (click)="toggleSelect(scout)">
                         <td>
                             <input type="checkbox" class="select-item checkbox" name="select-item" value="1000"
-                                [(ngModel)]="row.isSelected" />
+                                [(ngModel)]="scout.isSelected" />
                         </td>
                         <td>
-                            <span *ngIf="row.scoutInfo.name; else noData">
-                                {{row.name}}
+                            <span *ngIf="scout.scoutInfo.name; else noData">
+                                {{scout.name}}
                             </span>
                         </td>
                         <td>
-                            <span *ngIf="row.scoutInfo.surname; else noData">
-                                {{row.surname}}
+                            <span *ngIf="scout.scoutInfo.surname; else noData">
+                                {{scout.surname}}
                             </span>
                         </td>
-                        <td *ngIf="row.scoutInfo.troop.name; else noData">
-                            <span>{{row.troop}}</span>
+                        <td *ngIf="scout.scoutInfo.troop.name; else noData">
+                            <span>{{scout.troop}}</span>
                         </td>
                         <td>
-                            <ng-container *ngIf="row.scoutRoles.length > 0; else noData">
-                                <span *ngFor="let role of row.scoutRoles">
+                            <ng-container *ngIf="scout.scoutRoles.length > 0; else noData">
+                                <span *ngFor="let role of scout.scoutRoles">
                                     {{role.name}}<br>
                                 </span>
                             </ng-container>
                         </td>
                         <td>
-                            <span *ngIf="row.scoutInfo.rank.name; else noData">
-                                <span *ngIf="row.scoutInfo.instructorRank?.abbreviation">
-                                    {{row.scoutInfo.instructorRank?.abbreviation}}
-                                </span> {{row.rank}}
+                            <span *ngIf="scout.scoutInfo.rank.name; else noData">
+                                <span *ngIf="scout.scoutInfo.instructorRank?.abbreviation">
+                                    {{scout.scoutInfo.instructorRank?.abbreviation}}
+                                </span> {{scout.rank}}
                             </span>
                         </td>
                         <td style="width: 110px;">
                             <button class="btn btn-secondary"
-                                (click)="$event.stopPropagation(); toggleMore(row)">Więcej</button>
+                                (click)="$event.stopPropagation(); toggleMore(scout)">Więcej</button>
                         </td>
                     </tr>
-                    <tr *ngIf="row.moreVisible">
+                    <tr *ngIf="scout.moreVisible">
                         <td></td>
                         <td colspan="6">
-                            <div class='row'>
+                            <div class='scout'>
                                 <div class="col-md-2">
-                                    <div class="row">Pesel:</div>
-                                    <div class="row">Data urodzenia:</div>
-                                    <div class="row">Adres:</div>
-                                    <div class="row">Numer kontaktowy:</div>
+                                    <div class="scout">Pesel:</div>
+                                    <div class="scout">Data urodzenia:</div>
+                                    <div class="scout">Adres:</div>
+                                    <div class="scout">Numer kontaktowy:</div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="row">{{row.scoutInfo.pesel}}</div>
-                                    <div class="row">{{row.scoutInfo.birthDate | date: 'dd-MM-yyyy'}}</div>
-                                    <div class="row">{{row.scoutInfo.address}} {{row.scoutInfo.postalCode}}
-                                        {{row.scoutInfo.city}}</div>
-                                    <div class="row">{{row.scoutInfo.phone}}</div>
+                                    <div class="scout">{{scout.scoutInfo.pesel}}</div>
+                                    <div class="scout">{{scout.scoutInfo.birthDate | date: 'dd-MM-yyyy'}}</div>
+                                    <div class="scout">{{scout.scoutInfo.address}} {{scout.scoutInfo.postalCode}}
+                                        {{scout.scoutInfo.city}}</div>
+                                    <div class="scout">{{scout.scoutInfo.phone}}</div>
                                 </div>
                             </div>
                         </td>
@@ -121,4 +244,4 @@
 
 <ng-template #noData>
     -
-</ng-template>
+</ng-template> -->

@@ -77,6 +77,7 @@ export class TeamsComponent implements OnInit, OnDestroy {
   // DATA LOADING
 
   loadData(): void {
+    this.allSelected = false;
     this.pageLoaded = false;
     this.teamsService
       .getUserTeams()

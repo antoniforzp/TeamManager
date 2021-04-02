@@ -1,6 +1,26 @@
-.table-hover {
+.table {
   position: relative !important;
 
+  tr {
+    background-color: var(--table-default);
+  }
+
+  .checkbox-cell {
+    text-align: center;
+    vertical-align: middle;
+    min-width: 50px;
+  }
+
+  .my-thead th {
+    position: sticky;
+    top: 0;
+    background-color: var(--primary-default);
+    color: var(--foreground-default) !important;
+    font-weight: 200 !important;
+  }
+}
+
+.table-hover {
   tr {
     transition: background-color 0.1s;
     background-color: var(--table-default);
@@ -19,39 +39,5 @@
   .selected:hover {
     transition: background-color 0.1s;
     background-color: var(--table-selected-hover-default);
-  }
-
-  .checkbox-cell {
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  .my-thead th {
-    position: sticky;
-    top: 0;
-    background-color: var(--primary-default);
-    color: var(--foreground-default) !important;
-    font-weight: 200 !important;
-  }
-}
-
-.table {
-  position: relative !important;
-
-  tr {
-    background-color: var(--table-default);
-  }
-
-  .checkbox-cell {
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  .my-thead th {
-    position: sticky;
-    top: 0;
-    background-color: var(--primary-default);
-    color: var(--foreground-default) !important;
-    font-weight: 200 !important;
   }
 }
