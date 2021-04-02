@@ -9,7 +9,11 @@
 
             <!-- Language -->
             <div class="row mb-2">
-                <div class="col-sm-2 col-form-label">Język</div>
+                <div class="col col-form-label d-flex align-items-center">
+                    <img src="../../../../assets/icons/language.svg" class="mr-2" width="30" height="30"
+                        alt="language-icon" />
+                    <span>Język</span>
+                </div>
                 <div class="col d-flex justify-content-end">
                     <select class="form-control" formControlName="language">
                         <option class="my-select-item" [ngValue]="'polish'">Polski</option>
@@ -20,11 +24,15 @@
 
             <!-- Theme -->
             <div class="row mb-2">
-                <div class="col-sm-2 col-form-label">Motyw</div>
+                <div class="col col-form-label">
+                    <img src="../../../../assets/icons/palette.svg" class="mr-2" width="30" height="30"
+                        alt="language-icon" />
+                    <span>Motyw</span>
+                </div>
                 <div class="col d-flex justify-content-end">
                     <select class="form-control" formControlName="theme">
-                        <option [ngValue]="'default'">Domyślny</option>
-                        <option [ngValue]="'testing'">Testowy</option>
+                        <option *ngFor="let theme of themes" [ngValue]="theme" (click)="setTheme(theme)">{{theme.name}}
+                        </option>
                     </select>
                 </div>
             </div>

@@ -32,9 +32,6 @@ export class MenuComponent implements OnInit {
       this.lockedOptions = x <= 0;
       this.changeDetector.detectChanges();
     });
-
-    // TODO:
-    new SettingsModal(this.dialog).open();
   }
 
   logout(): void {
