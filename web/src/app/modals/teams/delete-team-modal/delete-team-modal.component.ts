@@ -32,7 +32,7 @@ export class DeleteTeamModalComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<AddEditTeamModalComponent>,
 
-    @Inject(MAT_DIALOG_DATA) private data: DeleteTeamModalComponentEntry
+    @Inject(MAT_DIALOG_DATA) data: DeleteTeamModalComponentEntry
   ) {
     this.teams = data.teams;
   }

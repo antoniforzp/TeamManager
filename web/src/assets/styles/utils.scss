@@ -15,6 +15,25 @@
   font-weight: 200;
 }
 
+.label-medium {
+  font-size: 25px;
+  font-weight: 400;
+}
+
 .relative {
   position: relative;
+}
+
+.link-alike {
+  color: #2222ac;
+}
+
+.link-alike:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
 }

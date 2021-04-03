@@ -1,5 +1,5 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ModalHeights, ModalWidths } from '../../Modals-def';
+import { ModalWidths } from '../../Modals-def';
 import { SettingsModalComponent } from './settings-modal.component';
 
 export class SettingsModal {

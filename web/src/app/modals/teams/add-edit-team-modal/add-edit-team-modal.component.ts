@@ -49,10 +49,10 @@ export class AddEditTeamModalComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<AddEditTeamModalComponent>,
 
-    @Inject(MAT_DIALOG_DATA) private data: AddEditTeamModalComponentEntry
+    @Inject(MAT_DIALOG_DATA) data: AddEditTeamModalComponentEntry
   ) {
-    this.teamData = this.data.teamData;
-    this.modalMode = this.data.mode;
+    this.teamData = data.teamData;
+    this.modalMode = data.mode;
   }
 
   ngOnInit(): void {

@@ -12,6 +12,8 @@ import { forkJoin, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ManageScoutModal } from 'src/app/modals/scouts/manage-scout-modal/ManageScoutModal';
 import { ManageScoutRolesModal } from 'src/app/modals/scouts/manage-scouts-roles-modal/ManageScoutRolesModal';
+import { ScoutInfoModal } from 'src/app/modals/scouts/scout-info-modal/scout-info-modal';
+import { Role } from 'src/app/model/Role';
 
 import { Scout } from 'src/app/model/Scout';
 import { MenuAction } from 'src/app/utils/MenuAction';
@@ -23,11 +25,13 @@ interface ScoutRowData {
   troop: string;
   roles: { name: string; label: string }[];
 
+  instructorRankAbbv: string;
   instructorRankLabel: string;
   rankName: string;
 
   isSelected: boolean;
   scoutObject: Scout;
+  rolesList: Role[];
 }
 
 enum MenuActionsTypes {
@@ -95,11 +99,16 @@ export class ScoutsComponent implements OnInit, OnDestroy {
                   } as { name: string; label: string };
                 }),
 
+              instructorRankAbbv:
+                scout.instructorRank.abbreviation !== 'BS'
+                  ? scout.instructorRank.abbreviation
+                  : '',
               instructorRankLabel: `instructor-rank-${scout.instructorRank.rankId}`,
               rankName: scout.rank.name,
 
               isSelected: false,
               scoutObject: scout,
+              rolesList: x.roles.filter((r) => r.scoutId === scout.scoutId),
             })
           );
           return rows;
@@ -173,6 +182,10 @@ export class ScoutsComponent implements OnInit, OnDestroy {
   }
 
   // ACTIONS
+
+  openShowInfoModal(scout: Scout, roles: Role[]): void {
+    new ScoutInfoModal(this.dialog).open(scout, roles);
+  }
 
   openAddScouts(): void {
     new ManageScoutModal(this.dialog)
