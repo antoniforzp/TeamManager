@@ -16,41 +16,40 @@
 
                 <app-page-header [header]="'Ewidencja'" [goBackUrl]="'/home'"></app-page-header>
 
-                <!-- TEAMS -->
-                <div class="pt-3 border-top">
+                <!-- SCOUTS -->
+                <div class="d-flex justify-content-between mb-2">
+                    <h5>Zarządzaj harcerzami ({{scouts.length}})</h5>
 
-                    <div class="d-flex justify-content-between mb-2">
-                        <h5>Zarządzaj harcerzami ({{scouts.length}})</h5>
-
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle my-button" type="button"
-                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" (click)="setActions()">
-                                Opcje
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <ng-container *ngFor="let action of actions | keyvalue">
-                                    <button class="dropdown-item" (click)="action.value.action();"
-                                        [disabled]="!action.value.isEnabled">{{action.value.label}}</button>
-                                </ng-container>
-                            </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle my-button" type="button"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            (click)="setActions()">
+                            Opcje
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <ng-container *ngFor="let action of actions | keyvalue">
+                                <button class="dropdown-item" (click)="action.value.action();"
+                                    [disabled]="!action.value.isEnabled">{{action.value.label}}</button>
+                            </ng-container>
                         </div>
                     </div>
+                </div>
 
-                    <!-- teams table -->
-                    <div class="mt-3" style="height: 55vh; overflow-y: auto;">
-                        <table class="table table-hover">
-                            <thead class="my-thead">
-                                <th class="checkbox-cell">
-                                    <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
-                                        (ngModelChange)="toggleSelectAll($event)">
-                                </th>
-                                <th>Imię i nazwisko</th>
-                                <th>Zastęp</th>
-                                <th>Funkcja</th>
-                                <th>Stopień</th>
-                            </thead>
-                            <tbody>
+                <!-- scouts table -->
+                <div class="mt-3" style="height: 55vh; overflow-y: auto;">
+                    <table class="table table-hover">
+                        <thead class="my-thead">
+                            <th class="checkbox-cell">
+                                <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
+                                    (ngModelChange)="toggleSelectAll($event)">
+                            </th>
+                            <th>Imię i nazwisko</th>
+                            <th>Zastęp</th>
+                            <th>Funkcja</th>
+                            <th>Stopień</th>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngIf="scouts.length > 0; else noTableData">
                                 <ng-container *ngFor="let scout of scouts; let i=index">
                                     <tr class="cursor-pointer" [ngClass]="{'selected': scout.isSelected}"
                                         (click)="toggleSelected(scout)">
@@ -88,11 +87,10 @@
                                         </td>
                                     </tr>
                                 </ng-container>
-                            </tbody>
-                        </table>
-                    </div>
+                            </ng-container>
+                        </tbody>
+                    </table>
                 </div>
-
             </div>
         </ng-container>
 
@@ -109,7 +107,9 @@
 </ng-template>
 
 <ng-template #noTableData>
-    <tr colspan="8">
-        Brak danych
+    <tr>
+        <td colspan="5">
+            Brak danych
+        </td>
     </tr>
 </ng-template>
