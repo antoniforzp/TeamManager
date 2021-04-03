@@ -1,0 +1,236 @@
+<div class="modal-header">
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.ADD">Dodaj nowego harcerza</span>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.EDIT">Edytuj harcerza</span>
+</div>
+
+<div class="modal-body">
+
+    <ng-container *ngIf="pageLoaded; else loading">
+
+        <ng-container *ngIf="pageError">
+            <app-error [error]="pageError"></app-error>
+        </ng-container>
+
+        <ng-container *ngIf="!pageError">
+
+            <form [formGroup]="form">
+
+                <!-- CREDENTIALS -->
+                <div class="form-group">
+
+                    <div class="d-flex align-items-center mb-1">
+                        <img src="../../../../assets/icons/person.svg" class="icon mr-2" />
+                        <span class="label-medium">Dane osobowe</span>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="row mb-2">
+                        <label for="name" class="col-sm-4 col-form-label required">Imię</label>
+                        <div class="col">
+                            <input id="name" type="text" class="form-control" formControlName="name">
+
+                            <!-- Errors -->
+                            <div class="d-flex flex-column" *ngIf="name.errors && name.dirty">
+                                <small class="alert-danger" *ngIf="name.hasError('required')">Pole
+                                    wymagane</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Surname -->
+                    <div class="row mb-2">
+                        <label for="surname" class="col-sm-4 col-form-label required">Nazwisko</label>
+                        <div class="col">
+                            <input id="surname" type="text" class="form-control" formControlName="surname">
+
+                            <!-- Errors -->
+                            <div class="d-flex flex-column" *ngIf="surname.errors && surname.dirty">
+                                <small class="alert-danger" *ngIf="surname.hasError('required')">Pole
+                                    wymagane</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Birth date -->
+                    <div class="row mb-2">
+                        <label for="birthDate" class="col-sm-4 col-form-label">Data urodzenia</label>
+                        <div class="col">
+                            <mat-form-field class="mb-n2 mt-n2 w-100">
+                                <input id="birthDate" matInput [matDatepicker]="picker" formControlName="birthDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- Pesel -->
+                    <div class="row mb-2">
+                        <label for="pesel" class="col-sm-4 col-form-label">PESEL</label>
+                        <div class="col">
+                            <input id="pesel" type="text" class="form-control" formControlName="pesel">
+
+                            <!-- Errors -->
+                            <div class="d-flex flex-column" *ngIf="pesel.errors && pesel.dirty">
+                                <small class="alert-danger" *ngIf="pesel.hasError('pattern')">
+                                    Wymagany format numeru PESEL: 00000000000
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ADDRESS -->
+                <div class="form-group">
+
+                    <div class="d-flex align-items-center mb-1 mt-4">
+                        <img src="../../../../assets/icons/address.svg" class="icon mr-2" />
+                        <span class="label-medium">Adres</span>
+                    </div>
+
+                    <!-- Street -->
+                    <div class="row mb-2">
+                        <label for="street" class="col-sm-4 col-form-label">Ulica</label>
+                        <div class="col">
+                            <input id="street" type="text" class="form-control" formControlName="address">
+                        </div>
+                    </div>
+
+                    <!-- Postal code -->
+                    <div class="row mb-2">
+                        <label for="postalCode" class="col-sm-4 col-form-label">Kod pocztowy</label>
+                        <div class="col">
+                            <input id="postalCode" type="text" class="form-control" formControlName="postalCode">
+
+                            <!-- Errors -->
+                            <div class="d-flex flex-column" *ngIf="postalCode.errors && postalCode.dirty">
+                                <small class="alert-danger" *ngIf="postalCode.hasError('pattern')">
+                                    Wymagany format: 00-000
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- City -->
+                    <div class="row mb-2">
+                        <label for="city" class="col-sm-4 col-form-label">Miasto</label>
+                        <div class="col">
+                            <input id="city" type="text" class="form-control" formControlName="city">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- CONTACT -->
+                <div class="form-group">
+
+                    <div class="d-flex align-items-center mb-1 mt-4">
+                        <img src="../../../../assets/icons/phone.svg" class="icon mr-2" />
+                        <span class="label-medium">Dane kontaktowe</span>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="row mb-2">
+                        <label for="phone" class="col-sm-4 col-form-label">Numer telefonu</label>
+                        <div class="col">
+                            <input id="phone" type="text" class="form-control" formControlName="phone">
+
+                            <!-- Errors -->
+                            <div class="d-flex flex-column" *ngIf="phone.errors && phone.dirty">
+                                <small class="alert-danger" *ngIf="phone.hasError('pattern')">
+                                    Wymagany format: 000-000-000
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RANKS -->
+                <div class="form-group">
+
+                    <div class="d-flex align-items-center mb-1">
+                        <img src="../../../../assets/icons/rank.svg" class="icon mr-2" />
+                        <span class="label-medium">Stopnie</span>
+                    </div>
+
+                    <!-- Rank -->
+                    <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label required">Stopień harcerski</label>
+                        <div class="col">
+                            <ng-select [items]="ranks" appendTo="body" bindLabel="name" bindValue="rankId"
+                                formControlName="rank">
+                            </ng-select>
+
+                            <!-- Errors -->
+                            <div class="d-flex flex-column" *ngIf="rank.errors && rank.dirty">
+                                <small class="alert-danger" *ngIf="rank.hasError('required')">Pole
+                                    wymagane</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Instructor rank -->
+                    <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label required">Stopień instruktorski</label>
+                        <div class="col">
+                            <ng-select [items]="instructorRanks" appendTo="body" bindLabel="name" bindValue="rankId"
+                                formControlName="instructorRank">
+                            </ng-select>
+
+                            <!-- Errors -->
+                            <div class="d-flex flex-column" *ngIf="instructorRank.errors && instructorRank.dirty">
+                                <small class="alert-danger" *ngIf="instructorRank.hasError('required')">Pole
+                                    wymagane</small>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <div class="d-flex align-items-center mb-1 mt-4">
+                        <img src="../../../../assets/icons/group.svg" class="icon mr-2" />
+                        <span class="label-medium">Przynależność</span>
+                    </div>
+
+                    <!-- Troops -->
+                    <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label required">Zastęp</label>
+                        <div class="col">
+                            <ng-select [items]="troops" appendTo="body" bindLabel="name" bindValue="troopId"
+                                formControlName="troop">
+                            </ng-select>
+
+                            <!-- Errors -->
+                            <div class="d-flex flex-column" *ngIf="troop.errors && troop.dirty">
+                                <small class="alert-danger" *ngIf="troop.hasError('required')">Pole
+                                    wymagane</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </ng-container>
+
+    </ng-container>
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+
+        <button *ngIf="modalMode === ModalModes.ADD" type="button" class="btn btn-success my-button"
+            (click)="addScout()" [disabled]="!form.valid">Dodaj</button>
+
+        <button *ngIf="modalMode === ModalModes.EDIT" type="button" class="btn btn-success my-button"
+            (click)="editScout()" [disabled]="!form.valid">Edytuj</button>
+    </div>
+</div>
+
+<ng-template #loading>
+    <app-page-spinner></app-page-spinner>
+</ng-template>

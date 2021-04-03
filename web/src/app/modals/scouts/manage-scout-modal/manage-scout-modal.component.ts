@@ -6,7 +6,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
-import { InstruktorRank } from 'src/app/model/InstructorRank';
+import { InstructorRank } from 'src/app/model/InstructorRank';
 import { Rank } from 'src/app/model/Rank';
 import { Scout } from 'src/app/model/Scout';
 import { Troop } from 'src/app/model/Troop';
@@ -52,7 +52,7 @@ export class ManageScoutModalComponent implements OnInit {
 
   allTroops$ = new BehaviorSubject<Troop[]>([]);
   allRanks$ = new BehaviorSubject<Rank[]>([]);
-  allInstructorRanks$ = new BehaviorSubject<InstruktorRank[]>([]);
+  allInstructorRanks$ = new BehaviorSubject<InstructorRank[]>([]);
 
   troopsNames = [] as string[];
 
@@ -127,97 +127,97 @@ export class ManageScoutModalComponent implements OnInit {
 
   // FUNCTIONALITIES
 
-  public manageScout(): void {
-    if (this.form.valid) {
-      const newScout = {
-        scoutId: -1,
-        name: this.name.value,
-        surname: this.surname.value,
-        pesel: this.pesel.value,
-        birthDate: new Date(this.birthDate.value),
-        address: this.address.value,
-        postalCode: this.postalCode.value,
-        city: this.city.value,
-        phone: this.contact.value,
-        troopId: this.troop.troopId,
-        rankId: this.rank.rankId,
-        instructorRankId: this.instructorRank.rankId,
-      };
+  // public manageScout(): void {
+  //   if (this.form.valid) {
+  //     const newScout = {
+  //       scoutId: -1,
+  //       name: this.name.value,
+  //       surname: this.surname.value,
+  //       pesel: this.pesel.value,
+  //       birthDate: new Date(this.birthDate.value),
+  //       address: this.address.value,
+  //       postalCode: this.postalCode.value,
+  //       city: this.city.value,
+  //       phone: this.contact.value,
+  //       troopId: this.troop.troopId,
+  //       rankId: this.rank.rankId,
+  //       instructorRankId: this.instructorRank.rankId,
+  //     };
 
-      if (this.mode) {
-        switch (this.mode) {
-          case PageModes.Add:
-            {
-              new ProgressModal(this.dialog)
-                .open(
-                  [this.scoutsService.addScout(
-                    newScout.name,
-                    newScout.surname,
-                    newScout.pesel,
-                    newScout.birthDate,
-                    newScout.address,
-                    newScout.postalCode,
-                    newScout.city,
-                    newScout.phone,
-                    0,
-                    0,
-                    0
-                  )],
-                  // newScout.troopId,
-                  // newScout.rankId,
-                  // newScout.instructorRankId
-                  {
-                    failureMessage:
-                      'Nie udało się dodać harcerza. Sprawdź wszystkie dane.',
-                  }
-                )
-                .then((x) =>
-                  x
-                    .afterClosed()
-                    .subscribe((result) => this.dialogRef.close(result))
-                );
-            }
-            break;
-          case PageModes.Edit:
-            {
-              new ProgressModal(this.dialog)
-                .open(
-                  [this.scoutsService.patchScout(
-                    this.scoutId,
-                    newScout.name,
-                    newScout.surname,
-                    newScout.pesel,
-                    newScout.birthDate,
-                    newScout.address,
-                    newScout.postalCode,
-                    newScout.city,
-                    newScout.phone,
-                    0,
-                    0,
-                    0
-                  )],
-                  // newScout.troopId,
-                  // newScout.rankId,
-                  // newScout.instructorRankId
-                  {
-                    failureMessage:
-                      'Nie udało się zaktualizować dane harcerza. Sprawdź wszystkie dane.',
-                  }
-                )
-                .then((x) =>
-                  x
-                    .afterClosed()
-                    .subscribe((result) => this.dialogRef.close(result))
-                );
-            }
-            break;
-        }
-      }
-    } else {
-      this.form.markAllAsTouched();
-      this.form.markAsDirty();
-    }
-  }
+  //   if (this.mode) {
+  //     switch (this.mode) {
+  //       case PageModes.Add:
+  //         {
+  //           new ProgressModal(this.dialog)
+  //             .open(
+  //               [this.scoutsService.addScout(
+  //                 newScout.name,
+  //                 newScout.surname,
+  //                 newScout.pesel,
+  //                 newScout.birthDate,
+  //                 newScout.address,
+  //                 newScout.postalCode,
+  //                 newScout.city,
+  //                 newScout.phone,
+  //                 0,
+  //                 0,
+  //                 0
+  //               )],
+  //               // newScout.troopId,
+  //               // newScout.rankId,
+  //               // newScout.instructorRankId
+  //               {
+  //                 failureMessage:
+  //                   'Nie udało się dodać harcerza. Sprawdź wszystkie dane.',
+  //               }
+  //             )
+  //             .then((x) =>
+  //               x
+  //                 .afterClosed()
+  //                 .subscribe((result) => this.dialogRef.close(result))
+  //             );
+  //         }
+  //         break;
+  //       case PageModes.Edit:
+  //         {
+  //           new ProgressModal(this.dialog)
+  //             .open(
+  //               [this.scoutsService.patchScout(
+  //                 this.scoutId,
+  //                 newScout.name,
+  //                 newScout.surname,
+  //                 newScout.pesel,
+  //                 newScout.birthDate,
+  //                 newScout.address,
+  //                 newScout.postalCode,
+  //                 newScout.city,
+  //                 newScout.phone,
+  //                 0,
+  //                 0,
+  //                 0
+  //               )],
+  //               // newScout.troopId,
+  //               // newScout.rankId,
+  //               // newScout.instructorRankId
+  //               {
+  //                 failureMessage:
+  //                   'Nie udało się zaktualizować dane harcerza. Sprawdź wszystkie dane.',
+  //               }
+  //             )
+  //             .then((x) =>
+  //               x
+  //                 .afterClosed()
+  //                 .subscribe((result) => this.dialogRef.close(result))
+  //             );
+  //         }
+  //         break;
+  //     }
+  //   }
+  // } else {
+  //   this.form.markAllAsTouched();
+  //   this.form.markAsDirty();
+  // }
+  // }
 
   public async close(): Promise<any> {
     this.dialogRef.close();

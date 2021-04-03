@@ -7,3 +7,23 @@
   transform: scale(2);
   -webkit-transform: scale(2);
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.ng-value-label {
+  background-color: white;
+  font-size: 1rem;
+}
+
+.ng-value-icon {
+  background-color: white;
+  font-size: 1rem;
+}

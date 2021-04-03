@@ -10,13 +10,13 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { AddEditScoutModal } from 'src/app/modals/scouts/add-edit-scout-modal/add-edit-scout-modal';
 import { ManageScoutModal } from 'src/app/modals/scouts/manage-scout-modal/ManageScoutModal';
 import { ManageScoutRolesModal } from 'src/app/modals/scouts/manage-scouts-roles-modal/ManageScoutRolesModal';
 import { ScoutInfoModal } from 'src/app/modals/scouts/scout-info-modal/scout-info-modal';
 import { Role } from 'src/app/model/Role';
 
 import { Scout } from 'src/app/model/Scout';
-import { MenuAction } from 'src/app/utils/MenuAction';
 import { Results } from 'src/app/utils/Result';
 import { ScoutsService } from '../../services/scouts.service';
 
@@ -34,11 +34,17 @@ interface ScoutRowData {
   rolesList: Role[];
 }
 
-enum MenuActionsTypes {
-  EditData,
-  EditRoles,
-  Delete,
-  ExportCSV,
+interface DropdownAction {
+  label: string;
+  isEnabled: boolean;
+  action: () => void;
+}
+
+enum Actions {
+  ADD,
+  EDIT,
+  DELETE,
+  EXPORT_CSV,
 }
 
 @Component({
@@ -56,7 +62,7 @@ export class ScoutsComponent implements OnInit, OnDestroy {
   allSelected = false;
   scouts = [] as ScoutRowData[];
 
-  actions = new Map<MenuActionsTypes, MenuAction>();
+  actions = new Map<Actions, DropdownAction>();
 
   constructor(
     private scoutsService: ScoutsService,
@@ -116,8 +122,6 @@ export class ScoutsComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (result) => {
-          console.log(result);
-
           this.scouts = result;
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
@@ -156,28 +160,28 @@ export class ScoutsComponent implements OnInit, OnDestroy {
     const selected = this.scouts.filter((x) => x.isSelected);
     this.actions.clear();
 
-    this.actions.set(MenuActionsTypes.EditData, {
-      label: 'Edytuj dane',
-      isEnabled: selected.length === 1,
-      execute: () => this.openEditScout(),
+    this.actions.set(Actions.ADD, {
+      label: 'Dodaj',
+      isEnabled: true,
+      action: () => this.openAddScout(),
     });
 
-    this.actions.set(MenuActionsTypes.EditRoles, {
-      label: 'Edytuj funkcje',
+    this.actions.set(Actions.EDIT, {
+      label: 'Edytuj',
       isEnabled: selected.length === 1,
-      execute: () => this.openEditRoles(),
+      action: () => this.openEditScout(),
     });
 
-    this.actions.set(MenuActionsTypes.Delete, {
+    this.actions.set(Actions.DELETE, {
       label: 'Usuń',
       isEnabled: selected.length > 0,
-      execute: () => this.openEditRoles(),
+      action: () => this.openEditRoles(),
     });
 
-    this.actions.set(MenuActionsTypes.ExportCSV, {
+    this.actions.set(Actions.EXPORT_CSV, {
       label: 'Eksportuj do CSV',
       isEnabled: selected.length > 0,
-      execute: () => this.openExport(),
+      action: () => this.openExport(),
     });
   }
 
@@ -187,29 +191,27 @@ export class ScoutsComponent implements OnInit, OnDestroy {
     new ScoutInfoModal(this.dialog).open(scout, roles);
   }
 
-  openAddScouts(): void {
-    new ManageScoutModal(this.dialog)
-      .openAdd()
-      .afterClosed()
-      .subscribe((x) => {
-        if (x === Results.SUCCESS) {
+  openAddScout(): void {
+    new AddEditScoutModal(this.dialog).openAdd().then((x) => {
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
           this.loadData();
         }
       });
+    });
   }
 
   openEditScout(): void {
     const selected = this.scouts.filter((x) => x.isSelected);
-    if (selected.length === 1) {
-      new ManageScoutModal(this.dialog)
-        .openEdit(selected[0].scoutObject.scoutId)
-        .afterClosed()
-        .subscribe((x) => {
-          if (x === Results.SUCCESS) {
+    new AddEditScoutModal(this.dialog)
+      .openEdit(selected[0].scoutObject)
+      .then((x) => {
+        x.afterClosed().subscribe((result) => {
+          if (result === Results.SUCCESS) {
             this.loadData();
           }
         });
-    }
+      });
   }
 
   openEditRoles(): void {

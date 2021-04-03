@@ -89,4 +89,21 @@ public class AddScoutBody implements Body {
     public int getInstructorRankId() {
         return instructorRankId;
     }
+
+    @Override
+    public String toString() {
+        return "AddScoutBody{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", pesel='" + pesel + '\'' +
+                ", birthDate=" + birthDate +
+                ", address='" + address + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", city='" + city + '\'' +
+                ", phone='" + phone + '\'' +
+                ", troopId=" + troopId +
+                ", rankId=" + rankId +
+                ", instructorRankId=" + instructorRankId +
+                '}';
+    }
 }

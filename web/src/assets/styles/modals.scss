@@ -7,3 +7,12 @@
   max-height: 60vh !important;
   overflow-y: auto;
 }
+
+.mat-dialog-content,
+.mat-dialog-container {
+  overflow: visible !important;
+}
+
+.mat-dialog-actions {
+  clear: both;
+}

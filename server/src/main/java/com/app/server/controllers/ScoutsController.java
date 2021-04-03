@@ -29,7 +29,7 @@ public class ScoutsController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/scouts/add")
+    @PostMapping(value = "/scouts")
     public ResponseEntity<Response<Boolean>> addScout(@RequestBody AddScoutBody body) {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
@@ -63,7 +63,6 @@ public class ScoutsController {
     @PostMapping(value = "/scouts{scoutId}/roles")
     public ResponseEntity<Response<Boolean>> addRoles(@PathVariable int scoutId, @RequestBody AddScoutRolesBody body) {
         appCore.checkCoreInit();
-
         boolean check = true;
         for (int roleId : body.getRolesId()) {
             check = scoutsRepository.addRole(scoutId, roleId);
@@ -79,7 +78,6 @@ public class ScoutsController {
     @GetMapping(value = "/scouts")
     public ResponseEntity<Response<List<Scout>>> getScouts() {
         appCore.checkCoreInit();
-
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.getAllByTeamId(appCore.getCurrentTeam().getTeamId()),
                 appCore.getCurrentUser().getUserId()),
@@ -90,7 +88,6 @@ public class ScoutsController {
     @GetMapping(value = "/scouts{scoutId}")
     public ResponseEntity<Response<Scout>> getScout(@PathVariable int scoutId) {
         appCore.checkCoreInit();
-
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.getById(scoutId),
                 appCore.getCurrentUser().getUserId()),
@@ -100,8 +97,6 @@ public class ScoutsController {
     @CrossOrigin
     @GetMapping(value = "/scouts/roles")
     public ResponseEntity<Response<List<Role>>> getAllRoles() {
-        appCore.checkCoreInit();
-
         return new ResponseEntity<>(new Response<>(
                 rolesRepository.getAllInTeam(appCore.getCurrentTeam().getTeamId()),
                 appCore.getCurrentUser().getUserId()),
@@ -112,7 +107,6 @@ public class ScoutsController {
     @GetMapping(value = "/scouts{scoutId}/roles")
     public ResponseEntity<Response<List<Role>>> getScoutRoles(@PathVariable int scoutId) {
         appCore.checkCoreInit();
-
         return new ResponseEntity<>(new Response<>(
                 rolesRepository.getAllByScoutId(scoutId),
                 appCore.getCurrentUser().getUserId()),
@@ -123,7 +117,6 @@ public class ScoutsController {
     @PatchMapping(value = "/scouts{scoutId}")
     public ResponseEntity<Response<Boolean>> editScout(@PathVariable int scoutId, @RequestBody EditScoutBody body) {
         appCore.checkCoreInit();
-
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.update(scoutId,
                         body.getName(),
@@ -136,7 +129,7 @@ public class ScoutsController {
                         body.getPhone(),
                         body.getTroopId(),
                         body.getRankId(),
-                        body.getRankId()),
+                        body.getInstructorRankId()),
                 appCore.getCurrentUser().getUserId()),
                 HttpStatus.CREATED);
     }
@@ -145,7 +138,6 @@ public class ScoutsController {
     @DeleteMapping(value = "/scouts{scoutId}")
     public ResponseEntity<Response<Boolean>> deleteScout(@PathVariable int scoutId) {
         appCore.checkCoreInit();
-
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.deleteById(scoutId),
                 appCore.getCurrentUser().getUserId()),
@@ -156,7 +148,6 @@ public class ScoutsController {
     @DeleteMapping(value = "/scouts{scoutId}/roles")
     public ResponseEntity<Response<Boolean>> deleteScoutRoles(@PathVariable int scoutId) {
         appCore.checkCoreInit();
-
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.deleteAllRoles(scoutId),
                 appCore.getCurrentUser().getUserId()),
@@ -167,7 +158,6 @@ public class ScoutsController {
     @DeleteMapping(value = "/scouts{scoutId}/roles{roleId}")
     public ResponseEntity<Response<Boolean>> deleteScoutRole(@PathVariable int scoutId, @PathVariable int roleId) {
         appCore.checkCoreInit();
-
         return new ResponseEntity<>(new Response<>(
                 scoutsRepository.deleteRole(scoutId, roleId),
                 appCore.getCurrentUser().getUserId()),

@@ -4,6 +4,20 @@ import { Scout } from 'src/app/model/Scout';
 import { Role } from '../model/Role';
 import { REST, RestService } from '../web/rest.service';
 
+export interface ScoutPayload {
+  name: string;
+  surname: string;
+  pesel: string;
+  birthDate: Date;
+  address: string;
+  postalCode: string;
+  city: string;
+  phone: string;
+  troopId: number;
+  rankId: number;
+  instructorRankId: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -48,35 +62,11 @@ export class ScoutsService {
     });
   }
 
-  addScout(
-    name: string,
-    surname: string,
-    pesel: string,
-    birthDate: Date,
-    address: string,
-    postalCode: string,
-    city: string,
-    phone: string,
-    troopId: number,
-    rankId: number,
-    instructorRank: number
-  ): Observable<boolean> {
+  addScout(scoutPayload: ScoutPayload): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.POST,
-      url: `/scouts/add`,
-      body: {
-        name,
-        surname,
-        pesel,
-        birthDate,
-        address,
-        postalCode,
-        city,
-        phone,
-        troopId,
-        rankId,
-        instructorRank,
-      },
+      url: `/scouts`,
+      body: scoutPayload,
     });
   }
 
@@ -87,36 +77,11 @@ export class ScoutsService {
     });
   }
 
-  patchScout(
-    scoutId: number,
-    name: string,
-    surname: string,
-    pesel: string,
-    birthDate: Date,
-    address: string,
-    postalCode: string,
-    city: string,
-    phone: string,
-    troopId: number,
-    rankId: number,
-    instructorRank: number
-  ): Observable<boolean> {
+  patchScout(scoutId: number, scoutPayload: ScoutPayload): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.PATCH,
       url: `/scouts${scoutId}`,
-      body: {
-        name,
-        surname,
-        pesel,
-        birthDate,
-        address,
-        postalCode,
-        city,
-        phone,
-        troopId,
-        rankId,
-        instructorRank,
-      },
+      body: scoutPayload,
     });
   }
 }

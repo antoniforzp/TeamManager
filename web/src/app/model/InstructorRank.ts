@@ -1,4 +1,4 @@
-export interface InstruktorRank {
+export interface InstructorRank {
   rankId: number;
   name: string;
   abbreviation: string;

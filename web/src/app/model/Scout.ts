@@ -1,4 +1,4 @@
-import { InstruktorRank } from './InstructorRank';
+import { InstructorRank } from './InstructorRank';
 import { Rank } from './Rank';
 import { Troop } from './Troop';
 
@@ -15,5 +15,5 @@ export interface Scout {
 
   troop: Troop;
   rank: Rank;
-  instructorRank?: InstruktorRank;
+  instructorRank?: InstructorRank;
 }

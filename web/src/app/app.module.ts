@@ -11,6 +11,7 @@ import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/app-material.module';
 import { RouterModule } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -29,6 +30,9 @@ import { RouterModule } from '@angular/router';
     MaterialModule,
     MatDialogModule,
     BrowserAnimationsModule,
+
+    // Ng Select
+    NgSelectModule,
 
     // App modules
     PagesModule,

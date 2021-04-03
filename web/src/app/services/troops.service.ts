@@ -11,7 +11,7 @@ export class TroopsService {
 
   getTroops(): Observable<Troop[]> {
     return this.rest.resolve<Troop[]>({
-      method: REST.DELETE,
+      method: REST.GET,
       url: `/troops`,
     });
   }

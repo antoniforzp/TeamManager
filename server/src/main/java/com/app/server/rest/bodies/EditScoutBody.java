@@ -22,4 +22,6 @@ public class EditScoutBody extends AddScoutBody implements Body {
                          @JsonProperty int instructorRankId) {
         super(name, surname, pesel, birthDate, address, postalCode, city, phone, troopId, rankId, instructorRankId);
     }
+
+
 }

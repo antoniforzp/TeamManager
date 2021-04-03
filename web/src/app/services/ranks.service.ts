@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { InstruktorRank } from '../model/InstructorRank';
+import { InstructorRank } from '../model/InstructorRank';
 import { Rank } from '../model/Rank';
 import { REST, RestService } from '../web/rest.service';
 
@@ -17,8 +17,8 @@ export class RanksService {
     });
   }
 
-  getInstructorRanks(): Observable<InstruktorRank[]> {
-    return this.rest.resolve<InstruktorRank[]>({
+  getInstructorRanks(): Observable<InstructorRank[]> {
+    return this.rest.resolve<InstructorRank[]>({
       method: REST.GET,
       url: `/iranks`,
     });
