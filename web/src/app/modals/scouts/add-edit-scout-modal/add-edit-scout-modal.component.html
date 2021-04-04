@@ -158,8 +158,12 @@
                     <div class="row mb-2">
                         <label class="col-sm-4 col-form-label required">Stopień harcerski</label>
                         <div class="col">
-                            <ng-select [items]="ranks" appendTo="body" bindLabel="name" bindValue="rankId"
-                                formControlName="rank">
+                            <ng-select appendTo="body" formControlName="rank">
+                                <ng-option *ngFor="let rank of ranks" [value]="rank.rankId">
+                                    <span>
+                                        {{rank.name}}
+                                    </span>
+                                </ng-option>
                             </ng-select>
 
                             <!-- Errors -->
@@ -174,8 +178,12 @@
                     <div class="row mb-2">
                         <label class="col-sm-4 col-form-label required">Stopień instruktorski</label>
                         <div class="col">
-                            <ng-select [items]="instructorRanks" appendTo="body" bindLabel="name" bindValue="rankId"
-                                formControlName="instructorRank">
+                            <ng-select appendTo="body" formControlName="instructorRank">
+                                <ng-option *ngFor="let rank of instructorRanks" [value]="rank.rankId">
+                                    <span [ngClass]="[createInstructorRankBadge(rank)]">
+                                        {{rank.name}}
+                                    </span>
+                                </ng-option>
                             </ng-select>
 
                             <!-- Errors -->

@@ -186,6 +186,12 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
       );
   }
 
+  // UTILS
+
+  createInstructorRankBadge(rank: Rank): string {
+    return 'instructor-rank-' + rank.rankId;
+  }
+
   // FORM SETTING UP
 
   setupForm(): void {
