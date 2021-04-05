@@ -5,22 +5,16 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AbstractConstructor } from '@angular/material/core/common-behaviors/constructor';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
-import { ScoutsService } from 'src/app/services/scouts.service';
 import { CSVExporter, ScoutCsvPayload } from 'src/app/utils/CSVExporter';
 import { Results } from 'src/app/utils/Result';
-import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 
 export interface ExportCsvScoutModalComponentEntry {
   scouts: Scout[];
+  scoutRoles: { scoutId: number; roles: Role[] }[];
 }
 
 @Component({
@@ -33,17 +27,18 @@ export class ExportCsvScoutModalComponent implements OnInit, OnDestroy {
   pageLoaded = false;
 
   scouts: Scout[];
+  scoutRoles: { scoutId: number; roles: Role[] }[];
+
   form: FormGroup;
 
   constructor(
-    private scoutsService: ScoutsService,
-    private dialog: MatDialog,
     private dialogRef: MatDialogRef<ExportCsvScoutModalComponent>,
     private fb: FormBuilder,
 
     @Inject(MAT_DIALOG_DATA) data: ExportCsvScoutModalComponentEntry
   ) {
     this.scouts = data.scouts;
+    this.scoutRoles = data.scoutRoles;
   }
 
   ngOnInit(): void {
@@ -61,7 +56,7 @@ export class ExportCsvScoutModalComponent implements OnInit, OnDestroy {
     this.dialogRef.close(Results.CANCEL);
   }
 
-  delete(): void {
+  export(): void {
     const headers = [] as string[];
     const exportPayloads = [] as ScoutCsvPayload[];
 
@@ -117,7 +112,15 @@ export class ExportCsvScoutModalComponent implements OnInit, OnDestroy {
 
       if (this.exportAfiliation.value) {
         exportPayload.troop = scout.troop.name;
-        // exportPayload.roles = '';
+
+        let rolesString = '';
+        this.scoutRoles
+          .find((x) => x.scoutId === scout.scoutId)
+          .roles.forEach((r) => {
+            rolesString += r.name + ', ';
+          });
+
+        exportPayload.roles = rolesString;
       }
 
       exportPayloads.push(exportPayload);
