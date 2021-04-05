@@ -18,6 +18,12 @@
     color: var(--foreground-default) !important;
     font-weight: 200 !important;
   }
+
+  .my-thead-clean th {
+    background-color: var(--primary-default);
+    color: var(--foreground-default) !important;
+    font-weight: 200 !important;
+  }
 }
 
 .table-hover {

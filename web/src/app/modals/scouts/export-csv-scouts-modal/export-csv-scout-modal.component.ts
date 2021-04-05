@@ -18,7 +18,6 @@ export interface ExportCsvScoutModalComponentEntry {
 }
 
 @Component({
-  selector: 'app-delete-team-modal',
   templateUrl: './export-csv-scout-modal.component.html',
   styleUrls: ['./export-csv-scout-modal.component.scss'],
 })

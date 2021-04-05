@@ -47,6 +47,12 @@
   opacity: 1;
 }
 
+.my-icon-button:focus {
+  display: inline-block;
+  border: none;
+  outline: none;
+}
+
 .dropdown-item {
   color: var(--primary-default) !important;
 }

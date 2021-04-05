@@ -3,11 +3,11 @@
   color: white;
   background-color: rgb(25, 49, 116);
 
-  padding: 2px;
   padding-left: 8px;
   padding-right: 8px;
   border-radius: 20px;
   min-width: 100px;
+  height: 1.5rem;
 }
 
 // Podharcmistrz
@@ -15,11 +15,11 @@
   background-color: rgb(30, 83, 9);
   color: white;
 
-  padding: 2px;
   padding-left: 8px;
   padding-right: 8px;
   border-radius: 20px;
   min-width: 100px;
+  height: 1.5rem;
 }
 
 // Harcmistrz
@@ -27,11 +27,11 @@
   background-color: rgb(177, 18, 18);
   color: white;
 
-  padding: 2px;
   padding-left: 8px;
   padding-right: 8px;
   border-radius: 20px;
   min-width: 100px;
+  height: 1.5rem;
 }
 
 // Podzastępowy
@@ -39,11 +39,11 @@
   color: black;
   background-color: rgb(202, 201, 201);
 
-  padding: 2px;
   padding-left: 8px;
   padding-right: 8px;
   border-radius: 20px;
-  min-width: 200px;
+  width: 100%;
+  height: 1.5rem;
 }
 
 // Zastępowy
@@ -51,11 +51,11 @@
   color: white;
   background-color: rgb(53, 7, 7);
 
-  padding: 2px;
   padding-left: 8px;
   padding-right: 8px;
   border-radius: 20px;
-  min-width: 200px;
+  width: 100%;
+  height: 1.5rem;
 }
 
 // Kwatermistrz
@@ -63,11 +63,11 @@
   color: white;
   background-color: rgb(226, 48, 87);
 
-  padding: 2px;
   padding-left: 8px;
   padding-right: 8px;
   border-radius: 20px;
-  min-width: 200px;
+  width: 100%;
+  height: 1.5rem;
 }
 
 // Przyboczny
@@ -75,12 +75,12 @@
   color: white;
   background-color: rgb(26, 131, 35);
 
-  margin: 2px;
   padding: 2px;
   padding-left: 8px;
   padding-right: 8px;
   border-radius: 20px;
-  min-width: 200px;
+  width: 100%;
+  height: 1.5rem;
 }
 
 // Drużynowy
@@ -88,10 +88,10 @@
   color: white;
   background-color: rgb(33, 34, 100);
 
-  margin: 5px;
   padding: 2px;
   padding-left: 8px;
   padding-right: 8px;
   border-radius: 20px;
-  min-width: 200px;
+  width: 100%;
+  height: 1.5rem;
 }

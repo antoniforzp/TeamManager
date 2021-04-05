@@ -7,12 +7,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { forkJoin, of, Subject } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AddEditScoutModal } from 'src/app/modals/scouts/add-edit-scout-modal/add-edit-scout-modal';
 import { DeleteScoutModal } from 'src/app/modals/scouts/delete-scout-modal/delete-scout-modal';
+import { EditScoutRolesModal } from 'src/app/modals/scouts/edit-scout-roles-modal/edit-scout-roles-modal';
 import { ExportCsvScoutModal } from 'src/app/modals/scouts/export-csv-scouts-modal/export-csv-scout-modal';
-import { ManageScoutRolesModal } from 'src/app/modals/scouts/manage-scouts-roles-modal/ManageScoutRolesModal';
 import { ScoutInfoModal } from 'src/app/modals/scouts/scout-info-modal/scout-info-modal';
 import { Role } from 'src/app/model/Role';
 
@@ -42,7 +42,8 @@ interface DropdownAction {
 
 enum Actions {
   ADD,
-  EDIT,
+  EDIT_CREDENTIALS,
+  EDIT_ROLES,
   DELETE,
   EXPORT_CSV,
 }
@@ -166,10 +167,16 @@ export class ScoutsComponent implements OnInit, OnDestroy {
       action: () => this.openAddScout(),
     });
 
-    this.actions.set(Actions.EDIT, {
-      label: 'Edytuj',
+    this.actions.set(Actions.EDIT_CREDENTIALS, {
+      label: 'Edytuj dane',
       isEnabled: selected.length === 1,
       action: () => this.openEditScout(),
+    });
+
+    this.actions.set(Actions.EDIT_ROLES, {
+      label: 'Edytuj funkcje',
+      isEnabled: selected.length === 1,
+      action: () => this.openEditRoles(),
     });
 
     this.actions.set(Actions.DELETE, {
@@ -217,13 +224,14 @@ export class ScoutsComponent implements OnInit, OnDestroy {
   openEditRoles(): void {
     const selected = this.scouts.filter((x) => x.isSelected);
     if (selected.length === 1) {
-      new ManageScoutRolesModal(this.dialog)
-        .open(selected[0].scoutObject.scoutId)
-        .afterClosed()
-        .subscribe((x) => {
-          if (x === Results.SUCCESS) {
-            this.loadData();
-          }
+      new EditScoutRolesModal(this.dialog)
+        .open(selected[0].scoutObject, selected[0].rolesList)
+        .then((x) => {
+          x.afterClosed().subscribe((result) => {
+            if (result === Results.SUCCESS) {
+              this.loadData();
+            }
+          });
         });
     }
   }

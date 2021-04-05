@@ -1,0 +1,81 @@
+<div class="modal-header">
+    <span class="my-modal-title">Edytuj funkcje harcerza</span>
+</div>
+
+<div class="modal-body-max">
+
+    <ng-container *ngIf="pageLoaded; else loading">
+
+        <ng-container *ngIf="pageError">
+            <app-error [error]="pageError"></app-error>
+        </ng-container>
+
+        <ng-container *ngIf="!pageError">
+
+            <div class="mb-3 mt-2">
+                <span class="label-thin-big">{{scout.name}} {{scout.surname}}</span><br>
+                <span class="label-thin-small">{{scout.troop.name}}</span>
+            </div>
+
+            <div class="row mb-1">
+
+                <!-- Wybrane roles -->
+                <div class="col" style="max-height: 45vh; overflow-y: scroll;">
+                    <table class="table table-hover">
+                        <thead class="my-thead">
+                            <th>
+                                <span>
+                                    Wybrane funkcje
+                                </span>
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let role of roles" class="cursor-pointer" (click)="removeRole(role)">
+                                <td class="d-flex align-items-center">
+                                    <span [ngClass]="[createRoleBadge(role)]">
+                                        {{role.name}}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Available roles -->
+                <div class="col" style="max-height: 45vh; overflow-y: scroll;">
+                    <table class="table table-hover">
+                        <thead class="my-thead">
+                            <th>
+                                <span>
+                                    Dostępne funkcje
+                                </span>
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let role of availableRoles" class="cursor-pointer" (click)="addRole(role)">
+                                <td class="d-flex align-items-center">
+                                    <span [ngClass]="[createRoleBadge(role)]">
+                                        {{role.name}}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </ng-container>
+    </ng-container>
+
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+        <button class="btn btn-success my-button" (click)="edit()">Edytuj</button>
+    </div>
+</div>
+
+<ng-template #loading>
+    <app-page-spinner></app-page-spinner>
+</ng-template>

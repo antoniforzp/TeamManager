@@ -91,4 +91,11 @@ export class ScoutsService {
       url: `/scouts${scoutId}`,
     });
   }
+
+  deleteRole(scoutId: number, roleId: number): Observable<boolean> {
+    return this.rest.resolve<boolean>({
+      method: REST.DELETE,
+      url: `/scouts${scoutId}/roles${roleId}`,
+    });
+  }
 }
