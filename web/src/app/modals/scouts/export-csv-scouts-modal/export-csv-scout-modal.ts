@@ -1,4 +1,5 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
 import { ModalWidths } from '../../Modals-def';
 import {
@@ -10,7 +11,8 @@ export class ExportCsvScoutModal {
   constructor(private dialog: MatDialog) {}
 
   async open(
-    scouts: Scout[]
+    scouts: Scout[],
+    scoutRoles: { scoutId: number; roles: Role[] }[]
   ): Promise<MatDialogRef<ExportCsvScoutModalComponent>> {
     await import('./export-csv-scout-modal.module');
     return this.dialog.open(ExportCsvScoutModalComponent, {
@@ -18,6 +20,7 @@ export class ExportCsvScoutModal {
       disableClose: true,
       data: {
         scouts,
+        scoutRoles,
       } as ExportCsvScoutModalComponentEntry,
     });
   }

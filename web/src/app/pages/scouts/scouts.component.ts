@@ -244,7 +244,15 @@ export class ScoutsComponent implements OnInit, OnDestroy {
   openExportScout(): void {
     const selected = this.scouts.filter((x) => x.isSelected);
     new ExportCsvScoutModal(this.dialog)
-      .open(selected.map((x) => x.scoutObject))
+      .open(
+        selected.map((x) => x.scoutObject),
+        selected.map((x) => {
+          return {
+            scoutId: x.scoutObject.scoutId,
+            roles: x.rolesList,
+          };
+        })
+      )
       .then((x) => {
         x.afterClosed().subscribe((result) => {
           if (result === Results.SUCCESS) {
