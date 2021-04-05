@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/app-material.module';
-import { DeleteScoutModalComponent } from './delete-scout-modal.component';
+import { ExportCsvScoutModalComponent } from './export-csv-scout-modal.component';
 
 @NgModule({
-  declarations: [DeleteScoutModalComponent],
+  declarations: [ExportCsvScoutModalComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -15,4 +15,4 @@ import { DeleteScoutModalComponent } from './delete-scout-modal.component';
     SharedModule,
   ],
 })
-export class DeleteScoutModalModule {}
+export class ExportCsvScoutModalModule {}

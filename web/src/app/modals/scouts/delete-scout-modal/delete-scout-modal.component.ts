@@ -22,7 +22,7 @@ export interface DeleteScoutModalComponentEntry {
   templateUrl: './delete-scout-modal.component.html',
   styleUrls: ['./delete-scout-modal.component.scss'],
 })
-export class DeletScoutModalComponent implements OnInit, OnDestroy {
+export class DeleteScoutModalComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   pageLoaded = false;
 
@@ -32,7 +32,7 @@ export class DeletScoutModalComponent implements OnInit, OnDestroy {
   constructor(
     private scoutsService: ScoutsService,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<DeletScoutModalComponent>,
+    private dialogRef: MatDialogRef<DeleteScoutModalComponent>,
 
     @Inject(MAT_DIALOG_DATA) data: DeleteScoutModalComponentEntry
   ) {

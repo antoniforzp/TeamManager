@@ -11,6 +11,7 @@ import { forkJoin, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AddEditScoutModal } from 'src/app/modals/scouts/add-edit-scout-modal/add-edit-scout-modal';
 import { DeleteScoutModal } from 'src/app/modals/scouts/delete-scout-modal/delete-scout-modal';
+import { ExportCsvScoutModal } from 'src/app/modals/scouts/export-csv-scouts-modal/export-csv-scout-modal';
 import { ManageScoutRolesModal } from 'src/app/modals/scouts/manage-scouts-roles-modal/ManageScoutRolesModal';
 import { ScoutInfoModal } from 'src/app/modals/scouts/scout-info-modal/scout-info-modal';
 import { Role } from 'src/app/model/Role';
@@ -180,7 +181,7 @@ export class ScoutsComponent implements OnInit, OnDestroy {
     this.actions.set(Actions.EXPORT_CSV, {
       label: 'Eksportuj do CSV',
       isEnabled: selected.length > 0,
-      action: () => this.openExport(),
+      action: () => this.openExportScout(),
     });
   }
 
@@ -240,5 +241,16 @@ export class ScoutsComponent implements OnInit, OnDestroy {
       });
   }
 
-  openExport(): void {}
+  openExportScout(): void {
+    const selected = this.scouts.filter((x) => x.isSelected);
+    new ExportCsvScoutModal(this.dialog)
+      .open(selected.map((x) => x.scoutObject))
+      .then((x) => {
+        x.afterClosed().subscribe((result) => {
+          if (result === Results.SUCCESS) {
+            this.loadData();
+          }
+        });
+      });
+  }
 }

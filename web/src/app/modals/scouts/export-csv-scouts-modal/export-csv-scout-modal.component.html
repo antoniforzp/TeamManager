@@ -1,0 +1,99 @@
+<div class="modal-header">
+    <span *ngIf="scouts.length <= 1" class="my-modal-title">Wyeksportuj dane harcerza</span>
+    <span *ngIf="scouts.length > 1" class="my-modal-title">Wyeksportuj dane harcerzy</span>
+</div>
+
+<div class="modal-body">
+
+    <ng-container *ngIf="pageLoaded">
+
+        <form [formGroup]="form">
+
+            <!-- FILENAME -->
+
+            <div class="row mb-2">
+                <div class="col-sm-4 col-form-label">
+                    <span class="required">Nazwa pliku</span>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" formControlName="filename">
+
+                    <!-- Errors -->
+                    <div class="d-flex flex-column" *ngIf="filename.errors && filename.dirty">
+                        <small class="alert-danger" *ngIf="filename.hasError('required')">Pole
+                            wymagane</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHOOSE DATA -->
+
+            <div class="row mb-3">
+                <div class="col-sm-4">
+                    Zakres
+                </div>
+                <div class="col d-flex flex-column">
+                    <div class="custom-control custom-switch mb-2">
+                        <input type="checkbox" class="custom-control-input" id="switchAll" formControlName="exportAll"
+                            (change)="toggleExportAll($event.currentTarget.checked)">
+                        <label class="custom-control-label" for="switchAll">Wszystko</label>
+                    </div>
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="switchCredentials"
+                            formControlName="exportCredentials" (change)="checkToggleAll()">
+                        <label class="custom-control-label" for="switchCredentials">Dane osobowe</label>
+                    </div>
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="switchAddress"
+                            formControlName="exportAddress" (change)="checkToggleAll()">
+                        <label class="custom-control-label" for="switchAddress">Adres</label>
+                    </div>
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="switchContact"
+                            formControlName="exportContact" (change)="checkToggleAll()">
+                        <label class="custom-control-label" for="switchContact">Dane kontaktowe</label>
+                    </div>
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="switchRanks"
+                            formControlName="exportRanks" (change)="checkToggleAll()">
+                        <label class="custom-control-label" for="switchRanks">Stopnie</label>
+                    </div>
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="switchAfiliation"
+                            formControlName="exportAfiliation" (change)="checkToggleAll()">
+                        <label class="custom-control-label" for="switchAfiliation">Przynależność</label>
+                    </div>
+                </div>
+            </div>
+
+            <span>
+                Harcerze, których zamierzasz Wyeksportować do pliku CSV ({{scouts.length}}):
+            </span>
+
+            <div class="my-table-container" style="max-height: 30vh; overflow-y: auto;">
+                <table class="table">
+                    <tbody>
+                        <tr *ngFor="let scout of scouts">
+                            <td>{{scout.name}} {{scout.surname}} <br> {{scout.troop.name}} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </form>
+
+    </ng-container>
+
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+        <button class="btn btn-success my-button" (click)="delete()">Eksportuj</button>
+    </div>
+</div>
