@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -11,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AddEditScoutModal } from 'src/app/modals/scouts/add-edit-scout-modal/add-edit-scout-modal';
-import { ManageScoutModal } from 'src/app/modals/scouts/manage-scout-modal/ManageScoutModal';
+import { DeleteScoutModal } from 'src/app/modals/scouts/delete-scout-modal/delete-scout-modal';
 import { ManageScoutRolesModal } from 'src/app/modals/scouts/manage-scouts-roles-modal/ManageScoutRolesModal';
 import { ScoutInfoModal } from 'src/app/modals/scouts/scout-info-modal/scout-info-modal';
 import { Role } from 'src/app/model/Role';
@@ -175,7 +174,7 @@ export class ScoutsComponent implements OnInit, OnDestroy {
     this.actions.set(Actions.DELETE, {
       label: 'Usuń',
       isEnabled: selected.length > 0,
-      action: () => this.openEditRoles(),
+      action: () => this.openDeleteScout(),
     });
 
     this.actions.set(Actions.EXPORT_CSV, {
@@ -228,7 +227,18 @@ export class ScoutsComponent implements OnInit, OnDestroy {
     }
   }
 
-  openDelete(): void {}
+  openDeleteScout(): void {
+    const selected = this.scouts.filter((x) => x.isSelected);
+    new DeleteScoutModal(this.dialog)
+      .open(selected.map((x) => x.scoutObject))
+      .then((x) => {
+        x.afterClosed().subscribe((result) => {
+          if (result === Results.SUCCESS) {
+            this.loadData();
+          }
+        });
+      });
+  }
 
   openExport(): void {}
 }

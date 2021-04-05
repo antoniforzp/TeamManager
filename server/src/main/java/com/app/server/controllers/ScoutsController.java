@@ -43,7 +43,7 @@ public class ScoutsController {
                         body.getPhone(),
                         body.getTroopId(),
                         body.getRankId(),
-                        body.getRankId(),
+                        body.getInstructorRankId(),
                         appCore.getCurrentTeam().getTeamId()),
                 appCore.getCurrentUser().getUserId()),
                 HttpStatus.ACCEPTED);

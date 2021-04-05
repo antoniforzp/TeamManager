@@ -1,11 +1,19 @@
+:root {
+  --modal-height: 60vh;
+}
+
 .my-modal-title {
   font-weight: 200;
   font-size: 35px;
 }
 
 .modal-body {
-  max-height: 60vh !important;
+  max-height: var(--modal-height);
   overflow-y: auto;
+}
+
+.modal-body-max {
+  height: var(--modal-height) !important;
 }
 
 .mat-dialog-content,

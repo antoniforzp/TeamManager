@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/app-material.module';
-import { DeleteTeamModalComponent } from './delete-team-modal.component';
+import { DeletScoutModalComponent } from './delete-scout-modal.component';
 
 @NgModule({
-  declarations: [DeleteTeamModalComponent],
+  declarations: [DeletScoutModalComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -15,4 +15,4 @@ import { DeleteTeamModalComponent } from './delete-team-modal.component';
     SharedModule,
   ],
 })
-export class DeleteTeamModalModule {}
+export class DeleteScoutModalModule {}
