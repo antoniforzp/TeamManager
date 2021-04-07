@@ -6,6 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ScoutsComponent } from './pages/scouts/scouts.component';
 import { TeamsComponent } from './pages/teams/teams.component';
+import { TroopsComponent } from './pages/troops/troops.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'teams', component: TeamsComponent },
   { path: 'scouts', component: ScoutsComponent },
+  { path: 'troops', component: TroopsComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

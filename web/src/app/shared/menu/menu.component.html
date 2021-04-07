@@ -21,6 +21,12 @@
                         <a class="nav-link menu-button" routerLink='/scouts'>Ewidencja</a>
                     </li>
                 </div>
+
+                <div *ngIf="!lockedOptions">
+                    <li class="nav-item">
+                        <a class="nav-link menu-button" routerLink='/troops'>Zastępy</a>
+                    </li>
+                </div>
             </ul>
 
             <!-- right -->

@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
+import { TroopsComponent } from './troops/troops.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { RouterModule } from '@angular/router';
     LoginComponent,
     ScoutsComponent,
     TeamsComponent,
+    TroopsComponent,
   ],
   imports: [
     CommonModule,

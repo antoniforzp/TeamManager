@@ -58,7 +58,6 @@ export class ScoutsComponent implements OnInit, OnDestroy {
   pageLoaded = false;
 
   pageError: HttpErrorResponse;
-  validCurrentPassword: boolean;
 
   allSelected = false;
   scouts = [] as ScoutRowData[];
