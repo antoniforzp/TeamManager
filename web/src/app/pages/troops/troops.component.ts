@@ -6,13 +6,16 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AddEditTroopModal } from 'src/app/modals/troops/add-edit-troop-modal/add-edit-troop-modal';
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
 import { Troop } from 'src/app/model/Troop';
 import { ScoutsService } from 'src/app/services/scouts.service';
 import { TroopsService } from 'src/app/services/troops.service';
+import { Results } from 'src/app/utils/Result';
 
 interface TroopRowData {
   name: string;
@@ -62,7 +65,8 @@ export class TroopsComponent implements OnInit, OnDestroy {
   constructor(
     private troopsService: TroopsService,
     private scoutsService: ScoutsService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -76,6 +80,7 @@ export class TroopsComponent implements OnInit, OnDestroy {
   // DATA LOADING
 
   loadData(): void {
+    this.allSelected = false;
     forkJoin({
       troops: this.troopsService.getTroops(),
       scouts: this.scoutsService.getScouts(),
@@ -167,13 +172,13 @@ export class TroopsComponent implements OnInit, OnDestroy {
     this.actions.set(Actions.ADD, {
       label: 'Dodaj',
       isEnabled: true,
-      action: () => {},
+      action: () => this.openAddTroop(),
     });
 
     this.actions.set(Actions.EDIT, {
       label: 'Edytuj',
       isEnabled: selected.length === 1,
-      action: () => {},
+      action: () => this.openEditTroop(),
     });
 
     this.actions.set(Actions.DELETE, {
@@ -187,5 +192,29 @@ export class TroopsComponent implements OnInit, OnDestroy {
       isEnabled: selected.length === 1,
       action: () => {},
     });
+  }
+
+  openAddTroop(): void {
+    new AddEditTroopModal(this.dialog).openAdd().then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
+      })
+    );
+  }
+
+  openEditTroop(): void {
+    const selected = this.troopsData
+      .filter((x) => x.isSelected)
+      .map((x) => x.troopData);
+
+    new AddEditTroopModal(this.dialog).openEdit(selected[0]).then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
+      })
+    );
   }
 }

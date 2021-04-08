@@ -61,7 +61,7 @@
 
                                         <!-- Name -->
                                         <td>
-                                            <span>{{troop.name}}</span>
+                                            <span *ngIf="troop.name; else noCellData">{{troop.name}}</span>
                                         </td>
 
                                         <!-- Troop leaders -->
@@ -114,4 +114,8 @@
             Brak danych
         </td>
     </tr>
+</ng-template>
+
+<ng-template #noCellData>
+    <span>-</span>
 </ng-template>

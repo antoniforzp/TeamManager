@@ -54,7 +54,7 @@ class TroopsRepositoryManager implements TroopsRepository {
     @Override
     public boolean editTroop(int troopId, String name) {
         try {
-            String QUERY = "UPDATE TROOPS SET name = ? WHERE team_id = ?";
+            String QUERY = "UPDATE TROOPS SET name = ? WHERE troop_id = ?";
             return jdbcTemplate.update(QUERY, name, troopId) >= 1;
 
         } catch (DataAccessException ex) {
