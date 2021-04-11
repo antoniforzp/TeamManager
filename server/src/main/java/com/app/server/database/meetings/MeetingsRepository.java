@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MeetingsRepository {
 
-    boolean add(String title, String place, Date date, int members, int team_id);
+    boolean add(String title, String place, Date date, int team_id);
 
     List<Meeting> getAllByTeamId(int teamId);
 

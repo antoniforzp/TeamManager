@@ -19,10 +19,10 @@ class MeetingsRepositoryManager implements MeetingsRepository {
     }
 
     @Override
-    public boolean add(String title, String place, Date date, int members, int team_id) {
+    public boolean add(String title, String place, Date date, int team_id) {
         try {
             String QUERY = "INSERT INTO MEETINGS(title, place, date, team_id) VALUES(?, ?, ?, ?)";
-            return jdbcTemplate.update(QUERY, title, place, date, members, team_id) >= 1;
+            return jdbcTemplate.update(QUERY, title, place, date, team_id) >= 1;
 
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);

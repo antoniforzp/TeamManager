@@ -1,7 +1,6 @@
 package com.app.server.model;
 
 import java.util.Date;
-import java.util.Objects;
 
 public class Journey implements Model {
 
@@ -11,15 +10,6 @@ public class Journey implements Model {
     private final Date startDate;
     private final Date endDate;
     private final int type;
-
-    public Journey() {
-        this.journeyId = 0;
-        this.title = "title";
-        this.place = "place";
-        this.startDate = new Date();
-        this.endDate = new Date();
-        this.type = 0;
-    }
 
     public Journey(int journeyId, String title, String place, Date startDate, Date endDate, int type) {
         this.journeyId = journeyId;

@@ -1,7 +1,6 @@
 package com.app.server.model;
 
 import java.util.Date;
-import java.util.Objects;
 
 public class Scout {
 
@@ -91,19 +90,6 @@ public class Scout {
 
     public InstructorRank getInstructorRank() {
         return instructorRank;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Scout scout = (Scout) o;
-        return scoutId == scout.scoutId && name.equals(scout.name) && surname.equals(scout.surname) && pesel.equals(scout.pesel) && birthDate.equals(scout.birthDate) && address.equals(scout.address) && postalCode.equals(scout.postalCode) && city.equals(scout.city) && phone.equals(scout.phone) && troop.equals(scout.troop) && rank.equals(scout.rank) && instructorRank.equals(scout.instructorRank);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(scoutId, name, surname, pesel, birthDate, address, postalCode, city, phone, troop, rank, instructorRank);
     }
 
     @Override
