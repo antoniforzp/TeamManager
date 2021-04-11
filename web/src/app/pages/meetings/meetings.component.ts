@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditMeetigModal } from 'src/app/modals/meetings/add-edit-meeting-modal/add-edit-meeting-modal';
+import { DeleteMeetingModal } from 'src/app/modals/meetings/delete-meeting/delete-meeting-modal';
 import { Meeting } from 'src/app/model/Meeting';
 import { MeetingsService } from 'src/app/services/meetings.service';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
@@ -136,7 +137,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
     this.actions.set(Actions.DELETE, {
       label: 'Usuń',
       isEnabled: selected.length >= 1,
-      action: () => {},
+      action: () => this.openDeleteMeeting(),
     });
   }
 
@@ -156,6 +157,20 @@ export class MeetingsComponent implements OnInit, OnDestroy {
       .map((x) => x.meetingData);
 
     new AddEditMeetigModal(this.dialog).openEdit(selected[0]).then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
+      })
+    );
+  }
+
+  openDeleteMeeting(): void {
+    const selected = this.meetingsData
+      .filter((x) => x.isSelected)
+      .map((x) => x.meetingData);
+
+    new DeleteMeetingModal(this.dialog).open(selected).then((x) =>
       x.afterClosed().subscribe((result) => {
         if (result === Results.SUCCESS) {
           this.loadData();

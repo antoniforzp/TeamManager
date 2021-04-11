@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <span *ngIf="meetings.length <= 1" class="my-modal-title">Usuń zbiórkę</span>
+    <span *ngIf="meetings.length > 1" class="my-modal-title">Usuń zbiórki</span>
+</div>
+
+<div class="modal-body">
+
+    <div class="d-flex align-items-center">
+        <img src="../../../../assets/icons/alert.svg" width="30" height="30" class="mr-4" />
+        <span>Usunięcie zbiórki spowoduje usunięcie danych o obecności</span>
+    </div>
+
+    <br>
+    <span>
+        Zbiróki, które zamierzasz usunąć:
+    </span>
+
+    <div class="my-table-container">
+        <table class="table">
+            <tbody>
+                <tr *ngFor="let meeting of meetings">
+                    <td>{{meeting.title}}</td>
+                    <td>{{meeting.date}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex align-items-center mt-2">
+        <label class="required">
+            <input type="checkbox" class="select-all checkbox cursor-pointer" [(ngModel)]="accept" />
+            Potwierdzam, że jestem świadom konsekwencji
+        </label>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+        <button class="btn btn-danger my-button" [disabled]="!accept" (click)="delete()">Usuń</button>
+    </div>
+</div>

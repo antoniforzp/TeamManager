@@ -39,4 +39,11 @@ export class MeetingsService {
       body: meeting,
     });
   }
+
+  deleteMeeting(meetingId: number): Observable<boolean> {
+    return this.rest.resolve<boolean>({
+      method: REST.DELETE,
+      url: `/meetings${meetingId}`,
+    });
+  }
 }
