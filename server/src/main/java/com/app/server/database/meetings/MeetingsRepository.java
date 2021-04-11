@@ -13,7 +13,7 @@ public interface MeetingsRepository {
 
     Meeting getById(int meetingId);
 
-    boolean update(int meetingId, String title, String place, Date date, int participants);
+    boolean update(int meetingId, String title, String place, Date date);
 
     boolean deleteById(int meetingId);
 }

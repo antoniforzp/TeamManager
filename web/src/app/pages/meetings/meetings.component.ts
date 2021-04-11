@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { Xmb } from '@angular/compiler';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,11 +7,14 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AddEditMeetigModal } from 'src/app/modals/meetings/add-edit-meeting-modal/add-edit-meeting-modal';
 import { Meeting } from 'src/app/model/Meeting';
 import { MeetingsService } from 'src/app/services/meetings.service';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
+import { Results } from 'src/app/utils/Result';
 
 interface MeetingRowData {
   title: string;
@@ -45,7 +49,8 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private meetingsService: MeetingsService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -113,20 +118,19 @@ export class MeetingsComponent implements OnInit, OnDestroy {
   // ACTIONS FACTORY
 
   setActions(): void {
-    // const selected = this.teams.filter((x) => x.isSelected);
-    const selected = [];
+    const selected = this.meetingsData.filter((x) => x.isSelected);
     this.actions.clear();
 
     this.actions.set(Actions.ADD, {
       label: 'Dodaj',
       isEnabled: true,
-      action: () => {},
+      action: () => this.openAddMeeting(),
     });
 
     this.actions.set(Actions.EDIT, {
       label: 'Edytuj',
       isEnabled: selected.length === 1,
-      action: () => {},
+      action: () => this.openEditMeeting(),
     });
 
     this.actions.set(Actions.DELETE, {
@@ -134,5 +138,29 @@ export class MeetingsComponent implements OnInit, OnDestroy {
       isEnabled: selected.length >= 1,
       action: () => {},
     });
+  }
+
+  openAddMeeting(): void {
+    new AddEditMeetigModal(this.dialog).openAdd().then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
+      })
+    );
+  }
+
+  openEditMeeting(): void {
+    const selected = this.meetingsData
+      .filter((x) => x.isSelected)
+      .map((x) => x.meetingData);
+
+    new AddEditMeetigModal(this.dialog).openEdit(selected[0]).then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
+      })
+    );
   }
 }

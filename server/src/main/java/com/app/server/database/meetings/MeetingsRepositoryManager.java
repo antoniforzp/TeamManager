@@ -52,10 +52,10 @@ class MeetingsRepositoryManager implements MeetingsRepository {
     }
 
     @Override
-    public boolean update(int meetingId, String title, String place, Date date, int participants) {
+    public boolean update(int meetingId, String title, String place, Date date) {
         try {
             String QUERY = "UPDATE MEETINGS SET title = ?, place = ?, date = ? WHERE meeting_id = ?";
-            return jdbcTemplate.update(QUERY, title, place, date, participants, meetingId) >= 1;
+            return jdbcTemplate.update(QUERY, title, place, date, meetingId) >= 1;
 
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);

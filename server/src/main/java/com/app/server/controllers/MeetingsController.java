@@ -3,7 +3,6 @@ package com.app.server.controllers;
 import com.app.server.core.AppCore;
 import com.app.server.database.meetings.MeetingsRepository;
 import com.app.server.model.Meeting;
-import com.app.server.model.Rank;
 import com.app.server.rest.Response;
 import com.app.server.rest.bodies.AddMeetingBody;
 import com.app.server.rest.bodies.EditMeetingBody;
@@ -48,15 +47,15 @@ public class MeetingsController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/meetings{meetingId}")
+    @PatchMapping(value = "/meetings{meetingId}")
     public ResponseEntity<Response<Boolean>> editMeeting(@PathVariable int meetingId, @RequestBody EditMeetingBody body) {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 repository.update(meetingId,
                         body.getTitle(),
                         body.getPlace(),
-                        body.getDate(),
-                        appCore.getCurrentTeam().getTeamId()),
+                        body.getDate()
+                ),
                 appCore.getCurrentUser().getUserId()),
                 HttpStatus.ACCEPTED);
     }
