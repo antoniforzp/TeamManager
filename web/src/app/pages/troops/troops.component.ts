@@ -9,6 +9,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ShowScoutsModal } from 'src/app/modals/common/show-scouts-modal/show-scouts-modal';
 import { AddEditTroopModal } from 'src/app/modals/troops/add-edit-troop-modal/add-edit-troop-modal';
 import { DeleteTroopModal } from 'src/app/modals/troops/delete-troop-modal/delete-troop-modal';
 import { Role } from 'src/app/model/Role';
@@ -190,8 +191,8 @@ export class TroopsComponent implements OnInit, OnDestroy {
 
     this.actions.set(Actions.SHOW_SCOUTS, {
       label: 'Pokaż harcerzy',
-      isEnabled: selected.length === 1,
-      action: () => {},
+      isEnabled: selected.length > 0,
+      action: () => this.openShowScouts(),
     });
   }
 
@@ -229,6 +230,34 @@ export class TroopsComponent implements OnInit, OnDestroy {
         if (result === Results.SUCCESS) {
           this.loadData();
         }
+      })
+    );
+  }
+
+  openShowScouts(): void {
+    const selected = this.troopsData
+      .filter((x) => x.isSelected)
+      .map((x) => x.troopData);
+
+    const scouts = this.scouts.filter((x) =>
+      selected.find((t) => t.troopId === x.troop.troopId)
+    );
+
+    new ShowScoutsModal(this.dialog).open(scouts).then((x) =>
+      x.afterClosed().subscribe(() => {
+        this.loadData();
+      })
+    );
+  }
+
+  // DETAILS
+
+  openShowScoutsByLink(troop: Troop): void {
+    const scouts = this.scouts.filter((x) => x.troop.troopId === troop.troopId);
+
+    new ShowScoutsModal(this.dialog).open(scouts).then((x) =>
+      x.afterClosed().subscribe(() => {
+        this.loadData();
       })
     );
   }

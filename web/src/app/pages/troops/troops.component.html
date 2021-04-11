@@ -82,7 +82,10 @@
                                         <!-- Members -->
                                         <td>
                                             <span>
-                                                <a class="link-alike">{{troop.troopScouts.length}}</a>
+                                                <a class="link-alike"
+                                                    (click)="openShowScoutsByLink(troop.troopData); $event.stopPropagation()">
+                                                    {{troop.troopScouts.length}}
+                                                </a>
                                             </span>
                                         </td>
                                     </tr>
@@ -99,7 +102,8 @@
     </div>
 
     <!-- LEFT POSTER -->
-    <div class="my-page-side-poster"></div>
+    <div class=" my-page-side-poster">
+    </div>
 </div>
 
 <app-footer></app-footer>

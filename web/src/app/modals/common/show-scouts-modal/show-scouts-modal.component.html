@@ -1,0 +1,112 @@
+<div class="modal-header">
+    <span class="my-modal-title">Lista harcerzy</span>
+</div>
+
+<div class="modal-body">
+
+    <ng-container *ngIf="pageLoaded; else loading">
+
+        <!-- ERROR HANDLING -->
+        <div *ngIf="pageError">
+            <app-error [error]="pageError"></app-error>
+        </div>
+
+        <!-- PAGE CONTENT -->
+        <div *ngIf="!pageError">
+
+            <!-- SCOUTS -->
+            <div class="d-flex justify-content-end mb-2 mt-2">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle my-button" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="setActions()">
+                        Opcje
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                        <ng-container *ngFor="let action of actions | keyvalue">
+                            <button class="dropdown-item" (click)="action.value.action();"
+                                [disabled]="!action.value.isEnabled">{{action.value.label}}</button>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+
+            <!-- scouts table -->
+            <div class="mt-2" style="max-height: 55vh; overflow-y: auto;">
+                <table class="table table-hover">
+                    <thead class="my-thead">
+                        <th class="checkbox-cell">
+                            <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
+                                (ngModelChange)="toggleSelectAll($event)">
+                        </th>
+                        <th>Imię i nazwisko</th>
+                        <th>Zastęp</th>
+                        <th>Funkcja</th>
+                        <th>Stopień</th>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="scouts.length > 0; else noTableData">
+                            <ng-container *ngFor="let scout of scouts; let i=index">
+                                <tr class="cursor-pointer" [ngClass]="{'selected': scout.isSelected}"
+                                    (click)="toggleSelected(scout)">
+
+                                    <td class="checkbox-cell">
+                                        <input type="checkbox" class="cursor-pointer ml-n2"
+                                            [(ngModel)]="scout.isSelected">
+                                    </td>
+                                    <td>
+                                        <span *ngIf="scout.nameSurname; else noData">
+                                            <a class="link-primary"
+                                                (click)="openShowInfoModal(scout.scoutObject, scout.rolesList); $event.stopPropagation()">{{scout.nameSurname}}</a>
+                                        </span>
+                                    </td>
+                                    <td *ngIf="scout.troop; else noData">
+                                        <span>{{scout.troop}}</span>
+                                    </td>
+                                    <td>
+                                        <ng-container *ngIf="scout.roles.length > 0; else noData">
+                                            <div class="d-flex flex-column">
+                                                <span *ngFor="let role of scout.roles" [ngClass]="[role.label, 'mb-1']">
+                                                    {{role.name}}
+                                                </span>
+                                            </div>
+                                        </ng-container>
+                                    </td>
+                                    <td>
+                                        <div *ngIf="scout.rankName; else noData" class="d-flex align-items-center">
+                                            <span [ngClass]="[scout.instructorRankLabel]" class="mr-2">
+                                                {{scout.instructorRankAbbv}}
+                                            </span>
+                                            {{scout.rankName}}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+    </div>
+</div>
+
+<ng-template #loading>
+    <app-page-spinner></app-page-spinner>
+</ng-template>
+
+<ng-template #noTableData>
+    <tr>
+        <td colspan="5">
+            Brak danych
+        </td>
+    </tr>
+</ng-template>
+
+<ng-template #noData>
+</ng-template>
