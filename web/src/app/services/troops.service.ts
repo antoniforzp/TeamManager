@@ -9,6 +9,13 @@ import { REST, RestService } from '../web/rest.service';
 export class TroopsService {
   constructor(private rest: RestService) {}
 
+  getTroops(): Observable<Troop[]> {
+    return this.rest.resolve<Troop[]>({
+      method: REST.GET,
+      url: `/troops`,
+    });
+  }
+
   addTroop(name: string): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.POST,
@@ -29,10 +36,10 @@ export class TroopsService {
     });
   }
 
-  getTroops(): Observable<Troop[]> {
-    return this.rest.resolve<Troop[]>({
-      method: REST.GET,
-      url: `/troops`,
+  deleteTroop(troopId: number): Observable<boolean> {
+    return this.rest.resolve<boolean>({
+      method: REST.DELETE,
+      url: `/troops${troopId}`,
     });
   }
 }

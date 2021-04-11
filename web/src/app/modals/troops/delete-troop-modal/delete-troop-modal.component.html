@@ -1,0 +1,84 @@
+<div class="modal-header">
+    <span *ngIf="troops.length <= 1" class="my-modal-title">Usuń zastęp</span>
+    <span *ngIf="troops.length > 1" class="my-modal-title">Usuń zastępy</span>
+</div>
+
+<div class="modal-body">
+
+    <ng-container *ngIf="pageLoaded; else loading">
+
+        <!-- ERROR HANDLING -->
+        <div *ngIf="pageError">
+            <app-error [error]="pageError"></app-error>
+        </div>
+
+        <!-- CONTENT -->
+        <ng-container *ngIf="!pageError">
+
+            <div class="d-flex align-items-center">
+                <img src="../../../../assets/icons/alert.svg" width="30" height="30" class="mr-4" />
+                <span>Usunięcie zastępu spowoduje usunięcie wszystkich powiązanych harcerzy z tym zastępem wraz z ich
+                    danymi.</span>
+            </div>
+
+            <br>
+            <span>
+                Zastępy, które zamierzasz usunąć ({{troops.length}}):
+            </span>
+
+            <div class="my-table-container">
+                <table class="table">
+                    <tbody>
+                        <tr *ngFor="let troop of troops">
+                            <td>{{troop.name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <span>
+                Powiązani harcerze z usuwanymi zastępami ({{scouts.length}}):
+            </span>
+
+            <div class="my-table-container">
+                <table class="table">
+                    <tbody>
+                        <ng-container *ngIf="scouts.length > 0; else noTableData">
+                            <tr *ngFor="let scout of scouts">
+                                <td>{{scout.name}} {{scout.surname}}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex align-items-center mt-2">
+                <label class="required">
+                    <input type="checkbox" class="select-all checkbox cursor-pointer" [(ngModel)]="accept" />
+                    Potwierdzam, że jestem świadom konsekwencji
+                </label>
+            </div>
+        </ng-container>
+
+    </ng-container>
+
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+        <button class="btn btn-danger my-button" [disabled]="!accept" (click)="delete()">Usuń</button>
+    </div>
+</div>
+
+<ng-template #loading>
+    <app-page-spinner></app-page-spinner>
+</ng-template>
+
+<ng-template #noTableData>
+    <tr>
+        <td colspan="2">
+            Brak danych
+        </td>
+    </tr>
+</ng-template>

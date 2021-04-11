@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditTroopModal } from 'src/app/modals/troops/add-edit-troop-modal/add-edit-troop-modal';
+import { DeleteTroopModal } from 'src/app/modals/troops/delete-troop-modal/delete-troop-modal';
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
 import { Troop } from 'src/app/model/Troop';
@@ -183,8 +184,8 @@ export class TroopsComponent implements OnInit, OnDestroy {
 
     this.actions.set(Actions.DELETE, {
       label: 'Usuń',
-      isEnabled: selected.length === 1,
-      action: () => {},
+      isEnabled: selected.length > 0,
+      action: () => this.openDeleteTroop(),
     });
 
     this.actions.set(Actions.SHOW_SCOUTS, {
@@ -210,6 +211,20 @@ export class TroopsComponent implements OnInit, OnDestroy {
       .map((x) => x.troopData);
 
     new AddEditTroopModal(this.dialog).openEdit(selected[0]).then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
+      })
+    );
+  }
+
+  openDeleteTroop(): void {
+    const selected = this.troopsData
+      .filter((x) => x.isSelected)
+      .map((x) => x.troopData);
+
+    new DeleteTroopModal(this.dialog).open(selected).then((x) =>
       x.afterClosed().subscribe((result) => {
         if (result === Results.SUCCESS) {
           this.loadData();
