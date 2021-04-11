@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { TroopsComponent } from './troops/troops.component';
+import { MeetingsComponent } from './meetings/meetings.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { TroopsComponent } from './troops/troops.component';
     ScoutsComponent,
     TeamsComponent,
     TroopsComponent,
+    MeetingsComponent,
   ],
   imports: [
     CommonModule,

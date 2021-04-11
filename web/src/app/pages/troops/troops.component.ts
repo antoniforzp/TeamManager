@@ -17,6 +17,7 @@ import { Scout } from 'src/app/model/Scout';
 import { Troop } from 'src/app/model/Troop';
 import { ScoutsService } from 'src/app/services/scouts.service';
 import { TroopsService } from 'src/app/services/troops.service';
+import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
 
 interface TroopRowData {
@@ -29,12 +30,6 @@ interface TroopRowData {
   troopScouts: Scout[];
   troopData: Troop;
   isSelected: boolean;
-}
-
-interface DropdownAction {
-  label: string;
-  isEnabled: boolean;
-  action: () => void;
 }
 
 enum Actions {

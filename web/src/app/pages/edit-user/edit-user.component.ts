@@ -12,15 +12,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { forkJoin, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
-import { Team } from 'src/app/model/Team';
+import { takeUntil } from 'rxjs/operators';
 import { User } from 'src/app/model/User';
-import { hideWithTimeout, Results, ResultOld } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 import { CoreService } from '../../services/core.service';
 import { UserService } from 'src/app/services/user.service';
 import { RegexPatterns } from 'src/app/utils/PatternsDefs';
-import { ErrorService } from 'src/app/services/error.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
 import { MatDialog } from '@angular/material/dialog';
@@ -115,7 +112,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
             }
           );
         },
-        error: (err) => {
+        error: () => {
           // TODO: Dorobić modala z errorem
         },
       });
@@ -153,7 +150,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
               );
           }
         },
-        error: (err) => {
+        error: () => {
           // TODO: Dorobić modala z errorem
         },
       });

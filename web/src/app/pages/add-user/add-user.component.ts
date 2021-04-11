@@ -6,12 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
 import { UserService } from 'src/app/services/user.service';
 import { RegexPatterns } from 'src/app/utils/PatternsDefs';
-import { ResultOld } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 
 @Component({
@@ -19,8 +17,6 @@ import { CustomValidators } from 'src/app/validators/Customvalidators';
   styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent implements OnInit {
-  result$ = new Subject<ResultOld>();
-
   mailExists = false;
   form: FormGroup;
 

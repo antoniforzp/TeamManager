@@ -17,6 +17,7 @@ import { ScoutInfoModal } from 'src/app/modals/scouts/scout-info-modal/scout-inf
 import { Role } from 'src/app/model/Role';
 
 import { Scout } from 'src/app/model/Scout';
+import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
 import { ScoutsService } from '../../services/scouts.service';
 
@@ -32,12 +33,6 @@ interface ScoutRowData {
   isSelected: boolean;
   scoutObject: Scout;
   rolesList: Role[];
-}
-
-interface DropdownAction {
-  label: string;
-  isEnabled: boolean;
-  action: () => void;
 }
 
 enum Actions {

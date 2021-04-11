@@ -6,20 +6,14 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  Validators,
-  FormBuilder,
-  FormGroup,
-  AbstractControl,
-} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
 import { AddEditTeamModal } from 'src/app/modals/teams/add-edit-team-modal/add-edit-team-modal';
 import { DeleteTeamModal } from 'src/app/modals/teams/delete-team-modal/delete-team-modal';
 import { Team } from 'src/app/model/Team';
-import { hideWithTimeout, Results, ResultOld } from 'src/app/utils/Result';
+import { DropdownAction } from 'src/app/utils/DropdownAction';
+import { Results } from 'src/app/utils/Result';
 import { TeamsService } from '../../services/teams.service';
 
 interface TeamDataRow {
@@ -34,12 +28,6 @@ enum Actions {
   ADD,
   EDIT,
   DELETE,
-}
-
-interface DropdownAction {
-  label: string;
-  isEnabled: boolean;
-  action: () => void;
 }
 
 @Component({
