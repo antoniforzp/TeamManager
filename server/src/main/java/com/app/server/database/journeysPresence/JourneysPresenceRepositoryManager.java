@@ -1,4 +1,4 @@
-package com.app.server.database.presence;
+package com.app.server.database.journeysPresence;
 
 import com.app.server.exceptions.DatabaseErrorException;
 import org.springframework.dao.DataAccessException;

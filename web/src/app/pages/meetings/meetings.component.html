@@ -51,6 +51,9 @@
                             <th>
                                 Data
                             </th>
+                            <th>
+                                Obecni
+                            </th>
                         </thead>
                         <tbody>
                             <ng-container *ngIf="meetingsData.length > 0; else noTableData">
@@ -75,6 +78,11 @@
                                             <span *ngIf="meeting.date; else noData">
                                                 {{meeting.date}}
                                             </span>
+                                        </td>
+                                        <td>
+                                            <a class="link-alike"
+                                                (click)="openShowScoutsByLink(meeting.scoutsPresent); $event.stopPropagation()">
+                                                {{meeting.scoutsPresent.length}} </a>
                                         </td>
                                     </tr>
                                 </ng-container>

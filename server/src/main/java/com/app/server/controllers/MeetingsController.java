@@ -2,7 +2,9 @@ package com.app.server.controllers;
 
 import com.app.server.core.AppCore;
 import com.app.server.database.meetings.MeetingsRepository;
+import com.app.server.database.meetingsPresence.MeetingsPresenceRepository;
 import com.app.server.model.Meeting;
+import com.app.server.model.MeetingPresence;
 import com.app.server.rest.Response;
 import com.app.server.rest.bodies.AddMeetingBody;
 import com.app.server.rest.bodies.EditMeetingBody;
@@ -15,11 +17,13 @@ import java.util.List;
 @RestController
 public class MeetingsController {
 
-    private final MeetingsRepository repository;
+    private final MeetingsRepository meetingsRepository;
+    private final MeetingsPresenceRepository meetingsPresenceRepository;
     private final AppCore appCore;
 
-    public MeetingsController(MeetingsRepository repository, AppCore appCore) {
-        this.repository = repository;
+    public MeetingsController(MeetingsRepository meetingsRepository, MeetingsPresenceRepository meetingsPresenceRepository, AppCore appCore) {
+        this.meetingsRepository = meetingsRepository;
+        this.meetingsPresenceRepository = meetingsPresenceRepository;
         this.appCore = appCore;
     }
 
@@ -28,7 +32,7 @@ public class MeetingsController {
     public ResponseEntity<Response<Boolean>> addMeeting(@RequestBody AddMeetingBody body) {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
-                repository.add(body.getTitle(),
+                meetingsRepository.add(body.getTitle(),
                         body.getPlace(),
                         body.getDate(),
                         appCore.getCurrentTeam().getTeamId()),
@@ -41,7 +45,27 @@ public class MeetingsController {
     public ResponseEntity<Response<List<Meeting>>> getMeetings() {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
-                repository.getAllByTeamId(appCore.getCurrentTeam().getTeamId()),
+                meetingsRepository.getAllByTeamId(appCore.getCurrentTeam().getTeamId()),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/meetings{meetingId}/presence")
+    public ResponseEntity<Response<List<MeetingPresence>>> getMeetingsPresence(@PathVariable int meetingId) {
+        appCore.checkCoreInit();
+        return new ResponseEntity<>(new Response<>(
+                meetingsPresenceRepository.getPresenceById(meetingId),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/meetings/presence")
+    public ResponseEntity<Response<List<MeetingPresence>>> getMeetingsPresenceTeam() {
+        appCore.checkCoreInit();
+        return new ResponseEntity<>(new Response<>(
+                meetingsPresenceRepository.getPresenceByTeam(appCore.getCurrentTeam().getTeamId()),
                 appCore.getCurrentUser().getUserId()),
                 HttpStatus.ACCEPTED);
     }
@@ -51,7 +75,7 @@ public class MeetingsController {
     public ResponseEntity<Response<Boolean>> editMeeting(@PathVariable int meetingId, @RequestBody EditMeetingBody body) {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
-                repository.update(meetingId,
+                meetingsRepository.update(meetingId,
                         body.getTitle(),
                         body.getPlace(),
                         body.getDate()
@@ -65,7 +89,7 @@ public class MeetingsController {
     public ResponseEntity<Response<Boolean>> deleteMeeting(@PathVariable int meetingId) {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
-                repository.deleteById(meetingId),
+                meetingsRepository.deleteById(meetingId),
                 appCore.getCurrentUser().getUserId()),
                 HttpStatus.ACCEPTED);
     }

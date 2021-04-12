@@ -1,5 +1,4 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Xmb } from '@angular/compiler';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,10 +9,13 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ShowScoutsModal } from 'src/app/modals/common/show-scouts-modal/show-scouts-modal';
 import { AddEditMeetigModal } from 'src/app/modals/meetings/add-edit-meeting-modal/add-edit-meeting-modal';
 import { DeleteMeetingModal } from 'src/app/modals/meetings/delete-meeting/delete-meeting-modal';
-import { Meeting } from 'src/app/model/Meeting';
+import { Meeting, MeetingPresence } from 'src/app/model/Meeting';
+import { Scout } from 'src/app/model/Scout';
 import { MeetingsService } from 'src/app/services/meetings.service';
+import { ScoutsService } from 'src/app/services/scouts.service';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
 
@@ -21,6 +23,7 @@ interface MeetingRowData {
   title: string;
   place: string;
   date: Date;
+  scoutsPresent: Scout[];
 
   isSelected: boolean;
   meetingData: Meeting;
@@ -44,12 +47,15 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
   allSelected = false;
 
+  scouts: Scout[];
+  presence: MeetingPresence[];
   meetingsData: MeetingRowData[];
 
   actions = new Map<Actions, DropdownAction>();
 
   constructor(
     private meetingsService: MeetingsService,
+    private scoutsService: ScoutsService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
   ) {}
@@ -68,16 +74,25 @@ export class MeetingsComponent implements OnInit, OnDestroy {
     this.allSelected = false;
 
     forkJoin({
+      scouts: this.scoutsService.getScouts(),
       meetings: this.meetingsService.getMeetings(),
+      presence: this.meetingsService.getMeetingsPresence(),
     })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
+          this.scouts = result.scouts;
+          this.presence = result.presence;
           this.meetingsData = result.meetings.map((x) => {
             return {
               title: x.title,
               place: x.place,
               date: x.date,
+              scoutsPresent: this.scouts.filter((s) =>
+                this.presence.find(
+                  (p) => p.meetingId === x.meetingId && p.scoutId === s.scoutId
+                )
+              ),
 
               meetingData: x,
               isSelected: false,
@@ -175,6 +190,16 @@ export class MeetingsComponent implements OnInit, OnDestroy {
         if (result === Results.SUCCESS) {
           this.loadData();
         }
+      })
+    );
+  }
+
+  // DETAILS
+
+  openShowScoutsByLink(scouts: Scout[]): void {
+    new ShowScoutsModal(this.dialog).open(scouts).then((x) =>
+      x.afterClosed().subscribe(() => {
+        this.loadData();
       })
     );
   }

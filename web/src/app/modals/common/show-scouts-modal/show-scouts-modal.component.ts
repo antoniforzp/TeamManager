@@ -23,6 +23,8 @@ import { Role } from 'src/app/model/Role';
 
 import { Scout } from 'src/app/model/Scout';
 import { ScoutsService } from 'src/app/services/scouts.service';
+import { DropdownAction } from 'src/app/utils/DropdownAction';
+import { PageModes } from 'src/app/utils/PageModes';
 import { Results } from 'src/app/utils/Result';
 
 interface ScoutRowData {
@@ -39,12 +41,6 @@ interface ScoutRowData {
   rolesList: Role[];
 }
 
-interface DropdownAction {
-  label: string;
-  isEnabled: boolean;
-  action: () => void;
-}
-
 enum Actions {
   ADD,
   EDIT_CREDENTIALS,
@@ -55,6 +51,7 @@ enum Actions {
 
 export interface ShowScoutsModalComponentEntry {
   scoutsData: Scout[];
+  pageMode: PageModes;
 }
 
 @Component({
@@ -65,8 +62,9 @@ export interface ShowScoutsModalComponentEntry {
 export class ShowScoutsModalComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   pageLoaded = false;
-
   pageError: HttpErrorResponse;
+
+  pageMode: PageModes;
 
   allSelected = false;
   scoutsData = [] as Scout[];
@@ -83,6 +81,7 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) data: ShowScoutsModalComponentEntry
   ) {
     this.scoutsData = data.scoutsData;
+    this.pageMode = data.pageMode;
   }
 
   ngOnInit(): void {
@@ -184,30 +183,35 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
     this.actions.set(Actions.ADD, {
       label: 'Dodaj',
       isEnabled: true,
+      isVisible: this.pageMode === PageModes.FUNCTIONAL,
       action: () => this.openAddScout(),
     });
 
     this.actions.set(Actions.EDIT_CREDENTIALS, {
       label: 'Edytuj dane',
       isEnabled: selected.length === 1,
+      isVisible: this.pageMode === PageModes.FUNCTIONAL,
       action: () => this.openEditScout(),
     });
 
     this.actions.set(Actions.EDIT_ROLES, {
       label: 'Edytuj funkcje',
       isEnabled: selected.length === 1,
+      isVisible: this.pageMode === PageModes.FUNCTIONAL,
       action: () => this.openEditRoles(),
     });
 
     this.actions.set(Actions.DELETE, {
       label: 'Usuń',
       isEnabled: selected.length > 0,
+      isVisible: this.pageMode === PageModes.FUNCTIONAL,
       action: () => this.openDeleteScout(),
     });
 
     this.actions.set(Actions.EXPORT_CSV, {
       label: 'Eksportuj do CSV',
       isEnabled: selected.length > 0,
+      isVisible: true,
       action: () => this.openExportScout(),
     });
   }

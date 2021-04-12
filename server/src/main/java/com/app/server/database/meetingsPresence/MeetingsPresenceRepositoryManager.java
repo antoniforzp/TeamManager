@@ -1,10 +1,12 @@
-package com.app.server.database.presence;
+package com.app.server.database.meetingsPresence;
 
 import com.app.server.exceptions.DatabaseErrorException;
+import com.app.server.model.MeetingPresence;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 class MeetingsPresenceRepositoryManager implements MeetingsPresenceRepository {
@@ -16,12 +18,21 @@ class MeetingsPresenceRepositoryManager implements MeetingsPresenceRepository {
     }
 
     @Override
-    public int countPresent(int meetingId) {
+    public List<MeetingPresence> getPresenceById(int meetingId) {
         try {
-            String QUERY = "SELECT COUNT(scout_id) FROM MEETINGS_PRESENCE WHERE meeting_id = ?";
-            Integer integer = jdbcTemplate.queryForObject(QUERY, Integer.class, meetingId);
-            if (integer == null) return 0;
-            return integer;
+            String QUERY = "SELECT * FROM MEETINGS_PRESENCE WHERE meeting_id = ?";
+            return jdbcTemplate.query(QUERY, new MeetingPresenceRowMapper(), meetingId);
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseErrorException(ex);
+        }
+    }
+
+    @Override
+    public List<MeetingPresence> getPresenceByTeam(int teamId) {
+        try {
+            String QUERY = "SELECT MP.meeting_id as meeting_id, MP.scout_id as scout_id FROM MEETINGS_PRESENCE MP JOIN MEETINGS M on M.meeting_id = MP.meeting_id WHERE M.team_id = ?;";
+            return jdbcTemplate.query(QUERY, new MeetingPresenceRowMapper(), teamId);
 
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);

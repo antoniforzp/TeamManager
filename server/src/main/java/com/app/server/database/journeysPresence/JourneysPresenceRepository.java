@@ -1,4 +1,4 @@
-package com.app.server.database.presence;
+package com.app.server.database.journeysPresence;
 
 public interface JourneysPresenceRepository {
 

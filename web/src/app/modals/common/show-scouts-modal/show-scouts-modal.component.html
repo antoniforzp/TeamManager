@@ -23,7 +23,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                         <ng-container *ngFor="let action of actions | keyvalue">
-                            <button class="dropdown-item" (click)="action.value.action();"
+                            <button *ngIf="action.value.isVisible" class="dropdown-item" (click)="action.value.action();"
                                 [disabled]="!action.value.isEnabled">{{action.value.label}}</button>
                         </ng-container>
                     </div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Meeting } from '../model/Meeting';
+import { Meeting, MeetingPresence } from '../model/Meeting';
 import { REST, RestService } from '../web/rest.service';
 
 export interface MeetingPayload {
@@ -26,6 +26,20 @@ export class MeetingsService {
     return this.rest.resolve<Meeting[]>({
       method: REST.GET,
       url: `/meetings`,
+    });
+  }
+
+  getMeetingsPresence(): Observable<MeetingPresence[]> {
+    return this.rest.resolve<MeetingPresence[]>({
+      method: REST.GET,
+      url: `/meetings/presence`,
+    });
+  }
+
+  getMeetingsPresenceById(meetingId: number): Observable<MeetingPresence[]> {
+    return this.rest.resolve<MeetingPresence[]>({
+      method: REST.GET,
+      url: `/meetings${meetingId}/presence`,
     });
   }
 

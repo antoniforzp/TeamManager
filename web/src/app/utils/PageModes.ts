@@ -1,4 +1,6 @@
 export enum PageModes {
-    Add = 'add',
-    Edit = 'edit'
+    ADD = 'add',
+    EDIT = 'edit',
+    READONLY = 'readolny',
+    FUNCTIONAL = 'functional'
 }
