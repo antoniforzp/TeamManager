@@ -11,7 +11,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ShowScoutsModal } from 'src/app/modals/common/show-scouts-modal/show-scouts-modal';
 import { AddEditMeetigModal } from 'src/app/modals/meetings/add-edit-meeting-modal/add-edit-meeting-modal';
-import { DeleteMeetingModal } from 'src/app/modals/meetings/delete-meeting/delete-meeting-modal';
+import { DeleteMeetingModal } from 'src/app/modals/meetings/delete-meeting-modal/delete-meeting-modal';
 import { Meeting, MeetingPresence } from 'src/app/model/Meeting';
 import { Scout } from 'src/app/model/Scout';
 import { MeetingsService } from 'src/app/services/meetings.service';
