@@ -1,0 +1,83 @@
+<div class="modal-header">
+    <span class="my-modal-title">Obecność na zbiórce</span>
+</div>
+
+<div class="modal-body-max">
+
+    <ng-container *ngIf="pageLoaded; else loading">
+
+        <ng-container *ngIf="pageError">
+            <app-error [error]="pageError"></app-error>
+        </ng-container>
+
+        <ng-container *ngIf="!pageError">
+
+            <!-- MEETING DESCRIPTION -->
+            <div class="d-flex flex-column">
+                <span class="label-thin-big">
+                    {{meeting.title}}
+                </span>
+                <span class="label-thin-medium">
+                    {{meeting.place}}
+                </span>
+                <span class="label-thin-medium">
+                    {{meeting.date}}
+                </span>
+            </div>
+
+            <div class="d-flex mt-2 align-items-center">
+                <span class="mr-2">Zaznaczonych obecnych: {{scoutsSelected}}</span>
+                <button class="my-icon-button clear-all" (click)="toggleSelectAll(false)"></button>
+            </div>
+
+            <!-- SCOUTS TABLE -->
+            <div class="mt-1" style="height: 45vh; overflow-y: auto;">
+                <table class="table table-hover">
+                    <thead class="my-thead">
+                        <th class="checkbox-cell">
+                            <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
+                                (ngModelChange)="toggleSelectAll($event)">
+                        </th>
+                        <th>Imię i nazwisko</th>
+                        <th>Zastęp</th>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="scouts.length > 0; else noTableData">
+                            <ng-container *ngFor="let scout of scouts; let i=index">
+                                <tr class="cursor-pointer" [ngClass]="{'selected': scout.isSelected}"
+                                    (click)="toggleSelected(scout)">
+
+                                    <td class="checkbox-cell">
+                                        <input type="checkbox" class="cursor-pointer ml-n2"
+                                            [(ngModel)]="scout.isSelected">
+                                    </td>
+                                    <td>
+                                        <span *ngIf="scout.nameSurname; else noData">
+                                            {{scout.nameSurname}}
+                                        </span>
+                                    </td>
+                                    <td *ngIf="scout.troop; else noData">
+                                        <span>{{scout.troop}}</span>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+
+        </ng-container>
+
+    </ng-container>
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+        <button class="btn btn-success my-button" (click)="action()">Zapisz</button>
+    </div>
+</div>
+
+<ng-template #loading>
+    <app-page-spinner></app-page-spinner>
+</ng-template>

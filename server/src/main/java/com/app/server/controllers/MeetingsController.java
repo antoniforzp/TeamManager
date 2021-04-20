@@ -28,6 +28,16 @@ public class MeetingsController {
     }
 
     @CrossOrigin
+    @PostMapping(value = "/meetings{meetingId}/scouts{scoutId}")
+    public ResponseEntity<Response<Boolean>> addMeetingPresence(@PathVariable int meetingId, @PathVariable int scoutId) {
+        appCore.checkCoreInit();
+        return new ResponseEntity<>(new Response<>(
+                meetingsPresenceRepository.add(meetingId, scoutId),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
+    }
+
+    @CrossOrigin
     @PostMapping(value = "/meetings")
     public ResponseEntity<Response<Boolean>> addMeeting(@RequestBody AddMeetingBody body) {
         appCore.checkCoreInit();
@@ -90,6 +100,16 @@ public class MeetingsController {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 meetingsRepository.deleteById(meetingId),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
+    }
+
+    @CrossOrigin
+    @DeleteMapping(value = "/meetings{meetingId}/scouts{scoutId}")
+    public ResponseEntity<Response<Boolean>> deleteMeetingPresence(@PathVariable int meetingId, @PathVariable int scoutId) {
+        appCore.checkCoreInit();
+        return new ResponseEntity<>(new Response<>(
+                meetingsPresenceRepository.delete(meetingId, scoutId),
                 appCore.getCurrentUser().getUserId()),
                 HttpStatus.ACCEPTED);
     }

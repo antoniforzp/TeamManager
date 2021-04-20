@@ -22,6 +22,13 @@ export class MeetingsService {
     });
   }
 
+  addMeetingPresence(meetingId: number, scoutId: number): Observable<boolean> {
+    return this.rest.resolve<boolean>({
+      method: REST.POST,
+      url: `/meetings${meetingId}/scouts${scoutId}`,
+    });
+  }
+
   getMeetings(): Observable<Meeting[]> {
     return this.rest.resolve<Meeting[]>({
       method: REST.GET,
@@ -58,6 +65,13 @@ export class MeetingsService {
     return this.rest.resolve<boolean>({
       method: REST.DELETE,
       url: `/meetings${meetingId}`,
+    });
+  }
+
+  deleteMeetingPresence(meetingId: number, scoutId: number): Observable<boolean> {
+    return this.rest.resolve<boolean>({
+      method: REST.DELETE,
+      url: `/meetings${meetingId}/scouts${scoutId}`,
     });
   }
 }

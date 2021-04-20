@@ -18,7 +18,6 @@ export interface DeleteMeetingModalComponentEntry {
 }
 
 @Component({
-  selector: 'app-delete-team-modal',
   templateUrl: './delete-meeting-modal.component.html',
   styleUrls: ['./delete-meeting-modal.component.scss'],
 })

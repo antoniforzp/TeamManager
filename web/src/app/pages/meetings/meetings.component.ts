@@ -12,6 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ShowScoutsModal } from 'src/app/modals/common/show-scouts-modal/show-scouts-modal';
 import { AddEditMeetigModal } from 'src/app/modals/meetings/add-edit-meeting-modal/add-edit-meeting-modal';
 import { DeleteMeetingModal } from 'src/app/modals/meetings/delete-meeting-modal/delete-meeting-modal';
+import { ManageMeetingPresenceModal } from 'src/app/modals/meetings/manage-presence-modal/manage-meeting-presence-modal';
 import { Meeting, MeetingPresence } from 'src/app/model/Meeting';
 import { Scout } from 'src/app/model/Scout';
 import { MeetingsService } from 'src/app/services/meetings.service';
@@ -31,6 +32,7 @@ interface MeetingRowData {
 
 enum Actions {
   ADD,
+  PRESENCE,
   EDIT,
   DELETE,
 }
@@ -143,6 +145,12 @@ export class MeetingsComponent implements OnInit, OnDestroy {
       action: () => this.openAddMeeting(),
     });
 
+    this.actions.set(Actions.PRESENCE, {
+      label: 'Obecność',
+      isEnabled: selected.length === 1,
+      action: () => this.openManagePresence(),
+    });
+
     this.actions.set(Actions.EDIT, {
       label: 'Edytuj',
       isEnabled: selected.length === 1,
@@ -172,6 +180,20 @@ export class MeetingsComponent implements OnInit, OnDestroy {
       .map((x) => x.meetingData);
 
     new AddEditMeetigModal(this.dialog).openEdit(selected[0]).then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
+      })
+    );
+  }
+
+  openManagePresence(): void {
+    const selected = this.meetingsData
+      .filter((x) => x.isSelected)
+      .map((x) => x.meetingData);
+
+    new ManageMeetingPresenceModal(this.dialog).open(selected[0]).then((x) =>
       x.afterClosed().subscribe((result) => {
         if (result === Results.SUCCESS) {
           this.loadData();
