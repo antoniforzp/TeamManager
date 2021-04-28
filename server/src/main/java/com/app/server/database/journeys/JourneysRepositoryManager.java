@@ -19,10 +19,10 @@ class JourneysRepositoryManager implements JourneysRepository {
     }
 
     @Override
-    public boolean add(String title, String place, Date start_date, Date end_date, int type, int team_id) {
+    public boolean add(String title, String place, Date startDate, Date endDate, int team_id) {
         try {
-            String QUERY = "INSERT INTO JOURNEYS(title, place, start_date, end_date, type, team_id) VALUES(?, ?, ?, ?, ?, ?)";
-            return jdbcTemplate.update(QUERY, title, place, start_date, end_date, type, team_id) >= 1;
+            String QUERY = "INSERT INTO JOURNEYS(title, place, start_date, end_date, team_id) VALUES(?, ?, ?, ?, ?)";
+            return jdbcTemplate.update(QUERY, title, place, startDate, endDate, team_id) >= 1;
 
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
@@ -52,10 +52,10 @@ class JourneysRepositoryManager implements JourneysRepository {
     }
 
     @Override
-    public boolean update(int journeyId, String title, String place, Date startDate, Date endDate, int participants, int type) {
+    public boolean update(int journeyId, String title, String place, Date startDate, Date endDate) {
         try {
-            String QUERY = "UPDATE JOURNEYS SET title = ?, place = ?, start_date = ?, end_date = ?, type = ? WHERE journey_id = ?";
-            return jdbcTemplate.update(QUERY, title, place, startDate, endDate, type, journeyId) >= 1;
+            String QUERY = "UPDATE JOURNEYS SET title = ?, place = ?, start_date = ?, end_date = ? WHERE journey_id = ?";
+            return jdbcTemplate.update(QUERY, title, place, startDate, endDate, journeyId) >= 1;
 
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);

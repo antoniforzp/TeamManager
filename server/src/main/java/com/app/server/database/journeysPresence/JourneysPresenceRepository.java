@@ -1,10 +1,16 @@
 package com.app.server.database.journeysPresence;
 
+import com.app.server.model.JourneyPresence;
+
+import java.util.List;
+
 public interface JourneysPresenceRepository {
 
-    int countPresent(int journeyId);
+    List<JourneyPresence> getPresenceById(int meetingId);
 
-    boolean add(int journeyId, int scoutId);
+    List<JourneyPresence> getPresenceByTeam(int teamId);
 
-    boolean delete(int journeyId, int scoutId);
+    boolean add(int meetingId, int scoutId);
+
+    boolean delete(int meetingId, int scoutId);
 }
