@@ -71,8 +71,8 @@ export class DeleteMeetingModalComponent implements OnInit, OnDestroy {
 
     new ProgressModal(this.dialog)
       .open(queue, {
-        successMessage: 'Udało usunąć wybrane zbiórki',
-        failureMessage: 'Nie Udało usunąć wybranych zbiórek',
+        successMessage: 'Udało usunąć wybrane zbiórki oraz wyjazdy',
+        failureMessage: 'Nie Udało usunąć wybranych zbiórek i wyjazdów',
       })
       .then((x) =>
         x
