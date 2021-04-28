@@ -12,6 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ShowScoutsModal } from 'src/app/modals/common/show-scouts-modal/show-scouts-modal';
 import { AddEditMeetigModal } from 'src/app/modals/meetings/add-edit-meeting-modal/add-edit-meeting-modal';
 import { DeleteMeetingModal } from 'src/app/modals/meetings/delete-meeting-modal/delete-meeting-modal';
+import { ExportCsvMeetingJourneyModal } from 'src/app/modals/meetings/export-csv-meeting-journey-modal/export-csv-meeting-journey-modal';
 import { ManageMeetingPresenceModal } from 'src/app/modals/meetings/manage-presence-modal/manage-meeting-presence-modal';
 import { Meeting, MeetingPresence } from 'src/app/model/Meeting';
 import { Scout } from 'src/app/model/Scout';
@@ -20,10 +21,11 @@ import { ScoutsService } from 'src/app/services/scouts.service';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
 
-interface MeetingRowData {
+interface MeetingJourneyRowData {
   title: string;
   place: string;
   date: Date;
+  endDate?: Date;
   scoutsPresent: Scout[];
 
   isSelected: boolean;
@@ -51,7 +53,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
   scouts: Scout[];
   presence: MeetingPresence[];
-  meetingsData: MeetingRowData[];
+  meetingsData: MeetingJourneyRowData[];
 
   actions = new Map<Actions, DropdownAction>();
 
@@ -98,7 +100,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
               meetingData: x,
               isSelected: false,
-            } as MeetingRowData;
+            } as MeetingJourneyRowData;
           });
 
           this.pageLoaded = true;
@@ -114,7 +116,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
   // SELECTION
 
-  toggleSelected(meeting: MeetingRowData): void {
+  toggleSelected(meeting: MeetingJourneyRowData): void {
     meeting.isSelected = !meeting.isSelected;
 
     this.checkAllSelected();
@@ -161,6 +163,12 @@ export class MeetingsComponent implements OnInit, OnDestroy {
       label: 'Usuń',
       isEnabled: selected.length >= 1,
       action: () => this.openDeleteMeeting(),
+    });
+
+    this.actions.set(Actions.DELETE, {
+      label: 'Exportuj do CSV',
+      isEnabled: selected.length >= 1,
+      action: () => this.openExportCsvMeeting(),
     });
   }
 
@@ -214,6 +222,24 @@ export class MeetingsComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  openExportCsvMeeting(): void {
+    const selected = this.meetingsData
+      .filter((x) => x.isSelected)
+      .map((x) => x.meetingData);
+
+    new ExportCsvMeetingJourneyModal(this.dialog)
+      .open({
+        meetings: selected,
+      })
+      .then((x) =>
+        x.afterClosed().subscribe((result) => {
+          if (result === Results.SUCCESS) {
+            this.loadData();
+          }
+        })
+      );
   }
 
   // DETAILS
