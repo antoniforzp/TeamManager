@@ -8,6 +8,7 @@ export interface MeetingPayload {
   place: string;
   date: Date;
 }
+
 @Injectable({
   providedIn: 'root',
 })
