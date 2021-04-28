@@ -1,0 +1,59 @@
+<div class="modal-header">
+    <span *ngIf="meetings.length <= 1" class="my-modal-title">Wyeksportuj wyjazd</span>
+    <span *ngIf="meetings.length > 1" class="my-modal-title">Wyeksportuj wyjazdy</span>
+</div>
+
+<div class="modal-body">
+
+    <ng-container *ngIf="pageLoaded">
+
+        <form [formGroup]="form">
+
+            <!-- FILENAME -->
+
+            <div class="row mb-4">
+                <div class="col-sm-4 col-form-label">
+                    <span class="required">Nazwa pliku</span>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" formControlName="filename">
+
+                    <!-- Errors -->
+                    <div class="d-flex flex-column" *ngIf="filename.errors && filename.dirty">
+                        <small class="alert-danger" *ngIf="filename.hasError('required')">Pole
+                            wymagane</small>
+                    </div>
+                </div>
+            </div>
+
+            <span>
+                Wyjazdy i zbiórki, których zamierzasz Wyeksportować do pliku CSV ({{meetings.length}}):
+            </span>
+
+            <div class="my-table-container" style="max-height: 30vh; overflow-y: auto;">
+                <table class="table">
+                    <tbody>
+                        <tr *ngFor="let meeting of meetings">
+                            <td>{{meeting.title}}</td>
+                            <td>{{meeting.date}}</td>
+                        </tr>
+                        <tr *ngFor="let journey of journeys">
+                            <td>{{journey.title}}</td>
+                            <td>{{journey.date}} - {{journey.endDate}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </form>
+
+    </ng-container>
+
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+        <button class="btn btn-success my-button" (click)="export()">Eksportuj</button>
+    </div>
+</div>

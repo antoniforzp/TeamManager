@@ -11,6 +11,12 @@ export interface ScoutCsvPayload {
   roles?: string;
 }
 
+export interface MeetingJourneyCsvPayload {
+  title: string;
+  date: Date;
+  endDate?: Date;
+}
+
 export class CSVExporter {
   public exportAndDownlaod(
     filename: string,
