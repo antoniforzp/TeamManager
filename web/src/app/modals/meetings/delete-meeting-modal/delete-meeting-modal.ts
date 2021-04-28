@@ -1,4 +1,5 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Journey } from 'src/app/model/Journey';
 import { Meeting } from 'src/app/model/Meeting';
 import { ModalWidths } from '../../Modals-def';
 import {
@@ -9,15 +10,17 @@ import {
 export class DeleteMeetingModal {
   constructor(private dialog: MatDialog) {}
 
-  async open(
-    meetings: Meeting[]
-  ): Promise<MatDialogRef<DeleteMeetingModalComponent>> {
+  async open(data: {
+    meetings: Meeting[];
+    journeys: Journey[];
+  }): Promise<MatDialogRef<DeleteMeetingModalComponent>> {
     await import('./delete-meeting-modal.module');
     return this.dialog.open(DeleteMeetingModalComponent, {
       width: ModalWidths.MEDIUM,
       disableClose: true,
       data: {
-        meetings,
+        meetings: data.meetings,
+        journeys: data.journeys,
       } as DeleteMeetingModalComponentEntry,
     });
   }

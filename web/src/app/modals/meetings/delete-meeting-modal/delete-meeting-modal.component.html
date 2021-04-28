@@ -1,6 +1,5 @@
 <div class="modal-header">
-    <span *ngIf="meetings.length <= 1" class="my-modal-title">Usuń zbiórkę</span>
-    <span *ngIf="meetings.length > 1" class="my-modal-title">Usuń zbiórki</span>
+    <span class="my-modal-title">Usuń wyjazdy i zbiórki</span>
 </div>
 
 <div class="modal-body">
@@ -19,8 +18,22 @@
         <table class="table">
             <tbody>
                 <tr *ngFor="let meeting of meetings">
+                    <td>
+                        <span class="meeting">
+                            Zbiórka
+                        </span>
+                    </td>
                     <td>{{meeting.title}}</td>
                     <td>{{meeting.date}}</td>
+                </tr>
+                <tr *ngFor="let journey of journeys">
+                    <td>
+                        <span class="journey">
+                            Wyjazd
+                        </span>
+                    </td>
+                    <td>{{journey.title}}</td>
+                    <td>{{journey.startDate }} - {{journey.endDate }}</td>
                 </tr>
             </tbody>
         </table>

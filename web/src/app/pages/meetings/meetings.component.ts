@@ -304,7 +304,14 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
     if (selected[0].type === MeetingJourneyTypes.MEETING) {
       new DeleteMeetingModal(this.dialog)
-        .open(selected.map((x) => x.data) as Meeting[])
+        .open({
+          meetings: selected
+            .filter((x) => x.type === this.Types.MEETING)
+            .map((x) => x.data) as Meeting[],
+          journeys: selected
+            .filter((x) => x.type === this.Types.JOURNEY)
+            .map((x) => x.data) as Journey[],
+        })
         .then((x) =>
           x.afterClosed().subscribe((result) => {
             if (result === Results.SUCCESS) {
