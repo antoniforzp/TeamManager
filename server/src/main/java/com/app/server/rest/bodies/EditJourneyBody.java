@@ -10,8 +10,8 @@ public class EditJourneyBody extends AddJourneyBody {
     @JsonCreator
     public EditJourneyBody(@JsonProperty String title,
                            @JsonProperty String place,
-                           @JsonProperty Date date,
+                           @JsonProperty Date startDate,
                            @JsonProperty Date endDate) {
-        super(title, place, date, endDate);
+        super(title, place, startDate, endDate);
     }
 }

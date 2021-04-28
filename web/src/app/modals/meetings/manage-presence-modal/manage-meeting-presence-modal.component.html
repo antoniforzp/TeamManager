@@ -13,7 +13,7 @@
         <ng-container *ngIf="!pageError">
 
             <!-- MEETING DESCRIPTION -->
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column" *ngIf="mode === Modes.MANAGE_MEETINGS && meeting">
                 <span class="label-thin-big">
                     {{meeting.title}}
                 </span>
@@ -22,6 +22,19 @@
                 </span>
                 <span class="label-thin-medium">
                     {{meeting.date}}
+                </span>
+            </div>
+
+            <!-- JOURNEY DESCRIPTION -->
+            <div class="d-flex flex-column" *ngIf="mode === Modes.MANAGE_JOURNEYS && journey">
+                <span class="label-thin-big">
+                    {{journey.title}}
+                </span>
+                <span class="label-thin-medium">
+                    {{journey.place}}
+                </span>
+                <span class="label-thin-medium">
+                    {{journey.startDate}} - {{journey.endDate}}
                 </span>
             </div>
 

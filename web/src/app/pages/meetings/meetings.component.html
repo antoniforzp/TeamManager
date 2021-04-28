@@ -16,7 +16,7 @@
 
                 <!-- TEAMS -->
                 <div class="d-flex justify-content-between mb-2">
-                    <h5>Zarządzaj zbiórkami ({{meetingsData.length}})</h5>
+                    <h5>Zarządzaj zbiórkami ({{meetingsJourneysData.length}})</h5>
 
 
                     <div class="dropdown">
@@ -59,38 +59,41 @@
                             </th>
                         </thead>
                         <tbody>
-                            <ng-container *ngIf="meetingsData.length > 0; else noTableData">
-                                <ng-container *ngFor="let meeting of meetingsData;">
-                                    <tr class="cursor-pointer" (click)="toggleSelected(meeting)"
-                                        [ngClass]="{'selected': meeting.isSelected}">
+                            <ng-container *ngIf="meetingsJourneysData.length > 0; else noTableData">
+                                <ng-container *ngFor="let row of meetingsJourneysData;">
+                                    <tr class="cursor-pointer" (click)="toggleSelected(row)"
+                                        [ngClass]="{'selected': row.isSelected}">
                                         <td class="checkbox-cell">
                                             <input type="checkbox" class="cursor-pointer ml-n2"
-                                                [(ngModel)]="meeting.isSelected">
+                                                [(ngModel)]="row.isSelected">
                                         </td>
                                         <td>
-                                            <span class="meeting">
+                                            <span *ngIf="row.type === Types.MEETING" class="meeting">
                                                 Zbiórka
                                             </span>
-                                        </td>
-                                        <td>
-                                            <span *ngIf="meeting.title; else noData">
-                                                {{meeting.title}}
+                                            <span *ngIf="row.type === Types.JOURNEY" class="journey">
+                                                Wyjazd
                                             </span>
                                         </td>
                                         <td>
-                                            <span *ngIf="meeting.place; else noData">
-                                                {{meeting.place}}
+                                            <span *ngIf="row.title; else noData">
+                                                {{row.title}}
                                             </span>
                                         </td>
                                         <td>
-                                            <span *ngIf="meeting.date; else noData">
-                                                {{meeting.date}}
+                                            <span *ngIf="row.place; else noData">
+                                                {{row.place}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="row.date; else noData">
+                                                {{row.date}}
                                             </span>
                                         </td>
                                         <td>
                                             <a class="link-alike"
-                                                (click)="openShowScoutsByLink(meeting.scoutsPresent); $event.stopPropagation()">
-                                                {{meeting.scoutsPresent.length}} </a>
+                                                (click)="openShowScoutsByLink(row.scoutsPresent); $event.stopPropagation()">
+                                                {{row.scoutsPresent.length}} </a>
                                         </td>
                                     </tr>
                                 </ng-container>

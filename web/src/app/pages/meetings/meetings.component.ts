@@ -10,12 +10,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ShowScoutsModal } from 'src/app/modals/common/show-scouts-modal/show-scouts-modal';
-import { AddEditMeetigModal } from 'src/app/modals/meetings/add-edit-meeting-modal/add-edit-meeting-modal';
+import { AddEditJourneyModal } from 'src/app/modals/meetings/add-edit-journey-modal/add-edit-journey-modal';
+import { AddEditMeetigModal as AddEditMeetingModal } from 'src/app/modals/meetings/add-edit-meeting-modal/add-edit-meeting-modal';
 import { DeleteMeetingModal } from 'src/app/modals/meetings/delete-meeting-modal/delete-meeting-modal';
 import { ExportCsvMeetingJourneyModal } from 'src/app/modals/meetings/export-csv-meeting-journey-modal/export-csv-meeting-journey-modal';
 import { ManageMeetingPresenceModal } from 'src/app/modals/meetings/manage-presence-modal/manage-meeting-presence-modal';
+import { Modes } from 'src/app/modals/meetings/manage-presence-modal/manage-meeting-presence-modal.component';
+import { Journey, JourneyPresence } from 'src/app/model/Journey';
 import { Meeting, MeetingPresence } from 'src/app/model/Meeting';
 import { Scout } from 'src/app/model/Scout';
+import { MeetingJourneyTypes } from 'src/app/model/Indicators';
+import { JourneysService } from 'src/app/services/journeys.service';
 import { MeetingsService } from 'src/app/services/meetings.service';
 import { ScoutsService } from 'src/app/services/scouts.service';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
@@ -29,14 +34,17 @@ interface MeetingJourneyRowData {
   scoutsPresent: Scout[];
 
   isSelected: boolean;
-  meetingData: Meeting;
+  data?: Meeting | Journey;
+  type: MeetingJourneyTypes;
 }
 
 enum Actions {
-  ADD,
+  ADD_MEETING,
+  ADD_JOURNEY,
   PRESENCE,
   EDIT,
   DELETE,
+  EXPORT_CSV,
 }
 
 @Component({
@@ -52,13 +60,17 @@ export class MeetingsComponent implements OnInit, OnDestroy {
   allSelected = false;
 
   scouts: Scout[];
-  presence: MeetingPresence[];
-  meetingsData: MeetingJourneyRowData[];
+  meetingsPresence: MeetingPresence[];
+  journeysPresence: JourneyPresence[];
+  meetingsJourneysData: MeetingJourneyRowData[] = [];
+
+  Types = MeetingJourneyTypes;
 
   actions = new Map<Actions, DropdownAction>();
 
   constructor(
     private meetingsService: MeetingsService,
+    private journeysSerice: JourneysService,
     private scoutsService: ScoutsService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
@@ -80,28 +92,25 @@ export class MeetingsComponent implements OnInit, OnDestroy {
     forkJoin({
       scouts: this.scoutsService.getScouts(),
       meetings: this.meetingsService.getMeetings(),
-      presence: this.meetingsService.getMeetingsPresence(),
+      meetingsPresence: this.meetingsService.getMeetingsPresence(),
+      journeys: this.journeysSerice.getJourneys(),
+      journeysPresence: this.journeysSerice.getJourneysPresence(),
     })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
           this.scouts = result.scouts;
-          this.presence = result.presence;
-          this.meetingsData = result.meetings.map((x) => {
-            return {
-              title: x.title,
-              place: x.place,
-              date: x.date,
-              scoutsPresent: this.scouts.filter((s) =>
-                this.presence.find(
-                  (p) => p.meetingId === x.meetingId && p.scoutId === s.scoutId
-                )
-              ),
+          this.meetingsJourneysData = [];
 
-              meetingData: x,
-              isSelected: false,
-            } as MeetingJourneyRowData;
-          });
+          this.meetingsPresence = result.meetingsPresence;
+          this.meetingsJourneysData = this.meetingsJourneysData.concat(
+            this.assemblyMeetingData(result.meetings)
+          );
+
+          this.journeysPresence = result.journeysPresence;
+          this.meetingsJourneysData = this.meetingsJourneysData.concat(
+            this.assemblyJourneyData(result.journeys)
+          );
 
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
@@ -114,10 +123,49 @@ export class MeetingsComponent implements OnInit, OnDestroy {
       });
   }
 
+  assemblyMeetingData(meetings: Meeting[]): MeetingJourneyRowData[] {
+    return (this.meetingsJourneysData = meetings.map((x) => {
+      return {
+        title: x.title,
+        place: x.place,
+        date: x.date,
+        scoutsPresent: this.scouts.filter((s) =>
+          this.meetingsPresence.find(
+            (p) => p.meetingId === x.meetingId && p.scoutId === s.scoutId
+          )
+        ),
+
+        type: MeetingJourneyTypes.MEETING,
+        data: x,
+        isSelected: false,
+      } as MeetingJourneyRowData;
+    }));
+  }
+
+  assemblyJourneyData(journys: Journey[]): MeetingJourneyRowData[] {
+    return (this.meetingsJourneysData = journys.map((x) => {
+      return {
+        title: x.title,
+        place: x.place,
+        date: x.startDate,
+        endDate: x.endDate,
+        scoutsPresent: this.scouts.filter((s) =>
+          this.journeysPresence.find(
+            (p) => p.journeyId === x.journeyId && p.scoutId === s.scoutId
+          )
+        ),
+
+        type: MeetingJourneyTypes.JOURNEY,
+        data: x,
+        isSelected: false,
+      } as MeetingJourneyRowData;
+    }));
+  }
+
   // SELECTION
 
-  toggleSelected(meeting: MeetingJourneyRowData): void {
-    meeting.isSelected = !meeting.isSelected;
+  toggleSelected(row: MeetingJourneyRowData): void {
+    row.isSelected = !row.isSelected;
 
     this.checkAllSelected();
     this.changeDetector.detectChanges();
@@ -125,26 +173,32 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
   checkAllSelected(): void {
     this.allSelected =
-      this.meetingsData.filter((x) => !x.isSelected).length === 0;
+      this.meetingsJourneysData.filter((x) => !x.isSelected).length === 0;
     this.changeDetector.detectChanges();
   }
 
   toggleSelectAll(value: boolean): void {
     this.allSelected = value;
-    this.meetingsData.forEach((x) => (x.isSelected = this.allSelected));
+    this.meetingsJourneysData.forEach((x) => (x.isSelected = this.allSelected));
     this.changeDetector.detectChanges();
   }
 
   // ACTIONS FACTORY
 
   setActions(): void {
-    const selected = this.meetingsData.filter((x) => x.isSelected);
+    const selected = this.meetingsJourneysData.filter((x) => x.isSelected);
     this.actions.clear();
 
-    this.actions.set(Actions.ADD, {
-      label: 'Dodaj',
+    this.actions.set(Actions.ADD_MEETING, {
+      label: 'Dodaj zbiórkę',
       isEnabled: true,
       action: () => this.openAddMeeting(),
+    });
+
+    this.actions.set(Actions.ADD_JOURNEY, {
+      label: 'Dodaj wyjazd',
+      isEnabled: true,
+      action: () => this.openAddJourney(),
     });
 
     this.actions.set(Actions.PRESENCE, {
@@ -165,7 +219,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
       action: () => this.openDeleteMeeting(),
     });
 
-    this.actions.set(Actions.DELETE, {
+    this.actions.set(Actions.EXPORT_CSV, {
       label: 'Exportuj do CSV',
       isEnabled: selected.length >= 1,
       action: () => this.openExportCsvMeeting(),
@@ -173,7 +227,17 @@ export class MeetingsComponent implements OnInit, OnDestroy {
   }
 
   openAddMeeting(): void {
-    new AddEditMeetigModal(this.dialog).openAdd().then((x) =>
+    new AddEditMeetingModal(this.dialog).openAdd().then((x) =>
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
+      })
+    );
+  }
+
+  openAddJourney(): void {
+    new AddEditJourneyModal(this.dialog).openAdd().then((x) =>
       x.afterClosed().subscribe((result) => {
         if (result === Results.SUCCESS) {
           this.loadData();
@@ -183,25 +247,50 @@ export class MeetingsComponent implements OnInit, OnDestroy {
   }
 
   openEditMeeting(): void {
-    const selected = this.meetingsData
-      .filter((x) => x.isSelected)
-      .map((x) => x.meetingData);
+    const selected = this.meetingsJourneysData.filter((x) => x.isSelected);
 
-    new AddEditMeetigModal(this.dialog).openEdit(selected[0]).then((x) =>
-      x.afterClosed().subscribe((result) => {
-        if (result === Results.SUCCESS) {
-          this.loadData();
-        }
-      })
-    );
+    if (selected[0].type === MeetingJourneyTypes.MEETING) {
+      new AddEditMeetingModal(this.dialog)
+        .openEdit(selected[0].data as Meeting)
+        .then((x) =>
+          x.afterClosed().subscribe((result) => {
+            if (result === Results.SUCCESS) {
+              this.loadData();
+            }
+          })
+        );
+    } else if (selected[0].type === MeetingJourneyTypes.JOURNEY) {
+      new AddEditJourneyModal(this.dialog)
+        .openEdit(selected[0].data as Journey)
+        .then((x) =>
+          x.afterClosed().subscribe((result) => {
+            if (result === Results.SUCCESS) {
+              this.loadData();
+            }
+          })
+        );
+    }
   }
 
   openManagePresence(): void {
-    const selected = this.meetingsData
-      .filter((x) => x.isSelected)
-      .map((x) => x.meetingData);
+    const selected = this.meetingsJourneysData.filter((x) => x.isSelected);
 
-    new ManageMeetingPresenceModal(this.dialog).open(selected[0]).then((x) =>
+    let options = {} as { meeting?: Meeting; journey?: Journey };
+    let mode: Modes;
+
+    if (selected[0].type === this.Types.MEETING) {
+      options = {
+        meeting: selected[0].data as Meeting,
+      };
+      mode = Modes.MANAGE_MEETINGS;
+    } else if (selected[0].type === this.Types.JOURNEY) {
+      options = {
+        journey: selected[0].data as Journey,
+      };
+      mode = Modes.MANAGE_JOURNEYS;
+    }
+
+    new ManageMeetingPresenceModal(this.dialog).open(options, mode).then((x) =>
       x.afterClosed().subscribe((result) => {
         if (result === Results.SUCCESS) {
           this.loadData();
@@ -211,27 +300,32 @@ export class MeetingsComponent implements OnInit, OnDestroy {
   }
 
   openDeleteMeeting(): void {
-    const selected = this.meetingsData
-      .filter((x) => x.isSelected)
-      .map((x) => x.meetingData);
+    const selected = this.meetingsJourneysData.filter((x) => x.isSelected);
 
-    new DeleteMeetingModal(this.dialog).open(selected).then((x) =>
-      x.afterClosed().subscribe((result) => {
-        if (result === Results.SUCCESS) {
-          this.loadData();
-        }
-      })
-    );
+    if (selected[0].type === MeetingJourneyTypes.MEETING) {
+      new DeleteMeetingModal(this.dialog)
+        .open(selected.map((x) => x.data) as Meeting[])
+        .then((x) =>
+          x.afterClosed().subscribe((result) => {
+            if (result === Results.SUCCESS) {
+              this.loadData();
+            }
+          })
+        );
+    }
   }
 
   openExportCsvMeeting(): void {
-    const selected = this.meetingsData
-      .filter((x) => x.isSelected)
-      .map((x) => x.meetingData);
+    const selected = this.meetingsJourneysData.filter((x) => x.isSelected);
 
     new ExportCsvMeetingJourneyModal(this.dialog)
       .open({
-        meetings: selected,
+        meetings: selected
+          .filter((x) => x.type === MeetingJourneyTypes.MEETING)
+          .map((x) => x.data as Meeting),
+        journeys: selected
+          .filter((x) => x.type === MeetingJourneyTypes.JOURNEY)
+          .map((x) => x.data as Journey),
       })
       .then((x) =>
         x.afterClosed().subscribe((result) => {

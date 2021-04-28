@@ -74,6 +74,7 @@ export class ExportCsvMeetingJourneyModalComponent
 
       exportPayload.title = meeting.title;
       exportPayload.date = meeting.date;
+      exportPayload.endDate = null;
 
       exportPayloads.push(exportPayload);
     });
@@ -82,7 +83,7 @@ export class ExportCsvMeetingJourneyModalComponent
       const exportPayload = {} as MeetingJourneyCsvPayload;
 
       exportPayload.title = journey.title;
-      exportPayload.date = journey.date;
+      exportPayload.date = journey.startDate;
       exportPayload.endDate = journey.endDate;
 
       exportPayloads.push(exportPayload);

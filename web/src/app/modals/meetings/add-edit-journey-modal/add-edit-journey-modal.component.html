@@ -1,0 +1,89 @@
+<div class="modal-header">
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.ADD">Dodaj nowy wyjazd</span>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.EDIT">Edytuj wyjazd</span>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="form">
+
+        <!-- ADD NEW MEETING -->
+        <div class="form-group">
+
+            <!-- Title -->
+            <div class="row mb-2">
+                <label for="title" class="col-sm-3 col-form-label required">Tytuł</label>
+                <div class="col">
+                    <input id="title" type="text" class="form-control" formControlName="title">
+
+                    <!-- Errors -->
+                    <div class="d-flex flex-column" *ngIf="title.errors && title.dirty">
+                        <small class="alert-danger" *ngIf="title.hasError('required')">Pole
+                            wymagane</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Place -->
+            <div class="row mb-2">
+                <label for="place" class="col-sm-3 col-form-label required">Miejsce</label>
+                <div class="col">
+                    <input id="place" type="text" class="form-control" formControlName="place">
+
+                    <!-- Errors -->
+                    <div class="d-flex flex-column" *ngIf="place.errors && place.dirty">
+                        <small class="alert-danger" *ngIf="place.hasError('required')">Pole
+                            wymagane</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start date -->
+            <div class="row mb-2">
+                <label for="startDate" class="col-sm-3 col-form-label required">Data rozpoczęcia</label>
+                <div class="col">
+                    <mat-form-field class="mb-n2 mt-n2 w-100">
+                        <input id="startDate" matInput [matDatepicker]="startDatepicker" formControlName="startDate">
+                        <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatepicker></mat-datepicker>
+                    </mat-form-field>
+
+                    <!-- Errors -->
+                    <div class="d-flex flex-column" *ngIf="startDate.errors && startDate.dirty">
+                        <small class="alert-danger" *ngIf="startDate.hasError('required')">Pole
+                            wymagane</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End date -->
+            <div class="row mb-2">
+                <label for="endDate" class="col-sm-3 col-form-label required">Data zakończenia</label>
+                <div class="col">
+                    <mat-form-field class="mb-n2 mt-n2 w-100">
+                        <input id="endDate" matInput [matDatepicker]="pickerEndDate" formControlName="endDate">
+                        <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerEndDate></mat-datepicker>
+                    </mat-form-field>
+
+                    <!-- Errors -->
+                    <div class="d-flex flex-column" *ngIf="endDate.errors && endDate.dirty">
+                        <small class="alert-danger" *ngIf="endDate.hasError('required')">Pole
+                            wymagane</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+
+        <button *ngIf="modalMode === ModalModes.ADD" type="button" class="btn btn-success my-button"
+            (click)="addJourney()" [disabled]="!form.valid">Dodaj</button>
+
+        <button *ngIf="modalMode === ModalModes.EDIT" type="button" class="btn btn-success my-button"
+            (click)="editJourney()" [disabled]="!form.valid">Edytuj</button>
+    </div>
+</div>

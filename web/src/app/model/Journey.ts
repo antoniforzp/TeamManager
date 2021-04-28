@@ -1,6 +1,8 @@
-import { Meeting } from './Meeting';
-
-export interface Journey extends Meeting {
+export interface Journey {
+  journeyId: number;
+  title: string;
+  place: string;
+  startDate: Date;
   endDate: Date;
 }
 

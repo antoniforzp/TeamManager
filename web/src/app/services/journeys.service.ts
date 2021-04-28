@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Journey, JourneyPresence } from '../model/Journey';
-import { Meeting, MeetingPresence } from '../model/Meeting';
 import { REST, RestService } from '../web/rest.service';
 
 export interface JourneyPayload {
@@ -20,7 +19,7 @@ export class JourneysService {
   addJourney(journey: JourneyPayload): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.POST,
-      url: `/journey`,
+      url: `/journeys`,
       body: journey,
     });
   }

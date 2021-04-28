@@ -12,17 +12,26 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { forkJoin, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { Journey, JourneyPresence } from 'src/app/model/Journey';
 import { Meeting, MeetingPresence } from 'src/app/model/Meeting';
 import { Scout } from 'src/app/model/Scout';
+import { JourneysService } from 'src/app/services/journeys.service';
 import { MeetingsService } from 'src/app/services/meetings.service';
 import { ScoutsService } from 'src/app/services/scouts.service';
 import { Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 
+export enum Modes {
+  MANAGE_MEETINGS,
+  MANAGE_JOURNEYS,
+}
+
 export interface ManageMeetingPresenceComponentEntry {
-  meeting: Meeting;
+  mode: Modes;
+  meeting?: Meeting;
+  journey?: Journey;
 }
 
 interface ScoutRowData {
@@ -31,6 +40,11 @@ interface ScoutRowData {
 
   scoutObject: Scout;
   isSelected: boolean;
+}
+
+interface NormalizedPresence {
+  scoutId: number;
+  meetingId: number;
 }
 
 @Component({
@@ -44,7 +58,12 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
   pageError: HttpErrorResponse;
 
   allSelected = false;
+
+  Modes = Modes;
+  mode: Modes;
   meeting: Meeting;
+  journey: Journey;
+
   scouts: ScoutRowData[];
   scoutsSelected = 0;
 
@@ -58,11 +77,14 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<ManageMeetingPresenceComponent>,
     private scoutsService: ScoutsService,
     private meetingsService: MeetingsService,
+    private journeysService: JourneysService,
     private changeDetector: ChangeDetectorRef,
 
     @Inject(MAT_DIALOG_DATA) data: ManageMeetingPresenceComponentEntry
   ) {
+    this.mode = data.mode;
     this.meeting = data.meeting;
+    this.journey = data.journey;
   }
 
   ngOnInit(): void {
@@ -75,15 +97,60 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
 
   // DATA LOADING
 
-  loadData(): void {
-    forkJoin({
+  fetchMeetingsData(): Observable<{
+    scouts: Scout[];
+    presence: NormalizedPresence[];
+  }> {
+    return forkJoin({
       scouts: this.scoutsService.getScouts(),
       presence: this.meetingsService.getMeetingsPresenceById(
         this.meeting.meetingId
       ),
-    })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
+    });
+  }
+
+  fetchJourneysData(): Observable<{
+    scouts: Scout[];
+    presence: NormalizedPresence[];
+  }> {
+    return forkJoin({
+      scouts: this.scoutsService.getScouts(),
+      presence: this.journeysService
+        .getJourneysPresenceById(this.journey.journeyId)
+        .pipe(
+          map((x) =>
+            x.map((item) => {
+              return {
+                meetingId: item.journeyId,
+                scoutId: item.scoutId,
+              } as NormalizedPresence;
+            })
+          )
+        ),
+    });
+  }
+
+  loadData(): void {
+    let dataStream: Observable<{
+      scouts: Scout[];
+      presence: NormalizedPresence[];
+    }> = null;
+
+    switch (this.mode) {
+      case Modes.MANAGE_MEETINGS:
+        {
+          dataStream = this.fetchMeetingsData();
+        }
+        break;
+      case Modes.MANAGE_JOURNEYS:
+        {
+          dataStream = this.fetchJourneysData();
+        }
+        break;
+    }
+
+    if (dataStream) {
+      dataStream.pipe(takeUntil(this.destroy$)).subscribe({
         next: (result) => {
           this.scouts = result.scouts.map((x) => {
             return {
@@ -114,6 +181,7 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
           this.changeDetector.detectChanges();
         },
       });
+    }
   }
 
   // SELECTION
@@ -204,20 +272,30 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
     // Queue add requests up
     this.presenceToAdd.forEach((x) => {
       queue.push(
-        this.meetingsService.addMeetingPresence(
-          this.meeting.meetingId,
-          x.scoutId
-        )
+        this.mode === Modes.MANAGE_MEETINGS
+          ? this.meetingsService.addMeetingPresence(
+              this.meeting.meetingId,
+              x.scoutId
+            )
+          : this.journeysService.addJourneyPresence(
+              this.journey.journeyId,
+              x.scoutId
+            )
       );
     });
 
     // Queue delete requests up
     this.presenceToDelete.forEach((x) => {
       queue.push(
-        this.meetingsService.deleteMeetingPresence(
-          this.meeting.meetingId,
-          x.scoutId
-        )
+        this.mode === Modes.MANAGE_MEETINGS
+          ? this.meetingsService.deleteMeetingPresence(
+              this.meeting.meetingId,
+              x.scoutId
+            )
+          : this.journeysService.deleteJourneyPresence(
+              this.journey.journeyId,
+              x.scoutId
+            )
       );
     });
 

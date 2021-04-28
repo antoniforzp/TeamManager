@@ -61,7 +61,7 @@ public class JourneysController {
 
     @CrossOrigin
     @GetMapping(value = "/journeys")
-    public ResponseEntity<Response<List<Journey>>> getMeetings() {
+    public ResponseEntity<Response<List<Journey>>> getJourneys() {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 journeysRepository.getAllByTeamId(appCore.getCurrentTeam().getTeamId()),
@@ -71,7 +71,7 @@ public class JourneysController {
 
     @CrossOrigin
     @GetMapping(value = "/journeys{journeyId}/presence")
-    public ResponseEntity<Response<List<JourneyPresence>>> getMeetingsPresence(@PathVariable int journeyId) {
+    public ResponseEntity<Response<List<JourneyPresence>>> getJourneysPresence(@PathVariable int journeyId) {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 journeysPresenceRepository.getPresenceById(journeyId),
@@ -81,7 +81,7 @@ public class JourneysController {
 
     @CrossOrigin
     @GetMapping(value = "/journeys/presence")
-    public ResponseEntity<Response<List<JourneyPresence>>> getMeetingsPresenceTeam() {
+    public ResponseEntity<Response<List<JourneyPresence>>> getJourneysPresenceTeam() {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 journeysPresenceRepository.getPresenceByTeam(appCore.getCurrentTeam().getTeamId()),
@@ -91,7 +91,7 @@ public class JourneysController {
 
     @CrossOrigin
     @PatchMapping(value = "/journeys{journeyId}")
-    public ResponseEntity<Response<Boolean>> editMeeting(@PathVariable int journeyId, @RequestBody EditJourneyBody body) {
+    public ResponseEntity<Response<Boolean>> editJourney(@PathVariable int journeyId, @RequestBody EditJourneyBody body) {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 journeysRepository.update(journeyId,
@@ -106,7 +106,7 @@ public class JourneysController {
 
     @CrossOrigin
     @DeleteMapping(value = "/journeys{journeyId}")
-    public ResponseEntity<Response<Boolean>> deleteMeeting(@PathVariable int journeyId) {
+    public ResponseEntity<Response<Boolean>> deleteJourney(@PathVariable int journeyId) {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 journeysRepository.deleteById(journeyId),
@@ -116,7 +116,7 @@ public class JourneysController {
 
     @CrossOrigin
     @DeleteMapping(value = "/journeys{journeyId}/scouts{scoutId}")
-    public ResponseEntity<Response<Boolean>> deleteMeetingPresence(@PathVariable int journeyId, @PathVariable int scoutId) {
+    public ResponseEntity<Response<Boolean>> deleteJourneyPresence(@PathVariable int journeyId, @PathVariable int scoutId) {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 journeysPresenceRepository.delete(journeyId, scoutId),

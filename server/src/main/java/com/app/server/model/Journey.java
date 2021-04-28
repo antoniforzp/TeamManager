@@ -9,15 +9,13 @@ public class Journey implements Model {
     private final String place;
     private final Date startDate;
     private final Date endDate;
-    private final int type;
 
-    public Journey(int journeyId, String title, String place, Date startDate, Date endDate, int type) {
+    public Journey(int journeyId, String title, String place, Date startDate, Date endDate) {
         this.journeyId = journeyId;
         this.title = title;
         this.place = place;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.type = type;
     }
 
     public int getJourneyId() {
@@ -38,10 +36,6 @@ public class Journey implements Model {
 
     public Date getEndDate() {
         return endDate;
-    }
-
-    public int getType() {
-        return type;
     }
 
     @Override
