@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
 import { REST, RestService } from '../web/rest.service';
 import { ErrorService } from './error.service';
@@ -27,6 +27,15 @@ export class TeamsService {
       method: REST.GET,
       url: `/teams`,
     });
+  }
+
+  getCurrentUserTeamsNo(): Observable<number> {
+    return this.rest
+      .resolve<Team[]>({
+        method: REST.GET,
+        url: `/teams`,
+      })
+      .pipe(map((x) => x.length));
   }
 
   patchTeam(teamId: number, name: string, patron: string): Observable<any> {

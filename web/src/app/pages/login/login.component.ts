@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NavigationService } from 'src/app/services/core/navigation.service';
 import { LoginService } from '../../services/login.service';
 
 @Component({
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private loginService: LoginService,
+    private navigationService: NavigationService,
     private changeDetector: ChangeDetectorRef
   ) {}
 
@@ -88,5 +90,11 @@ export class LoginComponent implements OnInit {
 
   get password(): AbstractControl {
     return this.loginForm.get('password');
+  }
+
+  // NAVIGATION
+
+  navigateToAddUser(): void {
+    this.navigationService.navigateToAddUser();
   }
 }

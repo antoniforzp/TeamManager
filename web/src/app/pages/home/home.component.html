@@ -26,7 +26,7 @@
                             </h5>
 
                             <div class="d-flex">
-                                <button class="btn btn-secondary my-button mr-2" routerLink="/teams">
+                                <button class="btn btn-secondary my-button mr-2 link" (click)="navigateToTeams()">
                                     Moje jednostki ({{allTeams.length}}) </button>
 
                                 <div class="dropdown mr-2">
@@ -52,7 +52,8 @@
                                     ze
                                     wszystkich fukcjonalności.
                                 </span></p>
-                            <button class="btn btn-success my-button" routerLink="/teams">Dodaj jednostkę</button>
+                            <button class="btn btn-success my-button" (click)="navigateToTeams()">Dodaj
+                                jednostkę</button>
                         </ng-container>
                     </div>
 
@@ -66,7 +67,7 @@
                                 <span>{{currentUser.surname}}</span><br>
                                 <span>{{currentUser.email}}</span>
                             </h5>
-                            <button class="btn btn-secondary my-button" routerLink="/editUser">Edytuj</button>
+                            <button class="btn btn-secondary my-button" (click)="navigateToEditUser()">Edytuj</button>
                         </div>
                     </div>
 
