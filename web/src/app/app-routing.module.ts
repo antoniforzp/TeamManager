@@ -8,17 +8,18 @@ import { MeetingsComponent } from './pages/meetings/meetings.component';
 import { ScoutsComponent } from './pages/scouts/scouts.component';
 import { TeamsComponent } from './pages/teams/teams.component';
 import { TroopsComponent } from './pages/troops/troops.component';
+import { AppRoutes } from './shared/menu/Routes';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'addUser', component: AddUserComponent },
-  { path: 'editUser', component: EditUserComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'teams', component: TeamsComponent },
-  { path: 'scouts', component: ScoutsComponent },
-  { path: 'troops', component: TroopsComponent },
-  { path: 'meetings', component: MeetingsComponent },
+  { path: '', redirectTo: AppRoutes.LOGIN, pathMatch: 'full' },
+  { path: AppRoutes.LOGIN, component: LoginComponent },
+  { path: AppRoutes.ADD_USER, component: AddUserComponent },
+  { path: AppRoutes.EDIT_USER, component: EditUserComponent },
+  { path: AppRoutes.HOME, component: HomeComponent },
+  { path: AppRoutes.TEAMS, component: TeamsComponent },
+  { path: AppRoutes.SCOUTS, component: ScoutsComponent },
+  { path: AppRoutes.TROOPS, component: TroopsComponent },
+  { path: AppRoutes.MEETINGS_JOUNEYS, component: MeetingsComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

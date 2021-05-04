@@ -13,25 +13,30 @@
             <!-- left -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link menu-button active" (click)="navigateToHome()">Strona główna</a>
+                    <a class="nav-link menu-button" [ngClass]="{'active': currentRoute === AppRoutes.HOME}"
+                        (click)="navigateToHome()">Strona główna</a>
                 </li>
 
                 <ng-container *ngIf="!lockedOptions">
                     <div>
                         <li class="nav-item">
-                            <a class="nav-link menu-button" (click)="navigateToScouts()">Ewidencja</a>
+                            <a class="nav-link menu-button" [ngClass]="{'active': currentRoute === AppRoutes.SCOUTS}"
+                                (click)="navigateToScouts()">Ewidencja</a>
                         </li>
                     </div>
 
                     <div>
                         <li class="nav-item">
-                            <a class="nav-link menu-button" (click)="navigateToTroops()">Zastępy</a>
+                            <a class="nav-link menu-button" [ngClass]="{'active': currentRoute === AppRoutes.TROOPS}"
+                                (click)="navigateToTroops()">Zastępy</a>
                         </li>
                     </div>
 
                     <div>
                         <li class="nav-item">
-                            <a class="nav-link menu-button" (click)="navigateToMeetingsJourneys()">Zbiórki i wyjazdy</a>
+                            <a class="nav-link menu-button"
+                                [ngClass]="{'active': currentRoute === AppRoutes.MEETINGS_JOUNEYS}"
+                                (click)="navigateToMeetingsJourneys()">Zbiórki i wyjazdy</a>
                         </li>
                     </div>
                 </ng-container>

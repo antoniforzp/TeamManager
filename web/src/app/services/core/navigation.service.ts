@@ -1,91 +1,145 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { Routes } from 'src/app/shared/menu/Routes';
+import { AppRoutes } from 'src/app/shared/menu/Routes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NavigationService {
-  currentRoute = new BehaviorSubject<Routes>(null);
+  currentRoute: BehaviorSubject<AppRoutes> = new BehaviorSubject<AppRoutes>(
+    this.router.url.substr(1) as AppRoutes
+  );
 
-  constructor(private router: Router) {
-    this.router.events.subscribe((x) => {
-      console.log(x);
-    });
+  constructor(private router: Router) {}
+
+  // LOGIN
+
+  public getLoginRoute(): AppRoutes {
+    return AppRoutes.LOGIN;
   }
 
-  // GETTERS
-
-  public getLoginRoute(): string {
-    return `/${Routes.LOGIN}`;
+  public getLoginRouteComposed(): string {
+    return `/${AppRoutes.LOGIN}`;
   }
 
   public navigateToLogin(): Promise<boolean> {
+    this.currentRoute.next(this.getLoginRoute());
     return this.router.navigate([this.getLoginRoute()]);
   }
 
-  public getHomeRoute(): string {
-    return `/${Routes.HOME}`;
+  // HOME
+
+  public getHomeRoute(): AppRoutes {
+    return AppRoutes.HOME;
+  }
+
+  public getHomeRouteComposed(): string {
+    return `/${AppRoutes.HOME}`;
   }
 
   public navigateToHome(): Promise<boolean> {
-    return this.router.navigate([this.getHomeRoute()]);
+    this.currentRoute.next(this.getHomeRoute());
+    return this.router.navigate([this.getHomeRouteComposed()]);
   }
 
-  public getScoutsRoute(): string {
-    return `/${Routes.SCOUTS}`;
+  // SCOUTS
+
+  public getScoutsRoute(): AppRoutes {
+    return AppRoutes.SCOUTS;
+  }
+
+  public getScoutsRouteComposed(): string {
+    return `/${AppRoutes.SCOUTS}`;
   }
 
   public navigateToScouts(): Promise<boolean> {
+    this.currentRoute.next(this.getScoutsRoute());
     return this.router.navigate([this.getScoutsRoute()]);
   }
 
-  public getTroopsRoute(): string {
-    return `/${Routes.TROOPS}`;
+  // TROOPS
+
+  public getTroopsRoute(): AppRoutes {
+    return AppRoutes.TROOPS;
+  }
+
+  public getTroopsRouteComposed(): string {
+    return `/${AppRoutes.TROOPS}`;
   }
 
   public navigateToTroops(): Promise<boolean> {
+    this.currentRoute.next(this.getTroopsRoute());
     return this.router.navigate([this.getTroopsRoute()]);
   }
 
-  public getMeetingsJourneysRoute(): string {
-    return `/${Routes.MEETINGS_JOUNEYS}`;
+  // JOURNEYS MEETINGS
+
+  public getMeetingsJourneysRoute(): AppRoutes {
+    return AppRoutes.MEETINGS_JOUNEYS;
+  }
+
+  public getMeetingsJourneysRouteComposed(): string {
+    return `/${AppRoutes.MEETINGS_JOUNEYS}`;
   }
 
   public navigateToMeetingsJourneys(): Promise<boolean> {
+    this.currentRoute.next(this.getMeetingsJourneysRoute());
     return this.router.navigate([this.getMeetingsJourneysRoute()]);
   }
 
-  public getAddUserRoute(): string {
-    return `/${Routes.ADD_USER}`;
+  // ADD USER
+
+  public getAddUserRoute(): AppRoutes {
+    return AppRoutes.ADD_USER;
+  }
+
+  public getAddUserRouteComposed(): string {
+    return `/${AppRoutes.ADD_USER}`;
   }
 
   public navigateToAddUser(): Promise<boolean> {
+    this.currentRoute.next(this.getAddUserRoute());
     return this.router.navigate([this.getAddUserRoute()]);
   }
 
-  public getEditUserRoute(): string {
-    return `/${Routes.EDIT_USER}`;
+  // EDIT USER
+
+  public getEditUserRoute(): AppRoutes {
+    return AppRoutes.EDIT_USER;
+  }
+
+  public getEditUserRouteComposed(): string {
+    return `/${AppRoutes.EDIT_USER}`;
   }
 
   public navigateToEditUser(): Promise<boolean> {
+    this.currentRoute.next(this.getEditUserRoute());
     return this.router.navigate([this.getEditUserRoute()]);
   }
 
-  public getTeamsRoute(): string {
-    return `/${Routes.TEAMS}`;
+  // TEAMS
+
+  public getTeamsRoute(): AppRoutes {
+    return AppRoutes.TEAMS;
+  }
+
+  public getTeamsRouteComposed(): string {
+    return `/${AppRoutes.TEAMS}`;
   }
 
   public navigateTeams(): Promise<boolean> {
+    this.currentRoute.next(this.getTeamsRoute());
     return this.router.navigate([this.getTeamsRoute()]);
   }
 
-  public getCurrentRoute(): BehaviorSubject<Routes> {
+  // UTILS
+
+  public getCurrentRoute(): BehaviorSubject<AppRoutes> {
     return this.currentRoute;
   }
 
-  public navigateTo(route: Routes): Promise<boolean> {
+  public navigateTo(route: AppRoutes): Promise<boolean> {
     this.currentRoute.next(route);
     return this.router.navigate([route]);
   }
