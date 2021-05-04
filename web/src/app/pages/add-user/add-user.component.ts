@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
 import { UserService } from 'src/app/services/data/user.service';
+import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { RegexPatterns } from 'src/app/utils/PatternsDefs';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 
@@ -17,6 +18,8 @@ import { CustomValidators } from 'src/app/validators/Customvalidators';
   styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent implements OnInit {
+  AppRoutes = AppRoutes;
+
   mailExists = false;
   form: FormGroup;
 

@@ -18,6 +18,7 @@ import { Role } from 'src/app/model/Role';
 
 import { Scout } from 'src/app/model/Scout';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
+import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
 
@@ -49,6 +50,7 @@ enum Actions {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScoutsComponent implements OnInit, OnDestroy {
+  AppRoutes = AppRoutes;
   destroy$ = new Subject();
   pageLoaded = false;
 

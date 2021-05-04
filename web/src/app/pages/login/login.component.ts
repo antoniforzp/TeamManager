@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.email.value, this.password.value).subscribe({
       next: (x) => {
         if (this.resolveLoginStatus(x)) {
-          this.router.navigateByUrl('/home');
+          this.navigationService.navigateToHome();
         }
         this.loginInProgress = false;
         this.changeDetector.detectChanges();

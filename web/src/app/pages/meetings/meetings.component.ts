@@ -25,6 +25,7 @@ import { Results } from 'src/app/utils/Result';
 import { JourneysService } from 'src/app/services/data/journeys.service';
 import { MeetingsService } from 'src/app/services/data/meetings.service';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
+import { AppRoutes } from 'src/app/shared/menu/Routes';
 
 interface MeetingJourneyRowData {
   title: string;
@@ -53,7 +54,9 @@ enum Actions {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MeetingsComponent implements OnInit, OnDestroy {
+  AppRoutes = AppRoutes;
   destroy$ = new Subject();
+
   pageLoaded = false;
   pageError: HttpErrorResponse;
 

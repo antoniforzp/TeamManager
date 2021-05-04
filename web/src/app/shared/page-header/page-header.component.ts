@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavigationService } from 'src/app/services/core/navigation.service';
+import { AppRoutes } from '../menu/Routes';
 
 @Component({
   selector: 'app-page-header',
@@ -8,13 +10,16 @@ import { Router } from '@angular/router';
 })
 export class PageHeaderComponent implements OnInit {
   @Input() header: string;
-  @Input() goBackUrl: string;
+  @Input() goBackRoute: AppRoutes;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private navigationService: NavigationService
+  ) {}
 
   ngOnInit(): void {}
 
   back(): void {
-    this.router.navigateByUrl(this.goBackUrl);
+    this.navigationService.navigateTo(this.goBackRoute);
   }
 }

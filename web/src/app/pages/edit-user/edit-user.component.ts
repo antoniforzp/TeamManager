@@ -21,6 +21,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/data/user.service';
+import { AppRoutes } from 'src/app/shared/menu/Routes';
 
 @Component({
   templateUrl: './edit-user.component.html',
@@ -28,6 +29,7 @@ import { UserService } from 'src/app/services/data/user.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditUserComponent implements OnInit, OnDestroy {
+  AppRoutes = AppRoutes;
   destroy$ = new Subject();
 
   pageLoaded = false;

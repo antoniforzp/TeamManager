@@ -14,7 +14,7 @@
             <!-- PAGE CONTENT -->
             <div *ngIf="!pageError">
 
-                <app-page-header [header]="'Edytuj użytkownika'" [goBackUrl]="'/home'"></app-page-header>
+                <app-page-header [header]="'Edytuj użytkownika'" [goBackPath]="AppRoutes.HOME"></app-page-header>
 
                 <form [formGroup]="credentialsForm">
 

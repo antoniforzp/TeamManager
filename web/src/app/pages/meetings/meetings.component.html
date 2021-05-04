@@ -12,7 +12,8 @@
             <!-- PAGE CONTENT -->
             <div *ngIf="!pageError">
 
-                <app-page-header [header]="'Zbiórki i wyjazdy drużyny'" [goBackUrl]="'/home'"></app-page-header>
+                <app-page-header [header]="'Zbiórki i wyjazdy drużyny'" [goBackRoute]="AppRoutes.HOME">
+                </app-page-header>
 
                 <!-- TEAMS -->
                 <div class="d-flex justify-content-between mb-2">
