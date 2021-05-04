@@ -15,8 +15,8 @@ import { DeleteTroopModal } from 'src/app/modals/troops/delete-troop-modal/delet
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
 import { Troop } from 'src/app/model/Troop';
-import { ScoutsService } from 'src/app/services/scouts.service';
-import { TroopsService } from 'src/app/services/troops.service';
+import { ScoutsService } from 'src/app/services/data/scouts.service';
+import { TroopsService } from 'src/app/services/data/troops.service';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
 

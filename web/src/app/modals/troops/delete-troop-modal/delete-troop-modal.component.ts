@@ -16,8 +16,8 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Scout } from 'src/app/model/Scout';
 import { Troop } from 'src/app/model/Troop';
-import { ScoutsService } from 'src/app/services/scouts.service';
-import { TroopsService } from 'src/app/services/troops.service';
+import { ScoutsService } from 'src/app/services/data/scouts.service';
+import { TroopsService } from 'src/app/services/data/troops.service';
 import { Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 

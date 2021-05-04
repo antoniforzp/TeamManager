@@ -8,10 +8,8 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Journey } from 'src/app/model/Journey';
 import { Meeting } from 'src/app/model/Meeting';
-import { Team } from 'src/app/model/Team';
-import { JourneysService } from 'src/app/services/journeys.service';
-import { MeetingsService } from 'src/app/services/meetings.service';
-import { TeamsService } from 'src/app/services/teams.service';
+import { JourneysService } from 'src/app/services/data/journeys.service';
+import { MeetingsService } from 'src/app/services/data/meetings.service';
 import { Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 

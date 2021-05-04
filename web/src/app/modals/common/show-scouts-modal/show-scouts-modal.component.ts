@@ -22,7 +22,7 @@ import { ScoutInfoModal } from 'src/app/modals/scouts/scout-info-modal/scout-inf
 import { Role } from 'src/app/model/Role';
 
 import { Scout } from 'src/app/model/Scout';
-import { ScoutsService } from 'src/app/services/scouts.service';
+import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { PageModes } from 'src/app/utils/PageModes';
 import { Results } from 'src/app/utils/Result';

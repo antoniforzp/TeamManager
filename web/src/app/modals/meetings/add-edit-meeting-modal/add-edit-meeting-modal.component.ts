@@ -19,9 +19,7 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Meeting } from 'src/app/model/Meeting';
-import { Troop } from 'src/app/model/Troop';
-import { MeetingsService } from 'src/app/services/meetings.service';
-import { TroopsService } from 'src/app/services/troops.service';
+import { MeetingsService } from 'src/app/services/data/meetings.service';
 import { Results as Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 import { ModalModes } from '../../Modals-def';

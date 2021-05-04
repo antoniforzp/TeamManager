@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { REST, RestService } from '../web/rest.service';
+import { RestService, REST } from 'src/app/web/rest.service';
 
 @Injectable({
   providedIn: 'root',

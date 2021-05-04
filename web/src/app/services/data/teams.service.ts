@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
-import { REST, RestService } from '../web/rest.service';
+import { RestService, REST } from 'src/app/web/rest.service';
 import { ErrorService } from './error.service';
 
 @Injectable({

@@ -8,7 +8,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/data/user.service';
 import { RegexPatterns } from 'src/app/utils/PatternsDefs';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 

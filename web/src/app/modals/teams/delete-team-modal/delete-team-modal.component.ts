@@ -7,7 +7,7 @@ import {
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
-import { TeamsService } from 'src/app/services/teams.service';
+import { TeamsService } from 'src/app/services/data/teams.service';
 import { Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 import { AddEditTeamModalComponent } from '../add-edit-team-modal/add-edit-team-modal.component';

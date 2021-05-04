@@ -12,7 +12,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NavigationService } from 'src/app/services/core/navigation.service';
-import { LoginService } from '../../services/login.service';
+import { LoginService } from 'src/app/services/data/login.service';
 
 @Component({
   templateUrl: './login.component.html',

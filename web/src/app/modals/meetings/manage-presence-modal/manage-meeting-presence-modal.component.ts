@@ -14,12 +14,12 @@ import {
 } from '@angular/material/dialog';
 import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { Journey, JourneyPresence } from 'src/app/model/Journey';
-import { Meeting, MeetingPresence } from 'src/app/model/Meeting';
+import { Journey } from 'src/app/model/Journey';
+import { Meeting } from 'src/app/model/Meeting';
 import { Scout } from 'src/app/model/Scout';
-import { JourneysService } from 'src/app/services/journeys.service';
-import { MeetingsService } from 'src/app/services/meetings.service';
-import { ScoutsService } from 'src/app/services/scouts.service';
+import { JourneysService } from 'src/app/services/data/journeys.service';
+import { MeetingsService } from 'src/app/services/data/meetings.service';
+import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 

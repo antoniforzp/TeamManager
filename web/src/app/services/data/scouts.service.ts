@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
-import { Role } from '../model/Role';
-import { REST, RestService } from '../web/rest.service';
+import { REST, RestService } from 'src/app/web/rest.service';
 
 export interface ScoutPayload {
   name: string;

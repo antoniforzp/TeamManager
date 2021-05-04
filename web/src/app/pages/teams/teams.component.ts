@@ -12,9 +12,9 @@ import { takeUntil } from 'rxjs/operators';
 import { AddEditTeamModal } from 'src/app/modals/teams/add-edit-team-modal/add-edit-team-modal';
 import { DeleteTeamModal } from 'src/app/modals/teams/delete-team-modal/delete-team-modal';
 import { Team } from 'src/app/model/Team';
+import { TeamsService } from 'src/app/services/data/teams.service';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
-import { TeamsService } from '../../services/teams.service';
 
 interface TeamDataRow {
   name: string;

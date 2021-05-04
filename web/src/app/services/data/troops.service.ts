@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Troop } from '../model/Troop';
-import { REST, RestService } from '../web/rest.service';
+import { Troop } from 'src/app/model/Troop';
+import { RestService, REST } from 'src/app/web/rest.service';
 
 @Injectable({
   providedIn: 'root',

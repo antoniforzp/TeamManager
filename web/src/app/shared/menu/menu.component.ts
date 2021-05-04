@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 import { LogoutModal } from 'src/app/modals/home/logout-modal/logout-modal';
 import { SettingsModal } from 'src/app/modals/home/settings-modal/settings-modal';
 import { NavigationService } from 'src/app/services/core/navigation.service';
-import { TeamsService } from 'src/app/services/teams.service';
+import { TeamsService } from 'src/app/services/data/teams.service';
 import { Results } from 'src/app/utils/Result';
 import { AppRoutes } from './Routes';
 

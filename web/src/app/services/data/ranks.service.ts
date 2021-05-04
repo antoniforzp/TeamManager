@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { InstructorRank } from '../model/InstructorRank';
-import { Rank } from '../model/Rank';
-import { REST, RestService } from '../web/rest.service';
+import { InstructorRank } from 'src/app/model/InstructorRank';
+import { Rank } from 'src/app/model/Rank';
+import { RestService, REST } from 'src/app/web/rest.service';
 
 @Injectable({
   providedIn: 'root',

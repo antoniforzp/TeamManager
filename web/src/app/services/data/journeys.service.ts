@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Journey, JourneyPresence } from '../model/Journey';
-import { REST, RestService } from '../web/rest.service';
+import { Journey, JourneyPresence } from 'src/app/model/Journey';
+import { RestService, REST } from 'src/app/web/rest.service';
 
 export interface JourneyPayload {
   title: string;

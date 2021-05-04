@@ -15,12 +15,12 @@ import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { User } from 'src/app/model/User';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
-import { CoreService } from '../../services/core.service';
-import { UserService } from 'src/app/services/user.service';
+import { CoreService } from '../../services/data/core.service';
 import { RegexPatterns } from 'src/app/utils/PatternsDefs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
 import { MatDialog } from '@angular/material/dialog';
+import { UserService } from 'src/app/services/data/user.service';
 
 @Component({
   templateUrl: './edit-user.component.html',

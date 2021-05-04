@@ -24,13 +24,14 @@ import { InstructorRank } from 'src/app/model/InstructorRank';
 import { Rank } from 'src/app/model/Rank';
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
-import { Team } from 'src/app/model/Team';
 import { Troop } from 'src/app/model/Troop';
-import { RanksService } from 'src/app/services/ranks.service';
-import { RolesService } from 'src/app/services/roles.service';
-import { ScoutPayload, ScoutsService } from 'src/app/services/scouts.service';
-import { TeamsService } from 'src/app/services/teams.service';
-import { TroopsService } from 'src/app/services/troops.service';
+import { RanksService } from 'src/app/services/data/ranks.service';
+import { RolesService } from 'src/app/services/data/roles.service';
+import {
+  ScoutsService,
+  ScoutPayload,
+} from 'src/app/services/data/scouts.service';
+import { TroopsService } from 'src/app/services/data/troops.service';
 import { RegexPatterns } from 'src/app/utils/PatternsDefs';
 import { Results as Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';

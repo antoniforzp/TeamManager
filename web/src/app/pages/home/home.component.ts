@@ -12,7 +12,7 @@ import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
 import { NavigationService } from 'src/app/services/core/navigation.service';
 import { checkIfBlank } from 'src/app/utils/FormsUtils';
-import { CoreService } from '../../services/core.service';
+import { CoreService } from '../../services/data/core.service';
 
 @Component({
   templateUrl: './home.component.html',

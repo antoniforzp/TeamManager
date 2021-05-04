@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Meeting, MeetingPresence } from '../model/Meeting';
-import { REST, RestService } from '../web/rest.service';
+import { Meeting, MeetingPresence } from 'src/app/model/Meeting';
+import { REST, RestService } from 'src/app/web/rest.service';
 
 export interface MeetingPayload {
   title: string;

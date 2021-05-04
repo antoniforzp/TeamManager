@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
-import { REST, RestService } from '../web/rest.service';
+import { REST, RestService } from '../../web/rest.service';
 
 @Injectable({
   providedIn: 'root',
