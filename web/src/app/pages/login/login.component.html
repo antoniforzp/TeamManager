@@ -5,7 +5,7 @@
         <div class="login-container">
             <form [formGroup]="loginForm" (submit)="onSubmit()">
 
-                <h2 class="text-center title">Menadżer drużyny harcerskiej</h2>
+                <h2 class="text-center title" translate>app.title-long</h2>
                 <br>
                 <div class="form-group">
 
@@ -17,28 +17,42 @@
 
                     <!-- Submit -->
                     <button type="submit" class="btn btn-primary btn-block mt-4" [disabled]="!loginForm.valid">
-                        <span *ngIf="!loginInProgress">Zaloguj</span>
+                        <span *ngIf="!loginInProgress" translate>
+                            actions.login
+                        </span>
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                             *ngIf="loginInProgress"></span>
                     </button>
 
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="loginError === true && !loginInProgress">
-                        <small class="alert-danger">Błąd połączenia z serwerem</small>
+                        <small class="alert-danger" translate>
+                            errors.communication-server
+                        </small>
                     </div>
                     <div class="d-flex flex-column" *ngIf="loginResult === false && !loginInProgress">
-                        <small class="alert-danger">Nieprawidłowe dane logowania</small>
+                        <small class="alert-danger" translate>
+                            errors.login-credentials
+                        </small>
                     </div>
                 </div>
             </form>
-            <p class="text-center"><a class="link cursor-pointer" (click)="navigateToAddUser()">Dodaj użytkownika</a></p>
+            <p class="text-center">
+                <a class="link cursor-pointer" (click)="navigateToAddUser()" translate>
+                    login.add-user
+                </a>
+            </p>
         </div>
 
         <!-- ZHR LOGO -->
         <div class="zhr-logo-container">
             <img src="../../../assets/icons/zhr-3.svg" height="100px">
-            <span>Na podstawie metodyki</span>
-            <a class="link cursor-pointer" href="https://www.zhr.pl/">Związku Harcerstwa Rzeczypospolitej</a>
+            <span translate>
+                login.zhr-based
+            </span>
+            <a class="link cursor-pointer" href="https://www.zhr.pl/" translate>
+                login.zhr-name-conjugated
+            </a>
         </div>
     </div>
 </div>
