@@ -7,6 +7,7 @@
 	"add-user.title": "Dodaj użytkownika",
 	"app.title-long": "System zarządzania jednostką harcerską",
 	"common.accept": "Akceptuję",
+	"common.edit": "Edytuj",
 	"common.email": "Email",
 	"common.name": "Imię",
 	"common.password": "Hasło",
@@ -21,6 +22,10 @@
 	"errors.password-missing-capital": "Hasło musi posiadać co najmniej jedną wielką literę.",
 	"errors.password-missing-digit": "Hasło musi posiadać co najmniej jedną cyfrę.",
 	"errors.passwords-mismatch": "Hasła się nie zgadzają.",
+	"home.add-team": "Dodaj jednostkę",
+	"home.change-team": "Zmień jednostkę",
+	"home.no-teams-info": "Nie masz jeszcze żadnej jednostki. Dodaj swoją pierwszą drużynę, aby móc skorzystać ze wszystkich funkcjonalności.",
+	"home.teams": "Moje jednostki",
 	"login.add-user": "Dodaj użytkownika",
 	"login.zhr-based": "Na podstawie metodyki",
 	"login.zhr-name-conjugated": "Związku Harcerstwa Rzeczypospolitej"

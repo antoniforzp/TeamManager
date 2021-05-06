@@ -27,13 +27,18 @@
 
                             <div class="d-flex">
                                 <button class="btn btn-secondary my-button mr-2 link" (click)="navigateToTeams()">
-                                    Moje jednostki ({{allTeams.length}}) </button>
+                                    <span translate>
+                                        home.teams
+                                    </span> ({{allTeams.length}})
+                                </button>
 
                                 <div class="dropdown mr-2">
                                     <a class="btn btn-primary dropdown-toggle my-button" href="#" role="button"
                                         id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false" [ngClass]="{'disabled': selectableTeams.length <= 0}">
-                                        Zmień jednostkę
+                                        <span translate>
+                                            home.change-team
+                                        </span>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a *ngFor="let team of selectableTeams" class="dropdown-item cursor-pointer"
@@ -47,13 +52,12 @@
 
                         <!-- No teams section -->
                         <ng-container *ngIf="noTeams" class="d-flex flex-column">
-                            <p><span>
-                                    Nie masz jeszcze żadnej jednostki. Dodaj swoję pierwszą drużynę, aby móc skorzystać
-                                    ze
-                                    wszystkich fukcjonalności.
-                                </span></p>
-                            <button class="btn btn-success my-button" (click)="navigateToTeams()">Dodaj
-                                jednostkę</button>
+                            <p translate>
+                                home.no-teams-info
+                            </p>
+                            <button class="btn btn-success my-button" (click)="navigateToTeams()" translate>
+                                home.add-team
+                            </button>
                         </ng-container>
                     </div>
 
@@ -67,7 +71,9 @@
                                 <span>{{currentUser.surname}}</span><br>
                                 <span>{{currentUser.email}}</span>
                             </h5>
-                            <button class="btn btn-secondary my-button" (click)="navigateToEditUser()">Edytuj</button>
+                            <button class="btn btn-secondary my-button" (click)="navigateToEditUser()" translate>
+                                common.edit
+                            </button>
                         </div>
                     </div>
 
