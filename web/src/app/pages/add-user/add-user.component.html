@@ -1,50 +1,65 @@
 <div class="d-flex">
     <div class="my-page-side-container my-container relative">
 
-        <app-page-header [header]="'Dodaj użytkownika'" [goBackRoute]="AppRoutes.LOGIN"></app-page-header>
+        <app-page-header [header]="'add-user.title' | translate" [goBackRoute]="AppRoutes.LOGIN"></app-page-header>
 
         <form [formGroup]="form">
 
             <!-- CREDENTIALS -->
             <div class="form-group">
-                <h5>Dane osobowe</h5>
+                <h5 translate>
+                    common.personal-data
+                </h5>
 
                 <!-- Name -->
                 <div class="row mb-2">
-                    <label for="name" class="col-sm-3 col-form-label required">Imię</label>
+                    <label for="name" class="col-sm-3 col-form-label required" translate>
+                        common.name
+                    </label>
                     <div class="col-sm-9">
                         <input id="name" type="text" class="form-control" formControlName="userName">
 
                         <!-- Errors -->
                         <div class="d-flex flex-column" *ngIf="userName.errors && userName.dirty">
-                            <small class="alert-danger" *ngIf="userName.hasError('required')">Pole wymagane</small>
+                            <small class="alert-danger" *ngIf="userName.hasError('required')" translate>
+                                errors.input-required
+                            </small>
                         </div>
                     </div>
                 </div>
 
                 <!-- Surname -->
                 <div class="row mb-2">
-                    <label for="surname" class="col-sm-3 col-form-label required">Nazwisko</label>
+                    <label for="surname" class="col-sm-3 col-form-label required" translate>
+                        common.surname
+                    </label>
                     <div class="col-sm-9">
                         <input id="surname" type="text" class="form-control" formControlName="userSurname">
 
                         <div class="d-flex flex-column" *ngIf="userSurname.errors && userSurname.dirty">
-                            <small class="alert-danger" *ngIf="userSurname.hasError('required')">Pole wymagane</small>
+                            <small class="alert-danger" *ngIf="userSurname.hasError('required')" translate>
+                                errors.input-required
+                            </small>
                         </div>
                     </div>
                 </div>
 
                 <!-- Email -->
                 <div class="row mb-2">
-                    <label for="email" class="col-sm-3 col-form-label required">Email</label>
+                    <label for="email" class="col-sm-3 col-form-label required" translate>
+                        common.email
+                    </label>
                     <div class="col-sm-9">
                         <input id="email" type="text" class="form-control" formControlName="userEmail">
 
                         <!-- Errors -->
                         <div class="d-flex flex-column" *ngIf="userEmail.errors && userEmail.dirty">
-                            <small class="alert-danger" *ngIf="userEmail.hasError('required')">Pole wymagane</small>
-                            <small class="alert-danger" *ngIf="userEmail.hasError('pattern')">Nieprawidłowy format
-                                adresu email. Poprawny: email@email.com</small>
+                            <small class="alert-danger" *ngIf="userEmail.hasError('required')" translate>
+                                errors.input-required
+                            </small>
+                            <small class="alert-danger" *ngIf="userEmail.hasError('pattern')" translate>
+                                errors.email-format
+                            </small>
                         </div>
                     </div>
                 </div>
@@ -52,35 +67,41 @@
 
             <!-- PASSWORD -->
             <div class="form-group">
-                <h5>Dane logowania</h5>
+                <h5 translate>
+                    add-user.login-credentials
+                </h5>
 
                 <!-- password -->
                 <div class="row mb-2">
-                    <label for="password" class="col-sm-3 col-form-label required">Hasło</label>
+                    <label for="password" class="col-sm-3 col-form-label required" translate>
+                        common.password
+                    </label>
                     <div class="col-sm-9">
                         <input id="password" type="password" class="form-control" formControlName="password">
 
                         <!-- Errors -->
                         <div class="d-flex flex-column" *ngIf="password.errors && password.dirty">
-                            <small class="alert-danger" *ngIf="password.hasError('required')">Pole wymagane</small>
-                            <small class="alert-danger" *ngIf="password.hasError('hasNumber')">Hasło musi posiadać co
-                                najmniej
-                                jedną cyfrę</small>
-                            <small class="alert-danger" *ngIf="password.hasError('hasCapitalCase')">Hasło musi posiadać
-                                co
-                                najmniej jedną wielką literę</small>
-                            <small class="alert-danger" *ngIf="password.hasError('hasSmallCase')">Hasło musi posiadać co
-                                najmniej jedną małą literę</small>
-                            <small class="alert-danger" *ngIf="password.hasError('minLength')">Hasło musi posiadać co
-                                najmniej 8
-                                cyfr</small>
+                            <small class="alert-danger" *ngIf="password.hasError('required')" translate>
+                                errors.input-required
+                            </small>
+                            <small class="alert-danger" *ngIf="password.hasError('hasNumber')" translate>
+                                errors.password-missing-digit
+                            </small>
+                            <small class="alert-danger" *ngIf="password.hasError('hasCapitalCase')" translate>
+                                errors.password-missing-capital
+                            </small>
+                            <small class="alert-danger" *ngIf="password.hasError('hasSmallCase')" translate>
+                                errors.password-lower-missing
+                            </small>
                         </div>
                     </div>
                 </div>
 
                 <!-- password repeat -->
                 <div class="row mb-2">
-                    <label for="passwordRepeat" class="col-sm-3 col-form-label required">Powtórz hasło</label>
+                    <label for="passwordRepeat" class="col-sm-3 col-form-label required" translate>
+                        common.password-repeat
+                    </label>
                     <div class="col-sm-9">
                         <input id="passwordRepeat" type="password" class="form-control"
                             formControlName="passwordRepeat">
@@ -88,10 +109,12 @@
                         <!-- Errors -->
                         <div class="d-flex flex-column"
                             *ngIf="(passwordRepeat.errors || form.errors) && passwordRepeat.dirty">
-                            <small class="alert-danger" *ngIf="passwordRepeat.hasError('required')">Pole
-                                wymagane</small>
-                            <small class="alert-danger" *ngIf="form.hasError('passwordDifferent')">Hasła się nie
-                                zgadzają</small>
+                            <small class="alert-danger" *ngIf="passwordRepeat.hasError('required')" translate>
+                                errors.input-required
+                            </small>
+                            <small class="alert-danger" *ngIf="form.hasError('passwordDifferent')" translate>
+                                errors.passwords-mismatch
+                            </small>
                         </div>
                     </div>
                 </div>
@@ -99,23 +122,27 @@
 
             <!-- Declaration -->
             <div class="form-group mt-3">
-                <h5>Deklaracje</h5>
+                <h5 translate>
+                    add-user.declarations
+                </h5>
                 <div class="d-flex flex-column">
-                    <span class="text-justify">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dignissim pulvinar odio sit amet
-                        tincidunt. Nunc erat eros, sodales tempus ante non, tincidunt congue libero. Maecenas sit amet
-                        vestibulum dolor, non vehicula turpis.
+                    <span class="text-justify" translate>
+                        add-user.declaration-content
                     </span>
 
                     <div class="mt-2">
                         <label class="required">
                             <input formControlName="declaration" type="checkbox"
                                 class="select-all checkbox cursor-pointer" name="select-all" />
-                            Akceptuję
+                            <span translate>
+                                common.accept
+                            </span>
                         </label>
 
                         <div class="d-flex flex-column mt-n1" *ngIf="declaration.errors && declaration.dirty">
-                            <small class="alert-danger" *ngIf="declaration.hasError('required')">Pole wymagane</small>
+                            <small class="alert-danger" *ngIf="declaration.hasError('required')" translate>
+                                errors.input-required
+                            </small>
                         </div>
                     </div>
 
@@ -125,7 +152,9 @@
             <div class="my-buttons-page-container">
                 <!-- SUBMIT BUTTON -->
                 <button type="button" class="btn btn-primary my-button" type="submit" (click)="addUser()"
-                    [disabled]="!form.valid">Dodaj</button>
+                    [disabled]="!form.valid" translate>
+                    actions.add
+                </button>
             </div>
 
             <!-- ERROR HANDLING -->
