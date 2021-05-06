@@ -28,5 +28,11 @@
 	"home.teams": "Moje jednostki",
 	"login.add-user": "Dodaj użytkownika",
 	"login.zhr-based": "Na podstawie metodyki",
-	"login.zhr-name-conjugated": "Związku Harcerstwa Rzeczypospolitej"
+	"login.zhr-name-conjugated": "Związku Harcerstwa Rzeczypospolitej",
+	"menu.home": "Strona startowa",
+	"menu.logout": "Wyloguj",
+	"menu.meetings-journeys": "Zbiórki i wyjazdy",
+	"menu.records": "Ewidencja harcerzy",
+	"menu.settings": "Ustawienia",
+	"menu.troops": "Zastepy"
 }

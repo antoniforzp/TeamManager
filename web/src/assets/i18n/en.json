@@ -28,5 +28,11 @@
 	"home.teams": "My teams",
 	"login.add-user": "Add user",
 	"login.zhr-based": "Based on the methodology of",
-	"login.zhr-name-conjugated": "Union of Scouts of the Republic of Poland"
+	"login.zhr-name-conjugated": "Union of Scouts of the Republic of Poland",
+	"menu.home": "Home page",
+	"menu.logout": "Log Out",
+	"menu.meetings-journeys": "Meetings and journeys",
+	"menu.records": "Records of scouts",
+	"menu.settings": "Settings",
+	"menu.troops": "Troops"
 }

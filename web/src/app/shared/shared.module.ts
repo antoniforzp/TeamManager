@@ -7,6 +7,7 @@ import { PageHeaderComponent } from './page-header/page-header.component';
 import { PageSpinnerComponent } from './page-spinner/page-spinner.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AppTranslationModule } from '../translation/app-translation.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,13 @@ import { RouterModule } from '@angular/router';
     PageHeaderComponent,
     PageSpinnerComponent,
   ],
-  imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule,
+    AppTranslationModule,
+  ],
   exports: [
     ErrorComponent,
     FooterComponent,
