@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,6 +12,12 @@ import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/app-material.module';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import {
+  AppTranslationModule,
+  HttpLoaderFactory,
+} from './translation/app-translation.module';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -37,6 +43,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     // App modules
     PagesModule,
     SharedModule,
+
+    // Translation
+    AppTranslationModule
   ],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,9 @@
+{
+	"actions.login": "Zaloguj",
+	"app.title-long": "System zarządzania jednostką harcerską",
+	"errors.communication-server": "Błąd połączenia z serwerem",
+	"errors.login-credentials": "Nieprawidłowe dane logowania",
+	"login.add-user": "Dodaj użytkownika",
+	"login.zhr-based": "Na podstawie metodyki",
+	"login.zhr-name-conjugated": "Związku Harcerstwa Rzeczypospolitej"
+}

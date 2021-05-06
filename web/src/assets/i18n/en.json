@@ -1,0 +1,9 @@
+{
+	"actions.login": "Login",
+	"app.title-long": "Scout team management system ",
+	"errors.communication-server": "Connection error with the server",
+	"errors.login-credentials": "Invalid login credentials",
+	"login.add-user": "Add user",
+	"login.zhr-based": "Based on the methodology of",
+	"login.zhr-name-conjugated": "Union of Scouts of the Republic of Poland"
+}

@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { TroopsComponent } from './troops/troops.component';
 import { MeetingsComponent } from './meetings/meetings.component';
+import { AppTranslationModule } from '../translation/app-translation.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { MeetingsComponent } from './meetings/meetings.component';
     MatDialogModule,
     ReactiveFormsModule,
     SharedModule,
+    AppTranslationModule
   ],
 })
 export class PagesModule {}
