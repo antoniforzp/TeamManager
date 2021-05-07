@@ -1,5 +1,8 @@
 {
 	"actions.add": "Dodaj",
+	"actions.close": "Zamknij",
+	"actions.delete": "Usuń",
+	"actions.edit": "Edytuj",
 	"actions.login": "Zaloguj",
 	"add-user.declaration-content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dignissim pulvinar odio sit amet tincidunt. Nunc erat eros, sodales tempus ante non, tincidunt congue libero. Maecenas sit amet vestibulum dolor, non vehicula turpis.",
 	"add-user.declarations": "Deklaracje",
@@ -12,6 +15,8 @@
 	"common.edit": "Edytuj",
 	"common.email": "Email",
 	"common.name": "Imię",
+	"common.no-data": "Brak danych.",
+	"common.options": "Opcje",
 	"common.password": "Hasło",
 	"common.password-repeat": "Powtórz hasło",
 	"common.personal-data": "Dane osobowe",
@@ -39,5 +44,18 @@
 	"menu.meetings-journeys": "Zbiórki i wyjazdy",
 	"menu.records": "Ewidencja harcerzy",
 	"menu.settings": "Ustawienia",
-	"menu.troops": "Zastepy"
+	"menu.troops": "Zastepy",
+	"teams.add-edit-team.title-add": "Dodaj nową jednostkę",
+	"teams.add-edit-team.title-edit": "Edytuj jednostkę",
+	"teams.delete-team.about-to-delete": "Jednostki, które zamierzasz usunąć:",
+	"teams.delete-team.confirm": "Potwierdzam, że jestem świadom konsekwencji.",
+	"teams.delete-team.title-multiple": "Usuń jednostki",
+	"teams.delete-team.title-one": "Usuń jednostkę",
+	"teams.delete-team.warning": "Usunięcie drużyny spowoduje usunięcie wszystkich danych związanych z tą jednostką. Znikną wszystkie dane o harcerzach, wyjazdach, sprawnościach itd.",
+	"teams.manage-teams": "Zarządzaj jednostkami",
+	"teams.name": "Nazwa",
+	"teams.patron": "Patron",
+	"teams.patron-info": "Proszę podać patrona w formie odmienionej np. \"im. Jerzego Grodyńskiego\"",
+	"teams.team-full-name": "Pełna nazwa jednostki",
+	"teams.title": "Moje jednostki"
 }

@@ -1,5 +1,8 @@
 {
 	"actions.add": "Add",
+	"actions.close": "Close",
+	"actions.delete": "Delete",
+	"actions.edit": "Edit",
 	"actions.login": "Login",
 	"add-user.declaration-content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dignissim pulvinar odio sit amet tincidunt. Nunc erat eros, sodales tempus ante non, tincidunt congue libero. Maecenas sit amet vestibulum dolor, non vehicula turpis.",
 	"add-user.declarations": "Declarations",
@@ -12,6 +15,8 @@
 	"common.edit": "Edit",
 	"common.email": "E-mail",
 	"common.name": "Name",
+	"common.no-data": "No data.",
+	"common.options": "Options",
 	"common.password": "Password",
 	"common.password-repeat": "Repeat password",
 	"common.personal-data": "Personal data",
@@ -39,5 +44,18 @@
 	"menu.meetings-journeys": "Meetings and journeys",
 	"menu.records": "Records of scouts",
 	"menu.settings": "Settings",
-	"menu.troops": "Troops"
+	"menu.troops": "Troops",
+	"teams.add-edit-team.title-add": "Add new team",
+	"teams.add-edit-team.title-edit": "Edit team",
+	"teams.delete-team.about-to-delete": "The units you intend to remove:",
+	"teams.delete-team.confirm": "I confirm that I am aware of the consequences.",
+	"teams.delete-team.title-multiple": "Delete teams",
+	"teams.delete-team.title-one": "Delete team",
+	"teams.delete-team.warning": "Removing a team will delete all data associated with that unit. All data about scouts, trips, achievements etc. will disappear.",
+	"teams.manage-teams": "Manage teams",
+	"teams.name": "Name",
+	"teams.patron": "Patron",
+	"teams.patron-info": "",
+	"teams.team-full-name": "Team full name",
+	"teams.title": "My teams"
 }

@@ -101,19 +101,19 @@ export class TeamsComponent implements OnInit, OnDestroy {
     this.actions.clear();
 
     this.actions.set(Actions.ADD, {
-      label: 'Dodaj',
+      label: 'actions.add',
       isEnabled: true,
       action: () => this.openAddTeamModal(),
     });
 
     this.actions.set(Actions.EDIT, {
-      label: 'Edytuj',
+      label: 'actions.edit',
       isEnabled: selected.length === 1,
       action: () => this.openEditTeamModal(),
     });
 
     this.actions.set(Actions.DELETE, {
-      label: 'Usuń',
+      label: 'actions.delete',
       isEnabled: selected.length >= 1,
       action: () => this.openDeleteTeamsModal(),
     });

@@ -4,6 +4,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/app-material.module';
 import { DeleteTeamModalComponent } from './delete-team-modal.component';
+import { AppTranslationModule } from 'src/app/translation/app-translation.module';
 
 @NgModule({
   declarations: [DeleteTeamModalComponent],
@@ -13,6 +14,7 @@ import { DeleteTeamModalComponent } from './delete-team-modal.component';
     ReactiveFormsModule,
     MaterialModule,
     SharedModule,
+    AppTranslationModule
   ],
 })
 export class DeleteTeamModalModule {}

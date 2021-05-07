@@ -1,19 +1,24 @@
 <div class="modal-header">
-    <span *ngIf="teams.length <= 1" class="my-modal-title">Usuń jednostkę</span>
-    <span *ngIf="teams.length > 1" class="my-modal-title">Usuń jednostki</span>
+    <span *ngIf="teams.length <= 1" class="my-modal-title" translate>
+        teams.delete-team.title-one
+    </span>
+    <span *ngIf="teams.length > 1" class="my-modal-title" translate>
+        teams.delete-team.title-multiple
+    </span>
 </div>
 
 <div class="modal-body">
 
     <div class="d-flex align-items-center">
         <img src="../../../../assets/icons/alert.svg" width="30" height="30" class="mr-4" />
-        <span>Usunięcie drużyny spowoduje usunięcie wszystkich danych związanych z tą jednostką. Znikną wszystkie dane o
-            harcerzach, wyjazdach, sprawnościach itd.</span>
+        <span translate>
+            teams.delete-team.warning
+        </span>
     </div>
 
     <br>
-    <span>
-        Jednostki, które zamierzasz usunąć:
+    <span translate>
+        teams.delete-team.about-to-delete
     </span>
 
     <div class="my-table-container">
@@ -29,7 +34,9 @@
     <div class="d-flex align-items-center mt-2">
         <label class="required">
             <input type="checkbox" class="select-all checkbox cursor-pointer" [(ngModel)]="accept" />
-            Potwierdzam, że jestem świadom konsekwencji
+            <span translate>
+                teams.delete-team.confirm
+            </span>
         </label>
     </div>
 
@@ -37,7 +44,11 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
-        <button class="btn btn-danger my-button" [disabled]="!accept" (click)="delete()">Usuń</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
+        <button class="btn btn-danger my-button" [disabled]="!accept" (click)="delete()" translate>
+            actions.delete
+        </button>
     </div>
 </div>

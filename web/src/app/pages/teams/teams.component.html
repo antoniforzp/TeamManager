@@ -12,22 +12,28 @@
             <!-- PAGE CONTENT -->
             <div *ngIf="!pageError">
 
-                <app-page-header [header]="'Moje jednostki'" [goBackRoute]="AppRoutes.HOME"></app-page-header>
+                <app-page-header [header]="'teams.title' | translate" [goBackRoute]="AppRoutes.HOME"></app-page-header>
 
                 <!-- TEAMS -->
                 <div class="d-flex justify-content-between mb-2">
-                    <h5>Zarządzaj jednostkami ({{teams.length}})</h5>
+                    <h5>
+                        <span translate>
+                            teams.manage-teams
+                        </span> ({{teams.length}})
+                    </h5>
 
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle my-button" type="button"
                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                            (click)="setActions()">
-                            Opcje
+                            (click)="setActions()" translate>
+                            common.options
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             <ng-container *ngFor="let action of actions | keyvalue">
                                 <button class="dropdown-item" (click)="action.value.action();"
-                                    [disabled]="!action.value.isEnabled">{{action.value.label}}</button>
+                                    [disabled]="!action.value.isEnabled" translate>
+                                    {{action.value.label}}
+                                </button>
                             </ng-container>
                         </div>
                     </div>
@@ -41,8 +47,8 @@
                                 <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
                                     (ngModelChange)="toggleSelectAll($event)">
                             </th>
-                            <th>
-                                Pełna nazwa jednostki
+                            <th translate>
+                                teams.team-full-name
                             </th>
                         </thead>
                         <tbody>
@@ -84,8 +90,8 @@
 
 <ng-template #noTableData>
     <tr>
-        <td colspan="2">
-            Brak danych
+        <td colspan="2" translate>
+            common.no-data
         </td>
     </tr>
 </ng-template>
