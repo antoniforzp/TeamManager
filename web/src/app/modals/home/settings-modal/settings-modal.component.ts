@@ -10,10 +10,15 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Theme } from 'src/app/settings/theme/Theme';
-import { ThemeService } from 'src/app/settings/theme/theme.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { forkJoin, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Language } from 'src/app/model/Language';
+import { Settings } from 'src/app/model/Settings';
+import { SettingsService } from 'src/app/services/data/settings.service';
 import { Results } from 'src/app/utils/Result';
+import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 
 @Component({
   templateUrl: './settings-modal.component.html',
@@ -21,62 +26,88 @@ import { Results } from 'src/app/utils/Result';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsModalComponent implements OnInit {
-  constructor(
-    private dialogRef: MatDialogRef<SettingsModalComponent>,
-    private fb: FormBuilder,
-    private changeDetector: ChangeDetectorRef,
-    private themeService: ThemeService
-  ) {
-    this.themes = this.themeService.getAvailableThemes();
-  }
+  destroy$ = new Subject();
+  pageLoaded = false;
 
   saved: boolean;
   changes: boolean;
 
-  form: FormGroup;
+  languages: Language[];
+  settings: Settings;
 
-  themes: Theme[];
+  // Selected options
+  selectedLanguage: Language;
+
+  constructor(
+    private dialogRef: MatDialogRef<SettingsModalComponent>,
+    private fb: FormBuilder,
+    private changeDetector: ChangeDetectorRef,
+    private settingsService: SettingsService,
+    private translate: TranslateService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.setupForm();
+    forkJoin({
+      languages: this.settingsService.getLanguages(),
+      settings: this.settingsService.getSettings(),
+    })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+          this.languages = result.languages;
+          this.settings = result.settings;
+
+          this.selectedLanguage = this.settings.language;
+
+          this.pageLoaded = true;
+          this.changeDetector.detectChanges();
+        },
+        error: (err) => {
+          // TODO:
+        },
+      });
   }
 
   // FUNCTIONALITIES
-
-  setTheme(theme: Theme): void {
-    this.themeService.setActiveTheme(theme);
-  }
 
   cancel(): void {
     this.dialogRef.close(this.saved ? Results.SUCCESS : Results.CANCEL);
   }
 
   save(): void {
-    this.themeService.setActiveTheme(this.theme.value);
-    this.dialogRef.close(this.saved ? Results.SUCCESS : Results.CANCEL);
+    new ProgressModal(this.dialog)
+      .open(
+        [
+          this.settingsService.patchSettings({
+            userId: this.settings.userId,
+            language: this.selectedLanguage,
+          }),
+        ],
+        {
+          successMessage: 'Udało się zmienić ustawienia',
+          failureMessage: 'Nie się zmienić ustawień',
+        }
+      )
+      .then((x) =>
+        x
+          .afterClosed()
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((result) => {
+            if (result === Results.SUCCESS) {
+              console.log(this.selectedLanguage);
+              this.translate.use(this.selectedLanguage.abbreviation as string);
+              this.dialogRef.close(result);
+            }
+          })
+      );
   }
 
-  // SETUP FORM
+  // SELECTION
 
-  setupForm(): void {
-    this.form = this.fb.group({
-      language: ['polish', [Validators.required]],
-      theme: [this.themeService.getActiveTheme(), [Validators.required]],
-    });
-
-    this.form.valueChanges.subscribe(() => {
-      this.changes = true;
-      this.changeDetector.detectChanges();
-    });
-  }
-
-  // FORMS
-
-  get language(): AbstractControl {
-    return this.form.get('language');
-  }
-
-  get theme(): AbstractControl {
-    return this.form.get('theme');
+  onLanguageChange(event: any): void {
+    this.changes = true;
+    this.selectedLanguage = event as Language;
+    this.changeDetector.detectChanges();
   }
 }

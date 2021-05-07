@@ -4,44 +4,32 @@
 
 <div class="modal-body">
 
-    <form [formGroup]="form">
+    <ng-container *ngIf="pageLoaded">
         <div class="form-group">
 
             <!-- Language -->
-            <div class="row mb-2">
+            <div class="row mb-2 d-flex align-items-center">
                 <div class="col col-form-label d-flex align-items-center">
                     <img src="../../../../assets/icons/language.svg" class="mr-2" width="30" height="30"
                         alt="language-icon" />
                     <span>Język</span>
                 </div>
-                <div class="col d-flex justify-content-end">
-                    <select class="form-control" formControlName="language">
-                        <option class="my-select-item" [ngValue]="'polish'">Polski</option>
-                        <option class="my-select-item" [ngValue]="'english'">Angielski</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Theme -->
-            <div class="row mb-2">
-                <div class="col col-form-label">
-                    <img src="../../../../assets/icons/palette.svg" class="mr-2" width="30" height="30"
-                        alt="language-icon" />
-                    <span>Motyw</span>
-                </div>
-                <div class="col d-flex justify-content-end">
-                    <select class="form-control" formControlName="theme">
-                        <option *ngFor="let theme of themes" [ngValue]="theme" (click)="setTheme(theme)">{{theme.name}}
-                        </option>
-                    </select>
-                </div>
+                <ng-select style="width: 350px;" appendTo="body" [(ngModel)]="selectedLanguage" [clearable]="false"
+                    (change)="onLanguageChange($event)">
+                    <ng-option *ngFor="let lang of languages" [value]="lang">
+                        <span translate>
+                            {{lang.name}}
+                        </span>
+                    </ng-option>
+                </ng-select>
             </div>
         </div>
-    </form>
 
-    <div class="project-info">
-        <button type="button" class="btn btn-primary my-button" disabled>O projekcie</button>
-    </div>
+        <div class="project-info">
+            <button type="button" class="btn btn-primary my-button" disabled>O projekcie</button>
+        </div>
+    </ng-container>
+
 </div>
 
 <div class="modal-footer">
