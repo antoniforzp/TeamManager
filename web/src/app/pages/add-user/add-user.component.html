@@ -1,7 +1,7 @@
 <div class="d-flex">
     <div class="my-page-side-container my-container relative">
 
-        <app-page-header [header]="'add-user.title' | translate" [goBackRoute]="AppRoutes.LOGIN"></app-page-header>
+        <app-page-header [header]="'add-edit-user.title-add' | translate" [goBackRoute]="AppRoutes.LOGIN"></app-page-header>
 
         <form [formGroup]="form">
 
@@ -68,7 +68,7 @@
             <!-- PASSWORD -->
             <div class="form-group">
                 <h5 translate>
-                    add-user.login-credentials
+                    add-edit-user.login-credentials
                 </h5>
 
                 <!-- password -->
@@ -123,11 +123,11 @@
             <!-- Declaration -->
             <div class="form-group mt-3">
                 <h5 translate>
-                    add-user.declarations
+                    add-edit-user.declarations
                 </h5>
                 <div class="d-flex flex-column">
                     <span class="text-justify" translate>
-                        add-user.declaration-content
+                        add-edit-user.declaration-content
                     </span>
 
                     <div class="mt-2">
