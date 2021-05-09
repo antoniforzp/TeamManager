@@ -5,6 +5,7 @@ import { AddEditScoutModalComponent } from './add-edit-scout-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/app-material.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { AppTranslationModule } from 'src/app/translation/app-translation.module';
 
 @NgModule({
   declarations: [AddEditScoutModalComponent],
@@ -15,6 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MaterialModule,
     SharedModule,
     NgSelectModule,
+    AppTranslationModule,
   ],
 })
 export class AddEditScoutModalModule {}

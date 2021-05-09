@@ -1,6 +1,10 @@
 <div class="modal-header">
-    <span class="my-modal-title" *ngIf="modalMode === ModalModes.ADD">Dodaj nowego harcerza</span>
-    <span class="my-modal-title" *ngIf="modalMode === ModalModes.EDIT">Edytuj dane harcerza</span>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.ADD" translate>
+        add-new-scout.title-add
+    </span>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.EDIT" translate>
+        add-new-scout.title-edit
+    </span>
 </div>
 
 <div class="modal-body">
@@ -20,40 +24,50 @@
 
                     <div class="d-flex align-items-center mb-1">
                         <img src="../../../../assets/icons/person.svg" class="icon mr-2" />
-                        <span class="label-medium">Dane osobowe</span>
+                        <span class="label-medium" translate>
+                            common.personal-data
+                        </span>
                     </div>
 
                     <!-- Name -->
                     <div class="row mb-2">
-                        <label for="name" class="col-sm-4 col-form-label required">Imię</label>
+                        <label for="name" class="col-sm-4 col-form-label required" translate>
+                            common.name
+                        </label>
                         <div class="col">
                             <input id="name" type="text" class="form-control" formControlName="name">
 
                             <!-- Errors -->
                             <div class="d-flex flex-column" *ngIf="name.errors && name.dirty">
-                                <small class="alert-danger" *ngIf="name.hasError('required')">Pole
-                                    wymagane</small>
+                                <small class="alert-danger" *ngIf="name.hasError('required')" translate>
+                                    errors.input-required
+                                </small>
                             </div>
                         </div>
                     </div>
 
                     <!-- Surname -->
                     <div class="row mb-2">
-                        <label for="surname" class="col-sm-4 col-form-label required">Nazwisko</label>
+                        <label for="surname" class="col-sm-4 col-form-label required" translate>
+                            common.surname
+                        </label>
                         <div class="col">
                             <input id="surname" type="text" class="form-control" formControlName="surname">
 
                             <!-- Errors -->
                             <div class="d-flex flex-column" *ngIf="surname.errors && surname.dirty">
-                                <small class="alert-danger" *ngIf="surname.hasError('required')">Pole
-                                    wymagane</small>
+                                <small class="alert-danger" *ngIf="surname.hasError('required')">
+                                    errors.input-required
+                                </small>
                             </div>
                         </div>
                     </div>
 
                     <!-- Birth date -->
                     <div class="row mb-2">
-                        <label for="birthDate" class="col-sm-4 col-form-label">Data urodzenia</label>
+                        <label for="birthDate" class="col-sm-4 col-form-label">
+                            scouts.birth-date
+                        </label>
                         <div class="col">
                             <mat-form-field class="mb-n2 mt-n2 w-100">
                                 <input id="birthDate" matInput [matDatepicker]="picker" formControlName="birthDate">
@@ -65,14 +79,16 @@
 
                     <!-- Pesel -->
                     <div class="row mb-2">
-                        <label for="pesel" class="col-sm-4 col-form-label">PESEL</label>
+                        <label for="pesel" class="col-sm-4 col-form-label" translate>
+                            scouts.personal-id
+                        </label>
                         <div class="col">
                             <input id="pesel" type="text" class="form-control" formControlName="pesel">
 
                             <!-- Errors -->
                             <div class="d-flex flex-column" *ngIf="pesel.errors && pesel.dirty">
-                                <small class="alert-danger" *ngIf="pesel.hasError('pattern')">
-                                    Wymagany format numeru PESEL: 00000000000
+                                <small class="alert-danger" *ngIf="pesel.hasError('pattern')" translate>
+                                    errors.personal-id-format
                                 </small>
                             </div>
                         </div>
@@ -85,12 +101,16 @@
 
                     <div class="d-flex align-items-center mb-1 mt-4">
                         <img src="../../../../assets/icons/address.svg" class="icon mr-2" />
-                        <span class="label-medium">Adres</span>
+                        <span class="label-medium" translate>
+                            scouts.address
+                        </span>
                     </div>
 
                     <!-- Street -->
                     <div class="row mb-2">
-                        <label for="street" class="col-sm-4 col-form-label">Ulica</label>
+                        <label for="street" class="col-sm-4 col-form-label" translate>
+                            scouts.street
+                        </label>
                         <div class="col">
                             <input id="street" type="text" class="form-control" formControlName="address">
                         </div>
@@ -98,14 +118,16 @@
 
                     <!-- Postal code -->
                     <div class="row mb-2">
-                        <label for="postalCode" class="col-sm-4 col-form-label">Kod pocztowy</label>
+                        <label for="postalCode" class="col-sm-4 col-form-label" translate>
+                            scouts.zip-code
+                        </label>
                         <div class="col">
                             <input id="postalCode" type="text" class="form-control" formControlName="postalCode">
 
                             <!-- Errors -->
                             <div class="d-flex flex-column" *ngIf="postalCode.errors && postalCode.dirty">
-                                <small class="alert-danger" *ngIf="postalCode.hasError('pattern')">
-                                    Wymagany format: 00-000
+                                <small class="alert-danger" *ngIf="postalCode.hasError('pattern')" translate>
+                                    errors.zip-code-format
                                 </small>
                             </div>
                         </div>
@@ -113,7 +135,9 @@
 
                     <!-- City -->
                     <div class="row mb-2">
-                        <label for="city" class="col-sm-4 col-form-label">Miasto</label>
+                        <label for="city" class="col-sm-4 col-form-label" translate>
+                            scouts.city
+                        </label>
                         <div class="col">
                             <input id="city" type="text" class="form-control" formControlName="city">
                         </div>
@@ -126,19 +150,21 @@
 
                     <div class="d-flex align-items-center mb-1 mt-4">
                         <img src="../../../../assets/icons/phone.svg" class="icon mr-2" />
-                        <span class="label-medium">Dane kontaktowe</span>
+                        <span class="label-medium" translate>
+                            scouts.contact-data
+                        </span>
                     </div>
 
                     <!-- Phone -->
                     <div class="row mb-2">
-                        <label for="phone" class="col-sm-4 col-form-label">Numer telefonu</label>
+                        <label for="phone" class="col-sm-4 col-form-label"></label>
                         <div class="col">
                             <input id="phone" type="text" class="form-control" formControlName="phone">
 
                             <!-- Errors -->
                             <div class="d-flex flex-column" *ngIf="phone.errors && phone.dirty">
-                                <small class="alert-danger" *ngIf="phone.hasError('pattern')">
-                                    Wymagany format: 000-000-000
+                                <small class="alert-danger" *ngIf="phone.hasError('pattern')" translate>
+                                    scouts.phone-number
                                 </small>
                             </div>
                         </div>
@@ -151,16 +177,20 @@
 
                     <div class="d-flex align-items-center mb-1">
                         <img src="../../../../assets/icons/rank.svg" class="icon mr-2" />
-                        <span class="label-medium">Stopnie</span>
+                        <span class="label-medium" translate>
+                            scouts.ranks
+                        </span>
                     </div>
 
                     <!-- Rank -->
                     <div class="row mb-2">
-                        <label class="col-sm-4 col-form-label required">Stopień harcerski</label>
+                        <label class="col-sm-4 col-form-label required" translate>
+                            scouts.scout-rank
+                        </label>
                         <div class="col">
                             <ng-select appendTo="body" formControlName="rank">
                                 <ng-option *ngFor="let rank of ranks" [value]="rank.rankId">
-                                    <span>
+                                    <span translate>
                                         {{rank.name}}
                                     </span>
                                 </ng-option>
@@ -168,19 +198,22 @@
 
                             <!-- Errors -->
                             <div class="d-flex flex-column" *ngIf="rank.errors && rank.dirty">
-                                <small class="alert-danger" *ngIf="rank.hasError('required')">Pole
-                                    wymagane</small>
+                                <small class="alert-danger" *ngIf="rank.hasError('required')" translate>
+                                    errors.input-required
+                                </small>
                             </div>
                         </div>
                     </div>
 
                     <!-- Instructor rank -->
                     <div class="row mb-2">
-                        <label class="col-sm-4 col-form-label required">Stopień instruktorski</label>
+                        <label class="col-sm-4 col-form-label required" translate>
+                            scouts.instructor-rank
+                        </label>
                         <div class="col">
                             <ng-select appendTo="body" formControlName="instructorRank">
                                 <ng-option *ngFor="let rank of instructorRanks" [value]="rank.rankId">
-                                    <span [ngClass]="[createInstructorRankBadge(rank)]">
+                                    <span [ngClass]="[createInstructorRankBadge(rank)]" translate>
                                         {{rank.name}}
                                     </span>
                                 </ng-option>
@@ -188,8 +221,9 @@
 
                             <!-- Errors -->
                             <div class="d-flex flex-column" *ngIf="instructorRank.errors && instructorRank.dirty">
-                                <small class="alert-danger" *ngIf="instructorRank.hasError('required')">Pole
-                                    wymagane</small>
+                                <small class="alert-danger" *ngIf="instructorRank.hasError('required')" translate>
+                                    errors.input-required
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -201,12 +235,16 @@
 
                     <div class="d-flex align-items-center mb-1 mt-4">
                         <img src="../../../../assets/icons/group.svg" class="icon mr-2" />
-                        <span class="label-medium">Przynależność</span>
+                        <span class="label-medium" translate>
+                            scouts.membershp
+                        </span>
                     </div>
 
                     <!-- Troops -->
                     <div class="row mb-2">
-                        <label class="col-sm-4 col-form-label required">Zastęp</label>
+                        <label class="col-sm-4 col-form-label required" translate>
+                            scouts.patrol
+                        </label>
                         <div class="col">
                             <ng-select [items]="troops" appendTo="body" bindLabel="name" bindValue="troopId"
                                 formControlName="troop">
@@ -214,8 +252,9 @@
 
                             <!-- Errors -->
                             <div class="d-flex flex-column" *ngIf="troop.errors && troop.dirty">
-                                <small class="alert-danger" *ngIf="troop.hasError('required')">Pole
-                                    wymagane</small>
+                                <small class="alert-danger" *ngIf="troop.hasError('required')" translate>
+                                    errors.input-required
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -229,13 +268,19 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
 
         <button *ngIf="modalMode === ModalModes.ADD" type="button" class="btn btn-success my-button"
-            (click)="addScout()" [disabled]="!form.valid">Dodaj</button>
+            (click)="addScout()" [disabled]="!form.valid" translate>
+            actions.add
+        </button>
 
         <button *ngIf="modalMode === ModalModes.EDIT" type="button" class="btn btn-success my-button"
-            (click)="editScout()" [disabled]="!form.valid">Edytuj</button>
+            (click)="editScout()" [disabled]="!form.valid" translate>
+            actions.edit
+        </button>
     </div>
 </div>
 
