@@ -52,6 +52,10 @@
 	"menu.records": "Records of scouts",
 	"menu.settings": "Settings",
 	"menu.troops": "Troops",
+	"settings.about-project": "About the project",
+	"settings.language": "Language",
+	"settings.theme": "Theme",
+	"settings.title": "Settings",
 	"teams.add-edit-team.title-add": "Add new team",
 	"teams.add-edit-team.title-edit": "Edit team",
 	"teams.delete-team.about-to-delete": "The units you intend to remove:",
@@ -64,5 +68,8 @@
 	"teams.patron": "Patron",
 	"teams.patron-info": "",
 	"teams.team-full-name": "Team full name",
-	"teams.title": "My teams"
+	"teams.title": "My teams",
+	"themes.claret": "Claret",
+	"themes.dark": "Dark",
+	"themes.default": "Default"
 }

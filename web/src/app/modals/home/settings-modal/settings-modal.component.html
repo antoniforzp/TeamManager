@@ -1,5 +1,7 @@
 <div class="modal-header">
-    <span class="my-modal-title">Ustawienia</span>
+    <span class="my-modal-title" translate>
+        settings.title
+    </span>
 </div>
 
 <div class="modal-body modal-body-settings">
@@ -15,7 +17,9 @@
         <div *ngIf="!pageError">
 
             <div class="mb-2">
-                <button type="button" class="btn btn-primary my-button" disabled>O projekcie</button>
+                <button type="button" class="btn btn-primary my-button" translate disabled>
+                    settings.about-project
+                </button>
             </div>
 
             <form [formGroup]="form" class="mt-4">
@@ -26,15 +30,21 @@
                         <div class="col col-form-label d-flex align-items-center">
                             <img src="../../../../assets/icons/language.svg" class="mr-2" width="30" height="30"
                                 alt="language-icon" />
-                            <span>Język</span>
+                            <span translate>
+                                settings.language
+                            </span>
                         </div>
 
                         <ng-select style="width: 350px;" appendTo="body" formControlName="language" [clearable]="false"
                             [searchable]="false" (change)="onLanguageChange($event)">
                             <ng-option *ngFor="let lang of languages" [value]="lang.abbreviation">
-                                <span translate>
-                                    {{lang.name}}
-                                </span>
+                                <div class="d-flex align-items-center">
+                                    <img src="{{'../../../../assets/icons/translations/'+ lang.abbreviation + '.svg'}}"
+                                        class="mr-2" width="20" height="20" alt="language-icon" />
+                                    <span translate>
+                                        {{lang.name}}
+                                    </span>
+                                </div>
                             </ng-option>
                         </ng-select>
                     </div>
@@ -44,7 +54,9 @@
                         <div class="col col-form-label d-flex align-items-center">
                             <img src="../../../../assets/icons/palette.svg" class="mr-2" width="30" height="30"
                                 alt="language-icon" />
-                            <span>Motyw</span>
+                            <span translate>
+                                settings.theme
+                            </span>
                         </div>
 
                         <ng-select style="width: 350px;" appendTo="body" formControlName="theme" [clearable]="false"

@@ -52,6 +52,10 @@
 	"menu.records": "Ewidencja harcerzy",
 	"menu.settings": "Ustawienia",
 	"menu.troops": "Zastepy",
+	"settings.about-project": "O projekcie",
+	"settings.language": "Język",
+	"settings.theme": "Motyw",
+	"settings.title": "Ustawienia",
 	"teams.add-edit-team.title-add": "Dodaj nową jednostkę",
 	"teams.add-edit-team.title-edit": "Edytuj jednostkę",
 	"teams.delete-team.about-to-delete": "Jednostki, które zamierzasz usunąć:",
@@ -64,5 +68,8 @@
 	"teams.patron": "Patron",
 	"teams.patron-info": "Proszę podać patrona w formie odmienionej np. \"im. Jerzego Grodyńskiego\"",
 	"teams.team-full-name": "Pełna nazwa jednostki",
-	"teams.title": "Moje jednostki"
+	"teams.title": "Moje jednostki",
+	"themes.claret": "Bordowy",
+	"themes.dark": "Ciemny",
+	"themes.default": "Domyślny"
 }
