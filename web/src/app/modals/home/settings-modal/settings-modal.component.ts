@@ -17,7 +17,9 @@ import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Language } from 'src/app/model/Language';
 import { Settings } from 'src/app/model/Settings';
+import { Theme } from 'src/app/model/Theme';
 import { AppSettingsService } from 'src/app/services/core/app-settings.service';
+import { AppThemeService } from 'src/app/services/core/app-theme.service';
 import { SettingsService } from 'src/app/services/data/settings.service';
 import { Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
@@ -38,10 +40,12 @@ export class SettingsModalComponent implements OnInit {
   changes: boolean;
 
   languages: Language[];
+  themes: Theme[];
   settings: Settings;
 
   // Selected options
   selectedLanguage: Language;
+  selectedTheme: Theme;
 
   constructor(
     private dialogRef: MatDialogRef<SettingsModalComponent>,
@@ -49,6 +53,7 @@ export class SettingsModalComponent implements OnInit {
     private changeDetector: ChangeDetectorRef,
     private settingsService: SettingsService,
     private appSettingsService: AppSettingsService,
+    private appThemeService: AppThemeService,
     private translate: TranslateService,
     private dialog: MatDialog
   ) {}
@@ -57,14 +62,17 @@ export class SettingsModalComponent implements OnInit {
     forkJoin({
       languages: this.settingsService.getLanguages(),
       settings: this.settingsService.getSettings(),
+      themes: this.settingsService.getThemes(),
     })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
           this.languages = result.languages;
           this.settings = result.settings;
+          this.themes = result.themes;
 
           this.selectedLanguage = this.settings.language;
+          this.selectedTheme = this.settings.theme;
 
           this.setupForm();
 
@@ -92,6 +100,7 @@ export class SettingsModalComponent implements OnInit {
           this.appSettingsService.patchSettings({
             userId: this.settings.userId,
             language: this.selectedLanguage,
+            theme: this.selectedTheme,
           }),
         ],
         {
@@ -106,6 +115,7 @@ export class SettingsModalComponent implements OnInit {
           .subscribe((result) => {
             if (result === Results.SUCCESS) {
               this.translate.use(this.selectedLanguage.abbreviation as string);
+              this.appThemeService.setThemeById(this.selectedTheme.themeId);
               this.dialogRef.close(result);
             }
           })
@@ -122,15 +132,26 @@ export class SettingsModalComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
+  onThemeChange(event: any): void {
+    this.changes = true;
+    this.selectedTheme = this.themes.find((x) => x.abbreviation === event);
+    this.changeDetector.detectChanges();
+  }
+
   // PLACEHOLDER FROMS
 
   setupForm(): void {
     this.form = this.fb.group({
       language: [this.selectedLanguage.abbreviation],
+      theme: [this.selectedTheme.abbreviation],
     });
   }
 
   get language(): AbstractControl {
     return this.form.get('language');
+  }
+
+  get theme(): AbstractControl {
+    return this.form.get('theme');
   }
 }

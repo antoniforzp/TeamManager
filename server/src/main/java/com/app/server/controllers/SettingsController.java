@@ -6,6 +6,7 @@ import com.app.server.database.settings.SettingsRepository;
 import com.app.server.model.InstructorRank;
 import com.app.server.model.Language;
 import com.app.server.model.Settings;
+import com.app.server.model.Theme;
 import com.app.server.rest.Response;
 import com.app.server.rest.bodies.AddJourneyBody;
 import com.app.server.rest.bodies.EditSettingsBody;
@@ -47,12 +48,23 @@ public class SettingsController {
     }
 
     @CrossOrigin
+    @GetMapping(value = "/settings/themes")
+    public ResponseEntity<Response<List<Theme>>> getAllThemes() {
+        appCore.checkCoreInit();
+        return new ResponseEntity<>(new Response<>(
+                repository.getThemes(),
+                appCore.getCurrentUser().getUserId()),
+                HttpStatus.ACCEPTED);
+    }
+
+    @CrossOrigin
     @PatchMapping(value = "/settings")
     public ResponseEntity<Response<Boolean>> patchUserSettings(@RequestBody EditSettingsBody body) {
         appCore.checkCoreInit();
         return new ResponseEntity<>(new Response<>(
                 repository.setSettings(body.getUserId(),
-                        body.getLanguage().getLanguageId()),
+                        body.getLanguage().getLanguageId(),
+                        body.getTheme().getThemeId()),
                 appCore.getCurrentUser().getUserId()),
                 HttpStatus.ACCEPTED);
     }

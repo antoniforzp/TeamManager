@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { forkJoin } from 'rxjs';
 import { AppSettingsService } from 'src/app/services/core/app-settings.service';
+import { AppThemeService } from 'src/app/services/core/app-theme.service';
 import { Results } from 'src/app/utils/Result';
 
 @Component({
@@ -10,7 +12,8 @@ import { Results } from 'src/app/utils/Result';
 export class LogoutModalComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<LogoutModalComponent>,
-    private appSettingsService: AppSettingsService
+    private appSettingsService: AppSettingsService,
+    private appThemeService: AppThemeService
   ) {}
 
   ngOnInit(): void {}
@@ -18,7 +21,10 @@ export class LogoutModalComponent implements OnInit {
   // FUNCTIONALITIES
 
   logout(): void {
-    this.appSettingsService.clearOnLogout().subscribe((x) => {
+    forkJoin({
+      settings: this.appSettingsService.clearOnLogout(),
+      theme: this.appThemeService.clearOnLogout(),
+    }).subscribe((x) => {
       if (x) {
         this.dialogRef.close(Results.SUCCESS);
       }

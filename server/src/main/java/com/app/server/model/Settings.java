@@ -4,10 +4,12 @@ public class Settings implements Model {
 
     private final int userId;
     private final Language language;
+    private final Theme theme;
 
-    public Settings(int userId, Language language) {
+    public Settings(int userId, Language language, Theme theme) {
         this.userId = userId;
         this.language = language;
+        this.theme = theme;
     }
 
 
@@ -19,11 +21,16 @@ public class Settings implements Model {
         return language;
     }
 
+    public Theme getTheme() {
+        return theme;
+    }
+
     @Override
     public String toString() {
         return "Settings{" +
-                ", userId=" + userId +
-                ", language='" + language + '\'' +
+                "userId=" + userId +
+                ", language=" + language +
+                ", theme=" + theme +
                 '}';
     }
 }

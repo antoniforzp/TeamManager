@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppStateService } from './services/core/app-state.service';
+import { AppThemeService } from './services/core/app-theme.service';
 import { defaultLanguage, languages } from './translation/translation-config';
 
 @Component({
@@ -18,16 +19,22 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private translate: TranslateService,
     private router: Router,
-    private appStateSerivce: AppStateService
+    private appStateSerivce: AppStateService,
+    private appThemeService: AppThemeService
   ) {
     this.translate.addLangs(languages);
 
-    // Keep translation on refresh
+    // Keep application state on refresh
     this.router.events.pipe(takeUntil(this.$destroy)).subscribe({
       next: () => {
         const lang = this.appStateSerivce.getLanguage();
         if (lang) {
           this.translate.use(lang);
+        }
+
+        const themeId = this.appStateSerivce.getTheme();
+        if (themeId) {
+          this.appThemeService.setThemeById(themeId);
         }
       },
     });

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Language } from 'src/app/model/Language';
 import { Settings } from 'src/app/model/Settings';
+import { Theme } from 'src/app/model/Theme';
 import { REST, RestService } from 'src/app/web/rest.service';
 
 export interface SettingsPayload {
@@ -26,6 +27,13 @@ export class SettingsService {
     return this.rest.resolve<Language[]>({
       method: REST.GET,
       url: `/settings/languages`,
+    });
+  }
+
+  getThemes(): Observable<Theme[]> {
+    return this.rest.resolve<Theme[]>({
+      method: REST.GET,
+      url: `/settings/themes`,
     });
   }
 

@@ -18,7 +18,7 @@
                 <button type="button" class="btn btn-primary my-button" disabled>O projekcie</button>
             </div>
 
-            <form [formGroup]="form" class="mt-2">
+            <form [formGroup]="form" class="mt-4">
                 <div class="form-group">
 
                     <!-- Language -->
@@ -28,11 +28,30 @@
                                 alt="language-icon" />
                             <span>Język</span>
                         </div>
+
                         <ng-select style="width: 350px;" appendTo="body" formControlName="language" [clearable]="false"
-                            (change)="onLanguageChange($event)">
+                            [searchable]="false" (change)="onLanguageChange($event)">
                             <ng-option *ngFor="let lang of languages" [value]="lang.abbreviation">
                                 <span translate>
                                     {{lang.name}}
+                                </span>
+                            </ng-option>
+                        </ng-select>
+                    </div>
+
+                    <!-- Themes -->
+                    <div class="row mb-2 d-flex align-items-center">
+                        <div class="col col-form-label d-flex align-items-center">
+                            <img src="../../../../assets/icons/palette.svg" class="mr-2" width="30" height="30"
+                                alt="language-icon" />
+                            <span>Motyw</span>
+                        </div>
+
+                        <ng-select style="width: 350px;" appendTo="body" formControlName="theme" [clearable]="false"
+                            [searchable]="false" (change)="onThemeChange($event)">
+                            <ng-option *ngFor="let theme of themes" [value]="theme.abbreviation">
+                                <span translate>
+                                    {{theme.name}}
                                 </span>
                             </ng-option>
                         </ng-select>

@@ -42,6 +42,14 @@ export class AppStateService {
     return this.cookieService.get(AppStateKeys.SETT_LANG);
   }
 
+  storeTheme(themeId: number): void {
+    this.cookieService.set(AppStateKeys.SETT_THEME, `${themeId}`, 1 / 2);
+  }
+
+  getTheme(): number {
+    return +this.cookieService.get(AppStateKeys.SETT_THEME);
+  }
+
   // UTILS
 
   clearAll(): void {
