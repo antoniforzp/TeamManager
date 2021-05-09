@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
@@ -33,6 +34,7 @@ export class ExportCsvScoutModalComponent implements OnInit, OnDestroy {
   constructor(
     private dialogRef: MatDialogRef<ExportCsvScoutModalComponent>,
     private fb: FormBuilder,
+    private translate: TranslateService,
 
     @Inject(MAT_DIALOG_DATA) data: ExportCsvScoutModalComponentEntry
   ) {
@@ -136,7 +138,10 @@ export class ExportCsvScoutModalComponent implements OnInit, OnDestroy {
 
   generatedFilename(): string {
     const date = new Date();
-    return 'Scouts_list_' + date.toLocaleDateString('en-US');
+    return (
+      this.translate.instant('export-scout-csv.filename-to-export') +
+      date.toLocaleDateString('en-US')
+    );
   }
 
   toggleExportAll(value: boolean): void {

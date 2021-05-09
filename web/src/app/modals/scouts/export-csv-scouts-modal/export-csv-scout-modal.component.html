@@ -1,6 +1,10 @@
 <div class="modal-header">
-    <span *ngIf="scouts.length <= 1" class="my-modal-title">Wyeksportuj dane harcerza</span>
-    <span *ngIf="scouts.length > 1" class="my-modal-title">Wyeksportuj dane harcerzy</span>
+    <span *ngIf="scouts.length <= 1" class="my-modal-title" translate>
+        export-scout-csv.title-one
+    </span>
+    <span *ngIf="scouts.length > 1" class="my-modal-title" translate>
+        export-scout-csv.title-multiple
+    </span>
 </div>
 
 <div class="modal-body">
@@ -13,15 +17,18 @@
 
             <div class="row mb-2">
                 <div class="col-sm-4 col-form-label">
-                    <span class="required">Nazwa pliku</span>
+                    <span class="required" translate>
+                        export-scout-csv.filename
+                    </span>
                 </div>
                 <div class="col">
                     <input type="text" class="form-control" formControlName="filename">
 
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="filename.errors && filename.dirty">
-                        <small class="alert-danger" *ngIf="filename.hasError('required')">Pole
-                            wymagane</small>
+                        <small class="alert-danger" *ngIf="filename.hasError('required')" translate>
+                            errors.input-required
+                        </small>
                     </div>
                 </div>
             </div>
@@ -29,50 +36,65 @@
             <!-- CHOOSE DATA -->
 
             <div class="row mb-3">
-                <div class="col-sm-4">
-                    Zakres
+                <div class="col-sm-4" translate>
+                    export-scout-csv.range
                 </div>
                 <div class="col d-flex flex-column">
                     <div class="custom-control custom-switch mb-2">
                         <input type="checkbox" class="custom-control-input" id="switchAll" formControlName="exportAll"
                             (change)="toggleExportAll($event.currentTarget.checked)">
-                        <label class="custom-control-label" for="switchAll">Wszystko</label>
+                        <label class="custom-control-label" for="switchAll" translate>
+                            export-scout-csv.all
+                        </label>
                     </div>
 
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="switchCredentials"
                             formControlName="exportCredentials" (change)="checkToggleAll()">
-                        <label class="custom-control-label" for="switchCredentials">Dane osobowe</label>
+                        <label class="custom-control-label" for="switchCredentials" translate>
+                            export-scout-csv.personal-data
+                        </label>
                     </div>
 
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="switchAddress"
                             formControlName="exportAddress" (change)="checkToggleAll()">
-                        <label class="custom-control-label" for="switchAddress">Adres</label>
+                        <label class="custom-control-label" for="switchAddress" translate>
+                            export-scout-csv.address
+                        </label>
                     </div>
 
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="switchContact"
                             formControlName="exportContact" (change)="checkToggleAll()">
-                        <label class="custom-control-label" for="switchContact">Dane kontaktowe</label>
+                        <label class="custom-control-label" for="switchContact" translate>
+                            export-scout-csv.contact-data
+                        </label>
                     </div>
 
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="switchRanks"
                             formControlName="exportRanks" (change)="checkToggleAll()">
-                        <label class="custom-control-label" for="switchRanks">Stopnie</label>
+                        <label class="custom-control-label" for="switchRanks" translate>
+                            export-scout-csv.ranks
+                        </label>
                     </div>
 
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="switchAfiliation"
                             formControlName="exportAfiliation" (change)="checkToggleAll()">
-                        <label class="custom-control-label" for="switchAfiliation">Przynależność</label>
+                        <label class="custom-control-label" for="switchAfiliation" translate>
+                            export-scout-csv.membership
+                        </label>
                     </div>
                 </div>
             </div>
 
             <span>
-                Harcerze, których zamierzasz Wyeksportować do pliku CSV ({{scouts.length}}):
+                <span translate>
+                    export-scout-csv.about-to-export
+                </span>
+                ({{scouts.length}}):
             </span>
 
             <div class="my-table-container" style="max-height: 30vh; overflow-y: auto;">
@@ -93,7 +115,11 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
-        <button class="btn btn-success my-button" (click)="export()">Eksportuj</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
+        <button class="btn btn-success my-button" (click)="export()" translate>
+            actions.export-csv
+        </button>
     </div>
 </div>

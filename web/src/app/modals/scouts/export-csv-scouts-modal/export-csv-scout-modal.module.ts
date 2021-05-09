@@ -4,6 +4,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/app-material.module';
 import { ExportCsvScoutModalComponent } from './export-csv-scout-modal.component';
+import { AppTranslationModule } from 'src/app/translation/app-translation.module';
 
 @NgModule({
   declarations: [ExportCsvScoutModalComponent],
@@ -13,6 +14,7 @@ import { ExportCsvScoutModalComponent } from './export-csv-scout-modal.component
     ReactiveFormsModule,
     MaterialModule,
     SharedModule,
+    AppTranslationModule
   ],
 })
 export class ExportCsvScoutModalModule {}
