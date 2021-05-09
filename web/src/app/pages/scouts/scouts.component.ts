@@ -103,7 +103,7 @@ export class ScoutsComponent implements OnInit, OnDestroy {
                 }),
 
               instructorRankAbbv:
-                scout.instructorRank.abbreviation !== 'BS'
+                scout.instructorRank.rankId !== 1
                   ? scout.instructorRank.abbreviation
                   : '',
               instructorRankLabel: `instructor-rank-${scout.instructorRank.rankId}`,
@@ -158,31 +158,31 @@ export class ScoutsComponent implements OnInit, OnDestroy {
     this.actions.clear();
 
     this.actions.set(Actions.ADD, {
-      label: 'Dodaj',
+      label: 'actions.add',
       isEnabled: true,
       action: () => this.openAddScout(),
     });
 
     this.actions.set(Actions.EDIT_CREDENTIALS, {
-      label: 'Edytuj dane',
+      label: 'scouts.edit-data',
       isEnabled: selected.length === 1,
       action: () => this.openEditScout(),
     });
 
     this.actions.set(Actions.EDIT_ROLES, {
-      label: 'Edytuj funkcje',
+      label: 'scouts.edit-roles',
       isEnabled: selected.length === 1,
       action: () => this.openEditRoles(),
     });
 
     this.actions.set(Actions.DELETE, {
-      label: 'Usuń',
+      label: 'actions.delete',
       isEnabled: selected.length > 0,
       action: () => this.openDeleteScout(),
     });
 
     this.actions.set(Actions.EXPORT_CSV, {
-      label: 'Eksportuj do CSV',
+      label: 'actions.export-csv',
       isEnabled: selected.length > 0,
       action: () => this.openExportScout(),
     });

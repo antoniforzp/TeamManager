@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { merge, Observable, of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { Settings } from 'src/app/model/Settings';
 import { SettingsService } from '../data/settings.service';
 import { AppStateService } from './app-state.service';
@@ -19,12 +19,8 @@ export class AppSettingsService {
       tap((x) => {
         this.appStateService.storeUserId(x.userId);
         this.appStateService.storeTheme(x.theme.themeId);
-
-        // Inherit language set in login screen
-        const outLang = this.appStateService.getOutLanguage();
-        outLang
-          ? this.appStateService.storeLanguage(outLang)
-          : this.appStateService.storeOutLanguage(x.language.abbreviation);
+        this.appStateService.storeLanguage(x.language.abbreviation);
+        this.appStateService.storeOutLanguage(x.language.abbreviation);
       })
     );
   }
