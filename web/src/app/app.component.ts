@@ -42,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.translate.setDefaultLang(defaultLanguage);
+    this.translate.use(defaultLanguage);
   }
 
   ngOnDestroy(): void {

@@ -18,9 +18,13 @@ export class AppSettingsService {
     return this.settingsService.getSettings().pipe(
       tap((x) => {
         this.appStateService.storeUserId(x.userId);
-        this.appStateService.storeLanguage(x.language.abbreviation);
-        this.appStateService.storeOutLanguage(x.language.abbreviation);
         this.appStateService.storeTheme(x.theme.themeId);
+
+        // Inherit language set in login screen
+        const outLang = this.appStateService.getOutLanguage();
+        outLang
+          ? this.appStateService.storeLanguage(outLang)
+          : this.appStateService.storeOutLanguage(x.language.abbreviation);
       })
     );
   }

@@ -14,12 +14,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppSettingsService } from 'src/app/services/core/app-settings.service';
 import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
 import { LoginService } from 'src/app/services/data/login.service';
-import { defaultLanguage } from 'src/app/translation/translation-config';
 import { AppStateService } from 'src/app/services/core/app-state.service';
 import { SettingsService } from 'src/app/services/data/settings.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Language } from 'src/app/model/Language';
+import { defaultLanguage } from 'src/app/translation/translation-config';
 
 @Component({
   templateUrl: './login.component.html',
@@ -52,8 +52,8 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.translate.use(this.appStateService.getOutLanguage());
     this.setupForm();
+    this.translateView();
 
     this.settingsService
       .getLanguages()
@@ -69,6 +69,11 @@ export class LoginComponent implements OnInit {
           this.changeDetector.detectChanges();
         },
       });
+  }
+
+  translateView(): void {
+    const lang = this.appStateService.getOutLanguage();
+    lang ? this.translate.use(lang) : this.translate.use(defaultLanguage);
   }
 
   onSubmit(): void {
