@@ -12,6 +12,7 @@ import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModa
 import { AppStateService } from 'src/app/services/core/app-state.service';
 import { UserService } from 'src/app/services/data/user.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
+import { defaultLanguage } from 'src/app/translation/translation-config';
 import { RegexPatterns } from 'src/app/utils/PatternsDefs';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 
@@ -34,8 +35,14 @@ export class AddUserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.translate.use(this.appStateService.getOutLanguage());
     this.setupForm();
+  }
+
+  // TRANSLATION
+
+  translateView(): void {
+    const lang = this.appStateService.getOutLanguage();
+    lang ? this.translate.use(lang) : this.translate.use(defaultLanguage);
   }
 
   // FUNCTIONALITIES
