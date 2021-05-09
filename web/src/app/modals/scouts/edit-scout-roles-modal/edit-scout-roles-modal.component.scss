@@ -1,18 +1,5 @@
-.button-remove {
-  background-image: url("../../../../assets/icons/remove.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-
-  width: 1.2rem;
-  height: 1.2rem;
-}
-
-.button-add {
-  background-image: url("../../../../assets/icons/add.svg");
-
-  background-repeat: no-repeat;
-  background-size: contain;
-
-  width: 1.2rem;
-  height: 1.2rem;
+.roles-segment {
+  height: 52vh;
+  overflow-y: scroll;
+  width: 49%;
 }

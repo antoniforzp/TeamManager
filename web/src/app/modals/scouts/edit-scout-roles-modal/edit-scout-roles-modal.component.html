@@ -1,5 +1,7 @@
 <div class="modal-header">
-    <span class="my-modal-title">Edytuj funkcje harcerza</span>
+    <span class="my-modal-title" translate>
+        edit-scout-roles.title
+    </span>
 </div>
 
 <div class="modal-body-max">
@@ -17,22 +19,22 @@
                 <span class="label-thin-small">{{scout.troop.name}}</span>
             </div>
 
-            <div class="row mb-1">
+            <div class="d-flex justify-content-between">
 
                 <!-- Wybrane roles -->
-                <div class="col" style="max-height: 45vh; overflow-y: scroll;">
+                <div class="roles-segment">
                     <table class="table table-hover">
                         <thead class="my-thead">
                             <th>
-                                <span>
-                                    Wybrane funkcje
+                                <span translate>
+                                    edit-scout-roles.chosen-roles
                                 </span>
                             </th>
                         </thead>
                         <tbody>
                             <tr *ngFor="let role of roles" class="cursor-pointer" (click)="removeRole(role)">
                                 <td class="d-flex align-items-center">
-                                    <span [ngClass]="[createRoleBadge(role)]">
+                                    <span [ngClass]="[createRoleBadge(role)]" translate>
                                         {{role.name}}
                                     </span>
                                 </td>
@@ -42,19 +44,19 @@
                 </div>
 
                 <!-- Available roles -->
-                <div class="col" style="max-height: 45vh; overflow-y: scroll;">
+                <div class="roles-segment">
                     <table class="table table-hover">
                         <thead class="my-thead">
                             <th>
-                                <span>
-                                    Dostępne funkcje
+                                <span translate>
+                                    edit-scout-roles.available-roles
                                 </span>
                             </th>
                         </thead>
                         <tbody>
                             <tr *ngFor="let role of availableRoles" class="cursor-pointer" (click)="addRole(role)">
                                 <td class="d-flex align-items-center">
-                                    <span [ngClass]="[createRoleBadge(role)]">
+                                    <span [ngClass]="[createRoleBadge(role)]" translate>
                                         {{role.name}}
                                     </span>
                                 </td>
@@ -71,8 +73,12 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
-        <button class="btn btn-success my-button" (click)="edit()">Edytuj</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
+        <button class="btn btn-success my-button" (click)="edit()" translate>
+            actions.edit
+        </button>
     </div>
 </div>
 
