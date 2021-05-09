@@ -10,9 +10,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NavigationService } from 'src/app/services/core/navigation.service';
+import { TranslateService } from '@ngx-translate/core';
+import { AppSettingsService } from 'src/app/services/core/app-settings.service';
+import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
 import { LoginService } from 'src/app/services/data/login.service';
+import { defaultLanguage } from 'src/app/translation/translation-config';
 
 @Component({
   templateUrl: './login.component.html',
@@ -30,13 +32,15 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private loginService: LoginService,
-    private navigationService: NavigationService,
-    private changeDetector: ChangeDetectorRef
+    private navigationService: AppNavigationService,
+    private changeDetector: ChangeDetectorRef,
+    private appSettingsService: AppSettingsService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
+    this.translate.use(defaultLanguage);
     this.setupForm();
   }
 
@@ -47,7 +51,16 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.email.value, this.password.value).subscribe({
       next: (x) => {
         if (this.resolveLoginStatus(x)) {
-          this.navigationService.navigateToHome();
+          this.appSettingsService.initSetttings().subscribe({
+            next: () => {
+              this.navigationService.navigateToHome();
+            },
+            error: () => {
+              this.resolveError();
+              this.loginInProgress = false;
+              this.changeDetector.detectChanges();
+            },
+          });
         }
         this.loginInProgress = false;
         this.changeDetector.detectChanges();

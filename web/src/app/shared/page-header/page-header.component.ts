@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavigationService } from 'src/app/services/core/navigation.service';
+import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
 import { AppRoutes } from '../menu/Routes';
 
 @Component({
@@ -12,10 +12,7 @@ export class PageHeaderComponent implements OnInit {
   @Input() header: string;
   @Input() goBackRoute: AppRoutes;
 
-  constructor(
-    private router: Router,
-    private navigationService: NavigationService
-  ) {}
+  constructor(private navigationService: AppNavigationService) {}
 
   ngOnInit(): void {}
 

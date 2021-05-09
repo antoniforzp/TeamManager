@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,6 +17,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Language } from 'src/app/model/Language';
 import { Settings } from 'src/app/model/Settings';
+import { AppSettingsService } from 'src/app/services/core/app-settings.service';
 import { SettingsService } from 'src/app/services/data/settings.service';
 import { Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
@@ -28,6 +30,9 @@ import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 export class SettingsModalComponent implements OnInit {
   destroy$ = new Subject();
   pageLoaded = false;
+  pageError: HttpErrorResponse;
+
+  form: FormGroup;
 
   saved: boolean;
   changes: boolean;
@@ -43,6 +48,7 @@ export class SettingsModalComponent implements OnInit {
     private fb: FormBuilder,
     private changeDetector: ChangeDetectorRef,
     private settingsService: SettingsService,
+    private appSettingsService: AppSettingsService,
     private translate: TranslateService,
     private dialog: MatDialog
   ) {}
@@ -60,11 +66,15 @@ export class SettingsModalComponent implements OnInit {
 
           this.selectedLanguage = this.settings.language;
 
+          this.setupForm();
+
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
         },
         error: (err) => {
-          // TODO:
+          this.pageError = err;
+          this.pageLoaded = true;
+          this.changeDetector.detectChanges();
         },
       });
   }
@@ -79,7 +89,7 @@ export class SettingsModalComponent implements OnInit {
     new ProgressModal(this.dialog)
       .open(
         [
-          this.settingsService.patchSettings({
+          this.appSettingsService.patchSettings({
             userId: this.settings.userId,
             language: this.selectedLanguage,
           }),
@@ -95,7 +105,6 @@ export class SettingsModalComponent implements OnInit {
           .pipe(takeUntil(this.destroy$))
           .subscribe((result) => {
             if (result === Results.SUCCESS) {
-              console.log(this.selectedLanguage);
               this.translate.use(this.selectedLanguage.abbreviation as string);
               this.dialogRef.close(result);
             }
@@ -107,7 +116,21 @@ export class SettingsModalComponent implements OnInit {
 
   onLanguageChange(event: any): void {
     this.changes = true;
-    this.selectedLanguage = event as Language;
+    this.selectedLanguage = this.languages.find(
+      (x) => x.abbreviation === event
+    );
     this.changeDetector.detectChanges();
+  }
+
+  // PLACEHOLDER FROMS
+
+  setupForm(): void {
+    this.form = this.fb.group({
+      language: [this.selectedLanguage.abbreviation],
+    });
+  }
+
+  get language(): AbstractControl {
+    return this.form.get('language');
   }
 }

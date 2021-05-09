@@ -1,16 +1,16 @@
-import { Component, OnDestroy } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { combineLatest, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
-import { SettingsService } from './services/data/settings.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AppStateService } from './services/core/app-state.service';
 import { defaultLanguage, languages } from './translation/translation-config';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   $destroy = new Subject();
 
   title = 'Menadżer Drużyny Harcerskiej';
@@ -18,20 +18,23 @@ export class AppComponent implements OnDestroy {
   constructor(
     private translate: TranslateService,
     private router: Router,
-    private settingsSerivce: SettingsService
+    private appStateSerivce: AppStateService
   ) {
     this.translate.addLangs(languages);
 
     // Keep translation on refresh
+    this.router.events.pipe(takeUntil(this.$destroy)).subscribe({
+      next: () => {
+        const lang = this.appStateSerivce.getLanguage();
+        if (lang) {
+          this.translate.use(lang);
+        }
+      },
+    });
+  }
 
-    combineLatest([this.settingsSerivce.getSettings(), this.router.events])
-      .pipe(takeUntil(this.$destroy))
-      .subscribe({
-        next: ([settings]) => {
-          this.translate.setDefaultLang(defaultLanguage);
-          this.translate.use(settings.language.abbreviation);
-        },
-      });
+  ngOnInit(): void {
+    this.translate.setDefaultLang(defaultLanguage);
   }
 
   ngOnDestroy(): void {

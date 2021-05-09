@@ -14,6 +14,7 @@
 
 .modal-body-max {
   height: var(--modal-height) !important;
+  overflow-y: auto;
 }
 
 .mat-dialog-content,

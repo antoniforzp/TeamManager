@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
@@ -6,7 +6,7 @@ import { AppRoutes } from 'src/app/shared/menu/Routes';
 @Injectable({
   providedIn: 'root',
 })
-export class NavigationService {
+export class AppNavigationService {
   currentRoute: BehaviorSubject<AppRoutes> = new BehaviorSubject<AppRoutes>(
     this.router.url.substr(1) as AppRoutes
   );

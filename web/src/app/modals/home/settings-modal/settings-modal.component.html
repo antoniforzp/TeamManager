@@ -2,32 +2,45 @@
     <span class="my-modal-title">Ustawienia</span>
 </div>
 
-<div class="modal-body">
+<div class="modal-body modal-body-settings">
 
-    <ng-container *ngIf="pageLoaded">
-        <div class="form-group">
+    <ng-container *ngIf="pageLoaded; else loading">
 
-            <!-- Language -->
-            <div class="row mb-2 d-flex align-items-center">
-                <div class="col col-form-label d-flex align-items-center">
-                    <img src="../../../../assets/icons/language.svg" class="mr-2" width="30" height="30"
-                        alt="language-icon" />
-                    <span>Język</span>
-                </div>
-                <ng-select style="width: 350px;" appendTo="body" [(ngModel)]="selectedLanguage" [clearable]="false"
-                    (change)="onLanguageChange($event)">
-                    <ng-option *ngFor="let lang of languages" [value]="lang">
-                        <span translate>
-                            {{lang.name}}
-                        </span>
-                    </ng-option>
-                </ng-select>
+        <!-- ERROR HANDLING -->
+        <div *ngIf="pageError">
+            <app-error [error]="pageError"></app-error>
+        </div>
+
+        <!-- PAGE CONTENT -->
+        <div *ngIf="!pageError">
+
+            <div class="mb-2">
+                <button type="button" class="btn btn-primary my-button" disabled>O projekcie</button>
             </div>
+
+            <form [formGroup]="form" class="mt-2">
+                <div class="form-group">
+
+                    <!-- Language -->
+                    <div class="row mb-2 d-flex align-items-center">
+                        <div class="col col-form-label d-flex align-items-center">
+                            <img src="../../../../assets/icons/language.svg" class="mr-2" width="30" height="30"
+                                alt="language-icon" />
+                            <span>Język</span>
+                        </div>
+                        <ng-select style="width: 350px;" appendTo="body" formControlName="language" [clearable]="false"
+                            (change)="onLanguageChange($event)">
+                            <ng-option *ngFor="let lang of languages" [value]="lang.abbreviation">
+                                <span translate>
+                                    {{lang.name}}
+                                </span>
+                            </ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+            </form>
         </div>
 
-        <div class="project-info">
-            <button type="button" class="btn btn-primary my-button" disabled>O projekcie</button>
-        </div>
     </ng-container>
 
 </div>
@@ -38,3 +51,7 @@
         <button class="btn btn-success my-button" [disabled]="!changes" (click)="save()">Zapisz</button>
     </div>
 </div>
+
+<ng-template #loading>
+    <app-page-spinner></app-page-spinner>
+</ng-template>
