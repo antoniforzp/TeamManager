@@ -19,6 +19,7 @@ export class AppSettingsService {
       tap((x) => {
         this.appStateService.storeUserId(x.userId);
         this.appStateService.storeLanguage(x.language.abbreviation);
+        this.appStateService.storeOutLanguage(x.language.abbreviation);
         this.appStateService.storeTheme(x.theme.themeId);
       })
     );
@@ -29,6 +30,7 @@ export class AppSettingsService {
       tap((x) => {
         if (x === true) {
           this.appStateService.storeLanguage(settings.language.abbreviation);
+          this.appStateService.storeOutLanguage(settings.language.abbreviation);
           this.appStateService.storeTheme(settings.theme.themeId);
         }
       })

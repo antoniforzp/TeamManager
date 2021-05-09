@@ -6,8 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/operators';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
+import { AppStateService } from 'src/app/services/core/app-state.service';
 import { UserService } from 'src/app/services/data/user.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { RegexPatterns } from 'src/app/utils/PatternsDefs';
@@ -26,10 +28,13 @@ export class AddUserComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private translate: TranslateService,
+    private appStateService: AppStateService
   ) {}
 
   ngOnInit(): void {
+    this.translate.use(this.appStateService.getOutLanguage());
     this.setupForm();
   }
 

@@ -15,6 +15,11 @@ import { AppSettingsService } from 'src/app/services/core/app-settings.service';
 import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
 import { LoginService } from 'src/app/services/data/login.service';
 import { defaultLanguage } from 'src/app/translation/translation-config';
+import { AppStateService } from 'src/app/services/core/app-state.service';
+import { SettingsService } from 'src/app/services/data/settings.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Language } from 'src/app/model/Language';
 
 @Component({
   templateUrl: './login.component.html',
@@ -22,6 +27,7 @@ import { defaultLanguage } from 'src/app/translation/translation-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
+  destroy$ = new Subject();
   loginForm: FormGroup;
 
   loginResult!: boolean;
@@ -30,18 +36,39 @@ export class LoginComponent implements OnInit {
   loginInProgress = false;
   pageErrorMessage = '';
 
+  languagesLoaded = false;
+  languages: Language[];
+  currentLanguage: Language;
+
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
     private navigationService: AppNavigationService,
-    private changeDetector: ChangeDetectorRef,
     private appSettingsService: AppSettingsService,
-    private translate: TranslateService
+    private appStateService: AppStateService,
+    private settingsService: SettingsService,
+    private translate: TranslateService,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.translate.use(defaultLanguage);
+    this.translate.use(this.appStateService.getOutLanguage());
     this.setupForm();
+
+    this.settingsService
+      .getLanguages()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (x) => {
+          this.languages = x;
+          this.languagesLoaded = x.length > 0;
+          this.changeDetector.detectChanges();
+        },
+        error: () => {
+          this.languagesLoaded = false;
+          this.changeDetector.detectChanges();
+        },
+      });
   }
 
   onSubmit(): void {
@@ -109,5 +136,14 @@ export class LoginComponent implements OnInit {
 
   navigateToAddUser(): void {
     this.navigationService.navigateToAddUser();
+  }
+
+  // LANGUAGE
+
+  setOutLanguage(language: Language): void {
+    this.currentLanguage = language;
+    this.translate.use(language.abbreviation);
+    this.appStateService.storeOutLanguage(language.abbreviation);
+    this.changeDetector.detectChanges();
   }
 }

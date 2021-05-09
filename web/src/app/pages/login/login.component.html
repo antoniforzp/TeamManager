@@ -55,6 +55,34 @@
             </a>
         </div>
     </div>
+
+    <!-- LANGUAGES -->
+    <div *ngIf="languagesLoaded" class="languages">
+        <div class="dropup">
+            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+
+                <img *ngIf="!currentLanguage" src="../../../../assets/icons/language.svg" class="mr-2" width="30"
+                    height="30" alt="language-icon" />
+
+                <img *ngIf="currentLanguage"
+                    src="{{'../../../../assets/icons/translations/'+ currentLanguage.abbreviation + '.svg'}}"
+                    class="mr-2" width="30" height="30" alt="language-icon" />
+
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a *ngFor="let lang of languages" class="dropdown-item cursor-pointer" (click)="setOutLanguage(lang)">
+                    <div class="d-flex align-items-center">
+                        <img src="{{'../../../../assets/icons/translations/'+ lang.abbreviation + '.svg'}}" class="mr-2"
+                            width="20" height="20" alt="language-icon" />
+                        <span translate>
+                            {{lang.name}}
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <app-footer></app-footer>

@@ -6,6 +6,7 @@ export enum AppStateKeys {
   USER_PASSWD = 'userPassword',
   SETT_LANG = 'lang',
   SETT_THEME = 'theme',
+  OUT_LANG = 'out-lang',
 }
 
 @Injectable({
@@ -48,6 +49,16 @@ export class AppStateService {
 
   getTheme(): number {
     return +this.cookieService.get(AppStateKeys.SETT_THEME);
+  }
+
+  // OUTSIDE THE APP
+
+  storeOutLanguage(language: string): void {
+    this.cookieService.set(AppStateKeys.OUT_LANG, language, 1 / 2);
+  }
+
+  getOutLanguage(): string {
+    return this.cookieService.get(AppStateKeys.OUT_LANG);
   }
 
   // UTILS
