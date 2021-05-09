@@ -1,6 +1,10 @@
 <div class="modal-header">
-    <span *ngIf="scouts.length <= 1" class="my-modal-title">Usuń harcerza</span>
-    <span *ngIf="scouts.length > 1" class="my-modal-title">Usuń harcerzy</span>
+    <span *ngIf="scouts.length <= 1" class="my-modal-title" translate>
+        delete-scout.title-one
+    </span>
+    <span *ngIf="scouts.length > 1" class="my-modal-title" translate>
+        delete-scout.title-multiple
+    </span>
 </div>
 
 <div class="modal-body">
@@ -9,12 +13,16 @@
 
         <div class="d-flex align-items-center">
             <img src="../../../../assets/icons/alert.svg" width="30" height="30" class="mr-4" />
-            <span>Usunięcie harcerza spowoduje usunięcie wszystkich danych, które są z nim związane.</span>
+            <span translate>
+                delete-scout.alert
+            </span>
         </div>
 
         <br>
         <span>
-            Harcerze, których zamierzasz usunąć z drużyny ({{scouts.length}}):
+            <span translate>
+                delete-scout.about-to-delete
+            </span>({{scouts.length}}):
         </span>
 
         <div class="my-table-container" style="max-height: 35vh; overflow-y: auto;">
@@ -30,7 +38,9 @@
         <div class="d-flex align-items-center mt-2">
             <label class="required">
                 <input type="checkbox" class="select-all checkbox cursor-pointer" [(ngModel)]="accept" />
-                Potwierdzam, że jestem świadom konsekwencji
+                <span translate>
+                    delete-scout.aware
+                </span>
             </label>
         </div>
 
@@ -40,7 +50,11 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
-        <button class="btn btn-danger my-button" [disabled]="!accept" (click)="delete()">Usuń</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
+        <button class="btn btn-danger my-button" [disabled]="!accept" (click)="delete()" translate>
+            actions.delete
+        </button>
     </div>
 </div>
