@@ -3,11 +3,10 @@ package com.app.server.controllers;
 import com.app.server.core.AppCore;
 import com.app.server.database.teams.TeamsRepository;
 import com.app.server.model.Team;
-import com.app.server.rest.Response;
-import com.app.server.rest.bodies.AddTeamBody;
-import com.app.server.rest.bodies.EditTeamBody;
+import com.app.server.api.Response;
+import com.app.server.api.data.AddTeamBody;
+import com.app.server.api.data.EditTeamBody;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,59 +15,60 @@ import java.util.List;
 public class TeamsController {
 
     private final TeamsRepository repository;
-    private final AppCore appCore;
 
-    public TeamsController(TeamsRepository repository, AppCore appCore) {
+    public TeamsController(TeamsRepository repository) {
         this.repository = repository;
-        this.appCore = appCore;
     }
 
     @CrossOrigin
-    @PostMapping(value = "/teams")
-    public ResponseEntity<Response<Boolean>> addTeam(@RequestBody AddTeamBody body) {
-
-        boolean check = repository.add(body.getName(),
+    @PostMapping(value = "/api/{userId}/teams")
+    public Response<Boolean> addTeam(@PathVariable int userId,
+                                     @RequestBody AddTeamBody body) {
+        Boolean check = repository.add(body.getName(),
                 body.getPatron(),
-                appCore.getCurrentUser().getUserId());
+                userId);
 
-        //Assign first of assigned teams of users
-        List<Team> usersTeams = repository.getByUserId(appCore.getCurrentUser().getUserId());
-        if (!usersTeams.isEmpty()) {
-            appCore.setCurrentTeam(usersTeams.get(0));
-        }
-
-        return new ResponseEntity<>(new Response<>(
+        return new Response<>(
                 check,
-                appCore.getCurrentUser().getUserId()),
+                userId,
                 HttpStatus.ACCEPTED);
     }
 
     @CrossOrigin
-    @GetMapping(value = "/teams")
-    public ResponseEntity<Response<List<Team>>> getTeams() {
-        return new ResponseEntity<>(new Response<>(
-                repository.getByUserId(appCore.getCurrentUser().getUserId()),
-                appCore.getCurrentUser().getUserId()),
+    @GetMapping(value = "/api/{userId}/teams")
+    public Response<List<Team>> getTeams(@PathVariable int userId) {
+        List<Team> data = repository.getByUserId(userId);
+
+        return new Response<>(
+                data,
+                userId,
                 HttpStatus.ACCEPTED);
     }
 
     @CrossOrigin
-    @PatchMapping(value = "/teams{teamId}")
-    public ResponseEntity<Response<Boolean>> editTeam(@PathVariable int teamId, @RequestBody EditTeamBody body) {
-        return new ResponseEntity<>(new Response<>(
-                repository.update(teamId,
-                        body.getName(),
-                        body.getPatron()),
-                appCore.getCurrentUser().getUserId()),
+    @PatchMapping(value = "/api/{userId}/teams/{teamId}")
+    public Response<Boolean> editTeam(@PathVariable int userId,
+                                      @PathVariable int teamId,
+                                      @RequestBody EditTeamBody body) {
+        Boolean data = repository.update(teamId,
+                body.getName(),
+                body.getPatron());
+
+        return new Response<>(
+                data,
+                userId,
                 HttpStatus.ACCEPTED);
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/teams{teamId}")
-    public ResponseEntity<Response<Boolean>> deleteTeam(@PathVariable int teamId) {
-        return new ResponseEntity<>(new Response<>(
-                repository.deleteById(teamId),
-                appCore.getCurrentUser().getUserId()),
+    @DeleteMapping(value = "/api/{userId}/teams/{teamId}")
+    public Response<Boolean> deleteTeam(@PathVariable int userId,
+                                        @PathVariable int teamId) {
+        Boolean data = repository.deleteById(teamId);
+
+        return new Response<>(
+                data,
+                userId,
                 HttpStatus.ACCEPTED);
     }
 }

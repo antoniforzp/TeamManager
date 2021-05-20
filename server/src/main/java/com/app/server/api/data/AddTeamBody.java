@@ -1,4 +1,4 @@
-package com.app.server.rest.bodies;
+package com.app.server.api.data;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

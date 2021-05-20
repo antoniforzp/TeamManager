@@ -1,17 +1,13 @@
 package com.app.server.controllers;
 
 import com.app.server.core.AppCore;
-import com.app.server.database.instructorRanks.InstructorRanksRepository;
 import com.app.server.database.settings.SettingsRepository;
-import com.app.server.model.InstructorRank;
 import com.app.server.model.Language;
 import com.app.server.model.Settings;
 import com.app.server.model.Theme;
-import com.app.server.rest.Response;
-import com.app.server.rest.bodies.AddJourneyBody;
-import com.app.server.rest.bodies.EditSettingsBody;
+import com.app.server.api.Response;
+import com.app.server.api.data.EditSettingsBody;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,53 +15,56 @@ import java.util.List;
 @RestController
 public class SettingsController {
 
-    private final AppCore appCore;
     private final SettingsRepository repository;
 
-    public SettingsController(AppCore appCore, SettingsRepository repository) {
-        this.appCore = appCore;
+    public SettingsController(SettingsRepository repository) {
         this.repository = repository;
     }
 
     @CrossOrigin
-    @GetMapping(value = "/settings")
-    public ResponseEntity<Response<Settings>> getUserSettings() {
-        appCore.checkCoreInit();
-        return new ResponseEntity<>(new Response<>(
-                repository.getSettings(appCore.getCurrentUser().getUserId()),
-                appCore.getCurrentUser().getUserId()),
+    @GetMapping(value = "/api/{userId}/settings")
+    public Response<Settings> getUserSettings(@PathVariable int userId) {
+        Settings data = repository.getSettings(userId);
+
+        return new Response<>(
+                data,
+                userId,
                 HttpStatus.ACCEPTED);
     }
 
     @CrossOrigin
-    @GetMapping(value = "/settings/languages")
-    public ResponseEntity<Response<List<Language>>> getAllLanguages() {
-        appCore.checkCoreInit();
-        return new ResponseEntity<>(new Response<>(
-                repository.getLanguages(),
-                appCore.getCurrentUser().getUserId()),
+    @GetMapping(value = "/api/{userId}/settings/languages")
+    public Response<List<Language>> getAllLanguages(@PathVariable int userId) {
+        List<Language> data = repository.getLanguages();
+
+        return new Response<>(
+                data,
+                userId,
                 HttpStatus.ACCEPTED);
     }
 
     @CrossOrigin
-    @GetMapping(value = "/settings/themes")
-    public ResponseEntity<Response<List<Theme>>> getAllThemes() {
-        appCore.checkCoreInit();
-        return new ResponseEntity<>(new Response<>(
-                repository.getThemes(),
-                appCore.getCurrentUser().getUserId()),
+    @GetMapping(value = "/api/{userId}/settings/themes")
+    public Response<List<Theme>> getAllThemes(@PathVariable int userId) {
+        List<Theme> data = repository.getThemes();
+
+        return new Response<>(
+                data,
+                userId,
                 HttpStatus.ACCEPTED);
     }
 
     @CrossOrigin
-    @PatchMapping(value = "/settings")
-    public ResponseEntity<Response<Boolean>> patchUserSettings(@RequestBody EditSettingsBody body) {
-        appCore.checkCoreInit();
-        return new ResponseEntity<>(new Response<>(
-                repository.setSettings(body.getUserId(),
-                        body.getLanguage().getLanguageId(),
-                        body.getTheme().getThemeId()),
-                appCore.getCurrentUser().getUserId()),
+    @PatchMapping(value = "/api/{userId}/settings")
+    public Response<Boolean> patchUserSettings(@PathVariable int userId,
+                                               @RequestBody EditSettingsBody body) {
+        Boolean data = repository.setSettings(body.getUserId(),
+                body.getLanguage().getLanguageId(),
+                body.getTheme().getThemeId());
+
+        return new Response<>(
+                data,
+                userId,
                 HttpStatus.ACCEPTED);
     }
 

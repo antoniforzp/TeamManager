@@ -1,26 +1,33 @@
-package com.app.server.rest;
+package com.app.server.api;
 
+import com.app.server.api.error.ResponseError;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
 public class Response<T> {
 
     private final T data;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private final LocalDateTime timestamp;
     private final int userId;
+    private final HttpStatus status;
 
-    public Response(T data, int userId) {
+    public Response(T data, int userId, HttpStatus status, ResponseError error) {
         this.data = data;
+        this.status = status;
         this.timestamp = LocalDateTime.now();
         this.userId = userId;
     }
 
-    public Response(T data) {
+    public Response(T data, int userId, HttpStatus status) {
         this.data = data;
+        this.status = status;
+
         this.timestamp = LocalDateTime.now();
-        this.userId = -1;
+        this.userId = userId;
     }
 
     public T getData() {
@@ -33,5 +40,9 @@ public class Response<T> {
 
     public int getUserId() {
         return userId;
+    }
+
+    public HttpStatus getStatus() {
+        return status;
     }
 }

@@ -1,6 +1,6 @@
-package com.app.server.rest.bodies;
+package com.app.server.api.data;
 
-import com.app.server.rest.Body;
+import com.app.server.api.Body;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,7 +13,9 @@ public class AddMeetingBody implements Body {
     private final Date date;
 
     @JsonCreator
-    public AddMeetingBody(@JsonProperty String title, @JsonProperty String place, @JsonProperty Date date) {
+    public AddMeetingBody(@JsonProperty String title,
+                          @JsonProperty String place,
+                          @JsonProperty Date date) {
         this.title = title;
         this.place = place;
         this.date = date;

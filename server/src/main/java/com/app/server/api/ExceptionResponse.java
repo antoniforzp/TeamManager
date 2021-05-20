@@ -1,4 +1,4 @@
-package com.app.server.rest;
+package com.app.server.api;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

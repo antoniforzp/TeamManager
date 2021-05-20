@@ -1,4 +1,4 @@
-package com.app.server.rest.bodies;
+package com.app.server.api.data;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +13,10 @@ public class AddJourneyBody {
     private final Date endDate;
 
     @JsonCreator
-    public AddJourneyBody(@JsonProperty String title, @JsonProperty String place, @JsonProperty Date date, @JsonProperty Date endDate) {
+    public AddJourneyBody(@JsonProperty String title,
+                          @JsonProperty String place,
+                          @JsonProperty Date date,
+                          @JsonProperty Date endDate) {
         this.title = title;
         this.place = place;
         this.date = date;

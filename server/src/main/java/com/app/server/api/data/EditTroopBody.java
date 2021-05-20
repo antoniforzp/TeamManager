@@ -1,6 +1,6 @@
-package com.app.server.rest.bodies;
+package com.app.server.api.data;
 
-import com.app.server.rest.Body;
+import com.app.server.api.Body;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

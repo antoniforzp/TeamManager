@@ -1,7 +1,8 @@
-package com.app.server.rest.bodies;
+package com.app.server.api.data;
 
-import com.app.server.rest.Body;
+import com.app.server.api.Body;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AddUserBody implements Body {
 
@@ -11,7 +12,10 @@ public class AddUserBody implements Body {
     private final String email;
 
     @JsonCreator
-    public AddUserBody(String name, String surname, String password, String email) {
+    public AddUserBody(@JsonProperty String name,
+                       @JsonProperty String surname,
+                       @JsonProperty String password,
+                       @JsonProperty String email) {
         this.name = name;
         this.surname = surname;
         this.password = password;
