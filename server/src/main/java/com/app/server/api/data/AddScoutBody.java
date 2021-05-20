@@ -17,7 +17,7 @@ public class AddScoutBody implements Body {
     private final String city;
     private final String phone;
 
-    private final int troopId;
+    private final int patrolId;
     private final int rankId;
     private final int instructorRankId;
 
@@ -30,7 +30,7 @@ public class AddScoutBody implements Body {
                         @JsonProperty String postalCode,
                         @JsonProperty String city,
                         @JsonProperty String phone,
-                        @JsonProperty int troopId,
+                        @JsonProperty int patrolId,
                         @JsonProperty int rankId,
                         @JsonProperty int instructorRankId) {
         this.name = name;
@@ -41,7 +41,7 @@ public class AddScoutBody implements Body {
         this.postalCode = postalCode;
         this.city = city;
         this.phone = phone;
-        this.troopId = troopId;
+        this.patrolId = patrolId;
         this.rankId = rankId;
         this.instructorRankId = instructorRankId;
     }
@@ -78,8 +78,8 @@ public class AddScoutBody implements Body {
         return phone;
     }
 
-    public int getTroopId() {
-        return troopId;
+    public int getPatrolId() {
+        return patrolId;
     }
 
     public int getRankId() {
@@ -101,7 +101,7 @@ public class AddScoutBody implements Body {
                 ", postalCode='" + postalCode + '\'' +
                 ", city='" + city + '\'' +
                 ", phone='" + phone + '\'' +
-                ", troopId=" + troopId +
+                ", troopId=" + patrolId +
                 ", rankId=" + rankId +
                 ", instructorRankId=" + instructorRankId +
                 '}';

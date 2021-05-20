@@ -37,7 +37,7 @@ public class ScoutsController {
                 body.getPostalCode(),
                 body.getCity(),
                 body.getPhone(),
-                body.getTroopId(),
+                body.getPatrolId(),
                 body.getRankId(),
                 body.getInstructorRankId(),
                 teamId);
@@ -140,7 +140,7 @@ public class ScoutsController {
                 body.getPostalCode(),
                 body.getCity(),
                 body.getPhone(),
-                body.getTroopId(),
+                body.getPatrolId(),
                 body.getRankId(),
                 body.getInstructorRankId());
 

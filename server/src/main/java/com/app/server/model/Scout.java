@@ -14,7 +14,7 @@ public class Scout {
     private final String city;
     private final String phone;
 
-    private final Troop troop;
+    private final Patrol patrol;
     private final Rank rank;
     private final InstructorRank instructorRank;
 
@@ -27,7 +27,7 @@ public class Scout {
                  String postalCode,
                  String city,
                  String phone,
-                 Troop troop,
+                 Patrol patrol,
                  Rank rank,
                  InstructorRank instructorRank) {
         this.scoutId = scoutId;
@@ -39,7 +39,7 @@ public class Scout {
         this.postalCode = postalCode;
         this.city = city;
         this.phone = phone;
-        this.troop = troop;
+        this.patrol = patrol;
         this.rank = rank;
         this.instructorRank = instructorRank;
     }
@@ -80,8 +80,8 @@ public class Scout {
         return phone;
     }
 
-    public Troop getTroop() {
-        return troop;
+    public Patrol getTroop() {
+        return patrol;
     }
 
     public Rank getRank() {
@@ -104,7 +104,7 @@ public class Scout {
                 ", postalCode='" + postalCode + '\'' +
                 ", city='" + city + '\'' +
                 ", phone='" + phone + '\'' +
-                ", troop=" + troop +
+                ", troop=" + patrol +
                 ", rank=" + rank +
                 ", instructorRank=" + instructorRank +
                 '}';

@@ -15,7 +15,7 @@ public interface ScoutsRepository {
                 String postalCode,
                 String city,
                 String phone,
-                int troopId,
+                int patrolId,
                 int rankId,
                 int instructorRankId,
                 int teamId);
@@ -35,7 +35,7 @@ public interface ScoutsRepository {
                    String postalCode,
                    String city,
                    String phone,
-                   int troopId,
+                   int patrolId,
                    int rankId,
                    int instructorRankId);
 

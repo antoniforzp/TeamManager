@@ -17,10 +17,10 @@ public class EditScoutBody extends AddScoutBody implements Body {
                          @JsonProperty String postalCode,
                          @JsonProperty String city,
                          @JsonProperty String phone,
-                         @JsonProperty int troopId,
+                         @JsonProperty int patrolId,
                          @JsonProperty int rankId,
                          @JsonProperty int instructorRankId) {
-        super(name, surname, pesel, birthDate, address, postalCode, city, phone, troopId, rankId, instructorRankId);
+        super(name, surname, pesel, birthDate, address, postalCode, city, phone, patrolId, rankId, instructorRankId);
     }
 
 
