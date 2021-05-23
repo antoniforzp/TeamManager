@@ -1,20 +1,16 @@
 package com.app.server.model;
 
-public class JourneyPresence implements Model {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
+@AllArgsConstructor
+public class JourneyPresence {
+
+    @Getter
     private final int journeyId;
+
+    @Getter
     private final int scoutId;
-
-    public JourneyPresence(int journeyId, int scoutId) {
-        this.journeyId = journeyId;
-        this.scoutId = scoutId;
-    }
-
-    public int getJourneyId() {
-        return journeyId;
-    }
-
-    public int getScoutId() {
-        return scoutId;
-    }
 }

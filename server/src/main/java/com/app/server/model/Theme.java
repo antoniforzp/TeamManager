@@ -1,35 +1,19 @@
 package com.app.server.model;
 
-public class Theme implements Model {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
+@AllArgsConstructor
+public class Theme {
+
+    @Getter
     private final int themeId;
+
+    @Getter
     private final String name;
+
+    @Getter
     private final String abbreviation;
-
-    public Theme(int themeId, String name, String abbreviation) {
-        this.themeId = themeId;
-        this.name = name;
-        this.abbreviation = abbreviation;
-    }
-
-    public int getThemeId() {
-        return themeId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getAbbreviation() {
-        return abbreviation;
-    }
-
-    @Override
-    public String toString() {
-        return "Theme{" +
-                "themeId=" + themeId +
-                ", name='" + name + '\'' +
-                ", abbreviation='" + abbreviation + '\'' +
-                '}';
-    }
 }

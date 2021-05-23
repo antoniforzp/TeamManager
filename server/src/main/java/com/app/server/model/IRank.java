@@ -6,11 +6,14 @@ import lombok.ToString;
 
 @ToString
 @AllArgsConstructor
-public class MeetingPresence {
+public class IRank {
 
     @Getter
-    private final int meetingId;
+    private final int rankId;
 
     @Getter
-    private final int scoutId;
+    private final String name;
+
+    @Getter
+    private final String abbreviation;
 }

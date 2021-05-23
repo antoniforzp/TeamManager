@@ -1,35 +1,19 @@
 package com.app.server.model;
 
-public class Team implements Model {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
+@AllArgsConstructor
+public class Team {
+
+    @Getter
     private final int teamId;
+
+    @Getter
     private final String name;
+
+    @Getter
     private final String patron;
-
-    public Team(int teamId, String name, String patron) {
-        this.teamId = teamId;
-        this.name = name;
-        this.patron = patron;
-    }
-
-    public int getTeamId() {
-        return teamId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPatron() {
-        return patron;
-    }
-
-    @Override
-    public String toString() {
-        return "Team{" +
-                "team_id=" + teamId +
-                ", name='" + name + '\'' +
-                ", patron='" + patron + '\'' +
-                '}';
-    }
 }

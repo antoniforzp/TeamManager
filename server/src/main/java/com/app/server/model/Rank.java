@@ -1,48 +1,25 @@
 package com.app.server.model;
 
-public class Rank implements Model {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
+@AllArgsConstructor
+public class Rank {
+
+    @Getter
     private final int rankId;
+
+    @Getter
     private final String name;
+
+    @Getter
     private final String abbreviation;
+
+    @Getter
     private final int minAge;
+
+    @Getter
     private final int maxAge;
-
-    public Rank(int rankId, String name, String abbreviation, int minAge, int maxAge) {
-        this.rankId = rankId;
-        this.name = name;
-        this.abbreviation = abbreviation;
-        this.minAge = minAge;
-        this.maxAge = maxAge;
-    }
-
-    public int getRankId() {
-        return rankId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getAbbreviation() {
-        return abbreviation;
-    }
-
-    public int getMinAge() {
-        return minAge;
-    }
-
-    public int getMaxAge() {
-        return maxAge;
-    }
-
-    @Override
-    public String toString() {
-        return "Rank{" +
-                "rankId=" + rankId +
-                ", name='" + name + '\'' +
-                ", minAge=" + minAge +
-                ", maxAge=" + maxAge +
-                '}';
-    }
 }

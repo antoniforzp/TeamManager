@@ -1,44 +1,24 @@
 package com.app.server.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
 import java.util.Date;
 
-public class Meeting implements Model {
+@ToString
+@AllArgsConstructor
+public class Meeting {
 
+    @Getter
     private final int meetingId;
+
+    @Getter
     private final String title;
+
+    @Getter
     private final String place;
+
+    @Getter
     private final Date date;
-
-    public Meeting(int meetingId, String title, String place, Date date) {
-        this.meetingId = meetingId;
-        this.title = title;
-        this.place = place;
-        this.date = date;
-    }
-
-    public int getMeetingId() {
-        return meetingId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    @Override
-    public String toString() {
-        return "Meeting{" +
-                "meetingId=" + meetingId +
-                ", title='" + title + '\'' +
-                ", place='" + place + '\'' +
-                ", date=" + date +
-                '}';
-    }
 }

@@ -1,9 +1,18 @@
 package com.app.server.model;
 
+import lombok.Getter;
+import lombok.ToString;
+
+@ToString
 public class Role {
 
+    @Getter
     private final int roleId;
+
+    @Getter
     private final String name;
+
+    @Getter
     private int scoutId;
 
     public Role(int roleId, String name) {
@@ -15,26 +24,5 @@ public class Role {
         this.roleId = roleId;
         this.name = name;
         this.scoutId = scoutId;
-    }
-
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getScoutId() {
-        return scoutId;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "roleId=" + roleId +
-                ", name='" + name + '\'' +
-                ", scoutId=" + scoutId +
-                '}';
     }
 }

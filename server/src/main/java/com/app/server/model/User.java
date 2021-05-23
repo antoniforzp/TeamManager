@@ -1,49 +1,25 @@
 package com.app.server.model;
 
-public class User implements Model {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
+@AllArgsConstructor
+public class User {
+
+    @Getter
     private final int userId;
+
+    @Getter
     private final String name;
+
+    @Getter
     private final String surname;
+
+    @Getter
     private final String password;
+
+    @Getter
     private final String email;
-
-    public User(int userId, String name, String surname, String password, String email) {
-        this.userId = userId;
-        this.name = name;
-        this.surname = surname;
-        this.password = password;
-        this.email = email;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }

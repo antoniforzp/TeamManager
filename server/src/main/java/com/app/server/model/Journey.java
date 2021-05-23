@@ -1,50 +1,27 @@
 package com.app.server.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
 import java.util.Date;
 
-public class Journey implements Model {
+@ToString
+@AllArgsConstructor
+public class Journey {
 
+    @Getter
     private final int journeyId;
+
+    @Getter
     private final String title;
+
+    @Getter
     private final String place;
+
+    @Getter
     private final Date startDate;
+
+    @Getter
     private final Date endDate;
-
-    public Journey(int journeyId, String title, String place, Date startDate, Date endDate) {
-        this.journeyId = journeyId;
-        this.title = title;
-        this.place = place;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
-    public int getJourneyId() {
-        return journeyId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    @Override
-    public String toString() {
-        return "Journey{" +
-                "journeyId=" + journeyId +
-                ", title='" + title + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                '}';
-    }
 }

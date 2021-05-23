@@ -1,28 +1,16 @@
 package com.app.server.model;
 
-public class Patrol implements Model {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
+@AllArgsConstructor
+public class Patrol {
+
+    @Getter
     private final int troopId;
+
+    @Getter
     private final String name;
-
-    public Patrol(int troopId, String name) {
-        this.troopId = troopId;
-        this.name = name;
-    }
-
-    public int getTroopId() {
-        return troopId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return "Troop{" +
-                "troopId=" + troopId +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }
