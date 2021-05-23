@@ -1,7 +1,7 @@
 package com.app.server.database.meetingsPresenceService;
 
 import com.app.server.database.meetingsPresenceService.mappers.MeetingPresenceRowMapper;
-import com.app.server.exceptions.DatabaseErrorException;
+import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.MeetingPresence;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,7 +29,7 @@ class MeetingsPresenceDbService implements MeetingsPresenceService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new MeetingPresenceRowMapper(), meetingId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -41,7 +41,7 @@ class MeetingsPresenceDbService implements MeetingsPresenceService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new MeetingPresenceRowMapper(), teamId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -55,7 +55,7 @@ class MeetingsPresenceDbService implements MeetingsPresenceService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -69,7 +69,7 @@ class MeetingsPresenceDbService implements MeetingsPresenceService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 }

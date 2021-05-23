@@ -1,7 +1,7 @@
 package com.app.server.database.ranksService;
 
 import com.app.server.database.ranksService.mappers.RankRowMapper;
-import com.app.server.exceptions.DatabaseErrorException;
+import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Rank;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,7 +31,7 @@ class RanksDbService implements RanksRepository {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -43,7 +43,7 @@ class RanksDbService implements RanksRepository {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new RankRowMapper()));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -55,7 +55,7 @@ class RanksDbService implements RanksRepository {
             return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new RankRowMapper(), rankId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -69,7 +69,7 @@ class RanksDbService implements RanksRepository {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 }

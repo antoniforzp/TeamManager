@@ -1,7 +1,7 @@
 package com.app.server.database.scoutsService;
 
 import com.app.server.database.scoutsService.mappers.ScoutRowMapper;
-import com.app.server.exceptions.DatabaseErrorException;
+import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Scout;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -43,7 +43,7 @@ class ScoutsDbService implements ScoutsService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -57,7 +57,7 @@ class ScoutsDbService implements ScoutsService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new ScoutRowMapper(), teamId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -71,7 +71,7 @@ class ScoutsDbService implements ScoutsService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new ScoutRowMapper(), teamId, troopId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -85,7 +85,7 @@ class ScoutsDbService implements ScoutsService {
             return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new ScoutRowMapper(), scoutId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -108,7 +108,7 @@ class ScoutsDbService implements ScoutsService {
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, surname, pesel, birthDate, address, postalCode, city, phone, patrolId, rankId, instructorRankId, scoutId) >= 1);
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -120,7 +120,7 @@ class ScoutsDbService implements ScoutsService {
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, scoutId, roleId) >= 1);
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -132,7 +132,7 @@ class ScoutsDbService implements ScoutsService {
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, scoutId) >= 1);
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -146,7 +146,7 @@ class ScoutsDbService implements ScoutsService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 }

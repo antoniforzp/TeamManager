@@ -3,7 +3,7 @@ package com.app.server.database.settingsService;
 import com.app.server.database.settingsService.mappers.LanguageRowMapper;
 import com.app.server.database.settingsService.mappers.SettingsRowMapper;
 import com.app.server.database.settingsService.mappers.ThemeRowMapper;
-import com.app.server.exceptions.DatabaseErrorException;
+import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Language;
 import com.app.server.model.Settings;
 import com.app.server.model.Theme;
@@ -42,7 +42,7 @@ public class SettingsDbService implements SettingsService {
             return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new SettingsRowMapper(), userId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -54,7 +54,7 @@ public class SettingsDbService implements SettingsService {
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, languageId, themeId, userId) >= 1);
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -66,7 +66,7 @@ public class SettingsDbService implements SettingsService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new LanguageRowMapper()));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -78,7 +78,7 @@ public class SettingsDbService implements SettingsService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new ThemeRowMapper()));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 }

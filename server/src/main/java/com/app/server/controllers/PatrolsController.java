@@ -58,7 +58,7 @@ public class PatrolsController {
                                         @PathVariable int troopId,
                                         @RequestBody EditPatrolBody body) {
 
-        CompletableFuture<Boolean> data = service.edit(troopId, body.getName());
+        CompletableFuture<Boolean> data = service.update(troopId, body.getName());
         CompletableFuture.allOf(data).join();
 
         return new Response<>(

@@ -1,27 +1,24 @@
 package com.app.server.exceptions;
 
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.dao.DataAccessException;
 
 import java.util.Date;
 
-public class DatabaseErrorException extends RuntimeException {
+@ToString
+public class DatabaseException extends RuntimeException {
 
+    @Getter
     private final String message;
+
+    @Getter
     private final Date occurred;
 
-    public DatabaseErrorException(DataAccessException ex) {
+    public DatabaseException(DataAccessException ex) {
         super(ex.getMessage());
 
         this.message = ex.getMessage();
         this.occurred = new Date();
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    public Date getOccurred() {
-        return occurred;
     }
 }

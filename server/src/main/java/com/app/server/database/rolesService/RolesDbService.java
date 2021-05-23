@@ -2,7 +2,7 @@ package com.app.server.database.rolesService;
 
 import com.app.server.database.rolesService.mappers.RoleRowMapper;
 import com.app.server.database.rolesService.mappers.RoleScoutRowMapper;
-import com.app.server.exceptions.DatabaseErrorException;
+import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Role;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,7 +32,7 @@ class RolesDbService implements RolesService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -44,7 +44,7 @@ class RolesDbService implements RolesService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new RoleRowMapper()));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -56,7 +56,7 @@ class RolesDbService implements RolesService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new RoleScoutRowMapper(), teamId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -68,7 +68,7 @@ class RolesDbService implements RolesService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new RoleScoutRowMapper(), scoutId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -80,7 +80,7 @@ class RolesDbService implements RolesService {
             return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new RoleScoutRowMapper(), roleId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -94,7 +94,7 @@ class RolesDbService implements RolesService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 }

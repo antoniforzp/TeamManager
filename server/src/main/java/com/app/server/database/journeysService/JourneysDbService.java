@@ -1,7 +1,7 @@
 package com.app.server.database.journeysService;
 
 import com.app.server.database.journeysService.mappers.JourneyRowMapper;
-import com.app.server.exceptions.DatabaseErrorException;
+import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Journey;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -36,7 +36,7 @@ class JourneysDbService implements JourneysService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -48,7 +48,7 @@ class JourneysDbService implements JourneysService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new JourneyRowMapper(), teamId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -60,7 +60,7 @@ class JourneysDbService implements JourneysService {
             return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new JourneyRowMapper(), journeyId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -76,7 +76,7 @@ class JourneysDbService implements JourneysService {
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, title, place, startDate, endDate, journeyId) >= 1);
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -90,7 +90,7 @@ class JourneysDbService implements JourneysService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 }

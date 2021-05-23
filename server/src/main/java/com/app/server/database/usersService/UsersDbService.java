@@ -1,7 +1,7 @@
 package com.app.server.database.usersService;
 
 import com.app.server.database.usersService.mappers.UserRowMapper;
-import com.app.server.exceptions.DatabaseErrorException;
+import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,7 +29,7 @@ public class UsersDbService implements UsersService {
             return CompletableFuture.completedFuture(!jdbcTemplate.query(QUERY, new UserRowMapper(), email, password).isEmpty());
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -41,7 +41,7 @@ public class UsersDbService implements UsersService {
             return CompletableFuture.completedFuture(!jdbcTemplate.query(QUERY, new UserRowMapper(), email).isEmpty());
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -59,7 +59,7 @@ public class UsersDbService implements UsersService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -76,7 +76,7 @@ public class UsersDbService implements UsersService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -88,7 +88,7 @@ public class UsersDbService implements UsersService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new UserRowMapper()));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -100,7 +100,7 @@ public class UsersDbService implements UsersService {
             return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new UserRowMapper(), userId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -113,7 +113,7 @@ public class UsersDbService implements UsersService {
             return CompletableFuture.completedFuture(!users.isEmpty() ? users.get(0) : null);
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -128,7 +128,7 @@ public class UsersDbService implements UsersService {
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, surname, password, userId) >= 1);
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -142,7 +142,7 @@ public class UsersDbService implements UsersService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -156,7 +156,7 @@ public class UsersDbService implements UsersService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 }

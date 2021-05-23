@@ -1,7 +1,7 @@
 package com.app.server.database.patrolsService;
 
 import com.app.server.database.patrolsService.mappers.PatrolRowMapper;
-import com.app.server.exceptions.DatabaseErrorException;
+import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Patrol;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,7 +32,7 @@ class PatrolsDbService implements PatrolsService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -44,7 +44,7 @@ class PatrolsDbService implements PatrolsService {
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new PatrolRowMapper(), teamId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -56,7 +56,7 @@ class PatrolsDbService implements PatrolsService {
             return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new PatrolRowMapper(), patrolId));
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -68,7 +68,7 @@ class PatrolsDbService implements PatrolsService {
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, patrolId) >= 1);
 
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 
@@ -82,7 +82,7 @@ class PatrolsDbService implements PatrolsService {
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
+            throw new DatabaseException(ex);
         }
     }
 }

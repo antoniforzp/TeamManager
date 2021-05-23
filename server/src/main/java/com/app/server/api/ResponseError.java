@@ -1,37 +1,21 @@
 package com.app.server.api;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.ToString;
+import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
+@ToString
+public class ResponseError<T> extends Response<T> {
 
-public class ExceptionResponse {
+    @Getter
+    private final String message;
 
-    private String errorMessage;
-    private String errorCode;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDateTime timestamp;
+    public ResponseError(T data,
+                         Integer userId,
+                         String message,
+                         HttpStatus status) {
+        super(data, userId, status);
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
+        this.message = message;
     }
 }
