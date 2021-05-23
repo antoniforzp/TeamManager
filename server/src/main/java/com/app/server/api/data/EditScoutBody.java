@@ -1,12 +1,13 @@
 package com.app.server.api.data;
 
-import com.app.server.api.Body;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
 
 import java.util.Date;
 
-public class EditScoutBody extends AddScoutBody implements Body {
+@ToString
+public class EditScoutBody extends AddScoutBody {
 
     @JsonCreator
     public EditScoutBody(@JsonProperty String name,
@@ -20,7 +21,17 @@ public class EditScoutBody extends AddScoutBody implements Body {
                          @JsonProperty int patrolId,
                          @JsonProperty int rankId,
                          @JsonProperty int instructorRankId) {
-        super(name, surname, pesel, birthDate, address, postalCode, city, phone, patrolId, rankId, instructorRankId);
+        super(name,
+                surname,
+                pesel,
+                birthDate,
+                address,
+                postalCode,
+                city,
+                phone,
+                patrolId,
+                rankId,
+                instructorRankId);
     }
 
 

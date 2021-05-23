@@ -1,10 +1,11 @@
 package com.app.server.api.data;
 
-import com.app.server.api.Body;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
 
-public class EditTeamBody extends AddTeamBody implements Body {
+@ToString
+public class EditTeamBody extends AddTeamBody {
 
     @JsonCreator
     public EditTeamBody(@JsonProperty String name,

@@ -1,24 +1,46 @@
 package com.app.server.api.data;
 
-import com.app.server.api.Body;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Date;
 
-public class AddScoutBody implements Body {
+@ToString
+public class AddScoutBody {
 
+    @Getter
     private final String name;
+
+    @Getter
     private final String surname;
+
+    @Getter
     private final String pesel;
+
+    @Getter
     private final Date birthDate;
+
+    @Getter
     private final String address;
+
+    @Getter
     private final String postalCode;
+
+    @Getter
     private final String city;
+
+    @Getter
     private final String phone;
 
+    @Getter
     private final int patrolId;
+
+    @Getter
     private final int rankId;
+
+    @Getter
     private final int instructorRankId;
 
     @JsonCreator
@@ -44,66 +66,5 @@ public class AddScoutBody implements Body {
         this.patrolId = patrolId;
         this.rankId = rankId;
         this.instructorRankId = instructorRankId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public String getPesel() {
-        return pesel;
-    }
-
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public int getPatrolId() {
-        return patrolId;
-    }
-
-    public int getRankId() {
-        return rankId;
-    }
-
-    public int getInstructorRankId() {
-        return instructorRankId;
-    }
-
-    @Override
-    public String toString() {
-        return "AddScoutBody{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", pesel='" + pesel + '\'' +
-                ", birthDate=" + birthDate +
-                ", address='" + address + '\'' +
-                ", postalCode='" + postalCode + '\'' +
-                ", city='" + city + '\'' +
-                ", phone='" + phone + '\'' +
-                ", troopId=" + patrolId +
-                ", rankId=" + rankId +
-                ", instructorRankId=" + instructorRankId +
-                '}';
     }
 }

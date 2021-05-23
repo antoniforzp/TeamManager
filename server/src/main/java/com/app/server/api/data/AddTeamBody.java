@@ -2,10 +2,16 @@ package com.app.server.api.data;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class AddTeamBody {
 
+    @Getter
     private final String name;
+
+    @Getter
     private final String patron;
 
     @JsonCreator
@@ -13,13 +19,5 @@ public class AddTeamBody {
                        @JsonProperty String patron) {
         this.name = name;
         this.patron = patron;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPatron() {
-        return patron;
     }
 }

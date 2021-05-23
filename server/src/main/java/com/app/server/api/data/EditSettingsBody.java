@@ -2,13 +2,20 @@ package com.app.server.api.data;
 
 import com.app.server.model.Language;
 import com.app.server.model.Theme;
-import com.app.server.api.Body;
+import lombok.Getter;
+import lombok.ToString;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class EditSettingsBody implements Body {
+@ToString
+public class EditSettingsBody {
 
+    @Getter
     private final int userId;
+
+    @Getter
     private final Language language;
+
+    @Getter
     private final Theme theme;
 
     public EditSettingsBody(@JsonProperty int userId,
@@ -17,17 +24,5 @@ public class EditSettingsBody implements Body {
         this.userId = userId;
         this.language = language;
         this.theme = theme;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public Language getLanguage() {
-        return language;
-    }
-
-    public Theme getTheme() {
-        return theme;
     }
 }

@@ -1,12 +1,17 @@
 package com.app.server.api.data;
 
-import com.app.server.api.Body;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 
-public class LoginBody implements Body {
+@ToString
+public class LoginBody {
 
+    @Getter
     private final Integer userId;
+
+    @Getter
     private final Integer teamId;
 
     @JsonCreator
@@ -14,13 +19,5 @@ public class LoginBody implements Body {
                      @JsonProperty Integer teamId) {
         this.userId = userId;
         this.teamId = teamId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public Integer getTeamId() {
-        return teamId;
     }
 }

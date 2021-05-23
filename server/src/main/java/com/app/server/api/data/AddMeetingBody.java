@@ -1,15 +1,22 @@
 package com.app.server.api.data;
 
-import com.app.server.api.Body;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Date;
 
-public class AddMeetingBody implements Body {
+@ToString
+public class AddMeetingBody {
 
+    @Getter
     private final String title;
+
+    @Getter
     private final String place;
+
+    @Getter
     private final Date date;
 
     @JsonCreator
@@ -19,17 +26,5 @@ public class AddMeetingBody implements Body {
         this.title = title;
         this.place = place;
         this.date = date;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public Date getDate() {
-        return date;
     }
 }

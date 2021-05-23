@@ -2,14 +2,24 @@ package com.app.server.api.data;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Date;
 
+@ToString
 public class AddJourneyBody {
 
+    @Getter
     private final String title;
+
+    @Getter
     private final String place;
+
+    @Getter
     private final Date date;
+
+    @Getter
     private final Date endDate;
 
     @JsonCreator
@@ -21,21 +31,5 @@ public class AddJourneyBody {
         this.place = place;
         this.date = date;
         this.endDate = endDate;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public Date getEndDate() {
-        return endDate;
     }
 }

@@ -1,12 +1,17 @@
 package com.app.server.api.data;
 
-import com.app.server.api.Body;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 
-public class UserCredentialsBody implements Body {
+@ToString
+public class UserCredentialsBody {
 
+    @Getter
     private final String email;
+
+    @Getter
     private final String password;
 
     @JsonCreator
@@ -14,13 +19,5 @@ public class UserCredentialsBody implements Body {
                                @JsonProperty String password) {
         this.email = email;
         this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 }
