@@ -1,8 +1,9 @@
 package com.app.server.controllers;
 
-import com.app.server.database.roles.RolesRepository;
+import com.app.server.database.rolesService.RolesService;
 import com.app.server.model.Role;
 import com.app.server.api.Response;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,23 +11,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
+@CrossOrigin
 @RestController
 public class RolesController {
 
-    private final RolesRepository repository;
+    private final RolesService service;
 
-    public RolesController(RolesRepository repository) {
-        this.repository = repository;
+    public RolesController(RolesService service) {
+        this.service = service;
     }
 
-    @CrossOrigin
+    @SneakyThrows
     @GetMapping(value = "/api/{userId}/roles")
     public Response<List<Role>> getRoles(@PathVariable int userId) {
-        List<Role> data = repository.getAll();
+
+        CompletableFuture<List<Role>> data = service.getAll();
+        CompletableFuture.allOf(data);
 
         return new Response<>(
-                data,
+                data.get(),
                 userId,
                 HttpStatus.ACCEPTED);
     }

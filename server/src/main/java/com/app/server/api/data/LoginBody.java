@@ -6,17 +6,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LoginBody implements Body {
 
-    private final int userId;
+    private final Integer userId;
     private final Integer teamId;
 
     @JsonCreator
-    public LoginBody(@JsonProperty int userId,
+    public LoginBody(@JsonProperty Integer userId,
                      @JsonProperty Integer teamId) {
         this.userId = userId;
         this.teamId = teamId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 

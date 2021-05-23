@@ -1,50 +1,55 @@
 package com.app.server.controllers;
 
 import com.app.server.api.data.LoginBody;
-import com.app.server.database.teams.TeamsRepository;
-import com.app.server.database.users.UsersRepository;
+import com.app.server.database.teamsService.TeamsService;
+import com.app.server.database.usersService.UsersService;
+import com.app.server.api.Response;
 import com.app.server.model.Team;
 import com.app.server.model.User;
-import com.app.server.api.Response;
-import com.app.server.api.data.UserCredentialsBody;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
+@CrossOrigin
 @RestController
 public class LoginController {
 
-    private final UsersRepository usersRepository;
-    private final TeamsRepository teamsRepository;
+    private final UsersService usersService;
+    private final TeamsService teamsService;
 
-    public LoginController(UsersRepository usersRepository,
-                           TeamsRepository teamsRepository) {
-        this.usersRepository = usersRepository;
-        this.teamsRepository = teamsRepository;
+    public LoginController(UsersService usersService,
+                           TeamsService teamsService) {
+        this.usersService = usersService;
+        this.teamsService = teamsService;
     }
 
-    @CrossOrigin
-    @PostMapping(value = "/api/login")
-    public Response<LoginBody> login(@RequestBody UserCredentialsBody body) {
-        boolean data = usersRepository.checkCredentials(body.getEmail(), body.getPassword());
-        if (data) {
-            User loggedUser = usersRepository.getByCredentials(
-                    body.getEmail(),
-                    body.getPassword());
-            List<Team> usersTeams = teamsRepository.getByUserId(loggedUser.getUserId());
-            int userId = loggedUser.getUserId();
-            Integer teamId = usersTeams.get(0) != null ? usersTeams.get(0).getTeamId() : null;
+    @SneakyThrows
+    @GetMapping(value = "/api/login/{userEmail}/{userPassword}")
+    public Response<LoginBody> login(@PathVariable String userEmail,
+                                     @PathVariable String userPassword) {
 
-            return new Response<>(
-                    new LoginBody(userId, teamId),
-                    loggedUser.getUserId(),
-                    HttpStatus.ACCEPTED);
+        Integer userId = null;
+        Integer teamId = null;
+
+        CompletableFuture<Boolean> check = usersService.checkCredentials(userEmail, userPassword);
+        CompletableFuture<User> loggedUser = usersService.getByCredentials(userEmail, userPassword);
+        CompletableFuture.allOf(check, loggedUser).join();
+
+        if (check.get() && loggedUser.get() != null) {
+            userId = loggedUser.get().getUserId();
+            CompletableFuture<List<Team>> userTeams = teamsService.getByUserId(userId);
+
+            if (!userTeams.get().isEmpty()) {
+                teamId = userTeams.get().get(0).getTeamId();
+            }
         }
 
         return new Response<>(
-                null,
-                0,
-                HttpStatus.NOT_ACCEPTABLE);
+                new LoginBody(userId, teamId),
+                userId,
+                HttpStatus.ACCEPTED);
     }
 }

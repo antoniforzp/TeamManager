@@ -12,17 +12,17 @@ public class Response<T> {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private final LocalDateTime timestamp;
-    private final int userId;
+    private final Integer userId;
     private final HttpStatus status;
 
-    public Response(T data, int userId, HttpStatus status, ResponseError error) {
+    public Response(T data, Integer userId, HttpStatus status, ResponseError error) {
         this.data = data;
         this.status = status;
         this.timestamp = LocalDateTime.now();
         this.userId = userId;
     }
 
-    public Response(T data, int userId, HttpStatus status) {
+    public Response(T data, Integer userId, HttpStatus status) {
         this.data = data;
         this.status = status;
 
@@ -38,7 +38,7 @@ public class Response<T> {
         return timestamp;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 

@@ -1,74 +1,87 @@
 package com.app.server.controllers;
 
-import com.app.server.database.teams.TeamsRepository;
-import com.app.server.database.users.UsersRepository;
+import com.app.server.database.teamsService.TeamsService;
+import com.app.server.database.usersService.UsersService;
 import com.app.server.api.Response;
 import com.app.server.api.data.AddUserBody;
 import com.app.server.api.data.CheckUserBody;
 import com.app.server.api.data.EditUserBody;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+
+@CrossOrigin
 @RestController
 public class UserController {
 
-    final UsersRepository repository;
-    final TeamsRepository tRepository;
+    final UsersService usersService;
+    final TeamsService teamsService;
 
-    public UserController(UsersRepository repository,
-                          TeamsRepository tRepository) {
-        this.repository = repository;
-        this.tRepository = tRepository;
+    public UserController(UsersService usersService,
+                          TeamsService teamsService) {
+        this.usersService = usersService;
+        this.teamsService = teamsService;
     }
 
-    @CrossOrigin
+    @SneakyThrows
     @PostMapping(value = "/api/users/check/{userId}")
     public Response<Boolean> checkUser(@PathVariable int userId,
                                        @RequestBody CheckUserBody body) {
-        Boolean data = repository.checkIfExists(body.getUserEmail());
+
+        CompletableFuture<Boolean> data = usersService.checkIfExists(body.getUserEmail());
+        CompletableFuture.allOf(data).join();
 
         return new Response<>(
-                data,
+                data.get(),
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
-    @CrossOrigin
+    @SneakyThrows
     @PostMapping(value = "/api/users/{userId}")
     public Response<Boolean> addUser(@PathVariable int userId,
                                      @RequestBody AddUserBody body) {
-        Boolean data = repository.add(body.getName(),
+
+        CompletableFuture<Boolean> data = usersService.add(body.getName(),
                 body.getSurname(),
                 body.getPassword(),
                 body.getEmail());
+        CompletableFuture.allOf(data).join();
 
         return new Response<>(
-                data,
+                data.get(),
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
-    @CrossOrigin
+    @SneakyThrows
     @PatchMapping(value = "/api/users/{userId}")
-    public Response<Boolean> editUser(@PathVariable int userId, @RequestBody EditUserBody body) {
-        boolean data = repository.update(userId,
+    public Response<Boolean> editUser(@PathVariable int userId,
+                                      @RequestBody EditUserBody body) {
+
+        CompletableFuture<Boolean> data = usersService.update(userId,
                 body.getName(),
                 body.getSurname(),
                 body.getPassword());
+        CompletableFuture.allOf(data).join();
 
         return new Response<>(
-                data,
+                data.get(),
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
-    @CrossOrigin
+    @SneakyThrows
     @DeleteMapping(value = "/api/users/{userId}")
     public Response<Boolean> updateUser(@PathVariable int userId) {
-        Boolean data = repository.deleteById(userId);
+
+        CompletableFuture<Boolean> data = usersService.deleteById(userId);
+        CompletableFuture.allOf(data).join();
 
         return new Response<>(
-                data,
+                data.get(),
                 userId,
                 HttpStatus.ACCEPTED);
     }
