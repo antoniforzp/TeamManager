@@ -24,6 +24,19 @@ public class SettingsController {
     }
 
     @SneakyThrows
+    @PostMapping(value = "/api/{userId}/settings/init")
+    public Response<Boolean> initUserSettings(@PathVariable int userId) {
+
+        CompletableFuture<Boolean> data = service.setSettings(userId, 1, 1);
+        CompletableFuture.allOf(data).join();
+
+        return new Response<>(
+                data.get(),
+                userId,
+                HttpStatus.ACCEPTED);
+    }
+
+    @SneakyThrows
     @GetMapping(value = "/api/{userId}/settings")
     public Response<Settings> getUserSettings(@PathVariable int userId) {
 
@@ -66,6 +79,7 @@ public class SettingsController {
     @PatchMapping(value = "/api/{userId}/settings")
     public Response<Boolean> patchUserSettings(@PathVariable int userId,
                                                @RequestBody EditSettingsBody body) {
+
         CompletableFuture<Boolean> data = service.setSettings(body.getUserId(),
                 body.getLanguage().getLanguageId(),
                 body.getTheme().getThemeId());

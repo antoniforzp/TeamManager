@@ -53,12 +53,12 @@ public class PatrolsController {
     }
 
     @SneakyThrows
-    @PatchMapping(value = "/api/{userId}/patrols/{troopId}")
+    @PatchMapping(value = "/api/{userId}/patrols/{patrolId}")
     public Response<Boolean> editPatrol(@PathVariable int userId,
-                                        @PathVariable int troopId,
+                                        @PathVariable int patrolId,
                                         @RequestBody EditPatrolBody body) {
 
-        CompletableFuture<Boolean> data = service.update(troopId, body.getName());
+        CompletableFuture<Boolean> data = service.update(patrolId, body.getName());
         CompletableFuture.allOf(data).join();
 
         return new Response<>(
@@ -68,11 +68,11 @@ public class PatrolsController {
     }
 
     @SneakyThrows
-    @DeleteMapping(value = "/api/{userId}/patrols/{troopId}")
+    @DeleteMapping(value = "/api/{userId}/patrols/{patrolId}")
     public Response<Boolean> deletePatrol(@PathVariable int userId,
-                                          @PathVariable int troopId) {
+                                          @PathVariable int patrolId) {
 
-        CompletableFuture<Boolean> data = service.deleteById(troopId);
+        CompletableFuture<Boolean> data = service.deleteById(patrolId);
         CompletableFuture.allOf(data).join();
 
         return new Response<>(

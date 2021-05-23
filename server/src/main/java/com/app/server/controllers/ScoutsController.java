@@ -163,20 +163,6 @@ public class ScoutsController {
     }
 
     @SneakyThrows
-    @DeleteMapping(value = "/api/{userId}/scouts{scoutId}/roles")
-    public Response<Boolean> deleteScoutRoles(@PathVariable int userId,
-                                              @PathVariable int scoutId) {
-
-        CompletableFuture<Boolean> data = scoutsService.deleteAllRoles(scoutId);
-        CompletableFuture.allOf(data).join();
-
-        return new Response<>(
-                data.get(),
-                userId,
-                HttpStatus.ACCEPTED);
-    }
-
-    @SneakyThrows
     @DeleteMapping(value = "/api/{userId}/scouts{scoutId}/roles{roleId}")
     public Response<Boolean> deleteScoutRole(@PathVariable int userId,
                                              @PathVariable int scoutId,

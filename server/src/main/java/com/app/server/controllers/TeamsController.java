@@ -52,7 +52,6 @@ public class TeamsController {
     }
 
     @SneakyThrows
-    @CrossOrigin
     @PatchMapping(value = "/api/{userId}/teams/{teamId}")
     public Response<Boolean> editTeam(@PathVariable int userId,
                                       @PathVariable int teamId,
@@ -70,7 +69,6 @@ public class TeamsController {
     }
 
     @SneakyThrows
-    @CrossOrigin
     @DeleteMapping(value = "/api/{userId}/teams/{teamId}")
     public Response<Boolean> deleteTeam(@PathVariable int userId,
                                         @PathVariable int teamId) {

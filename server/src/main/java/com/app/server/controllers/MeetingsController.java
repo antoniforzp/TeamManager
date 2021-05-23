@@ -136,7 +136,7 @@ public class MeetingsController {
     }
 
     @SneakyThrows
-    @DeleteMapping(value = "//api/{userId}/meetings{meetingId}/scouts{scoutId}")
+    @DeleteMapping(value = "/api/{userId}/meetings{meetingId}/scouts{scoutId}")
     public Response<Boolean> deleteMeetingPresence(@PathVariable int userId,
                                                    @PathVariable int meetingId,
                                                    @PathVariable int scoutId) {
