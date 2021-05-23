@@ -138,7 +138,7 @@ public class JourneysController {
     }
 
     @SneakyThrows
-    @DeleteMapping(value = "/api/{userId}/journeys/{journeyId}/scouts{scoutId}")
+    @DeleteMapping(value = "/api/{userId}/journeys/{journeyId}/scouts/{scoutId}")
     public Response<Boolean> deleteJourneyPresence(@PathVariable int userId,
                                                    @PathVariable int journeyId,
                                                    @PathVariable int scoutId) {

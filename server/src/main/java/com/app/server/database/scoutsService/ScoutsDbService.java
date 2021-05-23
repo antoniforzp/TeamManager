@@ -37,7 +37,9 @@ class ScoutsDbService implements ScoutsService {
                                           int instructorRankId,
                                           int teamId) {
         try {
-            String QUERY = "INSERT INTO SCOUTS(name, surname, pesel, birth_date, address, postal_code, city, phone, patrol_id, rank_id, instructor_rank_id, team_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String QUERY = "INSERT INTO SCOUTS(name, surname, pesel, birth_date, address, postal_code, city, phone, patrol_id, rank_id,\n" +
+                    "                   instructor_rank_id, team_id)\n" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, surname, pesel, birthDate, address, postalCode, city, phone, patrolId, rankId, instructorRankId, teamId) >= 1);
 
         } catch (DataIntegrityViolationException ex) {
@@ -51,8 +53,29 @@ class ScoutsDbService implements ScoutsService {
     @Override
     public CompletableFuture<List<Scout>> getAllByTeamId(int teamId) {
         try {
-            String QUERY = "SELECT S.scout_id, S.name, S.surname, S.pesel, S.birth_date, S.address, S.postal_code, S.city, S.phone, T.patrol_id, T.name, R.rank_id, R.name, R.abbreviation, R.min_age, R.max_age, IR.rank_id, IR.name, IR.abbreviation\n" +
-                    "FROM SCOUTS S LEFT JOIN TROOPS T on S.patrol_id = T.patrol_id LEFT JOIN RANKS R on S.rank_id = R.rank_id LEFT JOIN INSTRUCTOR_RANKS IR on IR.rank_id = S.instructor_rank_id\n" +
+            String QUERY = "SELECT S.scout_id,\n" +
+                    "       S.name,\n" +
+                    "       S.surname,\n" +
+                    "       S.pesel,\n" +
+                    "       S.birth_date,\n" +
+                    "       S.address,\n" +
+                    "       S.postal_code,\n" +
+                    "       S.city,\n" +
+                    "       S.phone,\n" +
+                    "       P.patrol_id,\n" +
+                    "       P.name,\n" +
+                    "       R.rank_id,\n" +
+                    "       R.name,\n" +
+                    "       R.abbreviation,\n" +
+                    "       R.min_age,\n" +
+                    "       R.max_age,\n" +
+                    "       IR.rank_id,\n" +
+                    "       IR.name,\n" +
+                    "       IR.abbreviation\n" +
+                    "FROM SCOUTS S\n" +
+                    "         LEFT JOIN PATROLS P on S.patrol_id = P.patrol_id\n" +
+                    "         LEFT JOIN RANKS R on S.rank_id = R.rank_id\n" +
+                    "         LEFT JOIN INSTRUCTOR_RANKS IR on IR.rank_id = S.instructor_rank_id\n" +
                     "WHERE S.team_id = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new ScoutRowMapper(), teamId));
 
@@ -63,12 +86,34 @@ class ScoutsDbService implements ScoutsService {
 
     @Async
     @Override
-    public CompletableFuture<List<Scout>> getAllByTeamIdTroopId(int teamId, int troopId) {
+    public CompletableFuture<List<Scout>> getAllByTeamIdPatrolId(int teamId, int patrolId) {
         try {
-            String QUERY = "SELECT S.scout_id, S.name, S.surname, S.pesel, S.birth_date, S.address, S.postal_code, S.city, S.phone, T.patrol_id, T.name, R.rank_id, R.name, R.abbreviation, R.min_age, R.max_age, IR.rank_id, IR.name, IR.abbreviation\n" +
-                    "FROM SCOUTS S LEFT JOIN TROOPS T on S.patrol_id = T.patrol_id LEFT JOIN RANKS R on S.rank_id = R.rank_id LEFT JOIN INSTRUCTOR_RANKS IR on IR.rank_id = S.instructor_rank_id\n" +
-                    "WHERE S.team_id = ? AND S.patrol_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new ScoutRowMapper(), teamId, troopId));
+            String QUERY = "SELECT S.scout_id,\n" +
+                    "       S.name,\n" +
+                    "       S.surname,\n" +
+                    "       S.pesel,\n" +
+                    "       S.birth_date,\n" +
+                    "       S.address,\n" +
+                    "       S.postal_code,\n" +
+                    "       S.city,\n" +
+                    "       S.phone,\n" +
+                    "       P.patrol_id,\n" +
+                    "       P.name,\n" +
+                    "       R.rank_id,\n" +
+                    "       R.name,\n" +
+                    "       R.abbreviation,\n" +
+                    "       R.min_age,\n" +
+                    "       R.max_age,\n" +
+                    "       IR.rank_id,\n" +
+                    "       IR.name,\n" +
+                    "       IR.abbreviation\n" +
+                    "FROM SCOUTS S\n" +
+                    "         LEFT JOIN PATROLS P on S.patrol_id = P.patrol_id\n" +
+                    "         LEFT JOIN RANKS R on S.rank_id = R.rank_id\n" +
+                    "         LEFT JOIN INSTRUCTOR_RANKS IR on IR.rank_id = S.instructor_rank_id\n" +
+                    "WHERE S.team_id = ?\n" +
+                    "  AND S.patrol_id = ?";
+            return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new ScoutRowMapper(), teamId, patrolId));
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
@@ -79,8 +124,29 @@ class ScoutsDbService implements ScoutsService {
     @Override
     public CompletableFuture<Scout> getById(int scoutId) {
         try {
-            String QUERY = "SELECT S.scout_id, S.name, S.surname, S.pesel, S.birth_date, S.address, S.postal_code, S.city, S.phone, T.patrol_id, T.name, R.rank_id, R.name, R.abbreviation, R.min_age, R.max_age, IR.rank_id, IR.name, IR.abbreviation\n" +
-                    "FROM SCOUTS S LEFT JOIN TROOPS T on S.patrol_id = T.patrol_id LEFT JOIN RANKS R on S.rank_id = R.rank_id LEFT JOIN INSTRUCTOR_RANKS IR on IR.rank_id = S.instructor_rank_id\n" +
+            String QUERY = "SELECT S.scout_id,\n" +
+                    "       S.name,\n" +
+                    "       S.surname,\n" +
+                    "       S.pesel,\n" +
+                    "       S.birth_date,\n" +
+                    "       S.address,\n" +
+                    "       S.postal_code,\n" +
+                    "       S.city,\n" +
+                    "       S.phone,\n" +
+                    "       P.patrol_id,\n" +
+                    "       P.name,\n" +
+                    "       R.rank_id,\n" +
+                    "       R.name,\n" +
+                    "       R.abbreviation,\n" +
+                    "       R.min_age,\n" +
+                    "       R.max_age,\n" +
+                    "       IR.rank_id,\n" +
+                    "       IR.name,\n" +
+                    "       IR.abbreviation\n" +
+                    "FROM SCOUTS S\n" +
+                    "         LEFT JOIN PATROLS P on S.patrol_id = P.patrol_id\n" +
+                    "         LEFT JOIN RANKS R on S.rank_id = R.rank_id\n" +
+                    "         LEFT JOIN INSTRUCTOR_RANKS IR on IR.rank_id = S.instructor_rank_id\n" +
                     "WHERE S.scout_id = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new ScoutRowMapper(), scoutId));
 
@@ -104,7 +170,19 @@ class ScoutsDbService implements ScoutsService {
                                              int rankId,
                                              int instructorRankId) {
         try {
-            String QUERY = "UPDATE SCOUTS SET name = ?, surname = ?, pesel = ?, birth_date = ?, address = ?, postal_code = ?, city = ?, phone = ?, patrol_id = ?, rank_id = ?, instructor_rank_id = ? WHERE scout_id = ?";
+            String QUERY = "UPDATE SCOUTS\n" +
+                    "SET name               = ?,\n" +
+                    "    surname            = ?,\n" +
+                    "    pesel              = ?,\n" +
+                    "    birth_date         = ?,\n" +
+                    "    address            = ?,\n" +
+                    "    postal_code        = ?,\n" +
+                    "    city               = ?,\n" +
+                    "    phone              = ?,\n" +
+                    "    patrol_id          = ?,\n" +
+                    "    rank_id            = ?,\n" +
+                    "    instructor_rank_id = ?\n" +
+                    "WHERE scout_id = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, surname, pesel, birthDate, address, postalCode, city, phone, patrolId, rankId, instructorRankId, scoutId) >= 1);
 
         } catch (DataAccessException ex) {

@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface PatrolsService {
 
-    CompletableFuture<Boolean> add(String name, int patrolId);
+    CompletableFuture<Boolean> add(String name, int teamId);
 
     CompletableFuture<List<Patrol>> getAllByTeamId(int teamId);
 

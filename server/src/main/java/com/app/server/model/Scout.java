@@ -37,6 +37,7 @@ public class Scout {
     @Getter
     private final String phone;
 
+
     @Getter
     private final Patrol patrol;
 

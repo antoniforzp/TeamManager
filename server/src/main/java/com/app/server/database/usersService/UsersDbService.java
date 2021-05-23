@@ -97,7 +97,8 @@ public class UsersDbService implements UsersService {
     public CompletableFuture<User> getById(int userId) {
         try {
             String QUERY = "SELECT * FROM USERS WHERE user_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new UserRowMapper(), userId));
+            List<User> users = jdbcTemplate.query(QUERY, new UserRowMapper(), userId);
+            return CompletableFuture.completedFuture(!users.isEmpty() ? users.get(0) : null);
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);

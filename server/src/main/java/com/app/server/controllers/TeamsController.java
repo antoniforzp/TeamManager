@@ -39,6 +39,20 @@ public class TeamsController {
     }
 
     @SneakyThrows
+    @GetMapping(value = "/api/{userId}/teams/{teamId}")
+    public Response<Team> getTeam(@PathVariable int userId,
+                                  @PathVariable int teamId) {
+
+        CompletableFuture<Team> data = service.getById(teamId);
+        CompletableFuture.allOf(data).join();
+
+        return new Response<>(
+                data.get(),
+                userId,
+                HttpStatus.ACCEPTED);
+    }
+
+    @SneakyThrows
     @GetMapping(value = "/api/{userId}/teams")
     public Response<List<Team>> getTeams(@PathVariable int userId) {
 

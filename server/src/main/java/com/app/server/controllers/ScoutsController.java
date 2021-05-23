@@ -149,7 +149,7 @@ public class ScoutsController {
     }
 
     @SneakyThrows
-    @DeleteMapping(value = "/api/{userId}/scouts{scoutId}")
+    @DeleteMapping(value = "/api/{userId}/scouts/{scoutId}")
     public Response<Boolean> deleteScout(@PathVariable int userId,
                                          @PathVariable int scoutId) {
 

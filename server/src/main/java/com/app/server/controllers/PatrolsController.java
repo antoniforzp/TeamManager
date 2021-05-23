@@ -23,13 +23,14 @@ public class PatrolsController {
     }
 
     @SneakyThrows
-    @PostMapping(value = "/api/{userId}/patrols")
+    @PostMapping(value = "/api/{userId}/team/{teamId}/patrols")
     public Response<Boolean> addPatrol(@PathVariable int userId,
+                                       @PathVariable int teamId,
                                        @RequestBody AddPatrolBody body) {
 
         CompletableFuture<Boolean> data = service.add(
                 body.getName(),
-                userId);
+                teamId);
         CompletableFuture.allOf(data).join();
 
         return new Response<>(

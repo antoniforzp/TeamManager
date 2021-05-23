@@ -34,8 +34,8 @@ public class ScoutRowMapper implements RowMapper<Scout> {
                 resultSet.getString("S.city"),
                 resultSet.getString("S.phone"),
 
-                new Patrol(resultSet.getInt("T.patrol_id"),
-                        resultSet.getString("T.name")),
+                new Patrol(resultSet.getInt("P.patrol_id"),
+                        resultSet.getString("P.name")),
 
                 new Rank(resultSet.getInt("R.rank_id"),
                         resultSet.getString("R.name"),

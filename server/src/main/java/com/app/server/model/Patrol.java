@@ -9,7 +9,7 @@ import lombok.ToString;
 public class Patrol {
 
     @Getter
-    private final int troopId;
+    private final int patrolId;
 
     @Getter
     private final String name;

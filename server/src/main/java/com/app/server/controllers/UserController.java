@@ -6,6 +6,7 @@ import com.app.server.api.Response;
 import com.app.server.api.data.AddUserBody;
 import com.app.server.api.data.CheckUserBody;
 import com.app.server.api.data.EditUserBody;
+import com.app.server.model.User;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @SneakyThrows
-    @PostMapping(value = "/api/users/check/{userId}")
+    @PostMapping(value = "/api/{userId}/users/check")
     public Response<Boolean> checkUser(@PathVariable int userId,
                                        @RequestBody CheckUserBody body) {
 
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @SneakyThrows
-    @PostMapping(value = "/api/users/{userId}")
+    @PostMapping(value = "/api/{userId}/users")
     public Response<Boolean> addUser(@PathVariable int userId,
                                      @RequestBody AddUserBody body) {
 
@@ -57,7 +58,20 @@ public class UserController {
     }
 
     @SneakyThrows
-    @PatchMapping(value = "/api/users/{userId}")
+    @GetMapping(value = "/api/{userId}/users")
+    public Response<User> getUser(@PathVariable int userId) {
+
+        CompletableFuture<User> data = usersService.getById(userId);
+        CompletableFuture.allOf(data).join();
+
+        return new Response<>(
+                data.get(),
+                userId,
+                HttpStatus.ACCEPTED);
+    }
+
+    @SneakyThrows
+    @PatchMapping(value = "/api/{userId}/users")
     public Response<Boolean> editUser(@PathVariable int userId,
                                       @RequestBody EditUserBody body) {
 
@@ -74,7 +88,7 @@ public class UserController {
     }
 
     @SneakyThrows
-    @DeleteMapping(value = "/api/users/{userId}")
+    @DeleteMapping(value = "/api/{userId}/users")
     public Response<Boolean> updateUser(@PathVariable int userId) {
 
         CompletableFuture<Boolean> data = usersService.deleteById(userId);

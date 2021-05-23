@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 
-public class Response<T> extends ResponseEntity<T> {
+public class Response<T> {
 
     @Getter
     private final T data;
@@ -23,7 +23,6 @@ public class Response<T> extends ResponseEntity<T> {
     private final HttpStatus status;
 
     public Response(T data, Integer userId, HttpStatus status) {
-        super(status);
 
         this.data = data;
         this.status = status;

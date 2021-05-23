@@ -64,7 +64,8 @@ class TeamsDbService implements TeamsService {
     public CompletableFuture<Team> getById(int teamId) {
         try {
             String QUERY = "SELECT * FROM TEAMS WHERE team_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new TeamRowMapper(), teamId));
+            List<Team> teams = jdbcTemplate.query(QUERY, new TeamRowMapper(), teamId);
+            return CompletableFuture.completedFuture(!teams.isEmpty() ? teams.get(0) : null);
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);

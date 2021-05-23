@@ -24,10 +24,10 @@ class PatrolsDbService implements PatrolsService {
 
     @Async
     @Override
-    public CompletableFuture<Boolean> add(String name, int patrolId) {
+    public CompletableFuture<Boolean> add(String name, int teamId) {
         try {
             String QUERY = "INSERT INTO PATROLS(name, team_id) VALUES(?, ?)";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, patrolId) >= 1);
+            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, teamId) >= 1);
 
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);

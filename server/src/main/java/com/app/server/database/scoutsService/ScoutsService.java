@@ -23,7 +23,7 @@ public interface ScoutsService {
 
     CompletableFuture<List<Scout>> getAllByTeamId(int teamId);
 
-    CompletableFuture<List<Scout>> getAllByTeamIdTroopId(int teamId, int troopId);
+    CompletableFuture<List<Scout>> getAllByTeamIdPatrolId(int teamId, int patrolId);
 
     CompletableFuture<Scout> getById(int scoutId);
 
