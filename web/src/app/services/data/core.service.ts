@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
 import { REST, RestService } from '../../web/rest.service';
+import { AppStateService } from '../core/app-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoreService {
-  constructor(private rest: RestService) {}
+  constructor(
+    private rest: RestService,
+    private appStateService: AppStateService
+  ) {}
 
   getCurrentUser(): Observable<User> {
     return this.rest.resolve<User>({
@@ -20,7 +24,7 @@ export class CoreService {
   getCurrentTeam(): Observable<Team> {
     return this.rest.resolve<Team>({
       method: REST.GET,
-      url: `/core/team`,
+      url: `/teams${this.appStateService.currentTeam}`,
     });
   }
 
@@ -32,9 +36,7 @@ export class CoreService {
   }
 
   setCurrentTeam(teamId: number): Observable<boolean> {
-    return this.rest.resolve<boolean>({
-      method: REST.POST,
-      url: `/core/team${teamId}`,
-    });
+    this.appStateService.storeCurrentTeamId(teamId);
+    return of(true);
   }
 }

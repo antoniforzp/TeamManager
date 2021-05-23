@@ -16,10 +16,12 @@ import { AppNavigationService } from 'src/app/services/core/app-navigation.servi
 import { LoginService } from 'src/app/services/data/login.service';
 import { AppStateService } from 'src/app/services/core/app-state.service';
 import { SettingsService } from 'src/app/services/data/settings.service';
-import { Subject } from 'rxjs';
+import { merge, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Language } from 'src/app/model/Language';
 import { defaultLanguage } from 'src/app/translation/translation-config';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AppInitService } from 'src/app/services/core/app-init.service';
 
 @Component({
   templateUrl: './login.component.html',
@@ -31,10 +33,9 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   loginResult!: boolean;
-  loginError!: boolean;
 
   loginInProgress = false;
-  pageErrorMessage = '';
+  pageError: string;
 
   languagesLoaded = false;
   languages: Language[];
@@ -44,7 +45,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private loginService: LoginService,
     private navigationService: AppNavigationService,
-    private appSettingsService: AppSettingsService,
+    private appInit: AppInitService,
     private appStateService: AppStateService,
     private settingsService: SettingsService,
     private translate: TranslateService,
@@ -72,55 +73,79 @@ export class LoginComponent implements OnInit {
   }
 
   translateView(): void {
-    const lang = this.appStateService.getOutLanguage();
+    const lang = this.appStateService.outLanguage;
     lang ? this.translate.use(lang) : this.translate.use(defaultLanguage);
   }
 
   onSubmit(): void {
+    this.resetAlerts();
+    this.progressStart();
+
+    this.loginService
+      .login(this.email.value, this.password.value)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (x) => {
+          if (x.userId) {
+            this.appInit.initCore(x.userId, x.teamId);
+            this.appInit
+              .initSettings()
+              .pipe(takeUntil(this.destroy$))
+              .subscribe({
+                next: () => {
+                  this.navigationService.navigateToHome();
+                  this.progressStop();
+                },
+                error: (err) => {
+                  this.resolveError(err);
+                },
+              });
+          } else {
+            this.wrongCredentialsAlert();
+            this.progressStop();
+          }
+        },
+        error: (err) => {
+          this.resolveError(err);
+        },
+      });
+  }
+
+  // PAGE FLOW CONTROL
+
+  private progressStart(): void {
     this.loginInProgress = true;
     this.changeDetector.detectChanges();
-
-    this.loginService.login(this.email.value, this.password.value).subscribe({
-      next: (x) => {
-        if (this.resolveLoginStatus(x)) {
-          this.appSettingsService.initSetttings().subscribe({
-            next: () => {
-              this.navigationService.navigateToHome();
-            },
-            error: () => {
-              this.resolveError();
-              this.loginInProgress = false;
-              this.changeDetector.detectChanges();
-            },
-          });
-        }
-        this.loginInProgress = false;
-        this.changeDetector.detectChanges();
-      },
-      error: () => {
-        this.resolveError();
-        this.loginInProgress = false;
-        this.changeDetector.detectChanges();
-      },
-    });
   }
 
-  resolveLoginStatus(result: boolean): boolean {
-    this.loginResult = result;
-    this.pageErrorMessage = this.loginResult
-      ? ''
-      : 'Nieprawidłowe dane logowania';
-    return result;
+  private progressStop(): void {
+    this.loginInProgress = false;
+    this.changeDetector.detectChanges();
   }
 
-  resolveError(): void {
-    this.loginError = true;
-    this.pageErrorMessage = 'Błąd połączenia z serwerem';
+  // ALERTS
+
+  private resetAlerts(): void {
+    this.pageError = null;
+  }
+
+  private wrongCredentialsAlert(): void {
+    this.pageError = 'Nieprawidłowe dane logowania';
+  }
+
+  private resolveError(err: HttpErrorResponse): void {
+    this.pageError = err.message;
+
+    if (err.status === 409) {
+      this.wrongCredentialsAlert();
+    }
+
+    this.progressStop();
   }
 
   // SETTING UP FORM
 
-  setupForm(): void {
+  private setupForm(): void {
     this.loginForm = this.fb.group({
       email: ['admin@admin.com', Validators.required],
       password: ['Admin1', Validators.required],
@@ -139,13 +164,13 @@ export class LoginComponent implements OnInit {
 
   // NAVIGATION
 
-  navigateToAddUser(): void {
+  public navigateToAddUser(): void {
     this.navigationService.navigateToAddUser();
   }
 
   // LANGUAGE
 
-  setOutLanguage(language: Language): void {
+  public setOutLanguage(language: Language): void {
     this.currentLanguage = language;
     this.translate.use(language.abbreviation);
     this.appStateService.storeOutLanguage(language.abbreviation);

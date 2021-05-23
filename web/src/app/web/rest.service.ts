@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ApiResponse } from '../model/web/Response';
 
 export enum REST {
   POST,
@@ -14,12 +15,6 @@ export interface Request {
   url: string;
   method: REST;
   body?: any;
-}
-
-export interface Response {
-  data: any;
-  timestamp: Date;
-  userId: number;
 }
 
 @Injectable({
@@ -35,52 +30,61 @@ export class RestService {
   constructor(private http: HttpClient) {}
 
   public resolve<T>(request: Request): Observable<T> {
+    let response: Observable<T>;
+
     switch (request.method) {
-      case REST.POST: {
-        return this.http
-          .post<Response>(
-            this.origin + request.url,
-            JSON.stringify(request.body),
-            {
-              headers: this.headers,
-            }
-          )
-          .pipe(map((x) => x.data));
-      }
-
-      case REST.GET: {
-        if (request.body) {
-          console.log('GET method does not resolve body!');
+      case REST.POST:
+        {
+          response = this.http
+            .post<ApiResponse<T>>(
+              this.origin + request.url,
+              JSON.stringify(request.body),
+              { headers: this.headers }
+            )
+            .pipe(map((x) => x.data));
         }
-        return this.http
-          .get<Response>(this.origin + request.url, {
-            headers: this.headers,
-          })
-          .pipe(map((x) => x.data));
-      }
+        break;
 
-      case REST.PATCH: {
-        return this.http
-          .patch<Response>(
-            this.origin + request.url,
-            JSON.stringify(request.body),
-            {
+      case REST.GET:
+        {
+          if (request.body) {
+            console.log('GET method does not resolve body!');
+          }
+          response = this.http
+            .get<ApiResponse<T>>(this.origin + request.url, {
               headers: this.headers,
-            }
-          )
-          .pipe(map((x) => x.data));
-      }
-
-      case REST.DELETE: {
-        if (request.body) {
-          console.log('DELETE method does not resolve body!');
+            })
+            .pipe(map((x) => x.data));
         }
-        return this.http
-          .delete<Response>(this.origin + request.url, {
-            headers: this.headers,
-          })
-          .pipe(map((x) => x.data));
-      }
+        break;
+
+      case REST.PATCH:
+        {
+          response = this.http
+            .patch<ApiResponse<T>>(
+              this.origin + request.url,
+              JSON.stringify(request.body),
+              { headers: this.headers }
+            )
+            .pipe(map((x) => x.data));
+        }
+        break;
+
+      case REST.DELETE:
+        {
+          if (request.body) {
+            console.log('DELETE method does not resolve body!');
+          }
+          response = this.http
+            .delete<ApiResponse<T>>(this.origin + request.url, {
+              headers: this.headers,
+            })
+            .pipe(map((x) => x.data));
+        }
+        break;
     }
+
+    console.log(request);
+    return response;
   }
 }

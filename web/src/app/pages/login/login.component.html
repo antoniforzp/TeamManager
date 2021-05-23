@@ -25,14 +25,9 @@
                     </button>
 
                     <!-- Errors -->
-                    <div class="d-flex flex-column" *ngIf="loginError === true && !loginInProgress">
+                    <div class="d-flex flex-column" *ngIf="pageError && !loginInProgress">
                         <small class="alert-danger" translate>
-                            errors.communication-server
-                        </small>
-                    </div>
-                    <div class="d-flex flex-column" *ngIf="loginResult === false && !loginInProgress">
-                        <small class="alert-danger" translate>
-                            errors.login-credentials
+                            {{pageError}}
                         </small>
                     </div>
                 </div>
