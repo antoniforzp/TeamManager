@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Meeting, MeetingPresence } from 'src/app/model/Meeting';
 import { REST, RestService } from 'src/app/web/rest.service';
+import { AppStateService } from '../core/app-state.service';
 
 export interface MeetingPayload {
   title: string;
@@ -13,12 +14,12 @@ export interface MeetingPayload {
   providedIn: 'root',
 })
 export class MeetingsService {
-  constructor(private rest: RestService) {}
+  constructor(private rest: RestService, private app: AppStateService) {}
 
   addMeeting(meeting: MeetingPayload): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.POST,
-      url: `/meetings`,
+      url: `/api/${this.app.userId}/team/${this.app.teamId}/meetings`,
       body: meeting,
     });
   }
@@ -26,28 +27,28 @@ export class MeetingsService {
   addMeetingPresence(meetingId: number, scoutId: number): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.POST,
-      url: `/meetings${meetingId}/scouts${scoutId}`,
+      url: `/api/${this.app.userId}/meetings/${meetingId}/scouts/${scoutId}`,
     });
   }
 
   getMeetings(): Observable<Meeting[]> {
     return this.rest.resolve<Meeting[]>({
       method: REST.GET,
-      url: `/meetings`,
+      url: `/api/${this.app.userId}/team/${this.app.teamId}/meetings`,
     });
   }
 
   getMeetingsPresence(): Observable<MeetingPresence[]> {
     return this.rest.resolve<MeetingPresence[]>({
       method: REST.GET,
-      url: `/meetings/presence`,
+      url: `/api/${this.app.userId}/team/${this.app.teamId}/meetings/presence`,
     });
   }
 
   getMeetingsPresenceById(meetingId: number): Observable<MeetingPresence[]> {
     return this.rest.resolve<MeetingPresence[]>({
       method: REST.GET,
-      url: `/meetings${meetingId}/presence`,
+      url: `/api/${this.app.userId}/meetings/${meetingId}/presence`,
     });
   }
 
@@ -57,7 +58,7 @@ export class MeetingsService {
   ): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.PATCH,
-      url: `/meetings${meetingId}`,
+      url: `/api/${this.app.userId}/meetings/${meetingId}`,
       body: meeting,
     });
   }
@@ -65,14 +66,17 @@ export class MeetingsService {
   deleteMeeting(meetingId: number): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.DELETE,
-      url: `/meetings${meetingId}`,
+      url: `/api/${this.app.userId}/meetings/${meetingId}`,
     });
   }
 
-  deleteMeetingPresence(meetingId: number, scoutId: number): Observable<boolean> {
+  deleteMeetingPresence(
+    meetingId: number,
+    scoutId: number
+  ): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.DELETE,
-      url: `/meetings${meetingId}/scouts${scoutId}`,
+      url: `/api/${this.app.userId}/meetings/${meetingId}/scouts/${scoutId}`,
     });
   }
 }

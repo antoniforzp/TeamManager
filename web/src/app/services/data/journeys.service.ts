@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Journey, JourneyPresence } from 'src/app/model/Journey';
 import { RestService, REST } from 'src/app/web/rest.service';
+import { AppStateService } from '../core/app-state.service';
 
 export interface JourneyPayload {
   title: string;
@@ -14,12 +15,12 @@ export interface JourneyPayload {
   providedIn: 'root',
 })
 export class JourneysService {
-  constructor(private rest: RestService) {}
+  constructor(private rest: RestService, private app: AppStateService) {}
 
   addJourney(journey: JourneyPayload): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.POST,
-      url: `/journeys`,
+      url: `/api/${this.app.userId}/team/${this.app.userId}/journeys`,
       body: journey,
     });
   }
@@ -27,28 +28,28 @@ export class JourneysService {
   addJourneyPresence(journeyId: number, scoutId: number): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.POST,
-      url: `/journeys${journeyId}/scouts${scoutId}`,
+      url: `/api/${this.app.userId}/journeys/${journeyId}/scouts/${scoutId}`,
     });
   }
 
   getJourneys(): Observable<Journey[]> {
     return this.rest.resolve<Journey[]>({
       method: REST.GET,
-      url: `/journeys`,
+      url: `/api/${this.app.userId}/team/${this.app.teamId}/journeys`,
     });
   }
 
   getJourneysPresence(): Observable<JourneyPresence[]> {
     return this.rest.resolve<JourneyPresence[]>({
       method: REST.GET,
-      url: `/journeys/presence`,
+      url: `/api/${this.app.userId}/team/${this.app.teamId}/journeys/presence`,
     });
   }
 
   getJourneysPresenceById(journeyId: number): Observable<JourneyPresence[]> {
     return this.rest.resolve<JourneyPresence[]>({
       method: REST.GET,
-      url: `/journeys${journeyId}/presence`,
+      url: `/api/${this.app.userId}/journeys/${journeyId}/presence`,
     });
   }
 
@@ -58,7 +59,7 @@ export class JourneysService {
   ): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.PATCH,
-      url: `/journeys${journeyId}`,
+      url: `/api/${this.app.userId}/journeys/${journeyId}`,
       body: journey,
     });
   }
@@ -66,7 +67,7 @@ export class JourneysService {
   deleteJourney(journeyId: number): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.DELETE,
-      url: `/journeys${journeyId}`,
+      url: `/api/${this.app.userId}/journeys/${journeyId}`,
     });
   }
 
@@ -76,7 +77,7 @@ export class JourneysService {
   ): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.DELETE,
-      url: `/journeys${journeyId}/scouts${scoutId}`,
+      url: `/api/${this.app.userId}/journeys/${journeyId}/scouts${scoutId}`,
     });
   }
 }

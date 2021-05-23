@@ -1,6 +1,6 @@
-import { InstructorRank } from './InstructorRank';
+import { IRank as IRank } from './IRank';
 import { Rank } from './Rank';
-import { Troop } from './Troop';
+import { Patrol } from './Patrol';
 
 export interface Scout {
   scoutId: number;
@@ -13,7 +13,7 @@ export interface Scout {
   city: string;
   phone: string;
 
-  troop: Troop;
+  patrol: Patrol;
   rank: Rank;
-  instructorRank?: InstructorRank;
+  irank: IRank;
 }

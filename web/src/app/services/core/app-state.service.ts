@@ -52,7 +52,7 @@ export class AppStateService {
     );
   }
 
-  get currentTeam(): number {
+  get teamId(): number {
     return +this.cookieService.get(AppStateKeys.TEAM_ID);
   }
 

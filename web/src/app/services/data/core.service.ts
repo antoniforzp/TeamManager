@@ -9,34 +9,31 @@ import { AppStateService } from '../core/app-state.service';
   providedIn: 'root',
 })
 export class CoreService {
-  constructor(
-    private rest: RestService,
-    private appStateService: AppStateService
-  ) {}
+  constructor(private rest: RestService, private app: AppStateService) {}
 
   getCurrentUser(): Observable<User> {
     return this.rest.resolve<User>({
       method: REST.GET,
-      url: `/core/user`,
+      url: `/api/${this.app.userId}/users`,
     });
   }
 
   getCurrentTeam(): Observable<Team> {
     return this.rest.resolve<Team>({
       method: REST.GET,
-      url: `/teams${this.appStateService.currentTeam}`,
+      url: `/api/${this.app.userId}/teams/${this.app.teamId}`,
     });
   }
 
   getCurrentUserTeams(): Observable<Team[]> {
     return this.rest.resolve<Team[]>({
       method: REST.GET,
-      url: `/teams`,
+      url: `/api/${this.app.userId}/teams`,
     });
   }
 
   setCurrentTeam(teamId: number): Observable<boolean> {
-    this.appStateService.storeCurrentTeamId(teamId);
+    this.app.storeCurrentTeamId(teamId);
     return of(true);
   }
 }

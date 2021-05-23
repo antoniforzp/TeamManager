@@ -3,18 +3,18 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
 import { RestService, REST } from 'src/app/web/rest.service';
-import { ErrorService } from './error.service';
+import { AppStateService } from '../core/app-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TeamsService {
-  constructor(private rest: RestService, private errors: ErrorService) {}
+  constructor(private rest: RestService, private app: AppStateService) {}
 
   addTeam(name: string, patron: string): Observable<any> {
     return this.rest.resolve<boolean>({
       method: REST.POST,
-      url: `/teams`,
+      url: `/api/${this.app.userId}/teams`,
       body: {
         name,
         patron,
@@ -25,7 +25,7 @@ export class TeamsService {
   getUserTeams(): Observable<Team[]> {
     return this.rest.resolve<Team[]>({
       method: REST.GET,
-      url: `/teams`,
+      url: `/api/${this.app.userId}/teams`,
     });
   }
 
@@ -33,7 +33,7 @@ export class TeamsService {
     return this.rest
       .resolve<Team[]>({
         method: REST.GET,
-        url: `/teams`,
+        url: `/api/${this.app.userId}/teams`,
       })
       .pipe(map((x) => x.length));
   }
@@ -41,7 +41,7 @@ export class TeamsService {
   patchTeam(teamId: number, name: string, patron: string): Observable<any> {
     return this.rest.resolve<boolean>({
       method: REST.PATCH,
-      url: `/teams${teamId}`,
+      url: `/api/${this.app.userId}/teams/${teamId}`,
       body: {
         name,
         patron,
@@ -52,7 +52,7 @@ export class TeamsService {
   deleteTeam(teamId: number): Observable<any> {
     return this.rest.resolve<boolean>({
       method: REST.DELETE,
-      url: `/teams${teamId}`,
+      url: `/api/${this.app.userId}/teams/${teamId}`,
     });
   }
 }
