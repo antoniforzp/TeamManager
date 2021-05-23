@@ -1,6 +1,6 @@
 package com.app.server.database.scoutsService.mappers;
 
-import com.app.server.model.InstructorRank;
+import com.app.server.model.IRank;
 import com.app.server.model.Rank;
 import com.app.server.model.Scout;
 import com.app.server.model.Patrol;
@@ -14,11 +14,11 @@ public class ScoutRowMapper implements RowMapper<Scout> {
     public Scout mapRow(ResultSet resultSet, int i) throws SQLException {
 
         //Check instructor rank
-        InstructorRank instructorRank = null;
+        IRank iRank = null;
         if (resultSet.getString("IR.name") != null ||
                 resultSet.getString("IR.abbreviation") != null) {
 
-            instructorRank = new InstructorRank(resultSet.getInt("IR.rank_id"),
+            iRank = new IRank(resultSet.getInt("IR.rank_id"),
                     resultSet.getString("IR.name"),
                     resultSet.getString("IR.abbreviation"));
         }
@@ -43,7 +43,7 @@ public class ScoutRowMapper implements RowMapper<Scout> {
                         resultSet.getInt("R.min_age"),
                         resultSet.getInt("R.max_age")),
 
-                instructorRank
+                iRank
         );
     }
 }

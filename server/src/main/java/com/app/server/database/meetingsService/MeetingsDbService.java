@@ -4,6 +4,7 @@ import com.app.server.database.meetingsService.mappers.MeetingRowMapper;
 import com.app.server.exceptions.DatabaseErrorException;
 import com.app.server.model.Meeting;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
@@ -21,20 +22,22 @@ class MeetingsDbService implements MeetingsService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> add(String title, String place, Date date, int team_id) {
         try {
             String QUERY = "INSERT INTO MEETINGS(title, place, date, team_id) VALUES(?, ?, ?, ?)";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, title, place, date, team_id) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<Meeting>> getAllByTeamId(int teamId) {
         try {
             String QUERY = "SELECT * FROM MEETINGS WHERE team_id = ?";
@@ -45,8 +48,8 @@ class MeetingsDbService implements MeetingsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Meeting> getById(int meetingId) {
         try {
             String QUERY = "SELECT * FROM MEETINGS WHERE meeting_id = ?";
@@ -57,8 +60,8 @@ class MeetingsDbService implements MeetingsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> update(int meetingId, String title, String place, Date date) {
         try {
             String QUERY = "UPDATE MEETINGS SET title = ?, place = ?, date = ? WHERE meeting_id = ?";
@@ -69,13 +72,15 @@ class MeetingsDbService implements MeetingsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> deleteById(int meetingId) {
         try {
             String QUERY = "DELETE FROM MEETINGS WHERE meeting_id = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, meetingId) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }

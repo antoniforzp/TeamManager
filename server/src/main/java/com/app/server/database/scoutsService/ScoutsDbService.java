@@ -4,6 +4,7 @@ import com.app.server.database.scoutsService.mappers.ScoutRowMapper;
 import com.app.server.exceptions.DatabaseErrorException;
 import com.app.server.model.Scout;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,8 @@ class ScoutsDbService implements ScoutsService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> add(String name,
                                           String surname,
                                           String pesel,
@@ -39,13 +40,15 @@ class ScoutsDbService implements ScoutsService {
             String QUERY = "INSERT INTO SCOUTS(name, surname, pesel, birth_date, address, postal_code, city, phone, patrol_id, rank_id, instructor_rank_id, team_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, surname, pesel, birthDate, address, postalCode, city, phone, patrolId, rankId, instructorRankId, teamId) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<Scout>> getAllByTeamId(int teamId) {
         try {
             String QUERY = "SELECT S.scout_id, S.name, S.surname, S.pesel, S.birth_date, S.address, S.postal_code, S.city, S.phone, T.patrol_id, T.name, R.rank_id, R.name, R.abbreviation, R.min_age, R.max_age, IR.rank_id, IR.name, IR.abbreviation\n" +
@@ -58,8 +61,8 @@ class ScoutsDbService implements ScoutsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<Scout>> getAllByTeamIdTroopId(int teamId, int troopId) {
         try {
             String QUERY = "SELECT S.scout_id, S.name, S.surname, S.pesel, S.birth_date, S.address, S.postal_code, S.city, S.phone, T.patrol_id, T.name, R.rank_id, R.name, R.abbreviation, R.min_age, R.max_age, IR.rank_id, IR.name, IR.abbreviation\n" +
@@ -72,8 +75,8 @@ class ScoutsDbService implements ScoutsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Scout> getById(int scoutId) {
         try {
             String QUERY = "SELECT S.scout_id, S.name, S.surname, S.pesel, S.birth_date, S.address, S.postal_code, S.city, S.phone, T.patrol_id, T.name, R.rank_id, R.name, R.abbreviation, R.min_age, R.max_age, IR.rank_id, IR.name, IR.abbreviation\n" +
@@ -86,8 +89,8 @@ class ScoutsDbService implements ScoutsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> update(int scoutId,
                                              String name,
                                              String surname,
@@ -109,8 +112,8 @@ class ScoutsDbService implements ScoutsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> addRole(int scoutId, int roleId) {
         try {
             String QUERY = "INSERT INTO SCOUTS_ROLES(scout_id, role_id) VALUES(?, ?)";
@@ -121,8 +124,8 @@ class ScoutsDbService implements ScoutsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> deleteById(int scoutId) {
         try {
             String QUERY = "DELETE FROM SCOUTS WHERE scout_id = ?";
@@ -133,25 +136,15 @@ class ScoutsDbService implements ScoutsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> deleteRole(int scoutId, int roleId) {
         try {
             String QUERY = "DELETE FROM SCOUTS_ROLES WHERE scout_id = ? AND role_id = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, scoutId, roleId) >= 1);
 
-        } catch (DataAccessException ex) {
-            throw new DatabaseErrorException(ex);
-        }
-    }
-
-    @Override
-    @Async("asyncExecutor")
-    public CompletableFuture<Boolean> deleteAllRoles(int scoutId) {
-        try {
-            String QUERY = "DELETE FROM SCOUTS_ROLES WHERE scout_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, scoutId) >= 1);
-
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }

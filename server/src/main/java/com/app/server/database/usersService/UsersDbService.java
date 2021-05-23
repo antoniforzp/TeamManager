@@ -4,6 +4,7 @@ import com.app.server.database.usersService.mappers.UserRowMapper;
 import com.app.server.exceptions.DatabaseErrorException;
 import com.app.server.model.User;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,8 @@ public class UsersDbService implements UsersService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> checkCredentials(String email, String password) {
         try {
             String QUERY = "SELECT * FROM USERS WHERE email = ? AND password = ?";
@@ -32,8 +33,8 @@ public class UsersDbService implements UsersService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> checkIfExists(String email) {
         try {
             String QUERY = "SELECT * FROM USERS WHERE email = ?";
@@ -44,8 +45,8 @@ public class UsersDbService implements UsersService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> add(int userId,
                                           String name,
                                           String surname,
@@ -55,13 +56,15 @@ public class UsersDbService implements UsersService {
             String QUERY = "INSERT INTO USERS(user_id, name, surname, password, email) VALUES(?, ?, ?, ?, ?)";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, userId, name, surname, password, email) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> add(String name,
                                           String surname,
                                           String password,
@@ -70,13 +73,15 @@ public class UsersDbService implements UsersService {
             String QUERY = "INSERT INTO USERS(name, surname, password, email) VALUES(?, ?, ?, ?)";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, surname, password, email) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<User>> getAll() {
         try {
             String QUERY = "SELECT * FROM USERS";
@@ -87,8 +92,8 @@ public class UsersDbService implements UsersService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<User> getById(int userId) {
         try {
             String QUERY = "SELECT * FROM USERS WHERE user_id = ?";
@@ -99,8 +104,8 @@ public class UsersDbService implements UsersService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<User> getByCredentials(String email, String password) {
         try {
             String QUERY = "SELECT * FROM USERS WHERE email = ? AND password = ?";
@@ -112,8 +117,8 @@ public class UsersDbService implements UsersService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> update(int userId,
                                              String name,
                                              String surname,
@@ -127,25 +132,29 @@ public class UsersDbService implements UsersService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> deleteById(int userId) {
         try {
             String QUERY = "DELETE FROM USERS WHERE user_id = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, userId) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> deleteByEmail(String mail) {
         try {
             String QUERY = "DELETE FROM USERS WHERE email = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, mail) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }

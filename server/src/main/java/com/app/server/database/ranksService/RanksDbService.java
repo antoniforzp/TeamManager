@@ -4,6 +4,7 @@ import com.app.server.database.ranksService.mappers.RankRowMapper;
 import com.app.server.exceptions.DatabaseErrorException;
 import com.app.server.model.Rank;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -20,20 +21,22 @@ class RanksDbService implements RanksRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> add(String name, String abbreviation, int minAge, int maxAge) {
         try {
             String QUERY = "INSERT INTO RANKS(name, abbreviation, min_age, max_age) VALUES(?, ?, ?, ?)";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, abbreviation, minAge, maxAge) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<Rank>> getAll() {
         try {
             String QUERY = "SELECT * FROM RANKS";
@@ -44,8 +47,8 @@ class RanksDbService implements RanksRepository {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Rank> getById(int rankId) {
         try {
             String QUERY = "SELECT * FROM RANKS WHERE rank_id = ?";
@@ -56,13 +59,15 @@ class RanksDbService implements RanksRepository {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> deleteById(int rankId) {
         try {
             String QUERY = "DELETE FROM RANKS WHERE rank_id = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, rankId) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }

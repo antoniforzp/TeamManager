@@ -21,8 +21,8 @@ class JourneysPresenceDbService implements JourneysPresenceService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<JourneyPresence>> getPresenceById(int journeyId) {
         try {
             String QUERY = "SELECT * FROM JOURNEYS_PRESENCE WHERE journey_id = ?";
@@ -33,8 +33,8 @@ class JourneysPresenceDbService implements JourneysPresenceService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<JourneyPresence>> getPresenceByTeam(int teamId) {
         try {
             String QUERY = "SELECT JP.journey_id as journey_id, JP.scout_id as scout_id FROM JOURNEYS_PRESENCE JP JOIN JOURNEYS M on M.journey_id = JP.journey_id WHERE M.team_id = ?;";
@@ -45,8 +45,8 @@ class JourneysPresenceDbService implements JourneysPresenceService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> add(int journeyId, int scoutId) {
         try {
             String QUERY = "INSERT INTO JOURNEYS_PRESENCE(journey_id, scout_id) VALUES(?, ?)";
@@ -59,12 +59,13 @@ class JourneysPresenceDbService implements JourneysPresenceService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> delete(int journeyId, int scoutId) {
         try {
             String QUERY = "DELETE FROM JOURNEYS_PRESENCE WHERE journey_id = ? AND scout_id = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, journeyId, scoutId) >= 1);
+
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {

@@ -45,6 +45,4 @@ public interface ScoutsService {
     CompletableFuture<Boolean> deleteById(int scoutId);
 
     CompletableFuture<Boolean> deleteRole(int scoutId, int roleId);
-
-    CompletableFuture<Boolean> deleteAllRoles(int scoutId);
 }

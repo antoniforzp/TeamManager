@@ -24,8 +24,8 @@ public class SettingsDbService implements SettingsService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Settings> getSettings(int userId) {
         try {
             String QUERY = "SELECT user_id,\n" +
@@ -46,8 +46,8 @@ public class SettingsDbService implements SettingsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> setSettings(int userId, int languageId, int themeId) {
         try {
             String QUERY = "UPDATE SETTINGS SET language_id = ?, theme_id = ? WHERE user_id = ?";
@@ -58,8 +58,8 @@ public class SettingsDbService implements SettingsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<Language>> getLanguages() {
         try {
             String QUERY = "SELECT * FROM LANGUAGES";
@@ -70,8 +70,8 @@ public class SettingsDbService implements SettingsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<Theme>> getThemes() {
         try {
             String QUERY = "SELECT * FROM THEMES";

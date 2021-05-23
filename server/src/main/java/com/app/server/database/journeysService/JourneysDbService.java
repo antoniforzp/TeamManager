@@ -4,6 +4,7 @@ import com.app.server.database.journeysService.mappers.JourneyRowMapper;
 import com.app.server.exceptions.DatabaseErrorException;
 import com.app.server.model.Journey;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
@@ -21,8 +22,8 @@ class JourneysDbService implements JourneysService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> add(String title,
                                           String place,
                                           Date startDate,
@@ -32,13 +33,15 @@ class JourneysDbService implements JourneysService {
             String QUERY = "INSERT INTO JOURNEYS(title, place, start_date, end_date, team_id) VALUES(?, ?, ?, ?, ?)";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, title, place, startDate, endDate, team_id) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<Journey>> getAllByTeamId(int teamId) {
         try {
             String QUERY = "SELECT * FROM JOURNEYS WHERE team_id = ?";
@@ -49,8 +52,8 @@ class JourneysDbService implements JourneysService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Journey> getById(int journeyId) {
         try {
             String QUERY = "SELECT * FROM JOURNEYS WHERE journey_id = ?";
@@ -61,8 +64,8 @@ class JourneysDbService implements JourneysService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> update(int journeyId,
                                              String title,
                                              String place,
@@ -77,13 +80,15 @@ class JourneysDbService implements JourneysService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> deleteById(int journeyId) {
         try {
             String QUERY = "DELETE FROM JOURNEYS WHERE journey_id = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, journeyId) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }

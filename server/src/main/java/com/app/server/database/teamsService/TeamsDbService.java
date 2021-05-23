@@ -4,6 +4,7 @@ import com.app.server.database.teamsService.mappers.TeamRowMapper;
 import com.app.server.exceptions.DatabaseErrorException;
 import com.app.server.model.Team;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -20,20 +21,22 @@ class TeamsDbService implements TeamsService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> add(String name, String patron, int ownerId) {
         try {
             String QUERY = "INSERT INTO TEAMS(name, patron, owner_id) VALUES(?, ?, ?)";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, patron, ownerId) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<Team>> getAll() {
         try {
             String QUERY = "SELECT * FROM TEAMS";
@@ -44,8 +47,8 @@ class TeamsDbService implements TeamsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<List<Team>> getByUserId(Integer userId) {
         try {
             String QUERY = "SELECT * FROM TEAMS WHERE owner_id = ?";
@@ -56,8 +59,8 @@ class TeamsDbService implements TeamsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Team> getById(int teamId) {
         try {
             String QUERY = "SELECT * FROM TEAMS WHERE team_id = ?";
@@ -68,8 +71,8 @@ class TeamsDbService implements TeamsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> update(int teamID,
                                              String name,
                                              String patron) {
@@ -82,13 +85,15 @@ class TeamsDbService implements TeamsService {
         }
     }
 
+    @Async
     @Override
-    @Async("asyncExecutor")
     public CompletableFuture<Boolean> deleteById(int teamId) {
         try {
             String QUERY = "DELETE FROM TEAMS WHERE team_id = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, teamId) >= 1);
 
+        } catch (DataIntegrityViolationException ex) {
+            return CompletableFuture.completedFuture(true);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException(ex);
         }
