@@ -1,17 +1,21 @@
 <div class="modal-header">
-    <span class="my-modal-title">Usuń wyjazdy i zbiórki</span>
+    <span class="my-modal-title" translate>
+        delete-journeys-meetings.title
+    </span>
 </div>
 
 <div class="modal-body">
 
     <div class="d-flex align-items-center">
         <img src="../../../../assets/icons/alert.svg" width="30" height="30" class="mr-4" />
-        <span>Usunięcie zbiórki spowoduje usunięcie danych o obecności</span>
+        <span translate>
+            delete-journeys-meetings.warning
+        </span>
     </div>
 
     <br>
-    <span>
-        Zbiróki i wyjazdy, które zamierzasz usunąć:
+    <span translate>
+        delete-journeys-meetings.about-delete
     </span>
 
     <div class="my-table-container">
@@ -19,8 +23,8 @@
             <tbody>
                 <tr *ngFor="let meeting of meetings">
                     <td>
-                        <span class="meeting">
-                            Zbiórka
+                        <span class="meeting" translate>
+                            delete-journeys-meetings.meeting
                         </span>
                     </td>
                     <td>{{meeting.title}}</td>
@@ -28,8 +32,8 @@
                 </tr>
                 <tr *ngFor="let journey of journeys">
                     <td>
-                        <span class="journey">
-                            Wyjazd
+                        <span class="journey" translate>
+                            delete-journeys-meetings.journey
                         </span>
                     </td>
                     <td>{{journey.title}}</td>
@@ -42,7 +46,9 @@
     <div class="d-flex align-items-center mt-2">
         <label class="required">
             <input type="checkbox" class="select-all checkbox cursor-pointer" [(ngModel)]="accept" />
-            Potwierdzam, że jestem świadom konsekwencji
+            <span translate>
+                delete-journeys-meetings.aware-consequences
+            </span>
         </label>
     </div>
 
@@ -50,7 +56,11 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
-        <button class="btn btn-danger my-button" [disabled]="!accept" (click)="delete()">Usuń</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
+        <button class="btn btn-danger my-button" [disabled]="!accept" (click)="delete()" translate>
+            actions.delete
+        </button>
     </div>
 </div>

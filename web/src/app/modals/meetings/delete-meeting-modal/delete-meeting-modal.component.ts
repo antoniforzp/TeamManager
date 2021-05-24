@@ -4,13 +4,14 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Journey } from 'src/app/model/Journey';
 import { Meeting } from 'src/app/model/Meeting';
 import { JourneysService } from 'src/app/services/data/journeys.service';
 import { MeetingsService } from 'src/app/services/data/meetings.service';
 import { Results } from 'src/app/utils/Result';
+import { EntryRequestData } from '../../common/progress-modal/progress-modal.component';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 
 export interface DeleteMeetingModalComponentEntry {
@@ -54,33 +55,34 @@ export class DeleteMeetingModalComponent implements OnInit, OnDestroy {
   }
 
   delete(): void {
-    const queue = [] as Observable<boolean>[];
+    const queue = [] as EntryRequestData[];
     this.meetings
       .map((x) => x.meetingId)
       .forEach((id) => {
-        queue.push(this.meetingsService.deleteMeeting(id));
+        queue.push({
+          request: this.meetingsService.deleteMeeting(id),
+          requestLabel: 'requests.delete-meeting',
+        });
       });
 
     this.journeys
       .map((x) => x.journeyId)
       .forEach((id) => {
-        queue.push(this.journeysService.deleteJourney(id));
+        queue.push({
+          request: this.journeysService.deleteJourney(id),
+          requestLabel: 'requests.delete-journey',
+        });
       });
 
-    new ProgressModal(this.dialog)
-      .open(queue, {
-        successMessage: 'Udało usunąć wybrane zbiórki oraz wyjazdy',
-        failureMessage: 'Nie Udało usunąć wybranych zbiórek i wyjazdów',
-      })
-      .then((x) =>
-        x
-          .afterClosed()
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((result) => {
-            if (result === Results.SUCCESS) {
-              this.dialogRef.close(result);
-            }
-          })
-      );
+    new ProgressModal(this.dialog).open(queue).then((x) =>
+      x
+        .afterClosed()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result) => {
+          if (result === Results.SUCCESS) {
+            this.dialogRef.close(result);
+          }
+        })
+    );
   }
 }
