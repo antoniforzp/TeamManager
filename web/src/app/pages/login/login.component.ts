@@ -11,12 +11,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { AppSettingsService } from 'src/app/services/core/app-settings.service';
 import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
 import { LoginService } from 'src/app/services/data/login.service';
 import { AppStateService } from 'src/app/services/core/app-state.service';
 import { SettingsService } from 'src/app/services/data/settings.service';
-import { merge, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Language } from 'src/app/model/Language';
 import { defaultLanguage } from 'src/app/translation/translation-config';
@@ -130,7 +129,7 @@ export class LoginComponent implements OnInit {
   }
 
   private wrongCredentialsAlert(): void {
-    this.pageError = 'Nieprawidłowe dane logowania';
+    this.pageError = 'errors.login-credentials';
   }
 
   private resolveError(err: HttpErrorResponse): void {
