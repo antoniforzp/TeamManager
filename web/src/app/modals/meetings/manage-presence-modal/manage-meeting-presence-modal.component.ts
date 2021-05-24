@@ -21,6 +21,7 @@ import { JourneysService } from 'src/app/services/data/journeys.service';
 import { MeetingsService } from 'src/app/services/data/meetings.service';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { Results } from 'src/app/utils/Result';
+import { EntryRequestData } from '../../common/progress-modal/progress-modal.component';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 
 export enum Modes {
@@ -155,7 +156,7 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
           this.scouts = result.scouts.map((x) => {
             return {
               nameSurname: x.name + ' ' + x.surname,
-              troop: x.troop.name,
+              troop: x.patrol.name,
               scoutObject: x,
               isSelected: false,
             } as ScoutRowData;
@@ -267,20 +268,26 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
   }
 
   action(): void {
-    const queue = [] as Observable<boolean>[];
+    const queue = [] as EntryRequestData[];
 
     // Queue add requests up
     this.presenceToAdd.forEach((x) => {
       queue.push(
         this.mode === Modes.MANAGE_MEETINGS
-          ? this.meetingsService.addMeetingPresence(
-              this.meeting.meetingId,
-              x.scoutId
-            )
-          : this.journeysService.addJourneyPresence(
-              this.journey.journeyId,
-              x.scoutId
-            )
+          ? {
+              request: this.meetingsService.addMeetingPresence(
+                this.meeting.meetingId,
+                x.scoutId
+              ),
+              requestLabel: 'Dodawanie obecności na wyjeździe',
+            }
+          : {
+              request: this.journeysService.addJourneyPresence(
+                this.journey.journeyId,
+                x.scoutId
+              ),
+              requestLabel: 'Usuwanie obecności na wyjeździe',
+            }
       );
     });
 
@@ -288,14 +295,20 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
     this.presenceToDelete.forEach((x) => {
       queue.push(
         this.mode === Modes.MANAGE_MEETINGS
-          ? this.meetingsService.deleteMeetingPresence(
-              this.meeting.meetingId,
-              x.scoutId
-            )
-          : this.journeysService.deleteJourneyPresence(
-              this.journey.journeyId,
-              x.scoutId
-            )
+          ? {
+              request: this.meetingsService.deleteMeetingPresence(
+                this.meeting.meetingId,
+                x.scoutId
+              ),
+              requestLabel: 'Dodawanie obecności na zbiórce',
+            }
+          : {
+              request: this.journeysService.deleteJourneyPresence(
+                this.journey.journeyId,
+                x.scoutId
+              ),
+              requestLabel: 'Usuwanie obecności na zbiórce',
+            }
       );
     });
 

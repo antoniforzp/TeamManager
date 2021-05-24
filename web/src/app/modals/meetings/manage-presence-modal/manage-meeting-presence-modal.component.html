@@ -1,5 +1,7 @@
 <div class="modal-header">
-    <span class="my-modal-title">Obecność na zbiórce</span>
+    <span class="my-modal-title" translate>
+        meetings-journeys-presence.title
+    </span>
 </div>
 
 <div class="modal-body-max">
@@ -39,7 +41,10 @@
             </div>
 
             <div class="d-flex mt-2 align-items-center">
-                <span class="mr-2">Zaznaczonych obecnych: {{scoutsSelected}}</span>
+                <span class="mr-2">
+                    <span translate>
+                        meetings-journeys-presence.marked-present
+                    </span> {{scoutsSelected}}</span>
                 <button class="my-icon-button clear-all" (click)="toggleSelectAll(false)"></button>
             </div>
 
@@ -51,8 +56,8 @@
                             <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
                                 (ngModelChange)="toggleSelectAll($event)">
                         </th>
-                        <th>Imię i nazwisko</th>
-                        <th>Zastęp</th>
+                        <th translate>meetings-journeys-presence.name-surname</th>
+                        <th translate>meetings-journeys-presence.patrol</th>
                     </thead>
                     <tbody>
                         <ng-container *ngIf="scouts.length > 0; else noTableData">
@@ -86,8 +91,12 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
-        <button class="btn btn-success my-button" (click)="action()">Zapisz</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
+        <button class="btn btn-success my-button" (click)="action()" translate>
+            actions.save
+        </button>
     </div>
 </div>
 
