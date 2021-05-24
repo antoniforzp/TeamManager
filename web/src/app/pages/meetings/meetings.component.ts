@@ -26,6 +26,7 @@ import { JourneysService } from 'src/app/services/data/journeys.service';
 import { MeetingsService } from 'src/app/services/data/meetings.service';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
+import { MeetingInfoModal } from 'src/app/modals/meetings/meeting-info-modal/meeting-info-modal';
 
 interface MeetingJourneyRowData {
   title: string;
@@ -138,7 +139,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
             (p) => p.meetingId === x.meetingId && p.scoutId === s.scoutId
           )
         ),
-        description: x.description,
+        description: this.clampDescription(x.description),
 
         type: MeetingJourneyTypes.MEETING,
         data: x,
@@ -159,7 +160,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
             (p) => p.journeyId === x.journeyId && p.scoutId === s.scoutId
           )
         ),
-        description: x.description,
+        description: this.clampDescription(x.description),
 
         type: MeetingJourneyTypes.JOURNEY,
         data: x,
@@ -351,11 +352,25 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
   // DETAILS
 
+  openShowMeetingInfo(meeting: Meeting): void {
+    new MeetingInfoModal(this.dialog).openMeeting(meeting);
+  }
+
+  openShowJourneyInfo(journey: Journey): void {
+    new MeetingInfoModal(this.dialog).openJourney(journey);
+  }
+
   openShowScoutsByLink(scouts: Scout[]): void {
     new ShowScoutsModal(this.dialog).open(scouts).then((x) =>
       x.afterClosed().subscribe(() => {
         this.loadData();
       })
     );
+  }
+
+  // UTILS
+
+  clampDescription(desc: string): string {
+    return desc ? desc.substr(0, 20) + '...' : null;
   }
 }

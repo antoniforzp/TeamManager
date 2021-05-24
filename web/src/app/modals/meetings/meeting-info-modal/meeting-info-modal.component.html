@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <span class="my-modal-title" translate>
+        meetings-journeys-info.title
+    </span>
+</div>
+
+<div class="modal-body">
+
+    <div class="row">
+        <div class="col">
+            <div class="row mb-2">
+                <div class="col-4" translate>
+                    meetings-journeys.title
+                </div>
+                <div class="col">
+                    <span *ngIf="infoData.title; else noData">
+                        {{infoData.title}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-4" translate>
+                    meetings-journeys.place
+                </div>
+                <div class="col">
+                    <span *ngIf="infoData.place; else noData">
+                        {{infoData.place}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-4" translate>
+                    meetings-journeys.date
+                </div>
+                <div class="col">
+                    <span *ngIf="infoData.startDate; else noData">
+                        <span *ngIf="infoData.startDate">
+                            {{infoData.startDate}}
+                        </span>
+
+                        <span *ngIf="infoData.endDate">
+                            - {{infoData.endDate}}
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-4" translate>
+                    meetings-journeys.description
+                </div>
+                <div class="col">
+                    <span *ngIf="infoData.description; else noData">
+                        <textarea #textArea class="form-control description" wrap="soft" rows="8"
+                            [(ngModel)]="infoData.description" readonly></textarea>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
+    </div>
+</div>
+
+<ng-template #noData>
+    <span>-</span>
+</ng-template>

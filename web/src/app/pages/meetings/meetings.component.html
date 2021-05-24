@@ -91,7 +91,21 @@
                                         </td>
                                         <td>
                                             <span *ngIf="row.title; else noData">
-                                                {{row.title}}
+
+                                                <span *ngIf="row.type === Types.MEETING">
+                                                    <a class="link-primary"
+                                                        (click)="openShowMeetingInfo(row.data); $event.stopPropagation()">
+                                                        {{row.title}}
+                                                    </a>
+                                                </span>
+
+                                                <span *ngIf="row.type === Types.JOURNEY">
+                                                    <a class="link-primary"
+                                                        (click)="openShowJourneyInfo(row.data); $event.stopPropagation()">
+                                                        {{row.title}}
+                                                    </a>
+                                                </span>
+
                                             </span>
                                         </td>
                                         <td>

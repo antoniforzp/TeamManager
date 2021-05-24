@@ -75,7 +75,9 @@
                                         <td>
                                             <span *ngIf="scout.nameSurname; else noData">
                                                 <a class="link-primary"
-                                                    (click)="openShowInfoModal(scout.scoutObject, scout.rolesList); $event.stopPropagation()">{{scout.nameSurname}}</a>
+                                                    (click)="openShowInfoModal(scout.scoutObject, scout.rolesList); $event.stopPropagation()">
+                                                    {{scout.nameSurname}}
+                                                </a>
                                             </span>
                                         </td>
                                         <td *ngIf="scout.troop; else noData">
