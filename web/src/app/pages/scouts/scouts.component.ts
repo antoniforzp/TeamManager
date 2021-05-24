@@ -92,7 +92,7 @@ export class ScoutsComponent implements OnInit, OnDestroy {
           x.scouts.forEach((scout) =>
             rows.push({
               nameSurname: scout.name + ' ' + scout.surname,
-              troop: scout.troop.name,
+              troop: scout.patrol.name,
               roles: x.roles
                 .filter((r) => r.scoutId === scout.scoutId)
                 .map((r1) => {
@@ -101,12 +101,11 @@ export class ScoutsComponent implements OnInit, OnDestroy {
                     label: `role-${r1.roleId}`,
                   } as { name: string; label: string };
                 }),
-
               instructorRankAbbv:
-                scout.instructorRank.rankId !== 1
-                  ? scout.instructorRank.abbreviation
-                  : '',
-              instructorRankLabel: `instructor-rank-${scout.instructorRank.rankId}`,
+                scout.irank?.rankId !== 1 ? scout.irank?.abbreviation : '',
+              instructorRankLabel: scout.irank?.rankId
+                ? `instructor-rank-${scout.irank.rankId}`
+                : null,
               rankName: scout.rank.name,
 
               isSelected: false,

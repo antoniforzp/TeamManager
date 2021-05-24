@@ -4,7 +4,7 @@
 
     <div class="my-page-side-container my-container-menu">
 
-        <ng-container *ngIf="pageLoaded; else loading">
+        <div *ngIf="pageLoaded; else loading">
 
             <!-- ERROR HANDLING -->
             <div *ngIf="pageError">
@@ -17,12 +17,12 @@
                 <app-page-header [header]="'menu.records' | translate" [goBackRoute]="AppRoutes.HOME"></app-page-header>
 
                 <!-- SCOUTS -->
-                <div class="d-flex justify-content-between mb-2">
-                    <h5>
+                <div class="mb-2 page-header-container">
+                    <span>
                         <span translate>
                             scouts.manage-scouts
                         </span> ({{scouts.length}})
-                    </h5>
+                    </span>
 
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle my-button" type="button"
@@ -42,7 +42,7 @@
                 </div>
 
                 <!-- scouts table -->
-                <div class="mt-3" style="height: 55vh; overflow-y: auto;">
+                <div class="mt-3 table-container-page-menu">
                     <table class="table table-hover">
                         <thead class="my-thead">
                             <th class="checkbox-cell">
@@ -93,7 +93,8 @@
                                         </td>
                                         <td>
                                             <div *ngIf="scout.rankName; else noData" class="d-flex align-items-center">
-                                                <span [ngClass]="[scout.instructorRankLabel]" class="mr-2" translate>
+                                                <span *ngIf="scout.instructorRankLabel"
+                                                    [ngClass]="[scout.instructorRankLabel]" class="mr-2" translate>
                                                     {{scout.instructorRankAbbv}}
                                                 </span>
                                                 <span translate>
@@ -108,7 +109,7 @@
                     </table>
                 </div>
             </div>
-        </ng-container>
+        </div>
 
     </div>
 
