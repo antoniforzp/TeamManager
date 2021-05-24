@@ -93,10 +93,21 @@ export class AddEditTeamModalComponent implements OnInit, OnDestroy {
 
   addTeam(): void {
     new ProgressModal(this.dialog)
-      .open([this.teamsService.addTeam(this.name.value, this.patron.value)], {
-        successMessage: 'Udało się dodać drużynę',
-        failureMessage: 'Nie udało się dodać drużyny',
-      })
+      .open(
+        [
+          {
+            request: this.teamsService.addTeam(
+              this.name.value,
+              this.patron.value
+            ),
+            requestLabel: 'Dodawanie drużyny',
+          },
+        ],
+        {
+          successMessage: 'Udało się dodać drużynę',
+          failureMessage: 'Nie udało się dodać drużyny',
+        }
+      )
       .then((x) =>
         x
           .afterClosed()
@@ -113,11 +124,14 @@ export class AddEditTeamModalComponent implements OnInit, OnDestroy {
     new ProgressModal(this.dialog)
       .open(
         [
-          this.teamsService.patchTeam(
-            this.teamData.teamId,
-            this.name.value,
-            this.patron.value
-          ),
+          {
+            request: this.teamsService.patchTeam(
+              this.teamData.teamId,
+              this.name.value,
+              this.patron.value
+            ),
+            requestLabel: 'Edycja danych o zastępie',
+          },
         ],
         {
           successMessage: 'Udało się zaktualizować dane drużyny',

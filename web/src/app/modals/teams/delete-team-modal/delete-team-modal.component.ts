@@ -9,6 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
 import { TeamsService } from 'src/app/services/data/teams.service';
 import { Results } from 'src/app/utils/Result';
+import { EntryRequestData } from '../../common/progress-modal/progress-modal.component';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 import { AddEditTeamModalComponent } from '../add-edit-team-modal/add-edit-team-modal.component';
 
@@ -50,11 +51,14 @@ export class DeleteTeamModalComponent implements OnInit, OnDestroy {
   }
 
   delete(): void {
-    const queue = [] as Observable<boolean>[];
+    const queue = [] as EntryRequestData[];
     this.teams
       .map((x) => x.teamId)
       .forEach((id) => {
-        queue.push(this.teamsService.deleteTeam(id));
+        queue.push({
+          request: this.teamsService.deleteTeam(id),
+          requestLabel: 'usuwanie drużyny',
+        });
       });
 
     new ProgressModal(this.dialog)
