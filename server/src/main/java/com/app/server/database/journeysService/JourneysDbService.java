@@ -28,10 +28,11 @@ class JourneysDbService implements JourneysService {
                                           String place,
                                           Date startDate,
                                           Date endDate,
+                                          String description,
                                           int team_id) {
         try {
-            String QUERY = "INSERT INTO JOURNEYS(title, place, start_date, end_date, team_id) VALUES(?, ?, ?, ?, ?)";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, title, place, startDate, endDate, team_id) >= 1);
+            String QUERY = "INSERT INTO JOURNEYS(title, place, start_date, end_date, description, team_id) VALUES(?, ?, ?, ?, ?, ?)";
+            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, title, place, startDate, endDate, description, team_id) >= 1);
 
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
@@ -70,10 +71,11 @@ class JourneysDbService implements JourneysService {
                                              String title,
                                              String place,
                                              Date startDate,
-                                             Date endDate) {
+                                             Date endDate,
+                                             String description) {
         try {
-            String QUERY = "UPDATE JOURNEYS SET title = ?, place = ?, start_date = ?, end_date = ? WHERE journey_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, title, place, startDate, endDate, journeyId) >= 1);
+            String QUERY = "UPDATE JOURNEYS SET title = ?, place = ?, start_date = ?, end_date = ?, description = ? WHERE journey_id = ?";
+            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, title, place, startDate, endDate, description, journeyId) >= 1);
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);

@@ -94,6 +94,23 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Description -->
+            <div class="row mb-2">
+                <label for="endDate" class="col-sm-3 col-form-label required" translate>
+                    add-edit-journey.description
+                </label>
+                <div class="col">
+                    <textarea class="form-control" rows="5" formControlName="description"></textarea>
+
+                    <!-- Errors -->
+                    <div class="d-flex flex-column" *ngIf="description.errors && description.dirty">
+                        <small class="alert-danger" *ngIf="description.hasError('maxlength')">
+                            {{ 'errors.max-length' | translate: {'value': '200'} }}
+                        </small>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </div>

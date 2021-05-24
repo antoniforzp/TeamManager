@@ -21,4 +21,7 @@ public class Meeting {
 
     @Getter
     private final Date date;
+
+    @Getter
+    private final String description;
 }

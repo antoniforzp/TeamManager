@@ -24,10 +24,14 @@ class MeetingsDbService implements MeetingsService {
 
     @Async
     @Override
-    public CompletableFuture<Boolean> add(String title, String place, Date date, int team_id) {
+    public CompletableFuture<Boolean> add(String title,
+                                          String place,
+                                          Date date,
+                                          String description,
+                                          int team_id) {
         try {
-            String QUERY = "INSERT INTO MEETINGS(title, place, date, team_id) VALUES(?, ?, ?, ?)";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, title, place, date, team_id) >= 1);
+            String QUERY = "INSERT INTO MEETINGS(title, place, date, description, team_id) VALUES(?, ?, ?, ?, ?)";
+            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, title, place, date, description, team_id) >= 1);
 
         } catch (DataIntegrityViolationException ex) {
             return CompletableFuture.completedFuture(true);
@@ -62,10 +66,14 @@ class MeetingsDbService implements MeetingsService {
 
     @Async
     @Override
-    public CompletableFuture<Boolean> update(int meetingId, String title, String place, Date date) {
+    public CompletableFuture<Boolean> update(int meetingId,
+                                             String title,
+                                             String place,
+                                             Date date,
+                                             String description) {
         try {
-            String QUERY = "UPDATE MEETINGS SET title = ?, place = ?, date = ? WHERE meeting_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, title, place, date, meetingId) >= 1);
+            String QUERY = "UPDATE MEETINGS SET title = ?, place = ?, date = ?, description = ? WHERE meeting_id = ?";
+            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, title, place, date, description, meetingId) >= 1);
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);

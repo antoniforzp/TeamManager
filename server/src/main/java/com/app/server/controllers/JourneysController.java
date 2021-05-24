@@ -52,6 +52,7 @@ public class JourneysController {
                 body.getPlace(),
                 body.getDate(),
                 body.getEndDate(),
+                body.getDescription(),
                 teamId);
         CompletableFuture.allOf(data).join();
 
@@ -113,7 +114,8 @@ public class JourneysController {
                 body.getTitle(),
                 body.getPlace(),
                 body.getDate(),
-                body.getEndDate()
+                body.getEndDate(),
+                body.getDescription()
         );
         CompletableFuture.allOf(data).join();
 

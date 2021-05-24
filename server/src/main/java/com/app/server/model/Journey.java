@@ -24,4 +24,7 @@ public class Journey {
 
     @Getter
     private final Date endDate;
+
+    @Getter
+    private final String description;
 }

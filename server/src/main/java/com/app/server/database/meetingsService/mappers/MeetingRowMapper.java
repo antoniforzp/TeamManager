@@ -12,6 +12,7 @@ public class MeetingRowMapper implements RowMapper<Meeting> {
         return new Meeting(resultSet.getInt("meeting_id"),
                 resultSet.getString("title"),
                 resultSet.getString("place"),
-                resultSet.getDate("date"));
+                resultSet.getDate("date"),
+                resultSet.getString("description"));
     }
 }

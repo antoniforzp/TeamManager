@@ -22,14 +22,19 @@ public class AddJourneyBody {
     @Getter
     private final Date endDate;
 
+    @Getter
+    private final String description;
+
     @JsonCreator
     public AddJourneyBody(@JsonProperty String title,
                           @JsonProperty String place,
                           @JsonProperty Date date,
-                          @JsonProperty Date endDate) {
+                          @JsonProperty Date endDate,
+                          @JsonProperty String description) {
         this.title = title;
         this.place = place;
         this.date = date;
         this.endDate = endDate;
+        this.description = description;
     }
 }

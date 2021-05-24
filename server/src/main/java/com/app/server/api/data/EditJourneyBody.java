@@ -13,7 +13,8 @@ public class EditJourneyBody extends AddJourneyBody {
     public EditJourneyBody(@JsonProperty String title,
                            @JsonProperty String place,
                            @JsonProperty Date startDate,
-                           @JsonProperty Date endDate) {
-        super(title, place, startDate, endDate);
+                           @JsonProperty Date endDate,
+                           @JsonProperty String description) {
+        super(title, place, startDate, endDate, description);
     }
 }

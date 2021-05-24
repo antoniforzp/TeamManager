@@ -4,6 +4,7 @@ export interface Journey {
   place: string;
   startDate: Date;
   endDate: Date;
+  description: string;
 }
 
 export interface JourneyPresence {

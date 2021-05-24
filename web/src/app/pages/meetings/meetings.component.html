@@ -68,6 +68,9 @@
                             <th translate>
                                 meetings-journeys.present
                             </th>
+                            <th class="description-cell" translate>
+                                meetings-journeys.description
+                            </th>
                         </thead>
                         <tbody>
                             <ng-container *ngIf="meetingsJourneysData.length > 0; else noTableData">
@@ -111,6 +114,11 @@
                                                 {{row.scoutsPresent.length}}
                                             </a>
                                         </td>
+                                        <td class="description-cell">
+                                            <span *ngIf="row.description else noData">
+                                                {{row.description}}
+                                            </span>
+                                        </td>
                                     </tr>
                                 </ng-container>
                             </ng-container>
@@ -129,6 +137,10 @@
 
 <ng-template #loading>
     <app-page-spinner></app-page-spinner>
+</ng-template>
+
+<ng-template #noData>
+    <span>-</span>
 </ng-template>
 
 <ng-template #noTableData>

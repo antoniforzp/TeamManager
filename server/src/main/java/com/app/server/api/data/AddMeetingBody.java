@@ -19,12 +19,17 @@ public class AddMeetingBody {
     @Getter
     private final Date date;
 
+    @Getter
+    private final String description;
+
     @JsonCreator
     public AddMeetingBody(@JsonProperty String title,
                           @JsonProperty String place,
-                          @JsonProperty Date date) {
+                          @JsonProperty Date date,
+                          @JsonProperty String description) {
         this.title = title;
         this.place = place;
         this.date = date;
+        this.description = description;
     }
 }

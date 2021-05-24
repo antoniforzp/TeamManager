@@ -32,6 +32,7 @@ interface MeetingJourneyRowData {
   place: string;
   date: Date;
   endDate?: Date;
+  description?: string;
   scoutsPresent: Scout[];
 
   isSelected: boolean;
@@ -137,6 +138,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
             (p) => p.meetingId === x.meetingId && p.scoutId === s.scoutId
           )
         ),
+        description: x.description,
 
         type: MeetingJourneyTypes.MEETING,
         data: x,
@@ -157,6 +159,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
             (p) => p.journeyId === x.journeyId && p.scoutId === s.scoutId
           )
         ),
+        description: x.description,
 
         type: MeetingJourneyTypes.JOURNEY,
         data: x,

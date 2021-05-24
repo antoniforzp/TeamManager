@@ -13,6 +13,7 @@ public class JourneyRowMapper implements RowMapper<Journey> {
                 resultSet.getString("title"),
                 resultSet.getString("place"),
                 resultSet.getDate("start_date"),
-                resultSet.getDate("end_date"));
+                resultSet.getDate("end_date"),
+                resultSet.getString("description"));
     }
 }

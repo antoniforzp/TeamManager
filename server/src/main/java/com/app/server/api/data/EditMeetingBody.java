@@ -12,7 +12,8 @@ public class EditMeetingBody extends AddMeetingBody {
     @JsonCreator
     public EditMeetingBody(@JsonProperty String title,
                            @JsonProperty String place,
-                           @JsonProperty Date date) {
-        super(title, place, date);
+                           @JsonProperty Date date,
+                           @JsonProperty String description) {
+        super(title, place, date, description);
     }
 }

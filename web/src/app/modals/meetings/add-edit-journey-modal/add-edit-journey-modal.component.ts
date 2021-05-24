@@ -69,12 +69,13 @@ export class AddEditJourneyModalComponent implements OnInit, OnDestroy {
 
   // PATCHING FORM
 
-  loadFormData(troop: Journey): void {
+  loadFormData(journey: Journey): void {
     this.form.patchValue({
-      title: troop.title,
-      place: troop.place,
-      startDate: troop.startDate,
-      endDate: troop.startDate,
+      title: journey.title,
+      place: journey.place,
+      startDate: journey.startDate,
+      endDate: journey.startDate,
+      description: journey.description
     });
   }
 
@@ -86,6 +87,7 @@ export class AddEditJourneyModalComponent implements OnInit, OnDestroy {
       place: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
+      description: [null, Validators.maxLength(200)],
     });
   }
 
@@ -104,6 +106,7 @@ export class AddEditJourneyModalComponent implements OnInit, OnDestroy {
             place: this.place.value,
             date: this.startDate.value,
             endDate: this.endDate.value,
+            description: this.description.value,
           }),
           requestLabel: 'requests.add-journey',
         },
@@ -131,6 +134,7 @@ export class AddEditJourneyModalComponent implements OnInit, OnDestroy {
               place: this.place.value,
               date: this.startDate.value,
               endDate: this.endDate.value,
+              description: this.description.value,
             }
           ),
           requestLabel: 'requests.edit-journey',
@@ -164,5 +168,9 @@ export class AddEditJourneyModalComponent implements OnInit, OnDestroy {
 
   get endDate(): AbstractControl {
     return this.form.get('endDate');
+  }
+
+  get description(): AbstractControl {
+    return this.form.get('description');
   }
 }

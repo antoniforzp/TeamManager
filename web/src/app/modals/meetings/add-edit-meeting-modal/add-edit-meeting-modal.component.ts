@@ -69,11 +69,12 @@ export class AddEditMeetingModalComponent implements OnInit, OnDestroy {
 
   // PATCHING FORM
 
-  loadFormData(troop: Meeting): void {
+  loadFormData(journey: Meeting): void {
     this.form.patchValue({
-      title: troop.title,
-      place: troop.place,
-      date: troop.date,
+      title: journey.title,
+      place: journey.place,
+      date: journey.date,
+      description: journey.description,
     });
   }
 
@@ -84,6 +85,7 @@ export class AddEditMeetingModalComponent implements OnInit, OnDestroy {
       title: ['', Validators.required],
       place: ['', Validators.required],
       date: ['', Validators.required],
+      description: [null, Validators.maxLength(200)],
     });
   }
 
@@ -101,6 +103,7 @@ export class AddEditMeetingModalComponent implements OnInit, OnDestroy {
             title: this.title.value,
             place: this.place.value,
             date: this.date.value,
+            description: this.description.value,
           }),
           requestLabel: 'requests.add-meeting',
         },
@@ -127,6 +130,7 @@ export class AddEditMeetingModalComponent implements OnInit, OnDestroy {
               title: this.title.value,
               place: this.place.value,
               date: this.date.value,
+              description: this.description.value,
             }
           ),
           requestLabel: 'requests.edit-meeting',
@@ -156,5 +160,9 @@ export class AddEditMeetingModalComponent implements OnInit, OnDestroy {
 
   get date(): AbstractControl {
     return this.form.get('date');
+  }
+
+  get description(): AbstractControl {
+    return this.form.get('description');
   }
 }

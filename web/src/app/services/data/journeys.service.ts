@@ -9,6 +9,7 @@ export interface JourneyPayload {
   place: string;
   date: Date;
   endDate: Date;
+  description: string;
 }
 
 @Injectable({

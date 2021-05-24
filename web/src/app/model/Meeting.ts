@@ -3,6 +3,7 @@ export interface Meeting {
   title: string;
   place: string;
   date: Date;
+  description: string;
 }
 
 export interface MeetingPresence {

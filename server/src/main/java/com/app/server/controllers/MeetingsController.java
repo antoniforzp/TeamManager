@@ -51,6 +51,7 @@ public class MeetingsController {
         CompletableFuture<Boolean> data = mService.add(body.getTitle(),
                 body.getPlace(),
                 body.getDate(),
+                body.getDescription(),
                 teamId);
         CompletableFuture.allOf(data).join();
 
@@ -111,9 +112,9 @@ public class MeetingsController {
         CompletableFuture<Boolean> data = mService.update(meetingId,
                 body.getTitle(),
                 body.getPlace(),
-                body.getDate());
+                body.getDate(),
+                body.getDescription());
         CompletableFuture.allOf(data).join();
-
 
         return new Response<>(
                 data.get(),
