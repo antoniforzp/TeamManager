@@ -18,15 +18,15 @@ import {
 } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Troop } from 'src/app/model/Troop';
-import { TroopsService } from 'src/app/services/data/troops.service';
+import { Patrol } from 'src/app/model/Patrol';
+import { PatrolsService } from 'src/app/services/data/patrols.service';
 import { Results as Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 import { ModalModes } from '../../Modals-def';
 
 export interface AddEditTroopModalComponentEntry {
   mode: ModalModes;
-  troopData?: Troop;
+  troopData?: Patrol;
 }
 
 @Component({
@@ -41,11 +41,11 @@ export class AddEditTroopModalComponent implements OnInit, OnDestroy {
   modalMode: ModalModes;
 
   form: FormGroup;
-  troopData: Troop;
+  troopData: Patrol;
 
   constructor(
     private fb: FormBuilder,
-    private troopsService: TroopsService,
+    private troopsService: PatrolsService,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<AddEditTroopModalComponent>,
 
@@ -69,7 +69,7 @@ export class AddEditTroopModalComponent implements OnInit, OnDestroy {
 
   // PATCHING FORM
 
-  loadFormData(troop: Troop): void {
+  loadFormData(troop: Patrol): void {
     this.form.patchValue({
       name: troop.name,
     });
@@ -89,12 +89,14 @@ export class AddEditTroopModalComponent implements OnInit, OnDestroy {
     this.dialogRef.close(Results.CANCEL);
   }
 
-  addTeam(): void {
+  addTroop(): void {
     new ProgressModal(this.dialog)
-      .open([this.troopsService.addTroop(this.name.value)], {
-        successMessage: 'Udało się dodać zastęp',
-        failureMessage: 'Nie udało się dodać zastępu',
-      })
+      .open([
+        {
+          request: this.troopsService.addPatrol(this.name.value),
+          requestLabel: 'requests.add-patrol',
+        },
+      ])
       .then((x) =>
         x
           .afterClosed()
@@ -107,20 +109,17 @@ export class AddEditTroopModalComponent implements OnInit, OnDestroy {
       );
   }
 
-  editTeam(): void {
+  editTroop(): void {
     new ProgressModal(this.dialog)
-      .open(
-        [
-          this.troopsService.patchTroop(
-            this.troopData.troopId,
+      .open([
+        {
+          request: this.troopsService.patchPatrols(
+            this.troopData.patrolId,
             this.name.value
           ),
-        ],
-        {
-          successMessage: 'Udało się zaktualizować dane zastępu',
-          failureMessage: 'Nie udało się zaktualizować danych zastępu',
-        }
-      )
+          requestLabel: 'requests.edit-patrol',
+        },
+      ])
       .then((x) =>
         x
           .afterClosed()

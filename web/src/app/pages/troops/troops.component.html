@@ -36,7 +36,11 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             <ng-container *ngFor="let action of actions | keyvalue">
                                 <button class="dropdown-item" (click)="action.value.action();"
-                                    [disabled]="!action.value.isEnabled">{{action.value.label}}</button>
+                                    [disabled]="!action.value.isEnabled">
+                                    <span translate>
+                                        {{action.value.label}}
+                                    </span>
+                                </button>
                             </ng-container>
                         </div>
                     </div>
@@ -50,9 +54,15 @@
                                 <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
                                     (ngModelChange)="toggleSelectAll($event)">
                             </th>
-                            <th translate>patrols.name</th>
-                            <th translate>patrols.patrol-leader</th>
-                            <th translate>patrols.members</th>
+                            <th translate>
+                                patrols.name
+                            </th>
+                            <th translate>
+                                patrols.patrol-leader
+                            </th>
+                            <th translate>
+                                patrols.members
+                            </th>
                         </thead>
                         <tbody>
                             <ng-container *ngIf="troopsData.length > 0; else noTableData">

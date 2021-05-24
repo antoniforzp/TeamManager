@@ -170,25 +170,25 @@ export class TroopsComponent implements OnInit, OnDestroy {
     const selected = this.troopsData.filter((x) => x.isSelected);
     this.actions.clear();
     this.actions.set(Actions.ADD, {
-      label: 'Dodaj',
+      label: 'actions.add',
       isEnabled: true,
       action: () => this.openAddTroop(),
     });
 
     this.actions.set(Actions.EDIT, {
-      label: 'Edytuj',
+      label: 'actions.edit',
       isEnabled: selected.length === 1,
       action: () => this.openEditTroop(),
     });
 
     this.actions.set(Actions.DELETE, {
-      label: 'Usuń',
+      label: 'actions.delete',
       isEnabled: selected.length > 0,
       action: () => this.openDeleteTroop(),
     });
 
     this.actions.set(Actions.SHOW_SCOUTS, {
-      label: 'Pokaż harcerzy',
+      label: 'actions.show-scouts',
       isEnabled: selected.length > 0,
       action: () => this.openShowScouts(),
     });

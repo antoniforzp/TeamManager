@@ -4,7 +4,7 @@ import {
   AddEditTroopModalComponent,
   AddEditTroopModalComponentEntry,
 } from './add-edit-troop-modal.component';
-import { Troop } from '../../../model/Troop';
+import { Patrol } from '../../../model/Patrol';
 
 export class AddEditTroopModal {
   constructor(private dialog: MatDialog) {}
@@ -21,7 +21,7 @@ export class AddEditTroopModal {
   }
 
   async openEdit(
-    troop: Troop
+    troop: Patrol
   ): Promise<MatDialogRef<AddEditTroopModalComponent>> {
     await import('./add-edit-troop-modal.module');
     return this.dialog.open(AddEditTroopModalComponent, {

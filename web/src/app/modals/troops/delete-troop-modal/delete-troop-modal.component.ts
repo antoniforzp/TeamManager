@@ -15,14 +15,15 @@ import {
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Scout } from 'src/app/model/Scout';
-import { Troop } from 'src/app/model/Troop';
+import { Patrol } from 'src/app/model/Patrol';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
-import { TroopsService } from 'src/app/services/data/troops.service';
+import { PatrolsService } from 'src/app/services/data/patrols.service';
 import { Results } from 'src/app/utils/Result';
+import { EntryRequestData } from '../../common/progress-modal/progress-modal.component';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 
 export interface DeleteTroopModalComponentEntry {
-  troops: Troop[];
+  troops: Patrol[];
 }
 
 @Component({
@@ -35,12 +36,12 @@ export class DeleteTroopModalComponent implements OnInit, OnDestroy {
   pageLoaded = false;
   pageError: HttpErrorResponse;
 
-  troops: Troop[];
+  troops: Patrol[];
   scouts: Scout[];
   accept = false;
 
   constructor(
-    private troopsService: TroopsService,
+    private troopsService: PatrolsService,
     private scoutsService: ScoutsService,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<DeleteTroopModalComponent>,
@@ -58,7 +59,7 @@ export class DeleteTroopModalComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (scouts) => {
           this.scouts = scouts.filter((x) =>
-            this.troops.find((t) => t.troopId === x.troop.troopId)
+            this.troops.find((t) => t.patrolId === x.patrol.patrolId)
           );
 
           this.pageLoaded = true;
@@ -83,11 +84,14 @@ export class DeleteTroopModalComponent implements OnInit, OnDestroy {
   }
 
   delete(): void {
-    const queue = [] as Observable<boolean>[];
+    const queue = [] as EntryRequestData[];
     this.troops
-      .map((x) => x.troopId)
+      .map((x) => x.patrolId)
       .forEach((id) => {
-        queue.push(this.troopsService.deleteTroop(id));
+        queue.push({
+          request: this.troopsService.deletePatrol(id),
+          requestLabel: 'Usunięcie harcerza',
+        });
       });
     new ProgressModal(this.dialog)
       .open(queue, {

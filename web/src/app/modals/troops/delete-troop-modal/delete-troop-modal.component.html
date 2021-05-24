@@ -1,6 +1,10 @@
 <div class="modal-header">
-    <span *ngIf="troops.length <= 1" class="my-modal-title">Usuń zastęp</span>
-    <span *ngIf="troops.length > 1" class="my-modal-title">Usuń zastępy</span>
+    <span *ngIf="troops.length <= 1" class="my-modal-title" translate>
+        delete-patrol.title-one
+    </span>
+    <span *ngIf="troops.length > 1" class="my-modal-title" translate>
+        delete-patrol.title-many
+    </span>
 </div>
 
 <div class="modal-body">
@@ -17,13 +21,16 @@
 
             <div class="d-flex align-items-center">
                 <img src="../../../../assets/icons/alert.svg" width="30" height="30" class="mr-4" />
-                <span>Usunięcie zastępu spowoduje usunięcie wszystkich powiązanych harcerzy z tym zastępem wraz z ich
-                    danymi.</span>
+                <span translate>
+                    delete-patrol.warning
+                </span>
             </div>
 
             <br>
             <span>
-                Zastępy, które zamierzasz usunąć ({{troops.length}}):
+                <span translate>
+                    delete-patrol.about-to-delete
+                </span> ({{troops.length}}):
             </span>
 
             <div class="my-table-container">
@@ -37,7 +44,9 @@
             </div>
 
             <span>
-                Powiązani harcerze z usuwanymi zastępami ({{scouts.length}}):
+                <span translate>
+                    delete-patrol.scouts-associated
+                </span> ({{scouts.length}}):
             </span>
 
             <div class="my-table-container">
@@ -55,7 +64,9 @@
             <div class="d-flex align-items-center mt-2">
                 <label class="required">
                     <input type="checkbox" class="select-all checkbox cursor-pointer" [(ngModel)]="accept" />
-                    Potwierdzam, że jestem świadom konsekwencji
+                    <span translate>
+                        delete-patrol.aware-consequences
+                    </span>
                 </label>
             </div>
         </ng-container>
@@ -66,8 +77,13 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
-        <button class="btn btn-danger my-button" [disabled]="!accept" (click)="delete()">Usuń</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
+
+        <button class="btn btn-danger my-button" [disabled]="!accept" (click)="delete()" translate>
+            actions.delete
+        </button>
     </div>
 </div>
 
@@ -77,8 +93,8 @@
 
 <ng-template #noTableData>
     <tr>
-        <td colspan="2">
-            Brak danych
+        <td colspan="2" translate>
+            common.no-data
         </td>
     </tr>
 </ng-template>

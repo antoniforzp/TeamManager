@@ -1,6 +1,10 @@
 <div class="modal-header">
-    <span class="my-modal-title" *ngIf="modalMode === ModalModes.ADD">Dodaj nowy zastęp</span>
-    <span class="my-modal-title" *ngIf="modalMode === ModalModes.EDIT">Edytuj zastęp</span>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.ADD" translate>
+        add-edit-patrol.title-add
+    </span>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.EDIT">
+        add-edit-patrol.label-edit
+    </span>
 </div>
 
 <div class="modal-body">
@@ -11,14 +15,17 @@
 
             <!-- Name -->
             <div class="row mb-2">
-                <label for="name" class="col-sm-2 col-form-label required">Nazwa</label>
+                <label for="name" class="col-sm-2 col-form-label required" translate>
+                    patrols.name
+                </label>
                 <div class="col">
                     <input id="name" type="text" class="form-control" formControlName="name">
 
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="name.errors && name.dirty">
-                        <small class="alert-danger" *ngIf="name.hasError('required')">Pole
-                            wymagane</small>
+                        <small class="alert-danger" *ngIf="name.hasError('required')">
+                            errors.input-required
+                        </small>
                     </div>
                 </div>
 
@@ -29,12 +36,18 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
 
-        <button *ngIf="modalMode === ModalModes.ADD" type="button" class="btn btn-success my-button" (click)="addTeam()"
-            [disabled]="!form.valid">Dodaj</button>
+        <button *ngIf="modalMode === ModalModes.ADD" type="button" class="btn btn-success my-button"
+            (click)="addTroop()" [disabled]="!form.valid" translate>
+            actions.add
+        </button>
 
         <button *ngIf="modalMode === ModalModes.EDIT" type="button" class="btn btn-success my-button"
-            (click)="editTeam()" [disabled]="!form.valid">Edytuj</button>
+            (click)="editTroop()" [disabled]="!form.valid" translate>
+            actions.edit
+        </button>
     </div>
 </div>

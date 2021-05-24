@@ -1,6 +1,6 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Team } from 'src/app/model/Team';
-import { Troop } from 'src/app/model/Troop';
+import { Patrol } from 'src/app/model/Patrol';
 import { ModalWidths } from '../../Modals-def';
 import {
   DeleteTroopModalComponent,
@@ -11,7 +11,7 @@ export class DeleteTroopModal {
   constructor(private dialog: MatDialog) {}
 
   async open(
-    troops: Troop[]
+    troops: Patrol[]
   ): Promise<MatDialogRef<DeleteTroopModalComponent>> {
     await import('./delete-troop-modal.module');
     return this.dialog.open(DeleteTroopModalComponent, {
