@@ -5,12 +5,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, Subject } from 'rxjs';
@@ -95,19 +90,16 @@ export class SettingsModalComponent implements OnInit {
 
   save(): void {
     new ProgressModal(this.dialog)
-      .open(
-        [
-          this.appSettingsService.patchSettings({
+      .open([
+        {
+          request: this.appSettingsService.patchSettings({
             userId: this.settings.userId,
             language: this.selectedLanguage,
             theme: this.selectedTheme,
           }),
-        ],
-        {
-          successMessage: 'Udało się zmienić ustawienia',
-          failureMessage: 'Nie się zmienić ustawień',
-        }
-      )
+          requestLabel: 'requests.edit-settings',
+        },
+      ])
       .then((x) =>
         x
           .afterClosed()
