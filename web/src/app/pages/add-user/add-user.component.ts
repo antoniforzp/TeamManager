@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -19,8 +25,12 @@ import { CustomValidators } from 'src/app/validators/Customvalidators';
 @Component({
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddUserComponent implements OnInit {
+  pageLoaded = false;
+  pageError: HttpErrorResponse;
+
   AppRoutes = AppRoutes;
 
   mailExists = false;
@@ -31,17 +41,20 @@ export class AddUserComponent implements OnInit {
     private userService: UserService,
     private dialog: MatDialog,
     private translate: TranslateService,
-    private appStateService: AppStateService
+    private appStateService: AppStateService,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.setupForm();
+    this.pageLoaded = true;
+    this.changeDetector.detectChanges();
   }
 
   // TRANSLATION
 
   translateView(): void {
-    const lang = this.appStateService.getOutLanguage();
+    const lang = this.appStateService.outLanguage;
     lang ? this.translate.use(lang) : this.translate.use(defaultLanguage);
   }
 
@@ -54,28 +67,28 @@ export class AddUserComponent implements OnInit {
       .subscribe({
         next: (mailExists) => {
           if (!mailExists) {
-            new ProgressModal(this.dialog).open(
-              [
-                this.userService.addUser(
+            new ProgressModal(this.dialog).open([
+              {
+                request: this.userService.addUser(
                   this.userName.value,
                   this.userSurname.value,
                   this.password.value,
                   this.userEmail.value
                 ),
-              ],
-              {
-                successMessage:
-                  'Udało się stworzyć konto. Zaloguj się do aplikacji.',
-                failureMessage:
-                  'Nie udało się zaktualizować dane harcerza. Sprawdź wszystkie dane.',
-              }
-            );
+                requestLabel: 'requests.delete-team',
+              },
+            ]);
           }
+          this.changeDetector.detectChanges();
         },
-        error: (err) => {
-          // TODO: Error handling
-        },
+        error: (err) => this.handleError(err),
       });
+  }
+
+  handleError(error: HttpErrorResponse): void {
+    this.pageLoaded = true;
+    this.pageError = error;
+    this.changeDetector.detectChanges();
   }
 
   // FORMS SETUP
