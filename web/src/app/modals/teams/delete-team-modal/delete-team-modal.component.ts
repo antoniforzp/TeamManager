@@ -57,24 +57,19 @@ export class DeleteTeamModalComponent implements OnInit, OnDestroy {
       .forEach((id) => {
         queue.push({
           request: this.teamsService.deleteTeam(id),
-          requestLabel: 'usuwanie drużyny',
+          requestLabel: 'requests.delete-team',
         });
       });
 
-    new ProgressModal(this.dialog)
-      .open(queue, {
-        successMessage: 'Udało usunąć wybrane drużyny',
-        failureMessage: 'Nie Udało usunąć wybranyc drużyn',
-      })
-      .then((x) =>
-        x
-          .afterClosed()
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((result) => {
-            if (result === Results.SUCCESS) {
-              this.dialogRef.close(result);
-            }
-          })
-      );
+    new ProgressModal(this.dialog).open(queue).then((x) =>
+      x
+        .afterClosed()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result) => {
+          if (result === Results.SUCCESS) {
+            this.dialogRef.close(result);
+          }
+        })
+    );
   }
 }
