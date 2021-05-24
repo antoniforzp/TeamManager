@@ -1,6 +1,10 @@
 <div class="modal-header">
-    <span *ngIf="meetings.length <= 1" class="my-modal-title">Wyeksportuj wyjazd</span>
-    <span *ngIf="meetings.length > 1" class="my-modal-title">Wyeksportuj wyjazdy</span>
+    <span *ngIf="meetings.length <= 1" class="my-modal-title" translate>
+        export-meetings-csv.title-one
+    </span>
+    <span *ngIf="meetings.length > 1" class="my-modal-title" translate>
+        export-meetings-csv.title-many
+    </span>
 </div>
 
 <div class="modal-body">
@@ -13,21 +17,26 @@
 
             <div class="row mb-4">
                 <div class="col-sm-4 col-form-label">
-                    <span class="required">Nazwa pliku</span>
+                    <span class="required" translate>
+                        export-meetings-csv.filename
+                    </span>
                 </div>
                 <div class="col">
                     <input type="text" class="form-control" formControlName="filename">
 
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="filename.errors && filename.dirty">
-                        <small class="alert-danger" *ngIf="filename.hasError('required')">Pole
-                            wymagane</small>
+                        <small class="alert-danger" *ngIf="filename.hasError('required')" translate>
+                            errors.input-required
+                        </small>
                     </div>
                 </div>
             </div>
 
             <span>
-                Wyjazdy i zbiórki, których zamierzasz Wyeksportować do pliku CSV ({{meetings.length}}):
+                <span translate>
+                    export-meetings-csv.about-to-export
+                </span> ({{meetings.length}}):
             </span>
 
             <div class="my-table-container" style="max-height: 30vh; overflow-y: auto;">
@@ -53,7 +62,12 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
-        <button class="btn btn-success my-button" (click)="export()">Eksportuj</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
+
+        <button class="btn btn-success my-button" (click)="export()" translate>
+            actions.export-csv
+        </button>
     </div>
 </div>
