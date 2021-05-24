@@ -14,17 +14,24 @@
             <!-- PAGE CONTENT -->
             <div *ngIf="!pageError">
 
-                <app-page-header [header]="'Zastępy'" [goBackRoute]="AppRoutes.HOME"></app-page-header>
+                <app-page-header [header]="'patrols.title' | translate" [goBackRoute]="AppRoutes.HOME">
+                </app-page-header>
 
                 <!-- TROOPS -->
-                <div class="d-flex justify-content-between mb-2">
-                    <h5>Zarządzaj zastępami ({{troops.length}})</h5>
+                <div class="page-header-container mb-2">
+                    <span>
+                        <span translate>
+                            patrols.manage-patrols
+                        </span> ({{troops.length}})
+                    </span>
 
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle my-button" type="button"
                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                             (click)="setActions()">
-                            Opcje
+                            <span translate>
+                                common.options
+                            </span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             <ng-container *ngFor="let action of actions | keyvalue">
@@ -36,16 +43,16 @@
                 </div>
 
                 <!-- Troops table -->
-                <div class="mt-3" style="height: 55vh; overflow-y: auto;">
+                <div class="mt-3 table-container-page-menu">
                     <table class="table table-hover">
                         <thead class="my-thead">
                             <th class="checkbox-cell">
                                 <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
                                     (ngModelChange)="toggleSelectAll($event)">
                             </th>
-                            <th>Nazwa</th>
-                            <th>Zastępowy</th>
-                            <th>Członkowie</th>
+                            <th translate>patrols.name</th>
+                            <th translate>patrols.patrol-leader</th>
+                            <th translate>patrols.members</th>
                         </thead>
                         <tbody>
                             <ng-container *ngIf="troopsData.length > 0; else noTableData">
@@ -61,7 +68,9 @@
 
                                         <!-- Name -->
                                         <td>
-                                            <span *ngIf="troop.name; else noCellData">{{troop.name}}</span>
+                                            <span *ngIf="troop.name; else noCellData">
+                                                {{troop.name}}
+                                            </span>
                                         </td>
 
                                         <!-- Troop leaders -->
@@ -72,8 +81,9 @@
                                                         <span>{{leader.scout.name}} {{leader.scout.surname}}</span>
                                                     </div>
                                                     <div class="col">
-                                                        <span
-                                                            [ngClass]="[createRoleBadge(leader.role)]">{{leader.role.name}}</span>
+                                                        <span [ngClass]="[createRoleBadge(leader.role)]" translate>
+                                                            {{leader.role.name}}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </ng-container>
@@ -114,8 +124,8 @@
 
 <ng-template #noTableData>
     <tr>
-        <td colspan="5">
-            Brak danych
+        <td colspan="5" translate>
+            common.no-data
         </td>
     </tr>
 </ng-template>

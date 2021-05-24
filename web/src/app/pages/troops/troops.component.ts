@@ -14,9 +14,9 @@ import { AddEditTroopModal } from 'src/app/modals/troops/add-edit-troop-modal/ad
 import { DeleteTroopModal } from 'src/app/modals/troops/delete-troop-modal/delete-troop-modal';
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
-import { Troop } from 'src/app/model/Troop';
+import { Patrol } from 'src/app/model/Patrol';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
-import { TroopsService } from 'src/app/services/data/troops.service';
+import { PatrolsService } from 'src/app/services/data/patrols.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
@@ -29,7 +29,7 @@ interface TroopRowData {
   }[];
 
   troopScouts: Scout[];
-  troopData: Troop;
+  troopData: Patrol;
   isSelected: boolean;
 }
 
@@ -56,14 +56,14 @@ export class TroopsComponent implements OnInit, OnDestroy {
 
   troopsData: TroopRowData[];
 
-  troops: Troop[];
+  troops: Patrol[];
   scouts: Scout[];
   scoutRoles: Role[];
 
   actions = new Map<Actions, DropdownAction>();
 
   constructor(
-    private troopsService: TroopsService,
+    private troopsService: PatrolsService,
     private scoutsService: ScoutsService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
@@ -82,7 +82,7 @@ export class TroopsComponent implements OnInit, OnDestroy {
   loadData(): void {
     this.allSelected = false;
     forkJoin({
-      troops: this.troopsService.getTroops(),
+      troops: this.troopsService.getPatrols(),
       scouts: this.scoutsService.getScouts(),
       scoutRoles: this.scoutsService.getAllRoles(),
     })
@@ -105,7 +105,7 @@ export class TroopsComponent implements OnInit, OnDestroy {
                 };
               }),
               troopScouts: this.scouts.filter(
-                (s) => s.troop.troopId === x.troopId
+                (s) => s.patrol.patrolId === x.patrolId
               ),
               troopData: x,
               isSelected: false,
@@ -146,11 +146,11 @@ export class TroopsComponent implements OnInit, OnDestroy {
 
   // UTILS
 
-  getLeaders(troop: Troop): Scout[] {
+  getLeaders(troop: Patrol): Scout[] {
     return (
       this.scouts
         // Find scouts belonging to given troop
-        .filter((x) => x.troop.troopId === troop.troopId)
+        .filter((x) => x.patrol.patrolId === troop.patrolId)
         // Get those who have an role of id 6 (troop leader) or 5 (deputy troop leader) attached to them
         .filter((x) =>
           this.scoutRoles.find(
@@ -238,7 +238,7 @@ export class TroopsComponent implements OnInit, OnDestroy {
       .map((x) => x.troopData);
 
     const scouts = this.scouts.filter((x) =>
-      selected.find((t) => t.troopId === x.troop.troopId)
+      selected.find((t) => t.patrolId === x.patrol.patrolId)
     );
 
     new ShowScoutsModal(this.dialog).open(scouts).then((x) =>
@@ -250,8 +250,10 @@ export class TroopsComponent implements OnInit, OnDestroy {
 
   // DETAILS
 
-  openShowScoutsByLink(troop: Troop): void {
-    const scouts = this.scouts.filter((x) => x.troop.troopId === troop.troopId);
+  openShowScoutsByLink(troop: Patrol): void {
+    const scouts = this.scouts.filter(
+      (x) => x.patrol.patrolId === troop.patrolId
+    );
 
     new ShowScoutsModal(this.dialog).open(scouts).then((x) =>
       x.afterClosed().subscribe(() => {
