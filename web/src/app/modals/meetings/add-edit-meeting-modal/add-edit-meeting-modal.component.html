@@ -1,6 +1,10 @@
 <div class="modal-header">
-    <span class="my-modal-title" *ngIf="modalMode === ModalModes.ADD">Dodaj nową zbiórkę</span>
-    <span class="my-modal-title" *ngIf="modalMode === ModalModes.EDIT">Edytuj zbiórkę</span>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.ADD" translate>
+        add-edit-meeting.title-add
+    </span>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.EDIT" translate>
+        add-edit-meeting.title-edit
+    </span>
 </div>
 
 <div class="modal-body">
@@ -11,35 +15,43 @@
 
             <!-- Title -->
             <div class="row mb-2">
-                <label for="title" class="col-sm-2 col-form-label required">Tytuł</label>
+                <label for="title" class="col-sm-2 col-form-label required" translate>
+                    add-edit-meeting.meeting-title
+                </label>
                 <div class="col">
                     <input id="title" type="text" class="form-control" formControlName="title">
 
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="title.errors && title.dirty">
-                        <small class="alert-danger" *ngIf="title.hasError('required')">Pole
-                            wymagane</small>
+                        <small class="alert-danger" *ngIf="title.hasError('required')" translate>
+                            errors.input-required
+                        </small>
                     </div>
                 </div>
             </div>
 
             <!-- Place -->
             <div class="row mb-2">
-                <label for="place" class="col-sm-2 col-form-label required">Miejsce</label>
+                <label for="place" class="col-sm-2 col-form-label required" translate>
+                    meetings-journeys.place
+                </label>
                 <div class="col">
                     <input id="place" type="text" class="form-control" formControlName="place">
 
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="place.errors && place.dirty">
-                        <small class="alert-danger" *ngIf="place.hasError('required')">Pole
-                            wymagane</small>
+                        <small class="alert-danger" *ngIf="place.hasError('required')" translate>
+                            errors.input-required
+                        </small>
                     </div>
                 </div>
             </div>
 
             <!-- Date -->
             <div class="row mb-2">
-                <label for="date" class="col-sm-2 col-form-label required">Data</label>
+                <label for="date" class="col-sm-2 col-form-label required" translate>
+                    meetings-journeys.date
+                </label>
                 <div class="col">
                     <mat-form-field class="mb-n2 mt-n2 w-100">
                         <input id="date" matInput [matDatepicker]="picker" formControlName="date">
@@ -49,8 +61,9 @@
 
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="date.errors && date.dirty">
-                        <small class="alert-danger" *ngIf="date.hasError('required')">Pole
-                            wymagane</small>
+                        <small class="alert-danger" *ngIf="date.hasError('required')" translate>
+                            errors.input-required
+                        </small>
                     </div>
                 </div>
             </div>
@@ -60,12 +73,18 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
 
         <button *ngIf="modalMode === ModalModes.ADD" type="button" class="btn btn-success my-button"
-            (click)="addMeeting()" [disabled]="!form.valid">Dodaj</button>
+            (click)="addMeeting()" [disabled]="!form.valid" translate>
+            actions.add
+        </button>
 
         <button *ngIf="modalMode === ModalModes.EDIT" type="button" class="btn btn-success my-button"
-            (click)="editMeeting()" [disabled]="!form.valid">Edytuj</button>
+            (click)="editMeeting()" [disabled]="!form.valid" translate>
+            actions.edit
+        </button>
     </div>
 </div>

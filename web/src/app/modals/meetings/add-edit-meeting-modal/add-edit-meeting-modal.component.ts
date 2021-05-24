@@ -95,19 +95,16 @@ export class AddEditMeetingModalComponent implements OnInit, OnDestroy {
 
   addMeeting(): void {
     new ProgressModal(this.dialog)
-      .open(
-        [
-          this.meetingsService.addMeeting({
+      .open([
+        {
+          request: this.meetingsService.addMeeting({
             title: this.title.value,
             place: this.place.value,
             date: this.date.value,
           }),
-        ],
-        {
-          successMessage: 'Udało się dodać zbiórkę',
-          failureMessage: 'Nie udało się dodać zbirki',
-        }
-      )
+          requestLabel: 'requests.add-meeting',
+        },
+      ])
       .then((x) =>
         x
           .afterClosed()
@@ -122,19 +119,19 @@ export class AddEditMeetingModalComponent implements OnInit, OnDestroy {
 
   editMeeting(): void {
     new ProgressModal(this.dialog)
-      .open(
-        [
-          this.meetingsService.patchMeeting(this.meetingData.meetingId, {
-            title: this.title.value,
-            place: this.place.value,
-            date: this.date.value,
-          }),
-        ],
+      .open([
         {
-          successMessage: 'Udało się zaktualizować informacje o zbiórce',
-          failureMessage: 'Nie udało się zedytować zbirki',
-        }
-      )
+          request: this.meetingsService.patchMeeting(
+            this.meetingData.meetingId,
+            {
+              title: this.title.value,
+              place: this.place.value,
+              date: this.date.value,
+            }
+          ),
+          requestLabel: 'requests.edit-meeting',
+        },
+      ])
       .then((x) =>
         x
           .afterClosed()
