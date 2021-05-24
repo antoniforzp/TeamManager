@@ -1,5 +1,7 @@
 <div class="modal-header">
-    <span class="my-modal-title">Szczegółowe dane</span>
+    <span class="my-modal-title" translate>
+        scout-info.title
+    </span>
 </div>
 
 <div class="modal-body">
@@ -9,12 +11,14 @@
         <div class="col">
             <div class="d-flex align-items-center mb-1">
                 <img src="../../../../assets/icons/person.svg" class="icon mr-2" />
-                <span class="label-medium">Dane osobowe</span>
+                <span class="label-medium" translate>
+                    common.personal-data
+                </span>
             </div>
 
             <div class="row mb-2">
-                <div class="col">
-                    Imię
+                <div class="col" translate>
+                    common.name
                 </div>
                 <div class="col">
                     <span *ngIf="scoutInfo.name; else noData">
@@ -24,8 +28,8 @@
             </div>
 
             <div class="row mb-2">
-                <div class="col">
-                    Nazwisko
+                <div class="col" translate>
+                    common.surname
                 </div>
                 <div class="col">
                     <span *ngIf="scoutInfo.surname; else noData">
@@ -35,8 +39,8 @@
             </div>
 
             <div class="row mb-2">
-                <div class="col">
-                    Data urodzenia
+                <div class="col" translate>
+                    scouts.birth-date
                 </div>
                 <div class="col">
                     <span *ngIf="scoutInfo.birthDate; else noData">
@@ -46,8 +50,8 @@
             </div>
 
             <div class="row mb-2">
-                <div class="col">
-                    PESEL
+                <div class="col" translate>
+                    scouts.personal-id
                 </div>
                 <div class="col">
                     <span *ngIf="scoutInfo.pesel; else noData">
@@ -58,12 +62,14 @@
 
             <div class="d-flex align-items-center mb-1 mt-4">
                 <img src="../../../../assets/icons/address.svg" class="icon mr-2" />
-                <span class="label-medium">Adres</span>
+                <span class="label-medium" translate>
+                    scouts.address
+                </span>
             </div>
 
             <div class="row mb-2">
-                <div class="col">
-                    Pełny adres
+                <div class="col" translate>
+                    scouts.full-address
                 </div>
                 <div class="col">
                     <span *ngIf="scoutInfo.address || scoutInfo.postalCode || scoutInfo.city; else noData">
@@ -74,12 +80,14 @@
 
             <div class="d-flex align-items-center mb-1 mt-4">
                 <img src="../../../../assets/icons/phone.svg" class="icon mr-2" />
-                <span class="label-medium">Dane kontaktowe</span>
+                <span class="label-medium" translate>
+                    scouts.contact-data
+                </span>
             </div>
 
             <div class="row mb-2">
-                <div class="col">
-                    Numer telefonu
+                <div class="col" translate>
+                    scouts.phone-number
                 </div>
                 <div class="col">
                     <span *ngIf="scoutInfo.phone; else noData">
@@ -93,39 +101,47 @@
 
             <div class="d-flex align-items-center mb-1">
                 <img src="../../../../assets/icons/rank.svg" class="icon mr-2" />
-                <span class="label-medium">Stopnie</span>
+                <span class="label-medium" translate>
+                    scouts.ranks
+                </span>
             </div>
 
             <div class="row mb-2">
-                <div class="col">
-                    Stopień harcerski
+                <div class="col" translate>
+                    scouts.rank
                 </div>
                 <div class="col">
                     <span *ngIf="scoutInfo.rankName; else noData">
-                        {{scoutInfo.rankName}}
+                        <span translate>
+                            {{scoutInfo.rankName}}
+                        </span>
                     </span>
                 </div>
             </div>
 
             <div class="row mb-2">
-                <div class="col">
-                    Stopień instruktorski
+                <div class="col" translate>
+                    scouts.instructor-rank
                 </div>
                 <div class="col">
                     <span [ngClass]="[scoutInfo.instructorRankLabel]" *ngIf="scoutInfo.instructorRankName; else noData">
-                        {{scoutInfo.instructorRankName}}
+                        <span translate>
+                            {{scoutInfo.instructorRankName}}
+                        </span>
                     </span>
                 </div>
             </div>
 
             <div class="d-flex align-items-center mb-1 mt-4">
                 <img src="../../../../assets/icons/group.svg" class="icon mr-2" />
-                <span class="label-medium">Przynależność</span>
+                <span class="label-medium" translate>
+                    scouts.membershp
+                </span>
             </div>
 
             <div class="row mb-2">
-                <div class="col">
-                    Zastęp
+                <div class="col" translate>
+                    scouts.patrol
                 </div>
                 <div class="col">
                     <span *ngIf="scoutInfo.troop; else noData">
@@ -135,14 +151,16 @@
             </div>
 
             <div class="row mb-2">
-                <div class="col">
-                    Funkcje
+                <div class="col" translate>
+                    scouts.roles
                 </div>
                 <div class="col">
                     <ng-container *ngIf="scoutInfo.roles.length > 0; else noData">
                         <div class="d-flex flex-column">
                             <span *ngFor="let role of scoutInfo.roles" [ngClass]="[role.label, 'mb-1']">
-                                {{role.name}}
+                                <span translate>
+                                    {{role.name}}
+                                </span>
                             </span>
                         </div>
                     </ng-container>
@@ -156,7 +174,9 @@
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
     </div>
 </div>
 

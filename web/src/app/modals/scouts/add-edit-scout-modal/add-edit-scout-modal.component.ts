@@ -20,18 +20,18 @@ import {
 } from '@angular/material/dialog';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { InstructorRank } from 'src/app/model/InstructorRank';
+import { IRank } from 'src/app/model/IRank';
 import { Rank } from 'src/app/model/Rank';
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
-import { Troop } from 'src/app/model/Troop';
+import { Patrol } from 'src/app/model/Patrol';
 import { RanksService } from 'src/app/services/data/ranks.service';
 import { RolesService } from 'src/app/services/data/roles.service';
 import {
   ScoutsService,
   ScoutPayload,
 } from 'src/app/services/data/scouts.service';
-import { TroopsService } from 'src/app/services/data/troops.service';
+import { PatrolsService } from 'src/app/services/data/patrols.service';
 import { RegexPatterns } from 'src/app/utils/PatternsDefs';
 import { Results as Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
@@ -60,9 +60,9 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
   scoutData: Scout;
 
   roles = [] as Role[];
-  troops = [] as Troop[];
+  troops = [] as Patrol[];
   ranks = [] as Rank[];
-  instructorRanks = [] as InstructorRank[];
+  instructorRanks = [] as IRank[];
 
   constructor(
     private fb: FormBuilder,
@@ -70,7 +70,7 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<AddEditScoutModalComponent>,
     private scoutService: ScoutsService,
     private rolesService: RolesService,
-    private troopsService: TroopsService,
+    private troopsService: PatrolsService,
     private ranksService: RanksService,
     private changeDetector: ChangeDetectorRef,
 
@@ -84,7 +84,7 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     forkJoin({
       roles: this.rolesService.getRoles(),
-      troops: this.troopsService.getTroops(),
+      troops: this.troopsService.getPatrols(),
       ranks: this.ranksService.getRanks(),
       instructorRanks: this.ranksService.getInstructorRanks(),
     })
@@ -139,10 +139,12 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
     } as ScoutPayload;
 
     new ProgressModal(this.dialog)
-      .open([this.scoutService.addScout(scoutPayload)], {
-        successMessage: 'Udało się dodać harcerza',
-        failureMessage: 'Nie udało się dodać harcerza',
-      })
+      .open([
+        {
+          request: this.scoutService.addScout(scoutPayload),
+          requestLabel: 'requests.add-scout',
+        },
+      ])
       .then((x) =>
         x
           .afterClosed()
@@ -171,10 +173,15 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
     } as ScoutPayload;
 
     new ProgressModal(this.dialog)
-      .open([this.scoutService.patchScout(this.anchorScoutId, scoutPayload)], {
-        successMessage: 'Udało się zaktualizować informacje harcerza',
-        failureMessage: 'Nie udało się zaktualizować informacji harcerza',
-      })
+      .open([
+        {
+          request: this.scoutService.patchScout(
+            this.anchorScoutId,
+            scoutPayload
+          ),
+          requestLabel: 'requests.edit-scout',
+        },
+      ])
       .then((x) =>
         x
           .afterClosed()
@@ -224,9 +231,9 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
       postalCode: scout.postalCode,
       city: scout.city,
       phone: scout.phone,
-      troop: scout.troop.troopId,
+      troop: scout.patrol.patrolId,
       rank: scout.rank.rankId,
-      instructorRank: scout.instructorRank.rankId,
+      instructorRank: scout.irank.rankId,
     });
   }
 

@@ -61,30 +61,30 @@ export class ExportCsvScoutModalComponent implements OnInit, OnDestroy {
     const headers = [] as string[];
     const exportPayloads = [] as ScoutCsvPayload[];
 
-    headers.push('Name');
-    headers.push('Surname');
+    headers.push('csv.scouts.name');
+    headers.push('csv.scouts.surname');
 
     if (this.exportCredentials.value) {
-      headers.push('Birth date');
-      headers.push('PESEL');
+      headers.push('csv.scouts.birth-date');
+      headers.push('csv.scouts.personal-id');
     }
 
     if (this.exportAddress.value) {
-      headers.push('Address');
+      headers.push('csv.scouts.address');
     }
 
     if (this.exportContact.value) {
-      headers.push('Phone');
+      headers.push('csv.scouts.phone');
     }
 
     if (this.exportRanks.value) {
-      headers.push('Rank');
-      headers.push('Instructor rank');
+      headers.push('csv.scouts.rank');
+      headers.push('csv.scouts.irank');
     }
 
     if (this.exportAfiliation.value) {
-      headers.push('Troop');
-      headers.push('Roles');
+      headers.push('csv.scouts.patrol');
+      headers.push('csv.scouts.roles');
     }
 
     this.scouts.forEach((scout) => {
@@ -108,11 +108,11 @@ export class ExportCsvScoutModalComponent implements OnInit, OnDestroy {
 
       if (this.exportRanks.value) {
         exportPayload.rank = scout.rank.name;
-        exportPayload.instructorRank = scout.instructorRank.name;
+        exportPayload.instructorRank = scout.irank.name;
       }
 
       if (this.exportAfiliation.value) {
-        exportPayload.troop = scout.troop.name;
+        exportPayload.troop = scout.patrol.name;
 
         let rolesString = '';
         this.scoutRoles
@@ -130,11 +130,15 @@ export class ExportCsvScoutModalComponent implements OnInit, OnDestroy {
     new CSVExporter().exportAndDownlaod(
       this.filename.value + '.csv',
       exportPayloads,
-      headers
+      this.translateHeaders(headers)
     );
   }
 
   // UTILS
+
+  translateHeaders(headers: string[]): string[] {
+    return headers.map((x) => this.translate.instant(x));
+  }
 
   generatedFilename(): string {
     const date = new Date();

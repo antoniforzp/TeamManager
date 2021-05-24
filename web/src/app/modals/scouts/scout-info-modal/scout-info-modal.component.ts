@@ -49,7 +49,7 @@ export class ScoutInfoModalComponent implements OnInit {
       postalCode: scout.postalCode,
       city: scout.city,
       phone: scout.phone,
-      troop: scout.troop.name,
+      troop: scout.patrol.name,
       roles: data.scoutRoles.map((x) => {
         return {
           label: `role-${x.roleId}`,
@@ -57,8 +57,8 @@ export class ScoutInfoModalComponent implements OnInit {
         } as { name: string; label: string };
       }),
       rankName: scout.rank.name,
-      instructorRankName: scout.instructorRank.name,
-      instructorRankLabel: `instructor-rank-${scout.instructorRank.rankId}`,
+      instructorRankName: scout.irank.name,
+      instructorRankLabel: `instructor-rank-${scout.irank.rankId}`,
     };
   }
 

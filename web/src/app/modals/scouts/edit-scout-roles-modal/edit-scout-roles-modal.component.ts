@@ -19,6 +19,7 @@ import { Scout } from 'src/app/model/Scout';
 import { RolesService } from 'src/app/services/data/roles.service';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { Results } from 'src/app/utils/Result';
+import { EntryRequestData } from '../../common/progress-modal/progress-modal.component';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 
 export interface EditScoutRolesModalComponentEntry {
@@ -120,33 +121,34 @@ export class EditScoutRolesModalComponent implements OnInit, OnDestroy {
   }
 
   edit(): void {
-    const queue = [] as Observable<boolean>[];
+    const queue = [] as EntryRequestData[];
 
     // Queue add requests up
     this.rolesToAdd.forEach((x) => {
-      queue.push(this.scoutsService.addRole(this.scout.scoutId, x.roleId));
+      queue.push({
+        request: this.scoutsService.addRole(this.scout.scoutId, x.roleId),
+        requestLabel: 'requests.add-role',
+      });
     });
 
     // Queue delete requests up
     this.rolesToDelete.forEach((x) => {
-      queue.push(this.scoutsService.deleteRole(this.scout.scoutId, x.roleId));
+      queue.push({
+        request: this.scoutsService.deleteRole(this.scout.scoutId, x.roleId),
+        requestLabel: 'requests.delete-role',
+      });
     });
 
-    new ProgressModal(this.dialog)
-      .open(queue, {
-        successMessage: 'Udało się zaktualizować funkcje harcerza',
-        failureMessage: 'Nie udało się zaktualizować funkcji harcerza',
-      })
-      .then((x) =>
-        x
-          .afterClosed()
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((result) => {
-            if (result === Results.SUCCESS) {
-              this.dialogRef.close(result);
-            }
-          })
-      );
+    new ProgressModal(this.dialog).open(queue).then((x) =>
+      x
+        .afterClosed()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result) => {
+          if (result === Results.SUCCESS) {
+            this.dialogRef.close(result);
+          }
+        })
+    );
   }
 
   // UTILS

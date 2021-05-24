@@ -4,11 +4,12 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Scout } from 'src/app/model/Scout';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { Results } from 'src/app/utils/Result';
+import { EntryRequestData } from '../../common/progress-modal/progress-modal.component';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 
 export interface DeleteScoutModalComponentEntry {
@@ -52,26 +53,24 @@ export class DeleteScoutModalComponent implements OnInit, OnDestroy {
   }
 
   delete(): void {
-    const queue = [] as Observable<boolean>[];
+    const queue = [] as EntryRequestData[];
     this.scouts
       .map((x) => x.scoutId)
       .forEach((id) => {
-        queue.push(this.scoutsService.deleteScout(id));
+        queue.push({
+          request: this.scoutsService.deleteScout(id),
+          requestLabel: 'requests.delete-scout',
+        });
       });
-    new ProgressModal(this.dialog)
-      .open(queue, {
-        successMessage: 'Udało usunąć harcerzy',
-        failureMessage: 'Nie udało usunąć harcerzy',
-      })
-      .then((x) =>
-        x
-          .afterClosed()
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((result) => {
-            if (result === Results.SUCCESS) {
-              this.dialogRef.close(result);
-            }
-          })
-      );
+    new ProgressModal(this.dialog).open(queue).then((x) =>
+      x
+        .afterClosed()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result) => {
+          if (result === Results.SUCCESS) {
+            this.dialogRef.close(result);
+          }
+        })
+    );
   }
 }
