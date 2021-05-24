@@ -109,7 +109,7 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
           x.scouts.forEach((scout) =>
             rows.push({
               nameSurname: scout.name + ' ' + scout.surname,
-              troop: scout.troop.name,
+              troop: scout.patrol.name,
               roles: x.roles
                 .filter((r) => r.scoutId === scout.scoutId)
                 .map((r1) => {
@@ -120,10 +120,10 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
                 }),
 
               instructorRankAbbv:
-                scout.instructorRank.abbreviation !== 'BS'
-                  ? scout.instructorRank.abbreviation
+                scout.irank.abbreviation !== 'BS'
+                  ? scout.irank.abbreviation
                   : '',
-              instructorRankLabel: `instructor-rank-${scout.instructorRank.rankId}`,
+              instructorRankLabel: `instructor-rank-${scout.irank.rankId}`,
               rankName: scout.rank.name,
 
               isSelected: false,

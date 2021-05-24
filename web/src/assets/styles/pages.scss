@@ -9,3 +9,12 @@
 
   width: 30%;
 }
+
+.page-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-size: large;
+  font-weight: 400;
+}

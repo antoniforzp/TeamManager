@@ -183,7 +183,19 @@ class ScoutsDbService implements ScoutsService {
                     "    rank_id            = ?,\n" +
                     "    instructor_rank_id = ?\n" +
                     "WHERE scout_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, surname, pesel, birthDate, address, postalCode, city, phone, patrolId, rankId, instructorRankId, scoutId) >= 1);
+            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY,
+                    name,
+                    surname,
+                    pesel,
+                    birthDate,
+                    address,
+                    postalCode,
+                    city,
+                    phone,
+                    patrolId,
+                    rankId,
+                    instructorRankId,
+                    scoutId) >= 1);
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);

@@ -47,3 +47,8 @@
     background-color: var(--table-selected-hover-default);
   }
 }
+
+.table-container-page-menu {
+  height: calc(90vh - 220px);
+  overflow-y: auto;
+}

@@ -17,6 +17,11 @@ $web-theme: mat-light-theme(
 
 // ============= MY IMPORTS =============
 
+html,
+body {
+  height: 100%;
+}
+
 // Labels
 @import "assets/styles/labels.scss";
 
