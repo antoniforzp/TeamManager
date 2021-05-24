@@ -76,7 +76,8 @@ class ScoutsDbService implements ScoutsService {
                     "         LEFT JOIN PATROLS P on S.patrol_id = P.patrol_id\n" +
                     "         LEFT JOIN RANKS R on S.rank_id = R.rank_id\n" +
                     "         LEFT JOIN INSTRUCTOR_RANKS IR on IR.rank_id = S.instructor_rank_id\n" +
-                    "WHERE S.team_id = ?";
+                    "WHERE S.team_id = ?\n" +
+                    "ORDER BY P.patrol_id DESC, R.rank_id DESC, IR.rank_id DESC\n";
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new ScoutRowMapper(), teamId));
 
         } catch (DataAccessException ex) {
@@ -147,7 +148,8 @@ class ScoutsDbService implements ScoutsService {
                     "         LEFT JOIN PATROLS P on S.patrol_id = P.patrol_id\n" +
                     "         LEFT JOIN RANKS R on S.rank_id = R.rank_id\n" +
                     "         LEFT JOIN INSTRUCTOR_RANKS IR on IR.rank_id = S.instructor_rank_id\n" +
-                    "WHERE S.scout_id = ?";
+                    "WHERE S.scout_id = ?\n" +
+                    "ORDER BY P.patrol_id DESC, R.rank_id DESC, IR.rank_id DESC";
             return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new ScoutRowMapper(), scoutId));
 
         } catch (DataAccessException ex) {
