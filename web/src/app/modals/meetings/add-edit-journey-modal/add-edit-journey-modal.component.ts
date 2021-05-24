@@ -97,20 +97,17 @@ export class AddEditJourneyModalComponent implements OnInit, OnDestroy {
 
   addJourney(): void {
     new ProgressModal(this.dialog)
-      .open(
-        [
-          this.journeysService.addJourney({
+      .open([
+        {
+          request: this.journeysService.addJourney({
             title: this.title.value,
             place: this.place.value,
             date: this.startDate.value,
             endDate: this.endDate.value,
           }),
-        ],
-        {
-          successMessage: 'Udało się dodać wyjazd',
-          failureMessage: 'Nie udało się dodać wyjazdu',
-        }
-      )
+          requestLabel: 'requests.add-journey',
+        },
+      ])
       .then((x) =>
         x
           .afterClosed()
@@ -125,20 +122,20 @@ export class AddEditJourneyModalComponent implements OnInit, OnDestroy {
 
   editJourney(): void {
     new ProgressModal(this.dialog)
-      .open(
-        [
-          this.journeysService.patchJourney(this.journeyData.journeyId, {
-            title: this.title.value,
-            place: this.place.value,
-            date: this.startDate.value,
-            endDate: this.endDate.value,
-          }),
-        ],
+      .open([
         {
-          successMessage: 'Udało się zaktualizować informacje o zbiórce',
-          failureMessage: 'Nie udało się zedytować zbirki',
-        }
-      )
+          request: this.journeysService.patchJourney(
+            this.journeyData.journeyId,
+            {
+              title: this.title.value,
+              place: this.place.value,
+              date: this.startDate.value,
+              endDate: this.endDate.value,
+            }
+          ),
+          requestLabel: 'requests.edit-journey',
+        },
+      ])
       .then((x) =>
         x
           .afterClosed()

@@ -1,6 +1,10 @@
 <div class="modal-header">
-    <span class="my-modal-title" *ngIf="modalMode === ModalModes.ADD">Dodaj nowy wyjazd</span>
-    <span class="my-modal-title" *ngIf="modalMode === ModalModes.EDIT">Edytuj wyjazd</span>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.ADD" translate>
+        add-edit-journey.title-add
+    </span>
+    <span class="my-modal-title" *ngIf="modalMode === ModalModes.EDIT" translate>
+        add-edit-journey.title-edit
+    </span>
 </div>
 
 <div class="modal-body">
@@ -11,35 +15,49 @@
 
             <!-- Title -->
             <div class="row mb-2">
-                <label for="title" class="col-sm-3 col-form-label required">Tytuł</label>
+                <label for="title" class="col-sm-3 col-form-label required">
+                    <span translate>
+                        meetings-journeys.journey-title
+                    </span>
+                </label>
                 <div class="col">
                     <input id="title" type="text" class="form-control" formControlName="title">
 
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="title.errors && title.dirty">
-                        <small class="alert-danger" *ngIf="title.hasError('required')">Pole
-                            wymagane</small>
+                        <small class="alert-danger" *ngIf="title.hasError('required')" translate>
+                            errors.input-required
+                        </small>
                     </div>
                 </div>
             </div>
 
             <!-- Place -->
             <div class="row mb-2">
-                <label for="place" class="col-sm-3 col-form-label required">Miejsce</label>
+                <label for="place" class="col-sm-3 col-form-label required">
+                    <span translate>
+                        meetings-journeys.place
+                    </span>
+                </label>
                 <div class="col">
                     <input id="place" type="text" class="form-control" formControlName="place">
 
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="place.errors && place.dirty">
-                        <small class="alert-danger" *ngIf="place.hasError('required')">Pole
-                            wymagane</small>
+                        <small class="alert-danger" *ngIf="place.hasError('required')" translate>
+                            errors.input-required
+                        </small>
                     </div>
                 </div>
             </div>
 
             <!-- Start date -->
             <div class="row mb-2">
-                <label for="startDate" class="col-sm-3 col-form-label required">Data rozpoczęcia</label>
+                <label for="startDate" class="col-sm-3 col-form-label required">
+                    <span translate>
+                        add-edit-journey.start-date
+                    </span>
+                </label>
                 <div class="col">
                     <mat-form-field class="mb-n2 mt-n2 w-100">
                         <input id="startDate" matInput [matDatepicker]="startDatepicker" formControlName="startDate">
@@ -49,15 +67,18 @@
 
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="startDate.errors && startDate.dirty">
-                        <small class="alert-danger" *ngIf="startDate.hasError('required')">Pole
-                            wymagane</small>
+                        <small class="alert-danger" *ngIf="startDate.hasError('required')" translate>
+                            errors.input-required
+                        </small>
                     </div>
                 </div>
             </div>
 
             <!-- End date -->
             <div class="row mb-2">
-                <label for="endDate" class="col-sm-3 col-form-label required">Data zakończenia</label>
+                <label for="endDate" class="col-sm-3 col-form-label required" translate>
+                    add-edit-journey.end-date
+                </label>
                 <div class="col">
                     <mat-form-field class="mb-n2 mt-n2 w-100">
                         <input id="endDate" matInput [matDatepicker]="pickerEndDate" formControlName="endDate">
@@ -67,8 +88,9 @@
 
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="endDate.errors && endDate.dirty">
-                        <small class="alert-danger" *ngIf="endDate.hasError('required')">Pole
-                            wymagane</small>
+                        <small class="alert-danger" *ngIf="endDate.hasError('required')" translate>
+                            errors.input-required
+                        </small>
                     </div>
                 </div>
             </div>
@@ -81,9 +103,13 @@
         <button class="btn btn-light my-button" (click)="close()">Zamknij</button>
 
         <button *ngIf="modalMode === ModalModes.ADD" type="button" class="btn btn-success my-button"
-            (click)="addJourney()" [disabled]="!form.valid">Dodaj</button>
+            (click)="addJourney()" [disabled]="!form.valid" translate>
+            actions.add
+        </button>
 
         <button *ngIf="modalMode === ModalModes.EDIT" type="button" class="btn btn-success my-button"
-            (click)="editJourney()" [disabled]="!form.valid">Edytuj</button>
+            (click)="editJourney()" [disabled]="!form.valid" translate>
+            actions.edit
+        </button>
     </div>
 </div>
