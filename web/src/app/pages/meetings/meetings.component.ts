@@ -193,37 +193,37 @@ export class MeetingsComponent implements OnInit, OnDestroy {
     this.actions.clear();
 
     this.actions.set(Actions.ADD_MEETING, {
-      label: 'Dodaj zbiórkę',
+      label: 'meetings-journeys.add-meeting',
       isEnabled: true,
       action: () => this.openAddMeeting(),
     });
 
     this.actions.set(Actions.ADD_JOURNEY, {
-      label: 'Dodaj wyjazd',
+      label: 'meetings-journeys.add-journey',
       isEnabled: true,
       action: () => this.openAddJourney(),
     });
 
     this.actions.set(Actions.PRESENCE, {
-      label: 'Obecność',
+      label: 'meetings-journeys.presence',
       isEnabled: selected.length === 1,
       action: () => this.openManagePresence(),
     });
 
     this.actions.set(Actions.EDIT, {
-      label: 'Edytuj',
+      label: 'actions.edit',
       isEnabled: selected.length === 1,
       action: () => this.openEditMeeting(),
     });
 
     this.actions.set(Actions.DELETE, {
-      label: 'Usuń',
+      label: 'actions.delete',
       isEnabled: selected.length >= 1,
       action: () => this.openDeleteMeeting(),
     });
 
     this.actions.set(Actions.EXPORT_CSV, {
-      label: 'Exportuj do CSV',
+      label: 'actions.export-csv',
       isEnabled: selected.length >= 1,
       action: () => this.openExportCsvMeeting(),
     });

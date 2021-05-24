@@ -12,51 +12,61 @@
             <!-- PAGE CONTENT -->
             <div *ngIf="!pageError">
 
-                <app-page-header [header]="'Zbiórki i wyjazdy drużyny'" [goBackRoute]="AppRoutes.HOME">
+                <app-page-header [header]="'meetings-journeys.title' | translate" [goBackRoute]="AppRoutes.HOME">
                 </app-page-header>
 
                 <!-- TEAMS -->
-                <div class="d-flex justify-content-between mb-2">
-                    <h5>Zarządzaj zbiórkami ({{meetingsJourneysData.length}})</h5>
+                <div class="page-header-container mb-2">
+                    <span>
+                        <span translate>
+                            meetings-journeys.manage
+                        </span> ({{meetingsJourneysData.length}})
+                    </span>
 
 
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle my-button" type="button"
                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                             (click)="setActions()">
-                            Opcje
+                            <span translate>
+                                common.options
+                            </span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             <ng-container *ngFor="let action of actions | keyvalue">
                                 <button class="dropdown-item" (click)="action.value.action();"
-                                    [disabled]="!action.value.isEnabled">{{action.value.label}}</button>
+                                    [disabled]="!action.value.isEnabled">
+                                    <span translate>
+                                        {{action.value.label}}
+                                    </span>
+                                </button>
                             </ng-container>
                         </div>
                     </div>
                 </div>
 
                 <!-- Meetings table -->
-                <div class="mt-3" style="max-height:60vh; overflow-y: auto;">
+                <div class="mt-3 table-container-page-menu">
                     <table class="table table-hover">
                         <thead class="my-thead">
                             <th class="checkbox-cell">
                                 <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
                                     (ngModelChange)="toggleSelectAll($event)">
                             </th>
-                            <th>
-                                Rodzaj
+                            <th translate>
+                                meetings-journeys.type
                             </th>
-                            <th>
-                                Tytuł
+                            <th translate>
+                                meetings-journeys.journey-title
                             </th>
-                            <th>
-                                Miejsce
+                            <th translate>
+                                meetings-journeys.place
                             </th>
-                            <th>
-                                Data
+                            <th translate>
+                                meetings-journeys.date
                             </th>
-                            <th>
-                                Obecni
+                            <th translate>
+                                meetings-journeys.present
                             </th>
                         </thead>
                         <tbody>
@@ -69,11 +79,11 @@
                                                 [(ngModel)]="row.isSelected">
                                         </td>
                                         <td>
-                                            <span *ngIf="row.type === Types.MEETING" class="meeting">
-                                                Zbiórka
+                                            <span *ngIf="row.type === Types.MEETING" class="meeting" translate>
+                                                meetings-journeys.meeting
                                             </span>
-                                            <span *ngIf="row.type === Types.JOURNEY" class="journey">
-                                                Wyjazd
+                                            <span *ngIf="row.type === Types.JOURNEY" class="journey" translate>
+                                                meetings-journeys.journey
                                             </span>
                                         </td>
                                         <td>
@@ -98,7 +108,8 @@
                                         <td>
                                             <a class="link-alike"
                                                 (click)="openShowScoutsByLink(row.scoutsPresent); $event.stopPropagation()">
-                                                {{row.scoutsPresent.length}} </a>
+                                                {{row.scoutsPresent.length}}
+                                            </a>
                                         </td>
                                     </tr>
                                 </ng-container>
@@ -122,8 +133,8 @@
 
 <ng-template #noTableData>
     <tr>
-        <td colspan="6">
-            Brak danych
+        <td colspan="6" translate>
+            common.no-data
         </td>
     </tr>
 </ng-template>
