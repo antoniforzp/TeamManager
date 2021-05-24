@@ -92,6 +92,12 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   // FUNCTIONALITIES
 
+  handleError(error: HttpErrorResponse): void {
+    this.pageLoaded = true;
+    this.pageError = error;
+    this.changeDetector.detectChanges();
+  }
+
   editCredentials(): void {
     this.coreService
       .getCurrentUser()
@@ -107,13 +113,11 @@ export class EditUserComponent implements OnInit, OnDestroy {
                 currUserData.password,
                 currUserData.email
               ),
-              requestLabel: 'Edycja danych użytkownika',
+              requestLabel: 'requests.edit-user-data',
             },
           ]);
         },
-        error: () => {
-          // TODO: Dorobić modala z errorem
-        },
+        error: (err) => this.handleError(err),
       });
   }
 
@@ -138,7 +142,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
                     this.passwordNew.value,
                     currUserData.email
                   ),
-                  requestLabel: 'Edycja hasła',
+                  requestLabel: 'requests.edit-password',
                 },
               ])
               .then((x) =>
@@ -146,9 +150,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
               );
           }
         },
-        error: () => {
-          // TODO: Dorobić modala z errorem
-        },
+        error: (err) => this.handleError(err),
       });
   }
 
