@@ -13,6 +13,7 @@ import { AddEditScoutModal } from 'src/app/modals/scouts/add-edit-scout-modal/ad
 import { DeleteScoutModal } from 'src/app/modals/scouts/delete-scout-modal/delete-scout-modal';
 import { EditScoutRolesModal } from 'src/app/modals/scouts/edit-scout-roles-modal/edit-scout-roles-modal';
 import { ExportCsvScoutModal } from 'src/app/modals/scouts/export-csv-scouts-modal/export-csv-scout-modal';
+import { RanksInfoModal } from 'src/app/modals/scouts/ranks-info-modal/ranks-info-modal';
 import { ScoutInfoModal } from 'src/app/modals/scouts/scout-info-modal/scout-info-modal';
 import { Role } from 'src/app/model/Role';
 
@@ -188,6 +189,10 @@ export class ScoutsComponent implements OnInit, OnDestroy {
   }
 
   // ACTIONS
+
+  openRanksInfoModal(): void {
+    new RanksInfoModal(this.dialog).open();
+  }
 
   openShowInfoModal(scout: Scout, roles: Role[]): void {
     new ScoutInfoModal(this.dialog).open(scout, roles);

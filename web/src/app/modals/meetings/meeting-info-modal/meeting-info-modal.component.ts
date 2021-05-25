@@ -35,21 +35,19 @@ interface MeetingInfo {
 export class MeetingInfoModalComponent implements OnInit {
   infoData: MeetingInfo;
 
-  @ViewChild('textArea', { static: false }) textArea: ElementRef<HTMLElement>;
-
   constructor(
     private dialogRef: MatDialogRef<MeetingInfoModalComponent>,
 
     @Inject(MAT_DIALOG_DATA) data: MeetingInfoModalComponentEntry
   ) {
     switch (data.indicator) {
-      case MeetingJourneyIndicator.JOURNEY:
+      case MeetingJourneyIndicator.MEETING:
         {
           this.createMeetingData(data.data as Meeting);
         }
         break;
 
-      case MeetingJourneyIndicator.MEETING:
+      case MeetingJourneyIndicator.JOURNEY:
         {
           this.createJourneyData(data.data as Journey);
         }
@@ -57,9 +55,7 @@ export class MeetingInfoModalComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.textArea.nativeElement.blur();
-  }
+  ngOnInit(): void {}
 
   createMeetingData(meeting: Meeting): void {
     this.infoData = {

@@ -1,0 +1,91 @@
+<div class="modal-header">
+    <span class="my-modal-title" translate>
+        ranks-info.title
+    </span>
+</div>
+
+<div class="modal-body">
+
+    <ng-container *ngIf="pageLoaded; else loading">
+
+        <ng-container *ngIf="pageError">
+            <app-error [error]="pageError"></app-error>
+        </ng-container>
+
+        <ng-container *ngIf="!pageError">
+
+            <div class="mb-4">
+                <span translate>
+                    ranks-info.content
+                </span>
+            </div>
+
+            <div class="row">
+                <div class="col">
+
+                    <div class="mb-2 border-bottom">
+                        <span class="label-thin-big" translate>
+                            ranks-info.ranks
+                        </span>
+                    </div>
+
+                    <table>
+                        <tbody>
+                            <tr *ngFor="let rank of ranks">
+                                <td translate>
+                                    {{rank.abbreviation}}
+                                </td>
+                                <td translate>
+                                    {{rank.name}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+
+                    <div class="mb-2 border-bottom">
+                        <span class="label-thin-big" translate>
+                            ranks-info.iranks
+                        </span>
+                    </div>
+
+                    <table>
+                        <tbody>
+                            <tr *ngFor="let rank of iRanks">
+                                <div class="d-flex align-items-center">
+                                    <td [ngClass]="[createIRankBadge(rank)]" class="d-flex align-items-center"
+                                        translate>
+                                        {{rank.abbreviation}}
+                                    </td>
+                                    <td translate>
+                                        {{rank.name}}
+                                    </td>
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </ng-container>
+
+    </ng-container>
+
+</div>
+
+<div class="modal-footer">
+    <div class="my-buttons-simple-container">
+        <button class="btn btn-light my-button" (click)="close()" translate>
+            actions.close
+        </button>
+    </div>
+</div>
+
+<ng-template #noData>
+    <span>-</span>
+</ng-template>
+
+<ng-template #loading>
+    <app-page-spinner></app-page-spinner>
+</ng-template>
