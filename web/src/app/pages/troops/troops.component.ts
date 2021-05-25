@@ -160,6 +160,12 @@ export class TroopsComponent implements OnInit, OnDestroy {
     );
   }
 
+  getLeaderRoles(scoutId: number): Role[] {
+    return this.scoutRoles.filter(
+      (r) => r.scoutId === scoutId && (r.roleId === 6 || r.roleId === 5)
+    );
+  }
+
   createRoleBadge(role: Role): string {
     return 'role-' + role.roleId;
   }

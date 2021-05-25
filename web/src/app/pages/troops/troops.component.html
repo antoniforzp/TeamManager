@@ -88,12 +88,17 @@
                                             <ng-container *ngFor="let leader of troop.leaders">
                                                 <div class="row">
                                                     <div class="col-sm-3">
-                                                        <span>{{leader.scout.name}} {{leader.scout.surname}}</span>
+                                                        <span>
+                                                            {{leader.scout.name}}
+                                                            {{leader.scout.surname}}
+                                                        </span>
                                                     </div>
                                                     <div class="col">
-                                                        <span [ngClass]="[createRoleBadge(leader.role)]" translate>
-                                                            {{leader.role.name}}
-                                                        </span>
+                                                        <div *ngFor="let role of getLeaderRoles(leader.scout.scoutId)">
+                                                            <span [ngClass]="[createRoleBadge(role)]" translate>
+                                                                {{role.name}}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </ng-container>
