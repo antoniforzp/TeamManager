@@ -25,23 +25,28 @@
                         </span> ({{troops.length}})
                     </span>
 
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle my-button" type="button"
-                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                            (click)="setActions()">
-                            <span translate>
-                                common.options
-                            </span>
+                    <div class="d-flex">
+                        <button type="button" class="my-icon-button icon mr-2" (click)="openTroopsInfoModal()">
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <ng-container *ngFor="let action of actions | keyvalue">
-                                <button class="dropdown-item" (click)="action.value.action();"
-                                    [disabled]="!action.value.isEnabled">
-                                    <span translate>
-                                        {{action.value.label}}
-                                    </span>
-                                </button>
-                            </ng-container>
+
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle my-button" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" (click)="setActions()">
+                                <span translate>
+                                    common.options
+                                </span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <ng-container *ngFor="let action of actions | keyvalue">
+                                    <button class="dropdown-item" (click)="action.value.action();"
+                                        [disabled]="!action.value.isEnabled">
+                                        <span translate>
+                                            {{action.value.label}}
+                                        </span>
+                                    </button>
+                                </ng-container>
+                            </div>
                         </div>
                     </div>
                 </div>

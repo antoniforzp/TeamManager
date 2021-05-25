@@ -148,6 +148,8 @@
 	"patrols.name": "Nazwa",
 	"patrols.patrol-leader": "Zastępowy",
 	"patrols.title": "Zastępy",
+	"patrols-info.content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam consectetur velit non quam dictum tincidunt. Donec metus dolor, ullamcorper quis est iaculis, fringilla dictum erat. Praesent viverra metus lacus, eu ullamcorper velit vestibulum vitae. Ut dignissim eros accumsan dolor tincidunt, at sodales urna vestibulum. Proin sodales arcu quis bibendum lacinia. Sed sed egestas arcu, quis scelerisque libero. Cras dapibus pretium mi, in suscipit massa.\n\nPellentesque mollis mauris eu eleifend lacinia. Nulla facilisi. Nam laoreet eros ut consectetur luctus. Duis gravida convallis tellus ac iaculis. Ut tincidunt, sem ac lacinia consectetur, magna elit maximus nunc, et pharetra purus lorem sit amet diam. In hac habitasse platea dictumst. Mauris sed venenatis enim. Etiam quis interdum odio, et tempus nunc. Nunc consequat ante ut ipsum rutrum aliquet. Suspendisse potenti. Ut condimentum nibh a mauris accumsan, et tristique odio sagittis.",
+	"patrols-info.title": "Zastępy - metodologia",
 	"progress.action": "Akcja",
 	"progress.duration": "Czas trwania",
 	"progress.error-message": "Treść błędu",

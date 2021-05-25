@@ -20,6 +20,7 @@ import { PatrolsService } from 'src/app/services/data/patrols.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
+import { PatrolsInfoModal } from 'src/app/modals/troops/patrols-info-modal/patrols-info-modal';
 
 interface TroopRowData {
   name: string;
@@ -255,6 +256,10 @@ export class TroopsComponent implements OnInit, OnDestroy {
   }
 
   // DETAILS
+
+  openTroopsInfoModal(): void {
+    new PatrolsInfoModal(this.dialog).open();
+  }
 
   openShowScoutsByLink(troop: Patrol): void {
     const scouts = this.scouts.filter(
