@@ -1,0 +1,25 @@
+.col-content {
+  display: flex;
+  align-items: center;
+
+  font-weight: 100;
+
+  img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+}
+
+.summary {
+  font-weight: 100;
+  font-size: 22px;
+}
+
+.my-row {
+  margin-bottom: 10px;
+}
+
+.digit {
+  font-size: 25px;
+}

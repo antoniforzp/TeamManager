@@ -1,0 +1,91 @@
+<div class="row">
+    <div class="col">
+        <h5 class="summary border-bottom mb-2" translate>
+            summary.title-teams
+        </h5>
+
+        <div class="row my-row">
+            <div class="col col-content">
+                <img src="../../../assets/icons/people.svg" alt="marker">
+                <span translate>
+                    summary.scouts-no
+                </span>
+            </div>
+            <div class="col-4 col-content">
+                <span *ngIf="scoutNo; else noData" class="digit link-alike" (click)="goScouts()">
+                    {{scoutNo}}
+                </span>
+            </div>
+        </div>
+
+        <div class="row my-row">
+            <div class="col col-content">
+                <img src="../../../assets/icons/flag.svg" alt="marker">
+                <span translate>
+                    summary.patrols-no
+                </span>
+            </div>
+            <div class="col-4 col-content">
+                <span *ngIf="patrolsNo; else noData" class="digit link-alike" (click)="goPatrols()">
+                    {{patrolsNo}}
+                </span>
+            </div>
+        </div>
+
+        <div class="row my-row">
+            <div class="col col-content">
+                <img src="../../../assets/icons/map.svg" alt="marker">
+                <span translate>
+                    summary.journeys-no
+                </span>
+            </div>
+            <div class="col-4 col-content">
+                <span *ngIf="journeysNo; else noData" class="digit link-alike" (click)="goJourneys()">
+                    {{journeysNo}}
+                </span>
+            </div>
+        </div>
+
+        <div class="row my-row">
+            <div class="col col-content">
+                <img src="../../../assets/icons/compass.svg" alt="marker">
+                <span translate>
+                    summary.meetings-no
+                </span>
+            </div>
+            <div class="col-4 col-content">
+                <span *ngIf="meetingsNo; else noData" class="digit link-alike" (click)="goMeetings()">
+                    {{meetingsNo}}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <h5 class="summary border-bottom mb-2" translate>
+            summary.title-ranks
+        </h5>
+
+        <ng-container *ngIf="chartLoaded">
+            <div id="chart" *ngIf="!chartError">
+                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
+                    [responsive]="chartOptions.responsive"></apx-chart>
+            </div>
+
+            <div *ngIf="chartError" class="d-flex flex-column align-items-center">
+                <div class="mt-5">
+                    <img src="../../../assets/icons/no-visible.svg" height="150" alt="chart-error">
+                </div>
+                <div translate>
+                    summary.chart-no-data
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+
+<ng-template #noData>
+    <span class="digit">
+        ?
+    </span>
+</ng-template>

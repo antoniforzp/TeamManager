@@ -13,6 +13,7 @@ import { MaterialModule } from './material/app-material.module';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AppTranslationModule } from './translation/app-translation.module';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +43,9 @@ import { AppTranslationModule } from './translation/app-translation.module';
 
     // Translation
     AppTranslationModule,
+
+    // Charts
+    NgApexchartsModule
   ],
   bootstrap: [AppComponent],
 })

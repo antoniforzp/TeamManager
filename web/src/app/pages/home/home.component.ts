@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
 
   pageLoaded = false;
+  infoLoaded = new Subject();
   pageError: HttpErrorResponse;
 
   noPatron: boolean;

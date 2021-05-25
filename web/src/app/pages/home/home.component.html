@@ -19,9 +19,9 @@
                         <img class="mb-2" src="../../../assets/icons/team.svg" alt="team-icon" width="75" height="80">
 
                         <ng-container *ngIf="!noTeams">
-                            <h5 class="label">
-                                <span>{{currentTeam.name}}</span><br>
-                                <span>{{currentTeam.patron}}</span>
+                            <h5 class="label mb-4">
+                                <span>{{currentTeam?.name}}</span><br>
+                                <span>{{currentTeam?.patron}}</span>
                                 <span *ngIf="noPatron"><br></span>
                             </h5>
 
@@ -29,7 +29,7 @@
                                 <button class="btn btn-secondary my-button mr-2 link" (click)="navigateToTeams()">
                                     <span translate>
                                         home.teams
-                                    </span> ({{allTeams.length}})
+                                    </span> ({{allTeams?.length}})
                                 </button>
 
                                 <div class="dropdown mr-2">
@@ -43,7 +43,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a *ngFor="let team of selectableTeams" class="dropdown-item cursor-pointer"
                                             (click)="setCurrentTeam(team)">
-                                            {{team.name}}<br>{{team.patron}}
+                                            {{team?.name}}<br>{{team?.patron}}
                                         </a>
                                     </div>
                                 </div>
@@ -66,10 +66,10 @@
                         <div>
                             <img class="mb-2" src="../../../assets/icons/user.svg" alt="user-icon" width="75"
                                 height="80">
-                            <h5 class="label">
-                                <span>{{currentUser.name}}&nbsp;</span>
-                                <span>{{currentUser.surname}}</span><br>
-                                <span>{{currentUser.email}}</span>
+                            <h5 class="label mb-4">
+                                <span>{{currentUser?.name}}&nbsp;</span>
+                                <span>{{currentUser?.surname}}</span><br>
+                                <span>{{currentUser?.email}}</span>
                             </h5>
                             <button class="btn btn-secondary my-button" (click)="navigateToEditUser()" translate>
                                 common.edit
@@ -77,6 +77,10 @@
                         </div>
                     </div>
 
+                </div>
+
+                <div class="mt-5">
+                    <app-team-info></app-team-info>
                 </div>
             </div>
 

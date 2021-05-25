@@ -13,6 +13,8 @@ import { RouterModule } from '@angular/router';
 import { TroopsComponent } from './troops/troops.component';
 import { MeetingsComponent } from './meetings/meetings.component';
 import { AppTranslationModule } from '../translation/app-translation.module';
+import { TeamInfoComponent } from './home/team-info/team-info.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { AppTranslationModule } from '../translation/app-translation.module';
     TeamsComponent,
     TroopsComponent,
     MeetingsComponent,
+    TeamInfoComponent,
   ],
   imports: [
     CommonModule,
@@ -32,7 +35,8 @@ import { AppTranslationModule } from '../translation/app-translation.module';
     MatDialogModule,
     ReactiveFormsModule,
     SharedModule,
-    AppTranslationModule
+    AppTranslationModule,
+    NgApexchartsModule,
   ],
 })
 export class PagesModule {}
