@@ -40,6 +40,7 @@ export type ChartOptions = {
 })
 export class TeamInfoComponent implements OnInit {
   destroy$ = new Subject();
+  pageLoaded = false;
 
   scoutNo: number;
   patrolsNo: number;
@@ -93,6 +94,7 @@ export class TeamInfoComponent implements OnInit {
 
           this.setChartData();
 
+          this.pageLoaded = true;
           this.infoLoaded.emit();
           this.changeDetector.detectChanges();
         },

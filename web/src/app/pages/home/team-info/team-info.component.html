@@ -12,8 +12,10 @@
                 </span>
             </div>
             <div class="col-4 col-content">
-                <span *ngIf="scoutNo; else noData" class="digit link-alike" (click)="goScouts()">
-                    {{scoutNo}}
+                <span *ngIf="pageLoaded; else loadingData">
+                    <span *ngIf="scoutNo; else noData" class="digit link-alike" (click)="goScouts()">
+                        {{scoutNo}}
+                    </span>
                 </span>
             </div>
         </div>
@@ -26,8 +28,10 @@
                 </span>
             </div>
             <div class="col-4 col-content">
-                <span *ngIf="patrolsNo; else noData" class="digit link-alike" (click)="goPatrols()">
-                    {{patrolsNo}}
+                <span *ngIf="pageLoaded; else loadingData">
+                    <span *ngIf="patrolsNo; else noData" class="digit link-alike" (click)="goPatrols()">
+                        {{patrolsNo}}
+                    </span>
                 </span>
             </div>
         </div>
@@ -40,8 +44,10 @@
                 </span>
             </div>
             <div class="col-4 col-content">
-                <span *ngIf="journeysNo; else noData" class="digit link-alike" (click)="goJourneys()">
-                    {{journeysNo}}
+                <span *ngIf="pageLoaded; else loadingData">
+                    <span *ngIf="journeysNo; else noData" class="digit link-alike" (click)="goJourneys()">
+                        {{journeysNo}}
+                    </span>
                 </span>
             </div>
         </div>
@@ -54,8 +60,10 @@
                 </span>
             </div>
             <div class="col-4 col-content">
-                <span *ngIf="meetingsNo; else noData" class="digit link-alike" (click)="goMeetings()">
-                    {{meetingsNo}}
+                <span *ngIf="pageLoaded; else loadingData">
+                    <span *ngIf="meetingsNo; else noData" class="digit link-alike" (click)="goMeetings()">
+                        {{meetingsNo}}
+                    </span>
                 </span>
             </div>
         </div>
@@ -88,4 +96,10 @@
     <span class="digit">
         ?
     </span>
+</ng-template>
+
+<ng-template #loadingData>
+    <div class="spinner-grow" role="status" style="width: 30px; height: 30px;">
+        <span class="sr-only">Loading...</span>
+    </div>
 </ng-template>
