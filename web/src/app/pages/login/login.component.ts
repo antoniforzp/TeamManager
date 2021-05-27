@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
 
   initSettingsAndNavigate(): void {
     this.appInit
-      .initSettingCheckLanguage(this.appStateService.outLanguage)
+      .initLanguageFromLogin(this.appStateService.outLanguage)
       .subscribe({
         next: () => {
           this.appInit

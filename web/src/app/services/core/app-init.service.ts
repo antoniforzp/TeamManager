@@ -22,7 +22,7 @@ export class AppInitService {
     return this.appSettingsService.initSetttings();
   }
 
-  public initSettingCheckLanguage(
+  public initLanguageFromLogin(
     langAbbreviation: string
   ): Observable<boolean> {
     return this.appSettingsService.patchLanguage(langAbbreviation);
