@@ -16,11 +16,15 @@ export class AppInitService {
   public initCore(userId: number, teamId: number): void {
     this.app.storeUserId(userId);
     this.app.storeCurrentTeamId(teamId);
-
-    console.log(userId, teamId);
   }
 
   public initSettings(): Observable<Settings> {
     return this.appSettingsService.initSetttings();
+  }
+
+  public initSettingCheckLanguage(
+    langAbbreviation: string
+  ): Observable<boolean> {
+    return this.appSettingsService.patchLanguage(langAbbreviation);
   }
 }

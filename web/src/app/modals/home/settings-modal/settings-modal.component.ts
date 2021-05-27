@@ -106,7 +106,7 @@ export class SettingsModalComponent implements OnInit {
           .pipe(takeUntil(this.destroy$))
           .subscribe((result) => {
             if (result === Results.SUCCESS) {
-              this.translate.use(this.selectedLanguage.abbreviation as string);
+              this.translate.use(this.selectedLanguage.languageId as string);
               this.appThemeService.setThemeById(this.selectedTheme.themeId);
               this.dialogRef.close(result);
             }
@@ -119,7 +119,7 @@ export class SettingsModalComponent implements OnInit {
   onLanguageChange(event: any): void {
     this.changes = true;
     this.selectedLanguage = this.languages.find(
-      (x) => x.abbreviation === event
+      (x) => x.languageId === event
     );
     this.changeDetector.detectChanges();
   }
@@ -134,7 +134,7 @@ export class SettingsModalComponent implements OnInit {
 
   setupForm(): void {
     this.form = this.fb.group({
-      language: [this.selectedLanguage.abbreviation],
+      language: [this.selectedLanguage.languageId],
       theme: [this.selectedTheme.abbreviation],
     });
   }

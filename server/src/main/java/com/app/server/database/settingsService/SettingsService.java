@@ -11,7 +11,9 @@ public interface SettingsService {
 
     CompletableFuture<Settings> getSettings(int userId);
 
-    CompletableFuture<Boolean> setSettings(int userId, int languageId, int themeId);
+    CompletableFuture<Boolean> setSettings(int userId, String languageId, int themeId);
+
+    CompletableFuture<Boolean> setLanguage(int userId, String langAbbreviation);
 
     CompletableFuture<List<Language>> getLanguages();
 

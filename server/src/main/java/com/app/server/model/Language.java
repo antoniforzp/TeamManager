@@ -9,11 +9,8 @@ import lombok.ToString;
 public class Language {
 
     @Getter
-    private final int languageId;
+    private final String languageId;
 
     @Getter
     private final String name;
-
-    @Getter
-    private final String abbreviation;
 }

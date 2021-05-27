@@ -38,6 +38,13 @@ export class SettingsService {
     });
   }
 
+  patchLanguage(langAbbreviation: string): Observable<boolean> {
+    return this.rest.resolve<boolean>({
+      method: REST.PATCH,
+      url: `/api/${this.app.userId}/settings/language/${langAbbreviation}`,
+    });
+  }
+
   patchSettings(settings: SettingsPayload): Observable<boolean> {
     return this.rest.resolve<boolean>({
       method: REST.PATCH,

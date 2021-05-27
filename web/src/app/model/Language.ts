@@ -1,5 +1,4 @@
 export interface Language {
-  languageId: number;
+  languageId: string;
   name: string;
-  abbreviation: string;
 }

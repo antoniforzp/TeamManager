@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 
   languagesLoaded = false;
   languages: Language[];
-  currentLanguage: Language;
+  currentLanguageId: string;
 
   constructor(
     private fb: FormBuilder,
@@ -54,6 +54,9 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.setupForm();
     this.translateView();
+
+    this.currentLanguageId = this.appStateService.outLanguage;
+    this.changeDetector.detectChanges();
 
     this.settingsService
       .getLanguages()
@@ -87,18 +90,7 @@ export class LoginComponent implements OnInit {
         next: (x) => {
           if (x.userId) {
             this.appInit.initCore(x.userId, x.teamId);
-            this.appInit
-              .initSettings()
-              .pipe(takeUntil(this.destroy$))
-              .subscribe({
-                next: () => {
-                  this.navigationService.navigateToHome();
-                  this.progressStop();
-                },
-                error: (err) => {
-                  this.resolveError(err);
-                },
-              });
+            this.initSettingsAndNavigate();
           } else {
             this.wrongCredentialsAlert();
             this.progressStop();
@@ -106,6 +98,27 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           this.resolveError(err);
+        },
+      });
+  }
+
+  initSettingsAndNavigate(): void {
+    this.appInit
+      .initSettingCheckLanguage(this.appStateService.outLanguage)
+      .subscribe({
+        next: () => {
+          this.appInit
+            .initSettings()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: () => {
+                this.navigationService.navigateToHome();
+                this.progressStop();
+              },
+              error: (err) => {
+                this.resolveError(err);
+              },
+            });
         },
       });
   }
@@ -170,9 +183,9 @@ export class LoginComponent implements OnInit {
   // LANGUAGE
 
   public setOutLanguage(language: Language): void {
-    this.currentLanguage = language;
-    this.translate.use(language.abbreviation);
-    this.appStateService.storeOutLanguage(language.abbreviation);
+    this.currentLanguageId = language.languageId;
+    this.translate.use(language.languageId);
+    this.appStateService.storeOutLanguage(language.languageId);
     this.changeDetector.detectChanges();
   }
 }

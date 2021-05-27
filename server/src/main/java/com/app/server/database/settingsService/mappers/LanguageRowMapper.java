@@ -9,8 +9,7 @@ import java.sql.SQLException;
 public class LanguageRowMapper implements RowMapper<Language> {
     @Override
     public Language mapRow(ResultSet resultSet, int i) throws SQLException {
-        return new Language(resultSet.getInt("language_id"),
-                resultSet.getString("name"),
-                resultSet.getString("abbreviation"));
+        return new Language(resultSet.getString("language_id"),
+                resultSet.getString("name"));
     }
 }

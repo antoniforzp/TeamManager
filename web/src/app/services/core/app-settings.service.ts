@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { merge, Observable, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Settings } from 'src/app/model/Settings';
 import { SettingsService } from '../data/settings.service';
 import { AppStateService } from './app-state.service';
@@ -19,8 +19,8 @@ export class AppSettingsService {
       tap((x) => {
         this.appStateService.storeUserId(x.userId);
         this.appStateService.storeTheme(x.theme.themeId);
-        this.appStateService.storeLanguage(x.language.abbreviation);
-        this.appStateService.storeOutLanguage(x.language.abbreviation);
+        this.appStateService.storeLanguage(x.language.languageId);
+        this.appStateService.storeOutLanguage(x.language.languageId);
       })
     );
   }
@@ -29,9 +29,19 @@ export class AppSettingsService {
     return this.settingsService.patchSettings(settings).pipe(
       tap((x) => {
         if (x === true) {
-          this.appStateService.storeLanguage(settings.language.abbreviation);
-          this.appStateService.storeOutLanguage(settings.language.abbreviation);
+          this.appStateService.storeLanguage(settings.language.languageId);
+          this.appStateService.storeOutLanguage(settings.language.languageId);
           this.appStateService.storeTheme(settings.theme.themeId);
+        }
+      })
+    );
+  }
+
+  patchLanguage(langAbbreviarion: string): Observable<boolean> {
+    return this.settingsService.patchLanguage(langAbbreviarion).pipe(
+      tap((x) => {
+        if (x === true) {
+          this.appStateService.storeLanguage(langAbbreviarion);
         }
       })
     );

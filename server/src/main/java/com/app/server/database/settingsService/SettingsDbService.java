@@ -31,7 +31,6 @@ public class SettingsDbService implements SettingsService {
             String QUERY = "SELECT user_id,\n" +
                     "       L.language_id  as lang_language_id,\n" +
                     "       L.name         as lang_name,\n" +
-                    "       L.abbreviation as lang_abbreviation,\n" +
                     "       T.theme_id     as theme_theme_id,\n" +
                     "       T.name         as theme_name,\n" +
                     "       T.abbreviation as theme_abbreviation\n" +
@@ -48,10 +47,21 @@ public class SettingsDbService implements SettingsService {
 
     @Async
     @Override
-    public CompletableFuture<Boolean> setSettings(int userId, int languageId, int themeId) {
+    public CompletableFuture<Boolean> setSettings(int userId, String languageId, int themeId) {
         try {
             String QUERY = "UPDATE SETTINGS SET language_id = ?, theme_id = ? WHERE user_id = ?";
             return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, languageId, themeId, userId) >= 1);
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseException(ex);
+        }
+    }
+
+    @Override
+    public CompletableFuture<Boolean> setLanguage(int userId, String langAbbreviation) {
+        try {
+            String QUERY = "UPDATE SETTINGS SET language_id = ? WHERE user_id = ?";
+            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, langAbbreviation, userId) >= 1);
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);

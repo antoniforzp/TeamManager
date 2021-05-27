@@ -15,9 +15,8 @@ public class SettingsRowMapper implements RowMapper<Settings> {
 
                 // Language
                 new Language(
-                        resultSet.getInt("lang_language_id"),
-                        resultSet.getString("lang_name"),
-                        resultSet.getString("lang_abbreviation")
+                        resultSet.getString("lang_language_id"),
+                        resultSet.getString("lang_name")
                 ),
 
                 // Theme

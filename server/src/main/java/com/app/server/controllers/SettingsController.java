@@ -27,7 +27,7 @@ public class SettingsController {
     @PostMapping(value = "/api/{userId}/settings/init")
     public Response<Boolean> initUserSettings(@PathVariable int userId) {
 
-        CompletableFuture<Boolean> data = service.setSettings(userId, 1, 1);
+        CompletableFuture<Boolean> data = service.setSettings(userId, "en", 1);
         CompletableFuture.allOf(data).join();
 
         return new Response<>(
@@ -83,6 +83,20 @@ public class SettingsController {
         CompletableFuture<Boolean> data = service.setSettings(body.getUserId(),
                 body.getLanguage().getLanguageId(),
                 body.getTheme().getThemeId());
+        CompletableFuture.allOf(data).join();
+
+        return new Response<>(
+                data.get(),
+                userId,
+                HttpStatus.ACCEPTED);
+    }
+
+    @SneakyThrows
+    @PatchMapping(value = "/api/{userId}/settings/language/{langAbbreviation}")
+    public Response<Boolean> patchUserSettingsLanguage(@PathVariable int userId,
+                                                       @PathVariable String langAbbreviation) {
+
+        CompletableFuture<Boolean> data = service.setLanguage(userId, langAbbreviation);
         CompletableFuture.allOf(data).join();
 
         return new Response<>(
