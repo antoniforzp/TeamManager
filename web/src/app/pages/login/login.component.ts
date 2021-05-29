@@ -15,7 +15,7 @@ import { AppNavigationService } from 'src/app/services/core/app-navigation.servi
 import { LoginService } from 'src/app/services/data/login.service';
 import { AppStateService } from 'src/app/services/core/app-state.service';
 import { SettingsService } from 'src/app/services/data/settings.service';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Language } from 'src/app/model/Language';
 import { defaultLanguage } from 'src/app/translation/translation-config';
@@ -103,24 +103,26 @@ export class LoginComponent implements OnInit {
   }
 
   initSettingsAndNavigate(): void {
-    this.appInit
-      .initLanguageFromLogin(this.appStateService.outLanguage)
-      .subscribe({
-        next: () => {
-          this.appInit
-            .initSettings()
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-              next: () => {
-                this.navigationService.navigateToHome();
-                this.progressStop();
-              },
-              error: (err) => {
-                this.resolveError(err);
-              },
-            });
-        },
-      });
+    const stream = this.currentLanguageId
+      ? this.appInit.initLanguageFromLogin(this.appStateService.outLanguage)
+      : of({});
+
+    stream.subscribe({
+      next: () => {
+        this.appInit
+          .initSettings()
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: () => {
+              this.navigationService.navigateToHome();
+              this.progressStop();
+            },
+            error: (err) => {
+              this.resolveError(err);
+            },
+          });
+      },
+    });
   }
 
   // PAGE FLOW CONTROL

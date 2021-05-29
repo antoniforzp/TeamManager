@@ -36,23 +36,31 @@
 
             <!-- scouts table -->
             <div class="mt-2" style="max-height: 55vh; overflow-y: auto;">
-                <table class="table table-hover">
+                <table matSort class="table table-hover" (matSortChange)="sortData($event)">
                     <thead class="my-thead">
                         <th class="checkbox-cell">
                             <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
                                 (ngModelChange)="toggleSelectAll($event)">
                         </th>
-                        <th translate>
-                            scouts.name-surname
+                        <th mat-sort-header="nameSurname">
+                            <span translate>
+                                scouts.name-surname
+                            </span>
                         </th>
-                        <th translate>
-                            scouts.troop
+                        <th mat-sort-header="troop">
+                            <span translate>
+                                scouts.troop
+                            </span>
                         </th>
-                        <th translate>
-                            scouts.role
+                        <th mat-sort-header="roles">
+                            <span translate>
+                                scouts.role
+                            </span>
                         </th>
-                        <th translate>
-                            scouts.rank
+                        <th mat-sort-header="rankId">
+                            <span translate>
+                                scouts.rank
+                            </span>
                         </th>
                     </thead>
                     <tbody>

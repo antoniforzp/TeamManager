@@ -7,12 +7,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditTeamModal } from 'src/app/modals/teams/add-edit-team-modal/add-edit-team-modal';
 import { DeleteTeamModal } from 'src/app/modals/teams/delete-team-modal/delete-team-modal';
 import { Team } from 'src/app/model/Team';
 import { TeamsService } from 'src/app/services/data/teams.service';
+import { SortService } from 'src/app/services/tools/sort.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
@@ -49,9 +51,11 @@ export class TeamsComponent implements OnInit, OnDestroy {
   allSelected = false;
 
   teams = [] as TeamDataRow[];
+  teamsInitial = [] as TeamDataRow[];
 
   constructor(
     private teamsService: TeamsService,
+    private sortService: SortService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
   ) {}
@@ -82,6 +86,7 @@ export class TeamsComponent implements OnInit, OnDestroy {
               teamObject: x,
             } as TeamDataRow;
           });
+          this.teamsInitial = this.teams.slice();
 
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
@@ -175,5 +180,11 @@ export class TeamsComponent implements OnInit, OnDestroy {
     this.allSelected = value;
     this.teams.forEach((x) => (x.isSelected = this.allSelected));
     this.changeDetector.detectChanges();
+  }
+
+  // SORTING
+
+  sortData(sort: Sort): void {
+    this.teams = this.sortService.sort(this.teamsInitial, sort);
   }
 }

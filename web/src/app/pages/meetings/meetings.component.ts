@@ -27,6 +27,8 @@ import { MeetingsService } from 'src/app/services/data/meetings.service';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { MeetingInfoModal } from 'src/app/modals/meetings/meeting-info-modal/meeting-info-modal';
+import { SortService } from 'src/app/services/tools/sort.service';
+import { Sort } from '@angular/material/sort';
 
 interface MeetingJourneyRowData {
   title: string;
@@ -35,6 +37,7 @@ interface MeetingJourneyRowData {
   endDate?: Date;
   description?: string;
   scoutsPresent: Scout[];
+  scoutsPresentQuantity: number;
 
   isSelected: boolean;
   data?: Meeting | Journey;
@@ -67,7 +70,9 @@ export class MeetingsComponent implements OnInit, OnDestroy {
   scouts: Scout[];
   meetingsPresence: MeetingPresence[];
   journeysPresence: JourneyPresence[];
+
   meetingsJourneysData: MeetingJourneyRowData[] = [];
+  meetingsJourneysDataInitial: MeetingJourneyRowData[] = [];
 
   Types = MeetingJourneyTypes;
 
@@ -77,6 +82,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
     private meetingsService: MeetingsService,
     private journeysSerice: JourneysService,
     private scoutsService: ScoutsService,
+    private sortService: SortService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
   ) {}
@@ -117,6 +123,8 @@ export class MeetingsComponent implements OnInit, OnDestroy {
             this.assemblyJourneyData(result.journeys)
           );
 
+          this.meetingsJourneysDataInitial = this.meetingsJourneysData.slice();
+
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
         },
@@ -130,15 +138,19 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
   assemblyMeetingData(meetings: Meeting[]): MeetingJourneyRowData[] {
     return (this.meetingsJourneysData = meetings.map((x) => {
+      const scoutsPresent = this.scouts.filter((s) =>
+        this.meetingsPresence.find(
+          (p) => p.meetingId === x.meetingId && p.scoutId === s.scoutId
+        )
+      );
+
       return {
         title: x.title,
         place: x.place,
         date: x.date,
-        scoutsPresent: this.scouts.filter((s) =>
-          this.meetingsPresence.find(
-            (p) => p.meetingId === x.meetingId && p.scoutId === s.scoutId
-          )
-        ),
+        scoutsPresent,
+        scoutsPresentQuantity: scoutsPresent ? scoutsPresent.length : 0,
+
         description: this.clampDescription(x.description),
 
         type: MeetingJourneyTypes.MEETING,
@@ -150,16 +162,19 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
   assemblyJourneyData(journys: Journey[]): MeetingJourneyRowData[] {
     return (this.meetingsJourneysData = journys.map((x) => {
+      const scoutsPresent = this.scouts.filter((s) =>
+        this.meetingsPresence.find(
+          (p) => p.meetingId === x.journeyId && p.scoutId === s.scoutId
+        )
+      );
+
       return {
         title: x.title,
         place: x.place,
         date: x.startDate,
         endDate: x.endDate,
-        scoutsPresent: this.scouts.filter((s) =>
-          this.journeysPresence.find(
-            (p) => p.journeyId === x.journeyId && p.scoutId === s.scoutId
-          )
-        ),
+        scoutsPresent,
+        scoutsPresentQuantity: scoutsPresent ? scoutsPresent.length : 0,
         description: this.clampDescription(x.description),
 
         type: MeetingJourneyTypes.JOURNEY,
@@ -188,6 +203,15 @@ export class MeetingsComponent implements OnInit, OnDestroy {
     this.allSelected = value;
     this.meetingsJourneysData.forEach((x) => (x.isSelected = this.allSelected));
     this.changeDetector.detectChanges();
+  }
+
+  // SORTING
+
+  sortData(sort: Sort): void {
+    this.meetingsJourneysData = this.sortService.sort(
+      this.meetingsJourneysDataInitial,
+      sort
+    );
   }
 
   // ACTIONS FACTORY

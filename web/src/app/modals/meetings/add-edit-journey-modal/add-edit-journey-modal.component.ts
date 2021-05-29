@@ -87,7 +87,7 @@ export class AddEditJourneyModalComponent implements OnInit, OnDestroy {
       place: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      description: [null, Validators.maxLength(200)],
+      description: [null, Validators.maxLength(500)],
     });
   }
 

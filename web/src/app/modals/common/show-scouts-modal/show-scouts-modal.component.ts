@@ -12,6 +12,7 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { forkJoin, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AddEditScoutModal } from 'src/app/modals/scouts/add-edit-scout-modal/add-edit-scout-modal';
@@ -23,18 +24,24 @@ import { Role } from 'src/app/model/Role';
 
 import { Scout } from 'src/app/model/Scout';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
+import { SortService } from 'src/app/services/tools/sort.service';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { PageModes } from 'src/app/utils/PageModes';
 import { Results } from 'src/app/utils/Result';
-
+interface RoleDisplay {
+  roleId: number;
+  name: string;
+  label: string;
+}
 interface ScoutRowData {
   nameSurname: string;
   troop: string;
-  roles: { name: string; label: string }[];
+  roles: RoleDisplay[];
 
   instructorRankAbbv: string;
   instructorRankLabel: string;
   rankName: string;
+  rankId: number;
 
   isSelected: boolean;
   scoutObject: Scout;
@@ -68,12 +75,15 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
 
   allSelected = false;
   scoutsData = [] as Scout[];
+
   scouts = [] as ScoutRowData[];
+  scoutsInitial = [] as ScoutRowData[];
 
   actions = new Map<Actions, DropdownAction>();
 
   constructor(
     private scoutsService: ScoutsService,
+    private sortService: SortService,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<ShowScoutsModalComponent>,
     private changeDetector: ChangeDetectorRef,
@@ -102,41 +112,44 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
       scouts: of(this.scoutsData),
       roles: this.scoutsService.getAllRoles(),
     })
-      .pipe(
-        takeUntil(this.destroy$),
-        map((x) => {
-          const rows = [] as ScoutRowData[];
-          x.scouts.forEach((scout) =>
-            rows.push({
-              nameSurname: scout.name + ' ' + scout.surname,
-              troop: scout.patrol.name,
-              roles: x.roles
-                .filter((r) => r.scoutId === scout.scoutId)
-                .map((r1) => {
-                  return {
-                    name: r1.name,
-                    label: `role-${r1.roleId}`,
-                  } as { name: string; label: string };
-                }),
+    .pipe(
+      takeUntil(this.destroy$),
+      map((x) => {
+        const rows = [] as ScoutRowData[];
+        x.scouts.forEach((scout) =>
+          rows.push({
+            nameSurname: scout.name + ' ' + scout.surname,
+            troop: scout.patrol.name,
+            roles: x.roles
+              .filter((r) => r.scoutId === scout.scoutId)
+              .map((r1) => {
+                return {
+                  roleId: r1.roleId,
+                  name: r1.name,
+                  label: `role-${r1.roleId}`,
+                } as RoleDisplay;
+              }),
+            instructorRankAbbv:
+              scout.irank?.rankId !== 1 ? scout.irank?.abbreviation : '',
+            instructorRankLabel: scout.irank?.rankId
+              ? `instructor-rank-${scout.irank.rankId}`
+              : null,
+            rankName: scout.rank.name,
+            rankId: scout.rank.rankId,
 
-              instructorRankAbbv:
-                scout.irank.abbreviation !== 'BS'
-                  ? scout.irank.abbreviation
-                  : '',
-              instructorRankLabel: `instructor-rank-${scout.irank.rankId}`,
-              rankName: scout.rank.name,
-
-              isSelected: false,
-              scoutObject: scout,
-              rolesList: x.roles.filter((r) => r.scoutId === scout.scoutId),
-            })
-          );
-          return rows;
-        })
-      )
+            isSelected: false,
+            scoutObject: scout,
+            rolesList: x.roles.filter((r) => r.scoutId === scout.scoutId),
+          })
+        );
+        return rows;
+      })
+    )
       .subscribe({
         next: (result) => {
           this.scouts = result;
+          this.scoutsInitial = this.scouts;
+
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
         },
@@ -166,6 +179,12 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
     this.allSelected = value;
     this.scouts.forEach((x) => (x.isSelected = this.allSelected));
     this.changeDetector.detectChanges();
+  }
+
+  // SORTING
+
+  sortData(sort: Sort): void {
+    this.scouts = this.sortService.sort(this.scoutsInitial, sort);
   }
 
   // FUNCTIONALITIES

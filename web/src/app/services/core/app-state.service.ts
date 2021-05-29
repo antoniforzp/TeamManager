@@ -14,7 +14,7 @@ export enum AppStateKeys {
   providedIn: 'root',
 })
 export class AppStateService {
-  cookieDuration = 1 / 24;
+  cookieDuration = (1 / 24) * 2;
 
   constructor(private cookieService: CookieService) {}
 

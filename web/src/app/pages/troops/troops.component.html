@@ -53,20 +53,26 @@
 
                 <!-- Troops table -->
                 <div class="mt-3 table-container-page-menu">
-                    <table class="table table-hover">
+                    <table matSort class="table table-hover" (matSortChange)="sortData($event)">
                         <thead class="my-thead">
                             <th class="checkbox-cell">
                                 <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
                                     (ngModelChange)="toggleSelectAll($event)">
                             </th>
-                            <th translate>
-                                patrols.name
+                            <th mat-sort-header="name">
+                                <span translate>
+                                    patrols.name
+                                </span>
                             </th>
-                            <th translate>
-                                patrols.patrol-leader
+                            <th mat-sort-header="leadersObj">
+                                <span translate>
+                                    patrols.patrol-leader
+                                </span>
                             </th>
-                            <th translate>
-                                patrols.members
+                            <th mat-sort-header="troopScoutsQuantity">
+                                <span translate>
+                                    patrols.members
+                                </span>
                             </th>
                         </thead>
                         <tbody>
@@ -90,22 +96,25 @@
 
                                         <!-- Troop leaders -->
                                         <td>
-                                            <ng-container *ngFor="let leader of troop.leaders">
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <span>
-                                                            {{leader.scout.name}}
-                                                            {{leader.scout.surname}}
-                                                        </span>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div *ngFor="let role of getLeaderRoles(leader.scout.scoutId)">
-                                                            <span [ngClass]="[createRoleBadge(role)]" translate>
-                                                                {{role.name}}
+                                            <ng-container *ngIf="troop.leaders?.length > 0; else noCellData">
+                                                <ng-container *ngFor="let leader of troop.leaders">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <span>
+                                                                {{leader.scout.name}}
+                                                                {{leader.scout.surname}}
                                                             </span>
                                                         </div>
+                                                        <div class="col">
+                                                            <div
+                                                                *ngFor="let role of getLeaderRoles(leader.scout.scoutId)">
+                                                                <span [ngClass]="[createRoleBadge(role)]" translate>
+                                                                    {{role.name}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </ng-container>
                                             </ng-container>
                                         </td>
 

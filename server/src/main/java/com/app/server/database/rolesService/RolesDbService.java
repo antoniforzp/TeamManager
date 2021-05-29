@@ -40,7 +40,7 @@ class RolesDbService implements RolesService {
     @Override
     public CompletableFuture<List<Role>> getAll() {
         try {
-            String QUERY = "SELECT * FROM ROLES";
+            String QUERY = "SELECT * FROM ROLES ORDER BY role_id DESC";
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new RoleRowMapper()));
 
         } catch (DataAccessException ex) {
@@ -52,7 +52,12 @@ class RolesDbService implements RolesService {
     @Override
     public CompletableFuture<List<Role>> getAllInTeam(int teamId) {
         try {
-            String QUERY = "SELECT SR.role_id as role_id, R.name as name, SR.scout_id as scout_id FROM SCOUTS_ROLES SR JOIN ROLES R on R.role_id = SR.role_id JOIN SCOUTS S on SR.scout_id = S.scout_id WHERE S.team_id = ?";
+            String QUERY = "SELECT SR.role_id as role_id, R.name as name, SR.scout_id as scout_id\n" +
+                    "FROM SCOUTS_ROLES SR\n" +
+                    "         JOIN ROLES R on R.role_id = SR.role_id\n" +
+                    "         JOIN SCOUTS S on SR.scout_id = S.scout_id\n" +
+                    "WHERE S.team_id = ?\n" +
+                    "ORDER BY SR.role_id DESC";
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new RoleScoutRowMapper(), teamId));
 
         } catch (DataAccessException ex) {
@@ -64,7 +69,11 @@ class RolesDbService implements RolesService {
     @Override
     public CompletableFuture<List<Role>> getAllByScoutId(int scoutId) {
         try {
-            String QUERY = "SELECT SR.role_id as role_id, R.name as name, SR.scout_id as scout_id FROM SCOUTS_ROLES SR JOIN ROLES R on R.role_id = SR.role_id WHERE SR.scout_id = ?";
+            String QUERY = "SELECT SR.role_id as role_id, R.name as name, SR.scout_id as scout_id\n" +
+                    "FROM SCOUTS_ROLES SR\n" +
+                    "         JOIN ROLES R on R.role_id = SR.role_id\n" +
+                    "WHERE SR.scout_id = ?\n" +
+                    "ORDER BY SR.role_id DESC";
             return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new RoleScoutRowMapper(), scoutId));
 
         } catch (DataAccessException ex) {

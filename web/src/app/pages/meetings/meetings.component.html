@@ -47,29 +47,41 @@
 
                 <!-- Meetings table -->
                 <div class="mt-3 table-container-page-menu">
-                    <table class="table table-hover">
+                    <table matSort class="table table-hover" (matSortChange)="sortData($event)">
                         <thead class="my-thead">
                             <th class="checkbox-cell">
                                 <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
                                     (ngModelChange)="toggleSelectAll($event)">
                             </th>
-                            <th translate>
-                                meetings-journeys.type
+                            <th mat-sort-header="type" translate>
+                                <span translate>
+                                    meetings-journeys.type
+                                </span>
                             </th>
-                            <th translate>
-                                meetings-journeys.journey-title
+                            <th mat-sort-header="title" translate>
+                                <span translate>
+                                    meetings-journeys.journey-title
+                                </span>
                             </th>
-                            <th translate>
-                                meetings-journeys.place
+                            <th mat-sort-header="place" translate>
+                                <span translate>
+                                    meetings-journeys.place
+                                </span>
                             </th>
-                            <th translate>
-                                meetings-journeys.date
+                            <th mat-sort-header="date" translate>
+                                <span translate>
+                                    meetings-journeys.date
+                                </span>
                             </th>
-                            <th translate>
-                                meetings-journeys.present
+                            <th mat-sort-header="scoutsPresentQuantity">
+                                <span translate>
+                                    meetings-journeys.present
+                                </span>
                             </th>
-                            <th class="description-cell" translate>
-                                meetings-journeys.description
+                            <th mat-sort-header="description" class="description-cell">
+                                <span translate>
+                                    meetings-journeys.description
+                                </span>
                             </th>
                         </thead>
                         <tbody>
@@ -125,7 +137,7 @@
                                         <td>
                                             <a class="link-alike"
                                                 (click)="openShowScoutsByLink(row.scoutsPresent); $event.stopPropagation()">
-                                                {{row.scoutsPresent.length}}
+                                                {{row.scoutsPresentQuantity}}
                                             </a>
                                         </td>
                                         <td class="description-cell">

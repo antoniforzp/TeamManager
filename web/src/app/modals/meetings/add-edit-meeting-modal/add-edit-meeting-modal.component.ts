@@ -85,7 +85,7 @@ export class AddEditMeetingModalComponent implements OnInit, OnDestroy {
       title: ['', Validators.required],
       place: ['', Validators.required],
       date: ['', Validators.required],
-      description: [null, Validators.maxLength(200)],
+      description: [null, Validators.maxLength(500)],
     });
   }
 

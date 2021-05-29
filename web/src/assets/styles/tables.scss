@@ -15,6 +15,7 @@
     position: sticky;
     top: 0;
     background-color: var(--primary-default);
+
     color: var(--foreground-default) !important;
     font-weight: 200 !important;
     z-index: 1;
@@ -24,6 +25,7 @@
     background-color: var(--primary-default);
     color: var(--foreground-default) !important;
     font-weight: 200 !important;
+    z-index: 1;
   }
 }
 

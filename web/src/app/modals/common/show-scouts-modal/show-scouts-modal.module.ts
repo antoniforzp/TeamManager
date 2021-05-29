@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSortModule } from '@angular/material/sort';
 import { MaterialModule } from 'src/app/material/app-material.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AppTranslationModule } from 'src/app/translation/app-translation.module';
@@ -15,6 +16,7 @@ import { ShowScoutsModalComponent } from './show-scouts-modal.component';
     MaterialModule,
     SharedModule,
     AppTranslationModule,
+    MatSortModule
   ],
 })
 export class ShowScoutsModalModule {}

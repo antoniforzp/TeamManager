@@ -7,6 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { forkJoin, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AddEditScoutModal } from 'src/app/modals/scouts/add-edit-scout-modal/add-edit-scout-modal';
@@ -19,18 +20,25 @@ import { Role } from 'src/app/model/Role';
 
 import { Scout } from 'src/app/model/Scout';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
+import { SortService } from 'src/app/services/tools/sort.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
 
+interface RoleDisplay {
+  roleId: number;
+  name: string;
+  label: string;
+}
 interface ScoutRowData {
   nameSurname: string;
   troop: string;
-  roles: { name: string; label: string }[];
+  roles: RoleDisplay[];
 
   instructorRankAbbv: string;
   instructorRankLabel: string;
   rankName: string;
+  rankId: number;
 
   isSelected: boolean;
   scoutObject: Scout;
@@ -59,11 +67,13 @@ export class ScoutsComponent implements OnInit, OnDestroy {
 
   allSelected = false;
   scouts = [] as ScoutRowData[];
+  scoutsInitial = [] as ScoutRowData[];
 
   actions = new Map<Actions, DropdownAction>();
 
   constructor(
     private scoutsService: ScoutsService,
+    private sortService: SortService,
     private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef
   ) {}
@@ -98,9 +108,10 @@ export class ScoutsComponent implements OnInit, OnDestroy {
                 .filter((r) => r.scoutId === scout.scoutId)
                 .map((r1) => {
                   return {
+                    roleId: r1.roleId,
                     name: r1.name,
                     label: `role-${r1.roleId}`,
-                  } as { name: string; label: string };
+                  } as RoleDisplay;
                 }),
               instructorRankAbbv:
                 scout.irank?.rankId !== 1 ? scout.irank?.abbreviation : '',
@@ -108,6 +119,7 @@ export class ScoutsComponent implements OnInit, OnDestroy {
                 ? `instructor-rank-${scout.irank.rankId}`
                 : null,
               rankName: scout.rank.name,
+              rankId: scout.rank.rankId,
 
               isSelected: false,
               scoutObject: scout,
@@ -120,6 +132,8 @@ export class ScoutsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (result) => {
           this.scouts = result;
+          this.scoutsInitial = this.scouts.slice();
+
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
         },
@@ -149,6 +163,12 @@ export class ScoutsComponent implements OnInit, OnDestroy {
     this.allSelected = value;
     this.scouts.forEach((x) => (x.isSelected = this.allSelected));
     this.changeDetector.detectChanges();
+  }
+
+  // SORTING
+
+  sortData(sort: Sort): void {
+    this.scouts = this.sortService.sort(this.scoutsInitial, sort);
   }
 
   // ACTION FACTORY

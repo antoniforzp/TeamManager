@@ -15,7 +15,7 @@
 
             <!-- Title -->
             <div class="row mb-2">
-                <label for="title" class="col-sm-2 col-form-label required" translate>
+                <label for="title" class="col-sm-3 col-form-label required" translate>
                     add-edit-meeting.meeting-title
                 </label>
                 <div class="col">
@@ -32,7 +32,7 @@
 
             <!-- Place -->
             <div class="row mb-2">
-                <label for="place" class="col-sm-2 col-form-label required" translate>
+                <label for="place" class="col-sm-3 col-form-label required" translate>
                     meetings-journeys.place
                 </label>
                 <div class="col">
@@ -49,7 +49,7 @@
 
             <!-- Date -->
             <div class="row mb-2">
-                <label for="date" class="col-sm-2 col-form-label required" translate>
+                <label for="date" class="col-sm-3 col-form-label required" translate>
                     meetings-journeys.date
                 </label>
                 <div class="col">
@@ -79,7 +79,7 @@
                     <!-- Errors -->
                     <div class="d-flex flex-column" *ngIf="description.errors && description.dirty">
                         <small class="alert-danger" *ngIf="description.hasError('maxlength')">
-                            {{ 'errors.max-length' | translate: {'value': '200'} }}
+                            {{ 'errors.max-length' | translate: {'value': '500'} }}
                         </small>
                     </div>
                 </div>

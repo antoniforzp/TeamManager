@@ -21,15 +21,20 @@ import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
 import { PatrolsInfoModal } from 'src/app/modals/troops/patrols-info-modal/patrols-info-modal';
+import { Sort } from '@angular/material/sort';
+import { SortService } from 'src/app/services/tools/sort.service';
 
+interface LeaderDisplay {
+  scout: Scout;
+  role: Role;
+}
 interface TroopRowData {
   name: string;
-  leaders: {
-    scout: Scout;
-    role: Role;
-  }[];
+  leaders: LeaderDisplay[];
+  leadersObj: Scout[];
 
   troopScouts: Scout[];
+  troopScoutsQuantity: number;
   troopData: Patrol;
   isSelected: boolean;
 }
@@ -56,6 +61,7 @@ export class TroopsComponent implements OnInit, OnDestroy {
   allSelected = false;
 
   troopsData: TroopRowData[];
+  troopsDataInitial: TroopRowData[];
 
   troops: Patrol[];
   scouts: Scout[];
@@ -66,6 +72,7 @@ export class TroopsComponent implements OnInit, OnDestroy {
   constructor(
     private troopsService: PatrolsService,
     private scoutsService: ScoutsService,
+    private sortService: SortService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
   ) {}
@@ -95,23 +102,31 @@ export class TroopsComponent implements OnInit, OnDestroy {
           this.scoutRoles = result.scoutRoles;
 
           this.troopsData = this.troops.map((x) => {
+            const troopScouts = this.scouts.filter(
+              (s) => s.patrol.patrolId === x.patrolId
+            );
+
+            const leadersObj = this.getLeaders(x);
+            const leaders = leadersObj.map((leader) => {
+              return {
+                scout: leader,
+                role: this.scoutRoles.find(
+                  (role) => role.scoutId === leader.scoutId
+                ),
+              } as LeaderDisplay;
+            });
+
             return {
               name: x.name,
-              leaders: this.getLeaders(x).map((leader) => {
-                return {
-                  scout: leader,
-                  role: this.scoutRoles.find(
-                    (role) => role.scoutId === leader.scoutId
-                  ),
-                };
-              }),
-              troopScouts: this.scouts.filter(
-                (s) => s.patrol.patrolId === x.patrolId
-              ),
+              leaders,
+              leadersObj,
+              troopScouts,
+              troopScoutsQuantity: troopScouts.length,
               troopData: x,
               isSelected: false,
             } as TroopRowData;
           });
+          this.troopsDataInitial = this.troopsData.slice();
 
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
@@ -143,6 +158,12 @@ export class TroopsComponent implements OnInit, OnDestroy {
     this.allSelected = value;
     this.troopsData.forEach((x) => (x.isSelected = this.allSelected));
     this.changeDetector.detectChanges();
+  }
+
+  // SORTING
+
+  sortData(sort: Sort): void {
+    this.troopsData = this.sortService.sort(this.troopsDataInitial, sort);
   }
 
   // UTILS

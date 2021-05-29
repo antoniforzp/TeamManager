@@ -15,6 +15,8 @@ import { MeetingsComponent } from './meetings/meetings.component';
 import { AppTranslationModule } from '../translation/app-translation.module';
 import { TeamInfoComponent } from './home/team-info/team-info.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     SharedModule,
     AppTranslationModule,
     NgApexchartsModule,
+    MatSortModule,
   ],
 })
 export class PagesModule {}

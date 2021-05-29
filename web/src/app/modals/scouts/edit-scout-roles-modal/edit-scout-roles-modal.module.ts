@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/app-material.module';
 import { EditScoutRolesModalComponent } from './edit-scout-roles-modal.component';
 import { AppTranslationModule } from 'src/app/translation/app-translation.module';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [EditScoutRolesModalComponent],
@@ -14,7 +15,8 @@ import { AppTranslationModule } from 'src/app/translation/app-translation.module
     ReactiveFormsModule,
     MaterialModule,
     SharedModule,
-    AppTranslationModule
+    AppTranslationModule,
+    MatSortModule,
   ],
 })
 export class ScoutRolesModalModule {}

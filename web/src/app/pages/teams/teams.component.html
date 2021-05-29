@@ -41,14 +41,16 @@
 
                 <!-- teams table -->
                 <div class="table-container-page-menu mt-3">
-                    <table class="table table-hover">
+                    <table matSort class="table table-hover" (matSortChange)="sortData($event)">
                         <thead class="my-thead">
                             <th class="checkbox-cell">
                                 <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
                                     (ngModelChange)="toggleSelectAll($event)">
                             </th>
-                            <th translate>
-                                teams.team-full-name
+                            <th mat-sort-header="name">
+                                <span translate>
+                                    teams.team-full-name
+                                </span>
                             </th>
                         </thead>
                         <tbody>

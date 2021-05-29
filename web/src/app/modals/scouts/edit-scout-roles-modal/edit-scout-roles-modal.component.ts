@@ -12,7 +12,7 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Role } from 'src/app/model/Role';
 import { Scout } from 'src/app/model/Scout';
@@ -39,6 +39,7 @@ export class EditScoutRolesModalComponent implements OnInit, OnDestroy {
 
   scout: Scout;
   roles: Role[];
+
   allRoles: Role[];
   availableRoles: Role[];
 
