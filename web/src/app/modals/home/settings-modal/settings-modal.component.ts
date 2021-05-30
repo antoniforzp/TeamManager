@@ -16,6 +16,7 @@ import { Theme } from 'src/app/model/Theme';
 import { AppSettingsService } from 'src/app/services/core/app-settings.service';
 import { AppThemeService } from 'src/app/services/core/app-theme.service';
 import { SettingsService } from 'src/app/services/data/settings.service';
+import { HomeReloadService } from 'src/app/services/tools/home-reload.service';
 import { Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 
@@ -49,6 +50,7 @@ export class SettingsModalComponent implements OnInit {
     private settingsService: SettingsService,
     private appSettingsService: AppSettingsService,
     private appThemeService: AppThemeService,
+    private homeReloadService: HomeReloadService,
     private translate: TranslateService,
     private dialog: MatDialog
   ) {}
@@ -109,6 +111,7 @@ export class SettingsModalComponent implements OnInit {
               this.translate.use(this.selectedLanguage.languageId as string);
               this.appThemeService.setThemeById(this.selectedTheme.themeId);
               this.dialogRef.close(result);
+              this.homeReloadService.emitReload();
             }
           })
       );
@@ -118,9 +121,7 @@ export class SettingsModalComponent implements OnInit {
 
   onLanguageChange(event: any): void {
     this.changes = true;
-    this.selectedLanguage = this.languages.find(
-      (x) => x.languageId === event
-    );
+    this.selectedLanguage = this.languages.find((x) => x.languageId === event);
     this.changeDetector.detectChanges();
   }
 

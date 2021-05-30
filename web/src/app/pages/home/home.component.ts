@@ -11,6 +11,7 @@ import { takeUntil, tap } from 'rxjs/operators';
 import { Team } from 'src/app/model/Team';
 import { User } from 'src/app/model/User';
 import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
+import { HomeReloadService } from 'src/app/services/tools/home-reload.service';
 import { checkIfBlank } from 'src/app/utils/FormsUtils';
 import { CoreService } from '../../services/data/core.service';
 
@@ -38,9 +39,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private coreService: CoreService,
+    private homeReloadService: HomeReloadService,
     private navigationService: AppNavigationService,
     private changeDetector: ChangeDetectorRef
-  ) {}
+  ) {
+    this.homeReloadService.reload.subscribe(() => this.loadData());
+  }
 
   ngOnInit(): void {
     this.loadData();
