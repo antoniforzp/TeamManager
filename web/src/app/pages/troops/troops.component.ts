@@ -23,6 +23,8 @@ import { Results } from 'src/app/utils/Result';
 import { PatrolsInfoModal } from 'src/app/modals/troops/patrols-info-modal/patrols-info-modal';
 import { Sort } from '@angular/material/sort';
 import { SortService } from 'src/app/services/tools/sort.service';
+import { TranslateService } from '@ngx-translate/core';
+import { SearchPipe } from 'src/app/pipes/search.pipe';
 
 interface LeaderDisplay {
   scout: Scout;
@@ -36,6 +38,10 @@ interface TroopRowData {
   troopScouts: Scout[];
   troopScoutsQuantity: number;
   troopData: Patrol;
+
+  suqashedLeaderNames: string;
+  suqashedLeaderRoles: string;
+
   isSelected: boolean;
 }
 
@@ -62,6 +68,7 @@ export class TroopsComponent implements OnInit, OnDestroy {
 
   troopsData: TroopRowData[];
   troopsDataInitial: TroopRowData[];
+  troopsDataFiltered: TroopRowData[];
 
   troops: Patrol[];
   scouts: Scout[];
@@ -69,10 +76,20 @@ export class TroopsComponent implements OnInit, OnDestroy {
 
   actions = new Map<Actions, DropdownAction>();
 
+  searchPhrase: string;
+  filterKeys = [
+    'name',
+    'troopScoutsQuantity',
+    'suqashedLeaderNames',
+    'suqashedLeaderRoles',
+  ];
+
   constructor(
     private troopsService: PatrolsService,
     private scoutsService: ScoutsService,
     private sortService: SortService,
+    private searchPipe: SearchPipe,
+    private translate: TranslateService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
   ) {}
@@ -116,6 +133,13 @@ export class TroopsComponent implements OnInit, OnDestroy {
               } as LeaderDisplay;
             });
 
+            let leadersRolesSquashed: Role[] = [];
+            leadersObj.forEach((l) => {
+              leadersRolesSquashed = leadersRolesSquashed.concat(
+                this.getLeaderRoles(l.scoutId)
+              );
+            });
+
             return {
               name: x.name,
               leaders,
@@ -123,10 +147,17 @@ export class TroopsComponent implements OnInit, OnDestroy {
               troopScouts,
               troopScoutsQuantity: troopScouts.length,
               troopData: x,
+
+              suqashedLeaderNames: this.squashLeaderNames(leadersObj),
+              suqashedLeaderRoles: this.squashRolesNames(leadersRolesSquashed),
+
               isSelected: false,
             } as TroopRowData;
           });
+
           this.troopsDataInitial = this.troopsData.slice();
+
+          this.filterData();
 
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
@@ -137,6 +168,22 @@ export class TroopsComponent implements OnInit, OnDestroy {
           this.changeDetector.detectChanges();
         },
       });
+  }
+
+  squashLeaderNames(leaders: Scout[]): string {
+    let squashed = '';
+    leaders.forEach((x) => {
+      squashed = squashed.concat(x.name + x.surname) + ' ';
+    });
+    return squashed;
+  }
+
+  squashRolesNames(roles: Role[]): string {
+    let squashed = '';
+    roles.forEach((x) => {
+      squashed = squashed.concat(this.translate.instant(x.name)) + ' ';
+    });
+    return squashed;
   }
 
   // SELECTION
@@ -164,6 +211,23 @@ export class TroopsComponent implements OnInit, OnDestroy {
 
   sortData(sort: Sort): void {
     this.troopsData = this.sortService.sort(this.troopsDataInitial, sort);
+    this.filterData();
+  }
+
+  // FILTERING
+
+  onFilterChange(searchPhrase: string): void {
+    this.searchPhrase = searchPhrase;
+    this.filterData();
+  }
+
+  filterData(): void {
+    this.troopsDataFiltered = this.searchPipe.transform(
+      this.troopsData,
+      this.filterKeys,
+      this.searchPhrase ? this.searchPhrase : ''
+    );
+    this.changeDetector.detectChanges();
   }
 
   // UTILS

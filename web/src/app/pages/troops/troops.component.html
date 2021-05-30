@@ -19,11 +19,10 @@
 
                 <!-- TROOPS -->
                 <div class="page-header-container mb-2">
-                    <span>
-                        <span translate>
-                            patrols.manage-patrols
-                        </span> ({{troops.length}})
-                    </span>
+
+                    <app-search-box [foundQuantity]="troopsDataFiltered.length"
+                        [initQuantity]="troopsDataInitial.length" (filterDone)="onFilterChange($event)">
+                    </app-search-box>
 
                     <div class="d-flex">
                         <button type="button" class="my-icon-button icon mr-2" (click)="openTroopsInfoModal()">
@@ -76,8 +75,8 @@
                             </th>
                         </thead>
                         <tbody>
-                            <ng-container *ngIf="troopsData.length > 0; else noTableData">
-                                <ng-container *ngFor="let troop of troopsData; let i=index">
+                            <ng-container *ngIf="troopsDataFiltered.length > 0; else noTableData">
+                                <ng-container *ngFor="let troop of troopsDataFiltered; let i=index">
                                     <tr class="cursor-pointer" [ngClass]="{'selected': troop.isSelected}"
                                         (click)="toggleSelected(troop)">
 
