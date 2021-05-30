@@ -17,7 +17,11 @@
         <div *ngIf="!pageError">
 
             <!-- SCOUTS -->
-            <div class="d-flex justify-content-end mb-2 mt-2">
+            <div class="mb-2 page-header-container">
+
+                <app-search-box [foundQuantity]="scoutsFiltered.length" [initQuantity]="scoutsInitial.length"
+                    (filterDone)="onFilterChange($event)"></app-search-box>
+
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle my-button" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="setActions()"
@@ -64,8 +68,8 @@
                         </th>
                     </thead>
                     <tbody>
-                        <ng-container *ngIf="scouts.length > 0; else noTableData">
-                            <ng-container *ngFor="let scout of scouts; let i=index">
+                        <ng-container *ngIf="scoutsFiltered.length > 0; else noTableData">
+                            <ng-container *ngFor="let scout of scoutsFiltered; let i=index">
                                 <tr class="cursor-pointer" [ngClass]="{'selected': scout.isSelected}"
                                     (click)="toggleSelected(scout)">
 

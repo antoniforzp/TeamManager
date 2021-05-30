@@ -13,6 +13,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
+import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AddEditScoutModal } from 'src/app/modals/scouts/add-edit-scout-modal/add-edit-scout-modal';
@@ -23,6 +24,7 @@ import { ScoutInfoModal } from 'src/app/modals/scouts/scout-info-modal/scout-inf
 import { Role } from 'src/app/model/Role';
 
 import { Scout } from 'src/app/model/Scout';
+import { SearchPipe } from 'src/app/pipes/search.pipe';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { SortService } from 'src/app/services/tools/sort.service';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
@@ -38,14 +40,18 @@ interface ScoutRowData {
   troop: string;
   roles: RoleDisplay[];
 
+  instructorRankName: string;
   instructorRankAbbv: string;
+  instructorRankAbbvFilter: string;
   instructorRankLabel: string;
+
   rankName: string;
   rankId: number;
 
   isSelected: boolean;
   scoutObject: Scout;
   rolesList: Role[];
+  rolesSquashed: string;
 }
 
 enum Actions {
@@ -78,12 +84,24 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
 
   scouts = [] as ScoutRowData[];
   scoutsInitial = [] as ScoutRowData[];
+  scoutsFiltered = [] as ScoutRowData[];
 
   actions = new Map<Actions, DropdownAction>();
+
+  searchPhrase: string;
+  filterKeys = [
+    'nameSurname',
+    'troop',
+    'rankName',
+    'instructorRankAbbvFilter',
+    'rolesSquashed',
+  ];
 
   constructor(
     private scoutsService: ScoutsService,
     private sortService: SortService,
+    private searchPipe: SearchPipe,
+    private translate: TranslateService,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<ShowScoutsModalComponent>,
     private changeDetector: ChangeDetectorRef,
@@ -112,15 +130,16 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
       scouts: of(this.scoutsData),
       roles: this.scoutsService.getAllRoles(),
     })
-    .pipe(
-      takeUntil(this.destroy$),
-      map((x) => {
-        const rows = [] as ScoutRowData[];
-        x.scouts.forEach((scout) =>
-          rows.push({
-            nameSurname: scout.name + ' ' + scout.surname,
-            troop: scout.patrol.name,
-            roles: x.roles
+      .pipe(
+        takeUntil(this.destroy$),
+        map((x) => {
+          const rows = [] as ScoutRowData[];
+          x.scouts.forEach((scout) => {
+            const scoutRoles = x.roles.filter(
+              (r) => r.scoutId === scout.scoutId
+            );
+
+            const rolesDisplay = x.roles
               .filter((r) => r.scoutId === scout.scoutId)
               .map((r1) => {
                 return {
@@ -128,27 +147,43 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
                   name: r1.name,
                   label: `role-${r1.roleId}`,
                 } as RoleDisplay;
-              }),
-            instructorRankAbbv:
-              scout.irank?.rankId !== 1 ? scout.irank?.abbreviation : '',
-            instructorRankLabel: scout.irank?.rankId
-              ? `instructor-rank-${scout.irank.rankId}`
-              : null,
-            rankName: scout.rank.name,
-            rankId: scout.rank.rankId,
+              });
 
-            isSelected: false,
-            scoutObject: scout,
-            rolesList: x.roles.filter((r) => r.scoutId === scout.scoutId),
-          })
-        );
-        return rows;
-      })
-    )
+            const iRankAbbriv =
+              scout.irank?.rankId !== 1 ? scout.irank?.abbreviation : '';
+
+            const iRankAbbrivFilter = scout.irank?.abbreviation
+              ? this.translate.instant(scout.irank?.abbreviation)
+              : '';
+
+            rows.push({
+              nameSurname: scout.name + ' ' + scout.surname,
+              troop: scout.patrol.name,
+              roles: rolesDisplay,
+              instructorRankName: scout.irank?.name,
+              instructorRankAbbv: iRankAbbriv,
+              instructorRankAbbvFilter: iRankAbbrivFilter,
+              instructorRankLabel: scout.irank?.rankId
+                ? `instructor-rank-${scout.irank.rankId}`
+                : null,
+              rankName: scout.rank.name,
+              rankId: scout.rank.rankId,
+
+              isSelected: false,
+              scoutObject: scout,
+              rolesList: scoutRoles,
+              rolesSquashed: this.squashedRoleNames(scoutRoles),
+            });
+          });
+          return rows;
+        })
+      )
       .subscribe({
         next: (result) => {
           this.scouts = result;
           this.scoutsInitial = this.scouts;
+
+          this.filterData();
 
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
@@ -159,6 +194,14 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
           this.changeDetector.detectChanges();
         },
       });
+  }
+
+  squashedRoleNames(roles: Role[]): string {
+    let squashed = '';
+    roles.forEach((x) => {
+      squashed = squashed.concat(this.translate.instant(x.name)) + ' ';
+    });
+    return squashed;
   }
 
   // SELECTION
@@ -185,6 +228,23 @@ export class ShowScoutsModalComponent implements OnInit, OnDestroy {
 
   sortData(sort: Sort): void {
     this.scouts = this.sortService.sort(this.scoutsInitial, sort);
+    this.filterData();
+  }
+
+  // FILTERING
+
+  onFilterChange(searchPhrase: string): void {
+    this.searchPhrase = searchPhrase;
+    this.filterData();
+  }
+
+  filterData(): void {
+    this.scoutsFiltered = this.searchPipe.transform(
+      this.scouts,
+      this.filterKeys,
+      this.searchPhrase ? this.searchPhrase : ''
+    );
+    this.changeDetector.detectChanges();
   }
 
   // FUNCTIONALITIES
