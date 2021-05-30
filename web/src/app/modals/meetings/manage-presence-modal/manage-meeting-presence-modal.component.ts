@@ -12,14 +12,17 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Journey } from 'src/app/model/Journey';
 import { Meeting } from 'src/app/model/Meeting';
 import { Scout } from 'src/app/model/Scout';
+import { SearchPipe } from 'src/app/pipes/search.pipe';
 import { JourneysService } from 'src/app/services/data/journeys.service';
 import { MeetingsService } from 'src/app/services/data/meetings.service';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
+import { SortService } from 'src/app/services/tools/sort.service';
 import { Results } from 'src/app/utils/Result';
 import { EntryRequestData } from '../../common/progress-modal/progress-modal.component';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
@@ -66,6 +69,12 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
   journey: Journey;
 
   scouts: ScoutRowData[];
+  scoutsInitial: ScoutRowData[];
+  scoutsFiltered: ScoutRowData[];
+
+  searchPhrase: string;
+  filterKeys = ['nameSurname', 'troop'];
+
   scoutsSelected = 0;
 
   // Control flow
@@ -77,6 +86,8 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<ManageMeetingPresenceComponent>,
     private scoutsService: ScoutsService,
+    private sortService: SortService,
+    private searchPipe: SearchPipe,
     private meetingsService: MeetingsService,
     private journeysService: JourneysService,
     private changeDetector: ChangeDetectorRef,
@@ -162,6 +173,9 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
             } as ScoutRowData;
           });
 
+          this.scoutsInitial = this.scouts.slice();
+          this.filterData();
+
           // Initially check those who already has the presence marked
           result.presence.forEach((p) => {
             const scout = this.scouts.find(
@@ -170,6 +184,7 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
             this.presentInitial.push(scout.scoutObject);
             scout.isSelected = true;
           });
+
           this.checkAllSelected();
 
           this.gatherSelected();
@@ -212,13 +227,33 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
     });
     this.gatherSelected();
     this.changeDetector.detectChanges();
-
-    console.log(this.presenceToAdd);
-    console.log(this.presenceToDelete);
   }
 
   gatherSelected(): void {
     this.scoutsSelected = this.scouts.filter((x) => x.isSelected).length;
+  }
+
+  // SORTING
+
+  sortData(sort: Sort): void {
+    this.scouts = this.sortService.sort(this.scoutsInitial, sort);
+    this.filterData();
+  }
+
+  // FILTERING
+
+  onFilterChange(searchPhrase: string): void {
+    this.searchPhrase = searchPhrase;
+    this.filterData();
+  }
+
+  filterData(): void {
+    this.scoutsFiltered = this.searchPipe.transform(
+      this.scouts,
+      this.filterKeys,
+      this.searchPhrase ? this.searchPhrase : ''
+    );
+    this.changeDetector.detectChanges();
   }
 
   // FUNCTIONALITIES
@@ -279,14 +314,14 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
                 this.meeting.meetingId,
                 x.scoutId
               ),
-              requestLabel: 'Dodawanie obecności na wyjeździe',
+              requestLabel: 'requests.add-journey-presence',
             }
           : {
               request: this.journeysService.addJourneyPresence(
                 this.journey.journeyId,
                 x.scoutId
               ),
-              requestLabel: 'Usuwanie obecności na wyjeździe',
+              requestLabel: 'requests.delete-journey-presence',
             }
       );
     });
@@ -300,32 +335,27 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
                 this.meeting.meetingId,
                 x.scoutId
               ),
-              requestLabel: 'Dodawanie obecności na zbiórce',
+              requestLabel: 'requests.add-meeting-presence',
             }
           : {
               request: this.journeysService.deleteJourneyPresence(
                 this.journey.journeyId,
                 x.scoutId
               ),
-              requestLabel: 'Usuwanie obecności na zbiórce',
+              requestLabel: 'requests.delete-meeting-presence',
             }
       );
     });
 
-    new ProgressModal(this.dialog)
-      .open(queue, {
-        successMessage: 'Udało się zaktualizować funkcje harcerza',
-        failureMessage: 'Nie udało się zaktualizować funkcji harcerza',
-      })
-      .then((x) =>
-        x
-          .afterClosed()
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((result) => {
-            if (result === Results.SUCCESS) {
-              this.dialogRef.close(result);
-            }
-          })
-      );
+    new ProgressModal(this.dialog).open(queue).then((x) =>
+      x
+        .afterClosed()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result) => {
+          if (result === Results.SUCCESS) {
+            this.dialogRef.close(result);
+          }
+        })
+    );
   }
 }

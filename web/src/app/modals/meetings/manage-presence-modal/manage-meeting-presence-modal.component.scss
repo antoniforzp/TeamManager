@@ -1,6 +1,10 @@
 .clear-all {
-  background-image: url("../../../../assets/icons/remove.svg");
+  -webkit-appearance: none;
+  margin-bottom: 2px;
+
+  background: url("../../../../assets/icons/clear.svg");
   background-size: contain;
-  height: 20px;
-  width: 20px;
+
+  height: 28px;
+  width: 28px;
 }

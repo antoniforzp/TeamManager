@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/app-material.module';
 import { ManageMeetingPresenceComponent } from './manage-meeting-presence-modal.component';
 import { AppTranslationModule } from 'src/app/translation/app-translation.module';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [ManageMeetingPresenceComponent],
@@ -15,6 +16,7 @@ import { AppTranslationModule } from 'src/app/translation/app-translation.module
     MaterialModule,
     SharedModule,
     AppTranslationModule,
+    MatSortModule,
   ],
 })
 export class ManageMeetingPresenceModalModule {}

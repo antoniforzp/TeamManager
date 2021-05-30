@@ -4,7 +4,7 @@
     </span>
 </div>
 
-<div class="modal-body-max">
+<div class="modal-body modal-body-max">
 
     <ng-container *ngIf="pageLoaded; else loading">
 
@@ -40,28 +40,53 @@
                 </span>
             </div>
 
-            <div class="d-flex mt-2 align-items-center">
-                <span class="mr-2">
-                    <span translate>
-                        meetings-journeys-presence.marked-present
-                    </span> {{scoutsSelected}}</span>
-                <button class="my-icon-button clear-all" (click)="toggleSelectAll(false)"></button>
+            <div class="mt-2 page-header-container">
+                <app-search-box [foundQuantity]="scoutsFiltered.length" [initQuantity]="scoutsInitial.length"
+                    (filterDone)="onFilterChange($event)"></app-search-box>
+
+                <div class="d-flex align-items-center ml-2 mb-n1">
+                    <span class="mr-2">
+                        <span translate>
+                            meetings-journeys-presence.marked-present
+                        </span>
+                    </span>
+
+                    <div class="d-flex flex-row">
+                        <div class="mr-1">
+                            {{scoutsSelected}}
+                        </div>
+                        <div class="mr-1">/</div>
+                        <div *ngIf="scoutsInitial?.length; else noData">
+                            {{scoutsInitial.length}}
+                        </div>
+                    </div>
+
+                    <button class="ml-1 my-icon-button clear-all" (click)="toggleSelectAll(false)"></button>
+                </div>
             </div>
 
             <!-- SCOUTS TABLE -->
-            <div class="mt-1" style="height: 45vh; overflow-y: auto;">
-                <table class="table table-hover">
+            <div class="mt-1" style="height: calc(100vh - 510px); overflow-y: auto;">
+                <table matSort class="table table-hover" (matSortChange)="sortData($event)">
                     <thead class="my-thead">
                         <th class="checkbox-cell">
                             <input type="checkbox" class="cursor-pointer ml-n2" [(ngModel)]="allSelected"
                                 (ngModelChange)="toggleSelectAll($event)">
                         </th>
-                        <th translate>meetings-journeys-presence.name-surname</th>
-                        <th translate>meetings-journeys-presence.patrol</th>
+                        <th mat-sort-header="nameSurname">
+                            <span translate>
+                                meetings-journeys-presence.name-surname
+                            </span>
+                        </th>
+                        <th mat-sort-header="troop">
+                            <span translate>
+                                meetings-journeys-presence.patrol
+                            </span>
+                        </th>
                     </thead>
                     <tbody>
-                        <ng-container *ngIf="scouts.length > 0; else noTableData">
-                            <ng-container *ngFor="let scout of scouts; let i=index">
+                        <ng-container *ngIf="scoutsFiltered.length > 0; else noTableData">
+                            <ng-container *ngFor="let scout of scoutsFiltered; let i=index">
                                 <tr class="cursor-pointer" [ngClass]="{'selected': scout.isSelected}"
                                     (click)="toggleSelected(scout)">
 
@@ -102,4 +127,16 @@
 
 <ng-template #loading>
     <app-page-spinner></app-page-spinner>
+</ng-template>
+
+<ng-template #noData>
+    <span>-</span>
+</ng-template>
+
+<ng-template #noTableData>
+    <tr>
+        <td colspan="3" translate>
+            common.no-data
+        </td>
+    </tr>
 </ng-template>
