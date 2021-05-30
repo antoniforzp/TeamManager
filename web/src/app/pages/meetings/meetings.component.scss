@@ -1,5 +1,8 @@
 .my-page-side-poster {
-  background: url("../../../assets/images/meetings-bg.png");
+  background: url(../../../assets/images/meetings-bg.png) top right no-repeat;
+
+  background-size: 150%;
+  background-position: 20% 55%;
 }
 
 .description-cell {

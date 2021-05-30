@@ -1,5 +1,7 @@
 .my-page-side-poster {
-  background: url("../../../assets/images/troops-bg.png");
+  background: url(../../../assets/images/troops-bg.png) top right no-repeat;
+  background-size: 160%;
+  background-position: 10% 100%;
 }
 
 .icon {
