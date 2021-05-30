@@ -16,11 +16,9 @@
 
                 <!-- TEAMS -->
                 <div class="page-header-container mb-2">
-                    <span>
-                        <span translate>
-                            teams.manage-teams
-                        </span> ({{teams.length}})
-                    </span>
+                    
+                    <app-search-box [foundQuantity]="teamsFiltered.length" [initQuantity]="teamsInitial.length"
+                        (filterDone)="onFilterChange($event)"></app-search-box>
 
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle my-button" type="button"
@@ -54,10 +52,11 @@
                             </th>
                         </thead>
                         <tbody>
-                            <ng-container *ngIf="teams.length > 0; else noTableData">
-                                <ng-container *ngFor="let team of teams;">
+                            <ng-container *ngIf="teamsFiltered.length > 0; else noTableData">
+                                <ng-container *ngFor="let team of teamsFiltered;">
                                     <tr class="cursor-pointer" (click)="toggleSelected(team)"
                                         [ngClass]="{'selected': team.isSelected}">
+
                                         <td class="checkbox-cell">
                                             <input type="checkbox" class="cursor-pointer ml-n2"
                                                 [(ngModel)]="team.isSelected">

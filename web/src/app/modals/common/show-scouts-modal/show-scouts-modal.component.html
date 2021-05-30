@@ -4,7 +4,7 @@
     </span>
 </div>
 
-<div class="modal-body">
+<div class="modal-body modal-body-max">
 
     <ng-container *ngIf="pageLoaded; else loading">
 
@@ -39,7 +39,7 @@
             </div>
 
             <!-- scouts table -->
-            <div class="mt-2" style="max-height: 55vh; overflow-y: auto;">
+            <div class="mt-2" style="height: calc(100vh - 410px); overflow-y: auto;">
                 <table matSort class="table table-hover" (matSortChange)="sortData($event)">
                     <thead class="my-thead">
                         <th class="checkbox-cell">

@@ -13,6 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AddEditTeamModal } from 'src/app/modals/teams/add-edit-team-modal/add-edit-team-modal';
 import { DeleteTeamModal } from 'src/app/modals/teams/delete-team-modal/delete-team-modal';
 import { Team } from 'src/app/model/Team';
+import { SearchPipe } from 'src/app/pipes/search.pipe';
 import { TeamsService } from 'src/app/services/data/teams.service';
 import { SortService } from 'src/app/services/tools/sort.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
@@ -22,6 +23,8 @@ import { Results } from 'src/app/utils/Result';
 interface TeamDataRow {
   name: string;
   patron?: string;
+
+  namePatronSearch: string;
 
   teamObject: Team;
   isSelected: boolean;
@@ -47,15 +50,19 @@ export class TeamsComponent implements OnInit, OnDestroy {
 
   actions = new Map<Actions, DropdownAction>();
 
-  // Selection
   allSelected = false;
 
   teams = [] as TeamDataRow[];
   teamsInitial = [] as TeamDataRow[];
+  teamsFiltered = [] as TeamDataRow[];
+
+  searchPhrase: string;
+  filterKeys = ['namePatronSearch'];
 
   constructor(
     private teamsService: TeamsService,
     private sortService: SortService,
+    private searchPipe: SearchPipe,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
   ) {}
@@ -82,11 +89,14 @@ export class TeamsComponent implements OnInit, OnDestroy {
             return {
               name: x.name,
               patron: x.patron,
+              namePatronSearch: x.name + x.patron,
               isSelected: false,
               teamObject: x,
             } as TeamDataRow;
           });
           this.teamsInitial = this.teams.slice();
+
+          this.filterData();
 
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
@@ -186,5 +196,22 @@ export class TeamsComponent implements OnInit, OnDestroy {
 
   sortData(sort: Sort): void {
     this.teams = this.sortService.sort(this.teamsInitial, sort);
+    this.filterData();
+  }
+
+  // FILTERING
+
+  onFilterChange(searchPhrase: string): void {
+    this.searchPhrase = searchPhrase;
+    this.filterData();
+  }
+
+  filterData(): void {
+    this.teamsFiltered = this.searchPipe.transform(
+      this.teams,
+      this.filterKeys,
+      this.searchPhrase ? this.searchPhrase : ''
+    );
+    this.changeDetector.detectChanges();
   }
 }
