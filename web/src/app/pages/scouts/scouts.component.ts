@@ -42,6 +42,7 @@ interface ScoutRowData {
   instructorRankAbbv: string;
   instructorRankAbbvFilter: string;
   instructorRankLabel: string;
+
   rankName: string;
   rankId: number;
 

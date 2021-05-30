@@ -29,6 +29,8 @@ import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { MeetingInfoModal } from 'src/app/modals/meetings/meeting-info-modal/meeting-info-modal';
 import { SortService } from 'src/app/services/tools/sort.service';
 import { Sort } from '@angular/material/sort';
+import { SearchPipe } from 'src/app/pipes/search.pipe';
+import { TranslateService } from '@ngx-translate/core';
 
 interface MeetingJourneyRowData {
   title: string;
@@ -42,6 +44,7 @@ interface MeetingJourneyRowData {
   isSelected: boolean;
   data?: Meeting | Journey;
   type: MeetingJourneyTypes;
+  typeLabel: string;
 }
 
 enum Actions {
@@ -73,16 +76,29 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
   meetingsJourneysData: MeetingJourneyRowData[] = [];
   meetingsJourneysDataInitial: MeetingJourneyRowData[] = [];
+  meetingsJourneysDataFiltered: MeetingJourneyRowData[] = [];
 
   Types = MeetingJourneyTypes;
 
   actions = new Map<Actions, DropdownAction>();
+
+  searchPhrase: string;
+  filterKeys = [
+    'title',
+    'place',
+    'date',
+    'description',
+    'scoutsPresentQuantity',
+    'typeLabel',
+  ];
 
   constructor(
     private meetingsService: MeetingsService,
     private journeysSerice: JourneysService,
     private scoutsService: ScoutsService,
     private sortService: SortService,
+    private searchPipe: SearchPipe,
+    private translate: TranslateService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
   ) {}
@@ -125,6 +141,8 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
           this.meetingsJourneysDataInitial = this.meetingsJourneysData.slice();
 
+          this.filterData();
+
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
         },
@@ -154,6 +172,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
         description: this.clampDescription(x.description),
 
         type: MeetingJourneyTypes.MEETING,
+        typeLabel: this.setTypeLabel(MeetingJourneyTypes.MEETING),
         data: x,
         isSelected: false,
       } as MeetingJourneyRowData;
@@ -178,10 +197,21 @@ export class MeetingsComponent implements OnInit, OnDestroy {
         description: this.clampDescription(x.description),
 
         type: MeetingJourneyTypes.JOURNEY,
+        typeLabel: this.setTypeLabel(MeetingJourneyTypes.JOURNEY),
         data: x,
         isSelected: false,
       } as MeetingJourneyRowData;
     }));
+  }
+
+  setTypeLabel(type: MeetingJourneyTypes): string {
+    switch (type) {
+      case MeetingJourneyTypes.MEETING:
+        return this.translate.instant('meetings-journeys.meeting');
+      case MeetingJourneyTypes.JOURNEY:
+        return this.translate.instant('meetings-journeys.journey');
+    }
+    return '';
   }
 
   // SELECTION
@@ -212,6 +242,23 @@ export class MeetingsComponent implements OnInit, OnDestroy {
       this.meetingsJourneysDataInitial,
       sort
     );
+    this.filterData();
+  }
+
+  // FILTERING
+
+  onFilterChange(searchPhrase: string): void {
+    this.searchPhrase = searchPhrase;
+    this.filterData();
+  }
+
+  filterData(): void {
+    this.meetingsJourneysDataFiltered = this.searchPipe.transform(
+      this.meetingsJourneysData,
+      this.filterKeys,
+      this.searchPhrase ? this.searchPhrase : ''
+    );
+    this.changeDetector.detectChanges();
   }
 
   // ACTIONS FACTORY

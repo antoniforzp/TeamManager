@@ -17,11 +17,10 @@
 
                 <!-- TEAMS -->
                 <div class="page-header-container mb-2">
-                    <span>
-                        <span translate>
-                            meetings-journeys.manage
-                        </span> ({{meetingsJourneysData.length}})
-                    </span>
+
+                    <app-search-box [foundQuantity]="meetingsJourneysDataFiltered.length"
+                        [initQuantity]="meetingsJourneysDataInitial.length" (filterDone)="onFilterChange($event)">
+                    </app-search-box>
 
 
                     <div class="dropdown">
@@ -85,8 +84,8 @@
                             </th>
                         </thead>
                         <tbody>
-                            <ng-container *ngIf="meetingsJourneysData.length > 0; else noTableData">
-                                <ng-container *ngFor="let row of meetingsJourneysData;">
+                            <ng-container *ngIf="meetingsJourneysDataFiltered.length > 0; else noTableData">
+                                <ng-container *ngFor="let row of meetingsJourneysDataFiltered;">
                                     <tr class="cursor-pointer" (click)="toggleSelected(row)"
                                         [ngClass]="{'selected': row.isSelected}">
                                         <td class="checkbox-cell">
@@ -94,11 +93,9 @@
                                                 [(ngModel)]="row.isSelected">
                                         </td>
                                         <td>
-                                            <span *ngIf="row.type === Types.MEETING" class="meeting" translate>
-                                                meetings-journeys.meeting
-                                            </span>
-                                            <span *ngIf="row.type === Types.JOURNEY" class="journey" translate>
-                                                meetings-journeys.journey
+                                            <span
+                                                [ngClass]="{'journey': row.type === Types.JOURNEY, 'meeting': row.type === Types.MEETING}">
+                                                {{row.typeLabel}}
                                             </span>
                                         </td>
                                         <td>
@@ -171,7 +168,7 @@
 
 <ng-template #noTableData>
     <tr>
-        <td colspan="6" translate>
+        <td colspan="7" translate>
             common.no-data
         </td>
     </tr>
