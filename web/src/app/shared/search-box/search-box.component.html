@@ -1,0 +1,21 @@
+<div class="mr-2">
+    <div class="d-flex align-items-center">
+        <div>
+            <input id="search" type="search" [(ngModel)]="searchPhrase" (ngModelChange)="filter($event)"
+                class="form-control icon-inside" [placeholder]="'Search' | translate" />
+        </div>
+        <div class="d-flex align-items-center ml-2 mb-n1">
+            <div class="mr-1">
+                {{foundQuantity}}
+            </div>
+            <div class="mr-1">/</div>
+            <div *ngIf="initQuantity; else noData">
+                {{initQuantity}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #noData>
+    <span>-</span>
+</ng-template>

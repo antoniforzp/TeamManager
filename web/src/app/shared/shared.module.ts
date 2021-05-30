@@ -8,14 +8,18 @@ import { PageSpinnerComponent } from './page-spinner/page-spinner.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppTranslationModule } from '../translation/app-translation.module';
+import { SearchBoxComponent } from './search-box/search-box.component';
+import { SearchPipe } from '../pipes/search.pipe';
 
 @NgModule({
+  providers: [SearchPipe],
   declarations: [
     ErrorComponent,
     FooterComponent,
     MenuComponent,
     PageHeaderComponent,
     PageSpinnerComponent,
+    SearchBoxComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +34,7 @@ import { AppTranslationModule } from '../translation/app-translation.module';
     MenuComponent,
     PageHeaderComponent,
     PageSpinnerComponent,
+    SearchBoxComponent,
   ],
 })
 export class SharedModule {}

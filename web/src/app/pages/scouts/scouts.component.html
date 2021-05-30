@@ -18,11 +18,9 @@
 
                 <!-- SCOUTS -->
                 <div class="mb-2 page-header-container">
-                    <span>
-                        <span translate>
-                            scouts.manage-scouts
-                        </span> ({{scouts.length}})
-                    </span>
+
+                    <app-search-box [foundQuantity]="scoutsFiltered.length" [initQuantity]="scoutsInitial.length"
+                        (filterDone)="onFilterChange($event)"></app-search-box>
 
                     <div class="d-flex">
                         <button type="button" class="my-icon-button icon mr-2" (click)="openRanksInfoModal()">
@@ -76,8 +74,8 @@
                             </th>
                         </thead>
                         <tbody>
-                            <ng-container *ngIf="scouts.length > 0; else noTableData">
-                                <ng-container *ngFor="let scout of scouts; let i=index">
+                            <ng-container *ngIf="scoutsFiltered.length > 0; else noTableData">
+                                <ng-container *ngFor="let scout of scoutsFiltered; let i=index">
                                     <tr class="cursor-pointer" [ngClass]="{'selected': scout.isSelected}"
                                         (click)="toggleSelected(scout)">
 
@@ -136,6 +134,10 @@
 
 <ng-template #loading>
     <app-page-spinner></app-page-spinner>
+</ng-template>
+
+<ng-template #noData>
+    <span>-</span>
 </ng-template>
 
 <ng-template #noTableData>

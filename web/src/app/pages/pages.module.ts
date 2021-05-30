@@ -16,9 +16,10 @@ import { AppTranslationModule } from '../translation/app-translation.module';
 import { TeamInfoComponent } from './home/team-info/team-info.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { SearchPipe } from '../pipes/search.pipe';
 
 @NgModule({
+  providers: [SearchPipe],
   declarations: [
     AddUserComponent,
     EditUserComponent,

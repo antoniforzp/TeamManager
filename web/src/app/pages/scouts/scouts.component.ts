@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
+import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AddEditScoutModal } from 'src/app/modals/scouts/add-edit-scout-modal/add-edit-scout-modal';
@@ -19,6 +20,7 @@ import { ScoutInfoModal } from 'src/app/modals/scouts/scout-info-modal/scout-inf
 import { Role } from 'src/app/model/Role';
 
 import { Scout } from 'src/app/model/Scout';
+import { SearchPipe } from 'src/app/pipes/search.pipe';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { SortService } from 'src/app/services/tools/sort.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
@@ -30,12 +32,15 @@ interface RoleDisplay {
   name: string;
   label: string;
 }
+
 interface ScoutRowData {
   nameSurname: string;
   troop: string;
   roles: RoleDisplay[];
 
+  instructorRankName: string;
   instructorRankAbbv: string;
+  instructorRankAbbvFilter: string;
   instructorRankLabel: string;
   rankName: string;
   rankId: number;
@@ -43,6 +48,7 @@ interface ScoutRowData {
   isSelected: boolean;
   scoutObject: Scout;
   rolesList: Role[];
+  rolesSquashed: string;
 }
 
 enum Actions {
@@ -62,18 +68,30 @@ export class ScoutsComponent implements OnInit, OnDestroy {
   AppRoutes = AppRoutes;
   destroy$ = new Subject();
   pageLoaded = false;
-
   pageError: HttpErrorResponse;
 
   allSelected = false;
+
   scouts = [] as ScoutRowData[];
   scoutsInitial = [] as ScoutRowData[];
+  scoutsFiltered = [] as ScoutRowData[];
+
+  searchPhrase: string;
+  filterKeys = [
+    'nameSurname',
+    'troop',
+    'rankName',
+    'instructorRankAbbvFilter',
+    'rolesSquashed',
+  ];
 
   actions = new Map<Actions, DropdownAction>();
 
   constructor(
     private scoutsService: ScoutsService,
     private sortService: SortService,
+    private searchPipe: SearchPipe,
+    private translate: TranslateService,
     private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef
   ) {}
@@ -100,21 +118,35 @@ export class ScoutsComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         map((x) => {
           const rows = [] as ScoutRowData[];
-          x.scouts.forEach((scout) =>
+          x.scouts.forEach((scout) => {
+            const scoutRoles = x.roles.filter(
+              (r) => r.scoutId === scout.scoutId
+            );
+
+            const rolesDisplay = x.roles
+              .filter((r) => r.scoutId === scout.scoutId)
+              .map((r1) => {
+                return {
+                  roleId: r1.roleId,
+                  name: r1.name,
+                  label: `role-${r1.roleId}`,
+                } as RoleDisplay;
+              });
+
+            const iRankAbbriv =
+              scout.irank?.rankId !== 1 ? scout.irank?.abbreviation : '';
+
+            const iRankAbbrivFilter = scout.irank?.abbreviation
+              ? this.translate.instant(scout.irank?.abbreviation)
+              : '';
+
             rows.push({
               nameSurname: scout.name + ' ' + scout.surname,
               troop: scout.patrol.name,
-              roles: x.roles
-                .filter((r) => r.scoutId === scout.scoutId)
-                .map((r1) => {
-                  return {
-                    roleId: r1.roleId,
-                    name: r1.name,
-                    label: `role-${r1.roleId}`,
-                  } as RoleDisplay;
-                }),
-              instructorRankAbbv:
-                scout.irank?.rankId !== 1 ? scout.irank?.abbreviation : '',
+              roles: rolesDisplay,
+              instructorRankName: scout.irank?.name,
+              instructorRankAbbv: iRankAbbriv,
+              instructorRankAbbvFilter: iRankAbbrivFilter,
               instructorRankLabel: scout.irank?.rankId
                 ? `instructor-rank-${scout.irank.rankId}`
                 : null,
@@ -123,9 +155,10 @@ export class ScoutsComponent implements OnInit, OnDestroy {
 
               isSelected: false,
               scoutObject: scout,
-              rolesList: x.roles.filter((r) => r.scoutId === scout.scoutId),
-            })
-          );
+              rolesList: scoutRoles,
+              rolesSquashed: this.squashedRoleNames(scoutRoles),
+            });
+          });
           return rows;
         })
       )
@@ -133,6 +166,8 @@ export class ScoutsComponent implements OnInit, OnDestroy {
         next: (result) => {
           this.scouts = result;
           this.scoutsInitial = this.scouts.slice();
+
+          this.filterData();
 
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
@@ -143,6 +178,14 @@ export class ScoutsComponent implements OnInit, OnDestroy {
           this.changeDetector.detectChanges();
         },
       });
+  }
+
+  squashedRoleNames(roles: Role[]): string {
+    let squashed = '';
+    roles.forEach((x) => {
+      squashed = squashed.concat(this.translate.instant(x.name)) + ' ';
+    });
+    return squashed;
   }
 
   // SELECTION
@@ -169,6 +212,23 @@ export class ScoutsComponent implements OnInit, OnDestroy {
 
   sortData(sort: Sort): void {
     this.scouts = this.sortService.sort(this.scoutsInitial, sort);
+    this.filterData();
+  }
+
+  // FILTERING
+
+  onFilterChange(searchPhrase: string): void {
+    this.searchPhrase = searchPhrase;
+    this.filterData();
+  }
+
+  filterData(): void {
+    this.scoutsFiltered = this.searchPipe.transform(
+      this.scouts,
+      this.filterKeys,
+      this.searchPhrase ? this.searchPhrase : ''
+    );
+    this.changeDetector.detectChanges();
   }
 
   // ACTION FACTORY
