@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Settings } from 'src/app/model/Settings';
+import { Settings } from 'src/app/model/data/Settings';
 import { AppSettingsService } from './app-settings.service';
 import { AppStateService } from './app-state.service';
 
@@ -22,9 +22,7 @@ export class AppInitService {
     return this.appSettingsService.initSetttings();
   }
 
-  public initLanguageFromLogin(
-    langAbbreviation: string
-  ): Observable<boolean> {
+  public initLanguageFromLogin(langAbbreviation: string): Observable<boolean> {
     return this.appSettingsService.patchLanguage(langAbbreviation);
   }
 }

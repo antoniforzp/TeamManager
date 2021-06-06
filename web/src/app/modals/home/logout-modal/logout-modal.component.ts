@@ -13,7 +13,7 @@ export class LogoutModalComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<LogoutModalComponent>,
     private appSettingsService: AppSettingsService,
-    private appThemeService: AppThemeService
+    private appThemeService: AppThemeService,
   ) {}
 
   ngOnInit(): void {}

@@ -30,14 +30,16 @@ export class AppComponent implements OnInit, OnDestroy {
     // Keep application state on refresh
     this.router.events.pipe(takeUntil(this.$destroy)).subscribe({
       next: (x) => {
-        const lang = this.appStateSerivce.language;
-        if (lang) {
-          this.translate.use(lang);
-        }
+        if (x instanceof NavigationEnd) {
+          const lang = this.appStateSerivce.language;
+          if (lang) {
+            this.translate.use(lang);
+          }
 
-        const themeId = this.appStateSerivce.theme;
-        if (themeId) {
-          this.appThemeService.setThemeById(themeId);
+          const themeId = this.appStateSerivce.theme;
+          if (themeId) {
+            this.appThemeService.setThemeById(themeId);
+          }
         }
       },
     });

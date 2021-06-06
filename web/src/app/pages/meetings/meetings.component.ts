@@ -16,10 +16,7 @@ import { DeleteMeetingModal } from 'src/app/modals/meetings/delete-meeting-modal
 import { ExportCsvMeetingJourneyModal } from 'src/app/modals/meetings/export-csv-meeting-journey-modal/export-csv-meeting-journey-modal';
 import { ManageMeetingPresenceModal } from 'src/app/modals/meetings/manage-presence-modal/manage-meeting-presence-modal';
 import { Modes } from 'src/app/modals/meetings/manage-presence-modal/manage-meeting-presence-modal.component';
-import { Journey, JourneyPresence } from 'src/app/model/Journey';
-import { Meeting, MeetingPresence } from 'src/app/model/Meeting';
-import { Scout } from 'src/app/model/Scout';
-import { MeetingJourneyTypes } from 'src/app/model/Indicators';
+import { MeetingJourneyTypes } from 'src/app/model/data/Indicators';
 import { DropdownAction } from 'src/app/utils/DropdownAction';
 import { Results } from 'src/app/utils/Result';
 import { JourneysService } from 'src/app/services/data/journeys.service';
@@ -31,6 +28,9 @@ import { SortService } from 'src/app/services/tools/sort.service';
 import { Sort } from '@angular/material/sort';
 import { SearchPipe } from 'src/app/pipes/search.pipe';
 import { TranslateService } from '@ngx-translate/core';
+import { Journey, JourneyPresence } from 'src/app/model/data/Journey';
+import { Meeting, MeetingPresence } from 'src/app/model/data/Meeting';
+import { Scout } from 'src/app/model/data/Scout';
 
 interface MeetingJourneyRowData {
   title: string;
@@ -211,7 +211,6 @@ export class MeetingsComponent implements OnInit, OnDestroy {
       case MeetingJourneyTypes.JOURNEY:
         return this.translate.instant('meetings-journeys.journey');
     }
-    return '';
   }
 
   // SELECTION

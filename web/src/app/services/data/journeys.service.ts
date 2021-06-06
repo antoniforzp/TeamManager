@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Journey, JourneyPresence } from 'src/app/model/Journey';
+import { Observable, throwError } from 'rxjs';
+import { Journey, JourneyPresence } from 'src/app/model/data/Journey';
 import { RestService, REST } from 'src/app/web/rest.service';
 import { AppStateService } from '../core/app-state.service';
 
@@ -18,67 +18,104 @@ export interface JourneyPayload {
 export class JourneysService {
   constructor(private rest: RestService, private app: AppStateService) {}
 
-  addJourney(journey: JourneyPayload): Observable<boolean> {
-    return this.rest.resolve<boolean>({
-      method: REST.POST,
-      url: `/api/${this.app.userId}/team/${this.app.userId}/journeys`,
-      body: journey,
-    });
+  public addJourney(journey: JourneyPayload): Observable<boolean> {
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.POST,
+        url: `/api/${this.app.userId}/team/${this.app.userId}/journeys`,
+        body: journey,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  addJourneyPresence(journeyId: number, scoutId: number): Observable<boolean> {
-    return this.rest.resolve<boolean>({
-      method: REST.POST,
-      url: `/api/${this.app.userId}/journeys/${journeyId}/scouts/${scoutId}`,
-    });
-  }
-
-  getJourneys(): Observable<Journey[]> {
-    return this.rest.resolve<Journey[]>({
-      method: REST.GET,
-      url: `/api/${this.app.userId}/team/${this.app.teamId}/journeys`,
-    });
-  }
-
-  getJourneysPresence(): Observable<JourneyPresence[]> {
-    return this.rest.resolve<JourneyPresence[]>({
-      method: REST.GET,
-      url: `/api/${this.app.userId}/team/${this.app.teamId}/journeys/presence`,
-    });
-  }
-
-  getJourneysPresenceById(journeyId: number): Observable<JourneyPresence[]> {
-    return this.rest.resolve<JourneyPresence[]>({
-      method: REST.GET,
-      url: `/api/${this.app.userId}/journeys/${journeyId}/presence`,
-    });
-  }
-
-  patchJourney(
-    journeyId: number,
-    journey: JourneyPayload
-  ): Observable<boolean> {
-    return this.rest.resolve<boolean>({
-      method: REST.PATCH,
-      url: `/api/${this.app.userId}/journeys/${journeyId}`,
-      body: journey,
-    });
-  }
-
-  deleteJourney(journeyId: number): Observable<boolean> {
-    return this.rest.resolve<boolean>({
-      method: REST.DELETE,
-      url: `/api/${this.app.userId}/journeys/${journeyId}`,
-    });
-  }
-
-  deleteJourneyPresence(
+  public addJourneyPresence(
     journeyId: number,
     scoutId: number
   ): Observable<boolean> {
-    return this.rest.resolve<boolean>({
-      method: REST.DELETE,
-      url: `/api/${this.app.userId}/journeys/${journeyId}/scouts${scoutId}`,
-    });
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.POST,
+        url: `/api/${this.app.userId}/journeys/${journeyId}/scouts/${scoutId}`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  public getJourneys(): Observable<Journey[]> {
+    try {
+      return this.rest.resolve<Journey[]>({
+        method: REST.GET,
+        url: `/api/${this.app.userId}/team/${this.app.teamId}/journeys`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  public getJourneysPresence(): Observable<JourneyPresence[]> {
+    try {
+      return this.rest.resolve<JourneyPresence[]>({
+        method: REST.GET,
+        url: `/api/${this.app.userId}/team/${this.app.teamId}/journeys/presence`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  public getJourneysPresenceById(
+    journeyId: number
+  ): Observable<JourneyPresence[]> {
+    try {
+      return this.rest.resolve<JourneyPresence[]>({
+        method: REST.GET,
+        url: `/api/${this.app.userId}/journeys/${journeyId}/presence`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  public patchJourney(
+    journeyId: number,
+    journey: JourneyPayload
+  ): Observable<boolean> {
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.PATCH,
+        url: `/api/${this.app.userId}/journeys/${journeyId}`,
+        body: journey,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  public deleteJourney(journeyId: number): Observable<boolean> {
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.DELETE,
+        url: `/api/${this.app.userId}/journeys/${journeyId}`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  public deleteJourneyPresence(
+    journeyId: number,
+    scoutId: number
+  ): Observable<boolean> {
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.DELETE,
+        url: `/api/${this.app.userId}/journeys/${journeyId}/scouts${scoutId}`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 }

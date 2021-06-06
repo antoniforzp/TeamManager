@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Settings } from 'src/app/model/Settings';
+import { Settings } from 'src/app/model/data/Settings';
 import { SettingsService } from '../data/settings.service';
 import { AppStateService } from './app-state.service';
 
@@ -48,7 +48,7 @@ export class AppSettingsService {
   }
 
   clearOnLogout(): Observable<boolean> {
-    this.appStateService.clearAll();
+    this.appStateService.clearAllClearable();
     return of(true);
   }
 }

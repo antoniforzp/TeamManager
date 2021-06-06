@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Role } from 'src/app/model/Role';
-import { Scout } from 'src/app/model/Scout';
+import { Observable, throwError } from 'rxjs';
+import { Role } from 'src/app/model/data/Role';
+import { Scout } from 'src/app/model/data/Scout';
 import { REST, RestService } from 'src/app/web/rest.service';
 import { AppStateService } from '../core/app-state.service';
 
@@ -25,68 +25,107 @@ export interface ScoutPayload {
 export class ScoutsService {
   constructor(private rest: RestService, private app: AppStateService) {}
 
-  getScouts(): Observable<Scout[]> {
-    return this.rest.resolve<Scout[]>({
-      method: REST.GET,
-      url: `/api/${this.app.userId}/team/${this.app.teamId}/scouts`,
-    });
+  public getScouts(): Observable<Scout[]> {
+    try {
+      return this.rest.resolve<Scout[]>({
+        method: REST.GET,
+        url: `/api/${this.app.userId}/team/${this.app.teamId}/scouts`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  addRole(scoutId: number, roleId: number): Observable<boolean> {
-    return this.rest.resolve<boolean>({
-      method: REST.POST,
-      url: `/api/${this.app.userId}/scouts/${scoutId}/roles/${roleId}`,
-    });
+  public addRole(scoutId: number, roleId: number): Observable<boolean> {
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.POST,
+        url: `/api/${this.app.userId}/scouts/${scoutId}/roles/${roleId}`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  getRoles(scoutId: number): Observable<Role[]> {
-    return this.rest.resolve<Role[]>({
-      method: REST.GET,
-      url: `/api/${this.app.userId}/scouts/${scoutId}/roles`,
-    });
+  public getRoles(scoutId: number): Observable<Role[]> {
+    try {
+      return this.rest.resolve<Role[]>({
+        method: REST.GET,
+        url: `/api/${this.app.userId}/scouts/${scoutId}/roles`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  getAllRoles(): Observable<Role[]> {
-    return this.rest.resolve<Role[]>({
-      method: REST.GET,
-      url: `/api/${this.app.userId}/team/${this.app.teamId}/scouts/roles`,
-    });
+  public getAllRoles(): Observable<Role[]> {
+    try {
+      return this.rest.resolve<Role[]>({
+        method: REST.GET,
+        url: `/api/${this.app.userId}/team/${this.app.teamId}/scouts/roles`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  addScout(scoutPayload: ScoutPayload): Observable<boolean> {
-    return this.rest.resolve<boolean>({
-      method: REST.POST,
-      url: `/api/${this.app.userId}/team/${this.app.teamId}/scouts`,
-      body: scoutPayload,
-    });
+  public addScout(scoutPayload: ScoutPayload): Observable<boolean> {
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.POST,
+        url: `/api/${this.app.userId}/team/${this.app.teamId}/scouts`,
+        body: scoutPayload,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  getScout(scoutId: number): Observable<Scout> {
-    return this.rest.resolve<Scout>({
-      method: REST.GET,
-      url: `/api/${this.app.userId}/scouts/${scoutId}`,
-    });
+  public getScout(scoutId: number): Observable<Scout> {
+    try {
+      return this.rest.resolve<Scout>({
+        method: REST.GET,
+        url: `/api/${this.app.userId}/scouts/${scoutId}`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  patchScout(scoutId: number, scoutPayload: ScoutPayload): Observable<boolean> {
-    return this.rest.resolve<boolean>({
-      method: REST.PATCH,
-      url: `/api/${this.app.userId}/scouts/${scoutId}`,
-      body: scoutPayload,
-    });
+  public patchScout(
+    scoutId: number,
+    scoutPayload: ScoutPayload
+  ): Observable<boolean> {
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.PATCH,
+        url: `/api/${this.app.userId}/scouts/${scoutId}`,
+        body: scoutPayload,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  deleteScout(scoutId: number): Observable<boolean> {
-    return this.rest.resolve<boolean>({
-      method: REST.DELETE,
-      url: `/api/${this.app.userId}/scouts/${scoutId}`,
-    });
+  public deleteScout(scoutId: number): Observable<boolean> {
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.DELETE,
+        url: `/api/${this.app.userId}/scouts/${scoutId}`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  deleteRole(scoutId: number, roleId: number): Observable<boolean> {
-    return this.rest.resolve<boolean>({
-      method: REST.DELETE,
-      url: `/api/${this.app.userId}/scouts/${scoutId}/roles/${roleId}`,
-    });
+  public deleteRole(scoutId: number, roleId: number): Observable<boolean> {
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.DELETE,
+        url: `/api/${this.app.userId}/scouts/${scoutId}/roles/${roleId}`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 }

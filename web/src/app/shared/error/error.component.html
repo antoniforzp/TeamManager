@@ -5,14 +5,14 @@
         <h2>Wystąpił błąd!</h2>
     </div>
 
-    <div *ngIf="error?.name" class="mb-3 text-center">
+    <div *ngIf="errorName" class="mb-3 text-center">
         <h5>Nazwa błędu</h5>
-        <span>{{error.name}}</span>
+        <span>{{errorName}}</span>
     </div>
 
-    <div *ngIf="error?.message" class="mb-3 text-center">
+    <div *ngIf="errorMessage" class="mb-3 text-center">
         <h5>Treść błędu</h5>
-        <span>{{error.message}}</span>
+        <span>{{errorMessage}}</span>
     </div>
 
 </div>

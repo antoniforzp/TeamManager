@@ -17,10 +17,10 @@ import { AppStateService } from 'src/app/services/core/app-state.service';
 import { SettingsService } from 'src/app/services/data/settings.service';
 import { of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Language } from 'src/app/model/Language';
 import { defaultLanguage } from 'src/app/translation/translation-config';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AppInitService } from 'src/app/services/core/app-init.service';
+import { Language } from 'src/app/model/data/Language';
 
 @Component({
   templateUrl: './login.component.html',
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
     this.changeDetector.detectChanges();
 
     this.settingsService
-      .getLanguages()
+      .getLanguagesNoUser()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (x) => {

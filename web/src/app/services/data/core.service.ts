@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Team } from 'src/app/model/Team';
-import { User } from 'src/app/model/User';
+import { Observable, of, throwError } from 'rxjs';
+import { Team } from 'src/app/model/data/Team';
+import { User } from 'src/app/model/data/User';
 import { REST, RestService } from '../../web/rest.service';
 import { AppStateService } from '../core/app-state.service';
 
@@ -11,29 +11,45 @@ import { AppStateService } from '../core/app-state.service';
 export class CoreService {
   constructor(private rest: RestService, private app: AppStateService) {}
 
-  getCurrentUser(): Observable<User> {
-    return this.rest.resolve<User>({
-      method: REST.GET,
-      url: `/api/${this.app.userId}/users`,
-    });
+  public getCurrentUser(): Observable<User> {
+    try {
+      return this.rest.resolve<User>({
+        method: REST.GET,
+        url: `/api/${this.app.userId}/users`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  getCurrentTeam(): Observable<Team> {
-    return this.rest.resolve<Team>({
-      method: REST.GET,
-      url: `/api/${this.app.userId}/teams/${this.app.teamId}`,
-    });
+  public getCurrentTeam(): Observable<Team> {
+    try {
+      return this.rest.resolve<Team>({
+        method: REST.GET,
+        url: `/api/${this.app.userId}/teams/${this.app.teamId}`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  getCurrentUserTeams(): Observable<Team[]> {
-    return this.rest.resolve<Team[]>({
-      method: REST.GET,
-      url: `/api/${this.app.userId}/teams`,
-    });
+  public getCurrentUserTeams(): Observable<Team[]> {
+    try {
+      return this.rest.resolve<Team[]>({
+        method: REST.GET,
+        url: `/api/${this.app.userId}/teams`,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
-  setCurrentTeam(teamId: number): Observable<boolean> {
-    this.app.storeCurrentTeamId(teamId);
-    return of(true);
+  public setCurrentTeam(teamId: number): Observable<boolean> {
+    try {
+      this.app.storeCurrentTeamId(teamId);
+      return of(true);
+    } catch (error) {
+      return throwError(error);
+    }
   }
 }
