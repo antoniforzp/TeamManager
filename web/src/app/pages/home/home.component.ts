@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { Team } from 'src/app/model/Team';
-import { User } from 'src/app/model/User';
+import { Team } from 'src/app/model/data/Team';
+import { User } from 'src/app/model/data/User';
 import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
 import { HomeReloadService } from 'src/app/services/tools/home-reload.service';
 import { checkIfBlank } from 'src/app/utils/FormsUtils';

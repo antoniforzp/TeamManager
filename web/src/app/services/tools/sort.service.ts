@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { Role } from 'src/app/model/Role';
+import { Role } from 'src/app/model/data/Role';
 
 @Injectable({
   providedIn: 'root',

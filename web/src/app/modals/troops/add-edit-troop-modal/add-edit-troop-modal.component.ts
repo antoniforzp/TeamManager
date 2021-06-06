@@ -18,7 +18,7 @@ import {
 } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Patrol } from 'src/app/model/Patrol';
+import { Patrol } from 'src/app/model/data/Patrol';
 import { PatrolsService } from 'src/app/services/data/patrols.service';
 import { Results as Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';

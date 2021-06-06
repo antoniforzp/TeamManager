@@ -8,8 +8,8 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
-import { Role } from 'src/app/model/Role';
-import { Scout } from 'src/app/model/Scout';
+import { Role } from 'src/app/model/data/Role';
+import { Scout } from 'src/app/model/data/Scout';
 import { CSVExporter, ScoutCsvPayload } from 'src/app/utils/CSVExporter';
 import { Results } from 'src/app/utils/Result';
 

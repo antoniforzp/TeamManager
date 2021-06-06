@@ -1,6 +1,6 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Role } from 'src/app/model/Role';
-import { Scout } from 'src/app/model/Scout';
+import { Role } from 'src/app/model/data/Role';
+import { Scout } from 'src/app/model/data/Scout';
 import { ModalWidths } from '../../Modals-def';
 import {
   ExportCsvScoutModalComponent,

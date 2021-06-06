@@ -12,15 +12,15 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Scout } from 'src/app/model/Scout';
-import { Patrol } from 'src/app/model/Patrol';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { PatrolsService } from 'src/app/services/data/patrols.service';
 import { Results } from 'src/app/utils/Result';
 import { EntryRequestData } from '../../common/progress-modal/progress-modal.component';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
+import { Patrol } from 'src/app/model/data/Patrol';
+import { Scout } from 'src/app/model/data/Scout';
 
 export interface DeleteTroopModalComponentEntry {
   troops: Patrol[];

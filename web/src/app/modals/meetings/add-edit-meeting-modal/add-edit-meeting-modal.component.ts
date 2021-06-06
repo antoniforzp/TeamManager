@@ -18,7 +18,7 @@ import {
 } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Meeting } from 'src/app/model/Meeting';
+import { Meeting } from 'src/app/model/data/Meeting';
 import { MeetingsService } from 'src/app/services/data/meetings.service';
 import { Results as Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';

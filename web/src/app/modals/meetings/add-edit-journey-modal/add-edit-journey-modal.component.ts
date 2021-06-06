@@ -18,7 +18,7 @@ import {
 } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Journey } from 'src/app/model/Journey';
+import { Journey } from 'src/app/model/data/Journey';
 import { JourneysService } from 'src/app/services/data/journeys.service';
 import { Results as Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';

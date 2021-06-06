@@ -1,5 +1,5 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Team } from 'src/app/model/Team';
+import { Team } from 'src/app/model/data/Team';
 import { ModalWidths } from '../../Modals-def';
 import {
   DeleteTeamModalComponent,

@@ -1,5 +1,5 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Meeting } from 'src/app/model/Meeting';
+import { Meeting } from 'src/app/model/data/Meeting';
 import { ModalModes, ModalWidths } from '../../Modals-def';
 import {
   AddEditMeetingModalComponent,

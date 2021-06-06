@@ -1,6 +1,5 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Team } from 'src/app/model/Team';
-import { Patrol } from 'src/app/model/Patrol';
+import { Patrol } from 'src/app/model/data/Patrol';
 import { ModalWidths } from '../../Modals-def';
 import {
   DeleteTroopModalComponent,

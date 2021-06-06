@@ -20,11 +20,6 @@ import {
 } from '@angular/material/dialog';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { IRank } from 'src/app/model/IRank';
-import { Rank } from 'src/app/model/Rank';
-import { Role } from 'src/app/model/Role';
-import { Scout } from 'src/app/model/Scout';
-import { Patrol } from 'src/app/model/Patrol';
 import { RanksService } from 'src/app/services/data/ranks.service';
 import { RolesService } from 'src/app/services/data/roles.service';
 import {
@@ -36,6 +31,11 @@ import { RegexPatterns } from 'src/app/utils/PatternsDefs';
 import { Results as Results } from 'src/app/utils/Result';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 import { ModalModes } from '../../Modals-def';
+import { IRank } from 'src/app/model/data/IRank';
+import { Patrol } from 'src/app/model/data/Patrol';
+import { Rank } from 'src/app/model/data/Rank';
+import { Role } from 'src/app/model/data/Role';
+import { Scout } from 'src/app/model/data/Scout';
 
 export interface AddEditScoutModalComponentEntry {
   mode: ModalModes;

@@ -12,9 +12,6 @@ import { takeUntil } from 'rxjs/operators';
 import { ShowScoutsModal } from 'src/app/modals/common/show-scouts-modal/show-scouts-modal';
 import { AddEditTroopModal } from 'src/app/modals/troops/add-edit-troop-modal/add-edit-troop-modal';
 import { DeleteTroopModal } from 'src/app/modals/troops/delete-troop-modal/delete-troop-modal';
-import { Role } from 'src/app/model/Role';
-import { Scout } from 'src/app/model/Scout';
-import { Patrol } from 'src/app/model/Patrol';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { PatrolsService } from 'src/app/services/data/patrols.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
@@ -25,6 +22,9 @@ import { Sort } from '@angular/material/sort';
 import { SortService } from 'src/app/services/tools/sort.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchPipe } from 'src/app/pipes/search.pipe';
+import { Patrol } from 'src/app/model/data/Patrol';
+import { Role } from 'src/app/model/data/Role';
+import { Scout } from 'src/app/model/data/Scout';
 
 interface LeaderDisplay {
   scout: Scout;

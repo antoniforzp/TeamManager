@@ -1,6 +1,5 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Scout } from 'src/app/model/Scout';
-import { Team } from 'src/app/model/Team';
+import { Scout } from 'src/app/model/data/Scout';
 import { ModalModes, ModalWidths } from '../../Modals-def';
 import {
   AddEditScoutModalComponent,

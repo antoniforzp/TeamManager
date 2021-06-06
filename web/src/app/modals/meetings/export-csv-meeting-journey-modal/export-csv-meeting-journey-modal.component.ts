@@ -7,8 +7,8 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
-import { Journey } from 'src/app/model/Journey';
-import { Meeting } from 'src/app/model/Meeting';
+import { Journey } from 'src/app/model/data/Journey';
+import { Meeting } from 'src/app/model/data/Meeting';
 import {
   CSVExporter,
   MeetingJourneyCsvPayload,

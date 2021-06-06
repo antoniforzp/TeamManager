@@ -8,8 +8,8 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { IRank } from 'src/app/model/IRank';
-import { Rank } from 'src/app/model/Rank';
+import { IRank } from 'src/app/model/data/IRank';
+import { Rank } from 'src/app/model/data/Rank';
 import { RanksService } from 'src/app/services/data/ranks.service';
 import { Results } from 'src/app/utils/Result';
 

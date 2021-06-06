@@ -1,5 +1,5 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Journey } from 'src/app/model/Journey';
+import { Journey } from 'src/app/model/data/Journey';
 import { ModalModes, ModalWidths } from '../../Modals-def';
 import {
   AddEditJourneyModalComponent,

@@ -4,9 +4,9 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Team } from 'src/app/model/Team';
+import { Team } from 'src/app/model/data/Team';
 import { TeamsService } from 'src/app/services/data/teams.service';
 import { Results } from 'src/app/utils/Result';
 import { EntryRequestData } from '../../common/progress-modal/progress-modal.component';

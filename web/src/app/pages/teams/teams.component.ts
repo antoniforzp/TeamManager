@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditTeamModal } from 'src/app/modals/teams/add-edit-team-modal/add-edit-team-modal';
 import { DeleteTeamModal } from 'src/app/modals/teams/delete-team-modal/delete-team-modal';
-import { Team } from 'src/app/model/Team';
+import { Team } from 'src/app/model/data/Team';
 import { SearchPipe } from 'src/app/pipes/search.pipe';
 import { TeamsService } from 'src/app/services/data/teams.service';
 import { SortService } from 'src/app/services/tools/sort.service';

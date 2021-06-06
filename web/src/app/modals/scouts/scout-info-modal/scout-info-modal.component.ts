@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Role } from 'src/app/model/Role';
-import { Scout } from 'src/app/model/Scout';
+import { Role } from 'src/app/model/data/Role';
+import { Scout } from 'src/app/model/data/Scout';
 import { Results } from 'src/app/utils/Result';
 
 export interface ScoutInfoModalComponentEntry {

@@ -13,7 +13,6 @@ import {
 } from '@angular/forms';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { User } from 'src/app/model/User';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 import { CoreService } from '../../services/data/core.service';
 import { RegexPatterns } from 'src/app/utils/PatternsDefs';
@@ -22,6 +21,7 @@ import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModa
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/data/user.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
+import { User } from 'src/app/model/data/User';
 
 @Component({
   templateUrl: './edit-user.component.html',

@@ -16,8 +16,8 @@ import {
 } from 'ng-apexcharts';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Rank } from 'src/app/model/Rank';
-import { Scout } from 'src/app/model/Scout';
+import { Rank } from 'src/app/model/data/Rank';
+import { Scout } from 'src/app/model/data/Scout';
 import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
 import { JourneysService } from 'src/app/services/data/journeys.service';
 import { MeetingsService } from 'src/app/services/data/meetings.service';

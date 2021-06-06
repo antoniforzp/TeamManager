@@ -1,10 +1,10 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Patrol } from 'src/app/model/data/Patrol';
 import { ModalModes, ModalWidths } from '../../Modals-def';
 import {
   AddEditTroopModalComponent,
   AddEditTroopModalComponentEntry,
 } from './add-edit-troop-modal.component';
-import { Patrol } from '../../../model/Patrol';
 
 export class AddEditTroopModal {
   constructor(private dialog: MatDialog) {}

@@ -6,8 +6,8 @@ import {
 } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Journey } from 'src/app/model/Journey';
-import { Meeting } from 'src/app/model/Meeting';
+import { Journey } from 'src/app/model/data/Journey';
+import { Meeting } from 'src/app/model/data/Meeting';
 import { JourneysService } from 'src/app/services/data/journeys.service';
 import { MeetingsService } from 'src/app/services/data/meetings.service';
 import { Results } from 'src/app/utils/Result';

@@ -17,9 +17,8 @@ import { EditScoutRolesModal } from 'src/app/modals/scouts/edit-scout-roles-moda
 import { ExportCsvScoutModal } from 'src/app/modals/scouts/export-csv-scouts-modal/export-csv-scout-modal';
 import { RanksInfoModal } from 'src/app/modals/scouts/ranks-info-modal/ranks-info-modal';
 import { ScoutInfoModal } from 'src/app/modals/scouts/scout-info-modal/scout-info-modal';
-import { Role } from 'src/app/model/Role';
-
-import { Scout } from 'src/app/model/Scout';
+import { Role } from 'src/app/model/data/Role';
+import { Scout } from 'src/app/model/data/Scout';
 import { SearchPipe } from 'src/app/pipes/search.pipe';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { SortService } from 'src/app/services/tools/sort.service';

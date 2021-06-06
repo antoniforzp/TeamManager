@@ -13,11 +13,11 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
-import { forkJoin, Observable, of, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { Journey } from 'src/app/model/Journey';
-import { Meeting } from 'src/app/model/Meeting';
-import { Scout } from 'src/app/model/Scout';
+import { Journey } from 'src/app/model/data/Journey';
+import { Meeting } from 'src/app/model/data/Meeting';
+import { Scout } from 'src/app/model/data/Scout';
 import { SearchPipe } from 'src/app/pipes/search.pipe';
 import { JourneysService } from 'src/app/services/data/journeys.service';
 import { MeetingsService } from 'src/app/services/data/meetings.service';

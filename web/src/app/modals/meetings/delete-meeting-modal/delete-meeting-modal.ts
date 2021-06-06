@@ -1,6 +1,6 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Journey } from 'src/app/model/Journey';
-import { Meeting } from 'src/app/model/Meeting';
+import { Journey } from 'src/app/model/data/Journey';
+import { Meeting } from 'src/app/model/data/Meeting';
 import { ModalWidths } from '../../Modals-def';
 import {
   DeleteMeetingModalComponent,

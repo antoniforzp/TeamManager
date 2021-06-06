@@ -6,7 +6,7 @@ import {
 } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Scout } from 'src/app/model/Scout';
+import { Scout } from 'src/app/model/data/Scout';
 import { ScoutsService } from 'src/app/services/data/scouts.service';
 import { Results } from 'src/app/utils/Result';
 import { EntryRequestData } from '../../common/progress-modal/progress-modal.component';
