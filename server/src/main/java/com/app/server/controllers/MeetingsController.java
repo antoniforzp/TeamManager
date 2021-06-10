@@ -1,5 +1,6 @@
 package com.app.server.controllers;
 
+import com.app.server.api.data.EditPresenceBody;
 import com.app.server.database.meetingsService.MeetingsService;
 import com.app.server.database.meetingsPresenceService.MeetingsPresenceService;
 import com.app.server.model.Meeting;
@@ -7,12 +8,12 @@ import com.app.server.model.MeetingPresence;
 import com.app.server.api.Response;
 import com.app.server.api.data.AddMeetingBody;
 import com.app.server.api.data.EditMeetingBody;
+import com.app.server.transactions.TransactionService;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @CrossOrigin
 @RestController
@@ -20,43 +21,46 @@ public class MeetingsController {
 
     private final MeetingsService mService;
     private final MeetingsPresenceService mpService;
+    private final TransactionService transactionService;
 
     public MeetingsController(MeetingsService mService,
-                              MeetingsPresenceService mpService) {
+                              MeetingsPresenceService mpService,
+                              TransactionService transactionService) {
         this.mService = mService;
         this.mpService = mpService;
+        this.transactionService = transactionService;
     }
 
-    @SneakyThrows
-    @PostMapping(value = "/api/{userId}/meetings/{meetingId}/scouts/{scoutId}")
-    public Response<Boolean> addMeetingPresence(@PathVariable int userId,
-                                                @PathVariable int meetingId,
-                                                @PathVariable int scoutId) {
-
-        CompletableFuture<Boolean> data = mpService.add(meetingId, scoutId);
-        CompletableFuture.allOf(data).join();
-
-        return new Response<>(
-                data.get(),
-                userId,
-                HttpStatus.ACCEPTED);
-    }
-
+    // Transactional
     @SneakyThrows
     @PostMapping(value = "/api/{userId}/team/{teamId}/meetings")
     public Response<Boolean> addMeeting(@PathVariable int userId,
                                         @PathVariable int teamId,
                                         @RequestBody AddMeetingBody body) {
 
-        CompletableFuture<Boolean> data = mService.add(body.getTitle(),
+        Boolean data = transactionService.execute(() -> mService.add(body.getTitle(),
                 body.getPlace(),
                 body.getDate(),
                 body.getDescription(),
-                teamId);
-        CompletableFuture.allOf(data).join();
+                teamId));
 
         return new Response<>(
-                data.get(),
+                data,
+                userId,
+                HttpStatus.ACCEPTED);
+    }
+
+    // Transactional
+    @SneakyThrows
+    @PostMapping(value = "/api/{userId}/meetings/{meetingId}/scouts/{scoutId}")
+    public Response<Boolean> addMeetingPresence(@PathVariable int userId,
+                                                @PathVariable int meetingId,
+                                                @PathVariable int scoutId) {
+
+        Boolean data = transactionService.execute(() -> mpService.add(meetingId, scoutId));
+
+        return new Response<>(
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
@@ -66,11 +70,10 @@ public class MeetingsController {
     public Response<List<Meeting>> getMeetings(@PathVariable int userId,
                                                @PathVariable int teamId) {
 
-        CompletableFuture<List<Meeting>> data = mService.getAllByTeamId(teamId);
-        CompletableFuture.allOf(data).join();
+        List<Meeting> data = mService.getAllByTeamId(teamId);
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
@@ -80,11 +83,10 @@ public class MeetingsController {
     public Response<List<MeetingPresence>> getMeetingsPresence(@PathVariable int userId,
                                                                @PathVariable int meetingId) {
 
-        CompletableFuture<List<MeetingPresence>> data = mpService.getPresenceById(meetingId);
-        CompletableFuture.allOf(data).join();
+        List<MeetingPresence> data = mpService.getPresenceById(meetingId);
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
@@ -94,59 +96,75 @@ public class MeetingsController {
     public Response<List<MeetingPresence>> getMeetingsPresenceTeam(@PathVariable int userId,
                                                                    @PathVariable int teamId) {
 
-        CompletableFuture<List<MeetingPresence>> data = mpService.getPresenceByTeam(teamId);
-        CompletableFuture.allOf(data).join();
+        List<MeetingPresence> data = mpService.getPresenceByTeam(teamId);
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
+    // TODO: attach to client application + REST documentation
+    // Transactional
+    @SneakyThrows
+    @PatchMapping(value = "/api/{userId}/meetings/{meetingId}/presence")
+    public Response<Boolean> editMeetingPresence(@PathVariable int userId,
+                                                 @PathVariable int meetingId,
+                                                 @RequestBody EditPresenceBody body) {
+
+        Boolean data = false;
+
+        return new Response<>(
+                data,
+                userId,
+                HttpStatus.ACCEPTED);
+    }
+
+    // Transactional
     @SneakyThrows
     @PatchMapping(value = "/api/{userId}/meetings/{meetingId}")
     public Response<Boolean> editMeeting(@PathVariable int userId,
                                          @PathVariable int meetingId,
                                          @RequestBody EditMeetingBody body) {
 
-        CompletableFuture<Boolean> data = mService.update(meetingId,
+        Boolean data = transactionService.execute(() -> mService.update(meetingId,
                 body.getTitle(),
                 body.getPlace(),
                 body.getDate(),
-                body.getDescription());
-        CompletableFuture.allOf(data).join();
+                body.getDescription()));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
+
+    // Transactional
     @SneakyThrows
     @DeleteMapping(value = "/api/{userId}/meetings/{meetingId}")
     public Response<Boolean> deleteMeeting(@PathVariable int userId,
                                            @PathVariable int meetingId) {
 
-        CompletableFuture<Boolean> data = mService.deleteById(meetingId);
-        CompletableFuture.allOf(data).join();
+        Boolean data = transactionService.execute(() -> mService.deleteById(meetingId));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
+    // Transactional
     @SneakyThrows
     @DeleteMapping(value = "/api/{userId}/meetings{meetingId}/scouts{scoutId}")
     public Response<Boolean> deleteMeetingPresence(@PathVariable int userId,
                                                    @PathVariable int meetingId,
                                                    @PathVariable int scoutId) {
 
-        CompletableFuture<Boolean> data = mpService.delete(meetingId, scoutId);
-        CompletableFuture.allOf(data).join();
+        Boolean data = transactionService.execute(() -> mpService.delete(meetingId, scoutId));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }

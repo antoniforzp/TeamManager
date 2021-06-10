@@ -7,11 +7,11 @@ import java.util.concurrent.CompletableFuture;
 
 public interface JourneysPresenceService {
 
-    CompletableFuture<List<JourneyPresence>> getPresenceById(int meetingId);
+    List<JourneyPresence> getPresenceById(int meetingId);
 
-    CompletableFuture<List<JourneyPresence>> getPresenceByTeam(int teamId);
+    List<JourneyPresence> getPresenceByTeam(int teamId);
 
-    CompletableFuture<Boolean> add(int meetingId, int scoutId);
+    Boolean add(int meetingId, int scoutId);
 
-    CompletableFuture<Boolean> delete(int meetingId, int scoutId);
+    Boolean delete(int meetingId, int scoutId);
 }
