@@ -12,10 +12,10 @@ import java.util.List;
 public class EditPresenceBody {
 
     @Getter
-    private final List<Scout> newScoutPresent;
+    private final List<Scout> newScoutsPresent;
 
     @JsonCreator
-    public EditPresenceBody(@JsonProperty List<Scout> newScoutPresent) {
-        this.newScoutPresent = newScoutPresent;
+    public EditPresenceBody(@JsonProperty List<Scout> newScoutsPresent) {
+        this.newScoutsPresent = newScoutsPresent;
     }
 }

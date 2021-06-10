@@ -8,12 +8,15 @@ import com.app.server.model.MeetingPresence;
 import com.app.server.api.Response;
 import com.app.server.api.data.AddMeetingBody;
 import com.app.server.api.data.EditMeetingBody;
+import com.app.server.model.Scout;
 import com.app.server.transactions.TransactionService;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @CrossOrigin
 @RestController
@@ -104,7 +107,6 @@ public class MeetingsController {
                 HttpStatus.ACCEPTED);
     }
 
-    // TODO: attach to client application + REST documentation
     // Transactional
     @SneakyThrows
     @PatchMapping(value = "/api/{userId}/meetings/{meetingId}/presence")
@@ -112,7 +114,40 @@ public class MeetingsController {
                                                  @PathVariable int meetingId,
                                                  @RequestBody EditPresenceBody body) {
 
-        Boolean data = false;
+        List<Scout> changes = body.getNewScoutsPresent();
+        List<MeetingPresence> old = mpService.getPresenceById(meetingId);
+
+        List<Integer> toAdd = new ArrayList<>();
+        changes.forEach(scout -> {
+            boolean check = old.stream().noneMatch(x -> x.getScoutId() == scout.getScoutId());
+            if (check) {
+                toAdd.add(scout.getScoutId());
+            }
+        });
+
+        List<Integer> toDelete = new ArrayList<>();
+        old.forEach(scout -> {
+            boolean check = changes.stream().noneMatch(x -> x.getScoutId() == scout.getScoutId());
+            if (check) {
+                toDelete.add(scout.getScoutId());
+            }
+        });
+
+        Boolean data = transactionService.execute(() -> {
+            AtomicBoolean check = new AtomicBoolean(true);
+            toAdd.forEach(scoutId -> {
+                if (!mpService.add(meetingId, scoutId)) {
+                    check.set(false);
+                }
+            });
+
+            toDelete.forEach(scoutId -> {
+                if (!mpService.delete(meetingId, scoutId)) {
+                    check.set(false);
+                }
+            });
+            return check.get();
+        });
 
         return new Response<>(
                 data,

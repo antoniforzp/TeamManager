@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { Journey, JourneyPresence } from 'src/app/model/data/Journey';
+import { Scout } from 'src/app/model/data/Scout';
 import { RestService, REST } from 'src/app/web/rest.service';
 import { AppStateService } from '../core/app-state.service';
 
@@ -10,6 +11,10 @@ export interface JourneyPayload {
   date: Date;
   endDate: Date;
   description: string;
+}
+
+export interface JourneyPresencePayload {
+  newScoutsPresent: Scout[];
 }
 
 @Injectable({
@@ -88,6 +93,22 @@ export class JourneysService {
         method: REST.PATCH,
         url: `/api/${this.app.userId}/journeys/${journeyId}`,
         body: journey,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  public patchJourneyPresence(
+    journeyId: number,
+    scouts: Scout[]
+  ): Observable<boolean> {
+    const body = { newScoutsPresent: scouts } as JourneyPresencePayload;
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.PATCH,
+        url: `/api/${this.app.userId}/journeys/${journeyId}/presence`,
+        body,
       });
     } catch (error) {
       return throwError(error);

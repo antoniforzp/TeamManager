@@ -8,12 +8,16 @@ import com.app.server.model.JourneyPresence;
 import com.app.server.api.Response;
 import com.app.server.api.data.AddJourneyBody;
 import com.app.server.api.data.EditJourneyBody;
+import com.app.server.model.MeetingPresence;
+import com.app.server.model.Scout;
 import com.app.server.transactions.TransactionService;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @CrossOrigin
 @RestController
@@ -105,16 +109,47 @@ public class JourneysController {
                 HttpStatus.ACCEPTED);
     }
 
-
-    // TODO: attach to client application + REST documentation
     // Transactional
     @SneakyThrows
-    @PatchMapping(value = "/api/{userId}/meetings/{meetingId}/presence")
+    @PatchMapping(value = "/api/{userId}/journeys/{journeyId}/presence")
     public Response<Boolean> editJourneysPresence(@PathVariable int userId,
-                                                  @PathVariable int meetingId,
+                                                  @PathVariable int journeyId,
                                                   @RequestBody EditPresenceBody body) {
 
-        Boolean data = false;
+        List<Scout> changes = body.getNewScoutsPresent();
+        List<JourneyPresence> old = jpService.getPresenceById(journeyId);
+
+        List<Integer> toAdd = new ArrayList<>();
+        changes.forEach(scout -> {
+            boolean check = old.stream().noneMatch(x -> x.getScoutId() == scout.getScoutId());
+            if (check) {
+                toAdd.add(scout.getScoutId());
+            }
+        });
+
+        List<Integer> toDelete = new ArrayList<>();
+        old.forEach(scout -> {
+            boolean check = changes.stream().noneMatch(x -> x.getScoutId() == scout.getScoutId());
+            if (check) {
+                toDelete.add(scout.getScoutId());
+            }
+        });
+
+        Boolean data = transactionService.execute(() -> {
+            AtomicBoolean check = new AtomicBoolean(true);
+            toAdd.forEach(scoutId -> {
+                if (!jpService.add(journeyId, scoutId)) {
+                    check.set(false);
+                }
+            });
+
+            toDelete.forEach(scoutId -> {
+                if (!jpService.delete(journeyId, scoutId)) {
+                    check.set(false);
+                }
+            });
+            return check.get();
+        });
 
         return new Response<>(
                 data,

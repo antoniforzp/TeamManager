@@ -77,11 +77,6 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
 
   scoutsSelected = 0;
 
-  // Control flow
-  presentInitial = [] as Scout[];
-  presenceToAdd = [] as Scout[];
-  presenceToDelete = [] as Scout[];
-
   constructor(
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<ManageMeetingPresenceComponent>,
@@ -178,16 +173,14 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
 
           // Initially check those who already has the presence marked
           result.presence.forEach((p) => {
-            const scout = this.scouts.find(
+            this.scouts.find(
               (x) => x.scoutObject.scoutId === p.scoutId
-            );
-            this.presentInitial.push(scout.scoutObject);
-            scout.isSelected = true;
+            ).isSelected = true;
           });
 
+          this.scoutSelected();
           this.checkAllSelected();
 
-          this.gatherSelected();
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
         },
@@ -203,10 +196,8 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
   // SELECTION
 
   toggleSelected(scout: ScoutRowData): void {
-    this.managePresence(scout.scoutObject, scout.isSelected);
     scout.isSelected = !scout.isSelected;
-
-    this.gatherSelected();
+    this.scoutSelected();
     this.checkAllSelected();
     this.changeDetector.detectChanges();
   }
@@ -218,18 +209,12 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
 
   toggleSelectAll(value: boolean): void {
     this.allSelected = value;
-    this.scouts.forEach((x) => {
-      this.allSelected
-        ? this.manageAddPresenceForall(x.scoutObject, x.isSelected)
-        : this.manageDeletePresenceForall(x.scoutObject, x.isSelected);
-
-      x.isSelected = this.allSelected;
-    });
-    this.gatherSelected();
+    this.scouts.forEach((x) => (x.isSelected = this.allSelected));
+    this.scoutSelected();
     this.changeDetector.detectChanges();
   }
 
-  gatherSelected(): void {
+  scoutSelected(): void {
     this.scoutsSelected = this.scouts.filter((x) => x.isSelected).length;
   }
 
@@ -262,90 +247,33 @@ export class ManageMeetingPresenceComponent implements OnInit, OnDestroy {
     this.dialogRef.close(Results.CANCEL);
   }
 
-  // CONTROL FLOW
-
-  manageAddPresenceForall(scout: Scout, isSelected: boolean): void {
-    if (!isSelected) {
-      this.addPresence(scout);
-    }
-  }
-
-  manageDeletePresenceForall(scout: Scout, isSelected: boolean): void {
-    if (isSelected) {
-      this.removePresence(scout);
-    }
-  }
-
-  managePresence(scout: Scout, isSelected: boolean): void {
-    isSelected ? this.removePresence(scout) : this.addPresence(scout);
-  }
-
-  private addPresence(scout: Scout): void {
-    if (!this.presenceToAdd.find((x) => x.scoutId === scout.scoutId)) {
-      this.presenceToAdd.push(scout);
-      this.presenceToDelete = this.presenceToDelete.filter(
-        (x) => x.scoutId !== scout.scoutId
-      );
-    }
-
-    this.changeDetector.detectChanges();
-  }
-
-  private removePresence(scout: Scout): void {
-    if (!this.presenceToDelete.find((x) => x.scoutId === scout.scoutId)) {
-      this.presenceToDelete.push(scout);
-      this.presenceToAdd = this.presenceToAdd.filter(
-        (x) => x.scoutId !== scout.scoutId
-      );
-    }
-
-    this.changeDetector.detectChanges();
-  }
-
   action(): void {
     const queue = [] as EntryRequestData[];
+    const selected = this.scouts
+      .filter((x) => x.isSelected)
+      .map((x) => x.scoutObject);
 
-    // Queue add requests up
-    this.presenceToAdd.forEach((x) => {
-      queue.push(
-        this.mode === Modes.MANAGE_MEETINGS
-          ? {
-              request: this.meetingsService.addMeetingPresence(
-                this.meeting.meetingId,
-                x.scoutId
-              ),
-              requestLabel: 'requests.add-journey-presence',
-            }
-          : {
-              request: this.journeysService.addJourneyPresence(
-                this.journey.journeyId,
-                x.scoutId
-              ),
-              requestLabel: 'requests.delete-journey-presence',
-            }
-      );
-    });
+    switch (this.mode) {
+      case Modes.MANAGE_JOURNEYS:
+        queue.push({
+          request: this.journeysService.patchJourneyPresence(
+            this.journey.journeyId,
+            selected
+          ),
+          requestLabel: 'blah',
+        });
+        break;
 
-    // Queue delete requests up
-    this.presenceToDelete.forEach((x) => {
-      queue.push(
-        this.mode === Modes.MANAGE_MEETINGS
-          ? {
-              request: this.meetingsService.deleteMeetingPresence(
-                this.meeting.meetingId,
-                x.scoutId
-              ),
-              requestLabel: 'requests.add-meeting-presence',
-            }
-          : {
-              request: this.journeysService.deleteJourneyPresence(
-                this.journey.journeyId,
-                x.scoutId
-              ),
-              requestLabel: 'requests.delete-meeting-presence',
-            }
-      );
-    });
+      case Modes.MANAGE_MEETINGS:
+        queue.push({
+          request: this.meetingsService.patchMeetingPresence(
+            this.meeting.meetingId,
+            selected
+          ),
+          requestLabel: 'blah',
+        });
+        break;
+    }
 
     new ProgressModal(this.dialog).open(queue).then((x) =>
       x

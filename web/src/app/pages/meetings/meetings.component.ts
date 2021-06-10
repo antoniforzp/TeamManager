@@ -182,8 +182,8 @@ export class MeetingsComponent implements OnInit, OnDestroy {
   assemblyJourneyData(journys: Journey[]): MeetingJourneyRowData[] {
     return (this.meetingsJourneysData = journys.map((x) => {
       const scoutsPresent = this.scouts.filter((s) =>
-        this.meetingsPresence.find(
-          (p) => p.meetingId === x.journeyId && p.scoutId === s.scoutId
+        this.journeysPresence.find(
+          (p) => p.journeyId === x.journeyId && p.scoutId === s.scoutId
         )
       );
 

@@ -4,7 +4,6 @@ import com.app.server.api.Response;
 import com.app.server.api.data.AddUserBody;
 import com.app.server.api.data.CheckUserBody;
 import com.app.server.api.data.EditUserBody;
-import com.app.server.database.settingsService.SettingsService;
 import com.app.server.database.usersService.UsersService;
 import com.app.server.model.User;
 import com.app.server.transactions.TransactionService;
