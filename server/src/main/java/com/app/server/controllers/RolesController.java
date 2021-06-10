@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @CrossOrigin
 @RestController
@@ -27,11 +26,10 @@ public class RolesController {
     @GetMapping(value = "/api/{userId}/roles")
     public Response<List<Role>> getRoles(@PathVariable int userId) {
 
-        CompletableFuture<List<Role>> data = service.getAll();
-        CompletableFuture.allOf(data);
+        List<Role> data = service.getAll();
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }

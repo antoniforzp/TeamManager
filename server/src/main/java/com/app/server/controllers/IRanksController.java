@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 @CrossOrigin
 @RestController
@@ -28,11 +26,10 @@ public class IRanksController {
     @GetMapping(value = "/api/{userId}/iranks")
     public Response<List<IRank>> getInstructorRanks(@PathVariable int userId) {
 
-        CompletableFuture<List<IRank>> data = service.getAll();
-        CompletableFuture.allOf(data).join();
+        List<IRank> data = service.getAll();
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }

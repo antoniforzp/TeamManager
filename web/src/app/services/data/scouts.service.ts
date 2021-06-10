@@ -19,6 +19,10 @@ export interface ScoutPayload {
   instructorRankId: number;
 }
 
+export interface EditRolePayload {
+  newRoles: Role[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -101,6 +105,19 @@ export class ScoutsService {
         method: REST.PATCH,
         url: `/api/${this.app.userId}/scouts/${scoutId}`,
         body: scoutPayload,
+      });
+    } catch (error) {
+      return throwError(error);
+    }
+  }
+
+  public patchRoles(scoutId: number, newRoles: Role[]): Observable<boolean> {
+    const body = { newRoles } as EditRolePayload;
+    try {
+      return this.rest.resolve<boolean>({
+        method: REST.PATCH,
+        url: `/api/${this.app.userId}/scouts/${scoutId}/roles`,
+        body,
       });
     } catch (error) {
       return throwError(error);

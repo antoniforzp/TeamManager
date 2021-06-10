@@ -9,13 +9,13 @@ import java.util.concurrent.CompletableFuture;
 
 public interface SettingsService {
 
-    CompletableFuture<Settings> getSettings(int userId);
+    Settings getSettings(int userId);
 
-    CompletableFuture<Boolean> setSettings(int userId, String languageId, int themeId);
+    Boolean setSettings(int userId, String languageId, int themeId);
 
-    CompletableFuture<Boolean> setLanguage(int userId, String langAbbreviation);
+    Boolean setLanguage(int userId, String languageId);
 
-    CompletableFuture<List<Language>> getLanguages();
+    List<Language> getLanguages();
 
-    CompletableFuture<List<Theme>> getThemes();
+    List<Theme> getThemes();
 }

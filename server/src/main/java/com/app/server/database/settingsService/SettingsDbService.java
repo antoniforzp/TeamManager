@@ -9,7 +9,6 @@ import com.app.server.model.Settings;
 import com.app.server.model.Theme;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,9 +23,8 @@ public class SettingsDbService implements SettingsService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Async
     @Override
-    public CompletableFuture<Settings> getSettings(int userId) {
+    public Settings getSettings(int userId) {
         try {
             String QUERY = "SELECT user_id,\n" +
                     "       L.language_id  as lang_language_id,\n" +
@@ -38,19 +36,18 @@ public class SettingsDbService implements SettingsService {
                     "JOIN LANGUAGES L on S.language_id = L.language_id\n" +
                     "JOIN THEMES T on S.theme_id = T.theme_id\n" +
                     "WHERE user_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new SettingsRowMapper(), userId));
+            return jdbcTemplate.queryForObject(QUERY, new SettingsRowMapper(), userId);
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
     }
 
-    @Async
     @Override
-    public CompletableFuture<Boolean> setSettings(int userId, String languageId, int themeId) {
+    public Boolean setSettings(int userId, String languageId, int themeId) {
         try {
             String QUERY = "UPDATE SETTINGS SET language_id = ?, theme_id = ? WHERE user_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, languageId, themeId, userId) >= 1);
+            return jdbcTemplate.update(QUERY, languageId, themeId, userId) >= 1;
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
@@ -58,34 +55,32 @@ public class SettingsDbService implements SettingsService {
     }
 
     @Override
-    public CompletableFuture<Boolean> setLanguage(int userId, String langAbbreviation) {
+    public Boolean setLanguage(int userId, String languageId) {
         try {
             String QUERY = "UPDATE SETTINGS SET language_id = ? WHERE user_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, langAbbreviation, userId) >= 1);
+            return jdbcTemplate.update(QUERY, languageId, userId) >= 1;
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
     }
 
-    @Async
     @Override
-    public CompletableFuture<List<Language>> getLanguages() {
+    public List<Language> getLanguages() {
         try {
             String QUERY = "SELECT * FROM LANGUAGES";
-            return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new LanguageRowMapper()));
+            return jdbcTemplate.query(QUERY, new LanguageRowMapper());
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
     }
 
-    @Async
     @Override
-    public CompletableFuture<List<Theme>> getThemes() {
+    public List<Theme> getThemes() {
         try {
             String QUERY = "SELECT * FROM THEMES";
-            return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new ThemeRowMapper()));
+            return jdbcTemplate.query(QUERY, new ThemeRowMapper());
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);

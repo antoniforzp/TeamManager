@@ -5,35 +5,37 @@ import com.app.server.model.Team;
 import com.app.server.api.Response;
 import com.app.server.api.data.AddTeamBody;
 import com.app.server.api.data.EditTeamBody;
+import com.app.server.transactions.TransactionService;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @CrossOrigin
 @RestController
 public class TeamsController {
 
     private final TeamsService service;
+    private final TransactionService transactionService;
 
-    public TeamsController(TeamsService service) {
+    public TeamsController(TeamsService service, TransactionService transactionService) {
         this.service = service;
+        this.transactionService = transactionService;
     }
 
+    // Transactional
     @SneakyThrows
     @PostMapping(value = "/api/{userId}/teams")
     public Response<Boolean> addTeam(@PathVariable int userId,
                                      @RequestBody AddTeamBody body) {
 
-        CompletableFuture<Boolean> data = service.add(body.getName(),
+        Boolean data = transactionService.execute(() -> service.add(body.getName(),
                 body.getPatron(),
-                userId);
-        CompletableFuture.allOf(data).join();
+                userId));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
@@ -43,11 +45,10 @@ public class TeamsController {
     public Response<Team> getTeam(@PathVariable int userId,
                                   @PathVariable int teamId) {
 
-        CompletableFuture<Team> data = service.getById(teamId);
-        CompletableFuture.allOf(data).join();
+        Team data = service.getById(teamId);
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
@@ -56,42 +57,41 @@ public class TeamsController {
     @GetMapping(value = "/api/{userId}/teams")
     public Response<List<Team>> getTeams(@PathVariable int userId) {
 
-        CompletableFuture<List<Team>> data = service.getByUserId(userId);
-        CompletableFuture.allOf(data).join();
+        List<Team> data = service.getByUserId(userId);
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
+    // Transactional
     @SneakyThrows
     @PatchMapping(value = "/api/{userId}/teams/{teamId}")
     public Response<Boolean> editTeam(@PathVariable int userId,
                                       @PathVariable int teamId,
                                       @RequestBody EditTeamBody body) {
 
-        CompletableFuture<Boolean> data = service.update(teamId,
+        Boolean data = transactionService.execute(() -> service.update(teamId,
                 body.getName(),
-                body.getPatron());
-        CompletableFuture.allOf(data).join();
+                body.getPatron()));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
+    // Transactional
     @SneakyThrows
     @DeleteMapping(value = "/api/{userId}/teams/{teamId}")
     public Response<Boolean> deleteTeam(@PathVariable int userId,
                                         @PathVariable int teamId) {
 
-        CompletableFuture<Boolean> data = service.deleteById(teamId);
-        CompletableFuture.allOf(data).join();
+        Boolean data = transactionService.execute(() -> service.deleteById(teamId));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }

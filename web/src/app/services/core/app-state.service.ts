@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CookieService } from 'ngx-cookie-service';
@@ -19,7 +18,7 @@ export enum AppStateKeys {
   providedIn: 'root',
 })
 export class AppStateService {
-  cookieDuration = 1 / 24 / 60;
+  cookieDuration = 1 / 24;
   errorMessage = 'Session has expired';
   modalOpened = false;
 

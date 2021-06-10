@@ -8,41 +8,41 @@ import java.util.concurrent.CompletableFuture;
 
 public interface ScoutsService {
 
-    CompletableFuture<Boolean> add(String name,
-                                   String surname,
-                                   String pesel,
-                                   Date birthDate,
-                                   String address,
-                                   String postalCode,
-                                   String city,
-                                   String phone,
-                                   int patrolId,
-                                   int rankId,
-                                   int instructorRankId,
-                                   int teamId);
+    Boolean add(String name,
+                String surname,
+                String pesel,
+                Date birthDate,
+                String address,
+                String postalCode,
+                String city,
+                String phone,
+                int patrolId,
+                int rankId,
+                int instructorRankId,
+                int teamId);
 
-    CompletableFuture<List<Scout>> getAllByTeamId(int teamId);
+    Boolean addRole(int scoutId, int roleId);
 
-    CompletableFuture<List<Scout>> getAllByTeamIdPatrolId(int teamId, int patrolId);
+    List<Scout> getAllByTeamId(int teamId);
 
-    CompletableFuture<Scout> getById(int scoutId);
+    List<Scout> getAllByTeamIdPatrolId(int teamId, int patrolId);
 
-    CompletableFuture<Boolean> update(int scoutId,
-                                      String name,
-                                      String surname,
-                                      String pesel,
-                                      Date birthDate,
-                                      String address,
-                                      String postalCode,
-                                      String city,
-                                      String phone,
-                                      int patrolId,
-                                      int rankId,
-                                      int instructorRankId);
+    Scout getById(int scoutId);
 
-    CompletableFuture<Boolean> addRole(int scoutId, int roleId);
+    Boolean update(int scoutId,
+                   String name,
+                   String surname,
+                   String pesel,
+                   Date birthDate,
+                   String address,
+                   String postalCode,
+                   String city,
+                   String phone,
+                   int patrolId,
+                   int rankId,
+                   int instructorRankId);
 
-    CompletableFuture<Boolean> deleteById(int scoutId);
+    Boolean deleteById(int scoutId);
 
-    CompletableFuture<Boolean> deleteRole(int scoutId, int roleId);
+    Boolean deleteRole(int scoutId, int roleId);
 }

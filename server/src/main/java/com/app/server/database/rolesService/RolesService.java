@@ -7,15 +7,15 @@ import java.util.concurrent.CompletableFuture;
 
 public interface RolesService {
 
-    CompletableFuture<Boolean> add(String name);
+    Boolean add(String name);
 
-    CompletableFuture<List<Role>> getAll();
+    List<Role> getAll();
 
-    CompletableFuture<List<Role>> getAllInTeam(int teamId);
+    List<Role> getAllInTeam(int teamId);
 
-    CompletableFuture<List<Role>> getAllByScoutId(int scoutId);
+    List<Role> getAllByScoutId(int scoutId);
 
-    CompletableFuture<Role> getById(int roleId);
+    Role getById(int roleId);
 
-    CompletableFuture<Boolean> deleteById(int roleId);
+    Boolean deleteById(int roleId);
 }

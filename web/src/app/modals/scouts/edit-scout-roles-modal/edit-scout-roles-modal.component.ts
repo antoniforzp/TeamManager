@@ -92,64 +92,44 @@ export class EditScoutRolesModalComponent implements OnInit, OnDestroy {
   }
 
   addRole(role: Role): void {
-    // To display
     this.roles.push(role);
     this.availableRoles = this.allRoles.filter(
       (x) => !this.roles.find((r) => r.roleId === x.roleId)
-    );
-
-    // Control flow
-    this.rolesToAdd.push(role);
-    this.rolesToDelete = this.rolesToDelete.filter(
-      (x) => x.roleId !== role.roleId
     );
 
     this.changeDetector.detectChanges();
   }
 
   removeRole(role: Role): void {
-    // To display
     this.roles = this.roles.filter((x) => x.roleId !== role.roleId);
     this.availableRoles = this.allRoles.filter(
       (x) => !this.roles.find((r) => r.roleId === x.roleId)
     );
 
-    // Control flow
-    this.rolesToDelete.push(role);
-    this.rolesToAdd = this.rolesToAdd.filter((x) => x.roleId !== role.roleId);
-
     this.changeDetector.detectChanges();
   }
 
   edit(): void {
-    const queue = [] as EntryRequestData[];
-
-    // Queue add requests up
-    this.rolesToAdd.forEach((x) => {
-      queue.push({
-        request: this.scoutsService.addRole(this.scout.scoutId, x.roleId),
-        requestLabel: 'requests.add-role',
-      });
-    });
-
-    // Queue delete requests up
-    this.rolesToDelete.forEach((x) => {
-      queue.push({
-        request: this.scoutsService.deleteRole(this.scout.scoutId, x.roleId),
-        requestLabel: 'requests.delete-role',
-      });
-    });
-
-    new ProgressModal(this.dialog).open(queue).then((x) =>
-      x
-        .afterClosed()
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((result) => {
-          if (result === Results.SUCCESS) {
-            this.dialogRef.close(result);
-          }
-        })
-    );
+    new ProgressModal(this.dialog)
+      .open([
+        {
+          request: this.scoutsService.patchRoles(
+            this.scout.scoutId,
+            this.roles
+          ),
+          requestLabel: 'blah',
+        },
+      ])
+      .then((x) =>
+        x
+          .afterClosed()
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((result) => {
+            if (result === Results.SUCCESS) {
+              this.dialogRef.close(result);
+            }
+          })
+      );
   }
 
   // UTILS

@@ -7,15 +7,15 @@ import java.util.concurrent.CompletableFuture;
 
 public interface TeamsService {
 
-    CompletableFuture<Boolean> add(String name, String patron, int ownerId);
+    Boolean add(String name, String patron, int ownerId);
 
-    CompletableFuture<List<Team>> getAll();
+    List<Team> getAll();
 
-    CompletableFuture<List<Team>> getByUserId(Integer userId);
+    List<Team> getByUserId(Integer userId);
 
-    CompletableFuture<Team> getById(int teamId);
+    Team getById(int teamId);
 
-    CompletableFuture<Boolean> update(int teamID, String name, String patron);
+    Boolean update(int teamID, String name, String patron);
 
-    CompletableFuture<Boolean> deleteById(int teamId);
+    Boolean deleteById(int teamId);
 }

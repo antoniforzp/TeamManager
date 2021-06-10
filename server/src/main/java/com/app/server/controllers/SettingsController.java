@@ -6,6 +6,7 @@ import com.app.server.model.Settings;
 import com.app.server.model.Theme;
 import com.app.server.api.Response;
 import com.app.server.api.data.EditSettingsBody;
+import com.app.server.transactions.TransactionService;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,20 +19,22 @@ import java.util.concurrent.CompletableFuture;
 public class SettingsController {
 
     private final SettingsService service;
+    private final TransactionService transactionService;
 
-    public SettingsController(SettingsService service) {
+    public SettingsController(SettingsService service, TransactionService transactionService) {
         this.service = service;
+        this.transactionService = transactionService;
     }
 
+    // Transactional
     @SneakyThrows
     @PostMapping(value = "/api/{userId}/settings/init")
     public Response<Boolean> initUserSettings(@PathVariable int userId) {
 
-        CompletableFuture<Boolean> data = service.setSettings(userId, "en", 1);
-        CompletableFuture.allOf(data).join();
+        Boolean data = transactionService.execute(() -> service.setSettings(userId, "en", 1));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
@@ -40,11 +43,10 @@ public class SettingsController {
     @GetMapping(value = "/api/{userId}/settings")
     public Response<Settings> getUserSettings(@PathVariable int userId) {
 
-        CompletableFuture<Settings> data = service.getSettings(userId);
-        CompletableFuture.allOf(data).join();
+        Settings data = service.getSettings(userId);
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
@@ -53,11 +55,10 @@ public class SettingsController {
     @GetMapping(value = "/api/{userId}/settings/languages")
     public Response<List<Language>> getAllLanguages(@PathVariable int userId) {
 
-        CompletableFuture<List<Language>> data = service.getLanguages();
-        CompletableFuture.allOf(data).join();
+        List<Language> data = service.getLanguages();
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
@@ -66,41 +67,40 @@ public class SettingsController {
     @GetMapping(value = "/api/{userId}/settings/themes")
     public Response<List<Theme>> getAllThemes(@PathVariable int userId) {
 
-        CompletableFuture<List<Theme>> data = service.getThemes();
-        CompletableFuture.allOf(data).join();
+        List<Theme> data = service.getThemes();
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
+    // Transactional
     @SneakyThrows
     @PatchMapping(value = "/api/{userId}/settings")
     public Response<Boolean> patchUserSettings(@PathVariable int userId,
                                                @RequestBody EditSettingsBody body) {
 
-        CompletableFuture<Boolean> data = service.setSettings(body.getUserId(),
+        Boolean data = transactionService.execute(() -> service.setSettings(body.getUserId(),
                 body.getLanguage().getLanguageId(),
-                body.getTheme().getThemeId());
-        CompletableFuture.allOf(data).join();
+                body.getTheme().getThemeId()));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
+    // Transactional
     @SneakyThrows
-    @PatchMapping(value = "/api/{userId}/settings/language/{langAbbreviation}")
+    @PatchMapping(value = "/api/{userId}/settings/language/{languageId}")
     public Response<Boolean> patchUserSettingsLanguage(@PathVariable int userId,
-                                                       @PathVariable String langAbbreviation) {
+                                                       @PathVariable String languageId) {
 
-        CompletableFuture<Boolean> data = service.setLanguage(userId, langAbbreviation);
-        CompletableFuture.allOf(data).join();
+        Boolean data = transactionService.execute(() -> service.setLanguage(userId, languageId));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }

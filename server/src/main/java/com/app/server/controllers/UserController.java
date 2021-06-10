@@ -1,29 +1,28 @@
 package com.app.server.controllers;
 
-import com.app.server.database.teamsService.TeamsService;
-import com.app.server.database.usersService.UsersService;
 import com.app.server.api.Response;
 import com.app.server.api.data.AddUserBody;
 import com.app.server.api.data.CheckUserBody;
 import com.app.server.api.data.EditUserBody;
+import com.app.server.database.settingsService.SettingsService;
+import com.app.server.database.usersService.UsersService;
 import com.app.server.model.User;
+import com.app.server.transactions.TransactionService;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.concurrent.CompletableFuture;
 
 @CrossOrigin
 @RestController
 public class UserController {
 
-    final UsersService usersService;
-    final TeamsService teamsService;
+    private final UsersService usersService;
+    private final TransactionService transactionService;
 
     public UserController(UsersService usersService,
-                          TeamsService teamsService) {
+                          TransactionService transactionService) {
         this.usersService = usersService;
-        this.teamsService = teamsService;
+        this.transactionService = transactionService;
     }
 
     @SneakyThrows
@@ -31,28 +30,28 @@ public class UserController {
     public Response<Boolean> checkUser(@PathVariable int userId,
                                        @RequestBody CheckUserBody body) {
 
-        CompletableFuture<Boolean> data = usersService.checkIfExists(body.getUserEmail());
-        CompletableFuture.allOf(data).join();
+        Boolean data = usersService.checkIfExists(body.getUserEmail());
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
+    // Transactional
     @SneakyThrows
     @PostMapping(value = "/api/{userId}/users")
     public Response<Boolean> addUser(@PathVariable int userId,
                                      @RequestBody AddUserBody body) {
 
-        CompletableFuture<Boolean> data = usersService.add(body.getName(),
+        // TODO: Initialize users settings here. While adding user return his id
+        Boolean data = transactionService.execute(() -> usersService.add(body.getName(),
                 body.getSurname(),
                 body.getPassword(),
-                body.getEmail());
-        CompletableFuture.allOf(data).join();
+                body.getEmail()));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
@@ -61,41 +60,40 @@ public class UserController {
     @GetMapping(value = "/api/{userId}/users")
     public Response<User> getUser(@PathVariable int userId) {
 
-        CompletableFuture<User> data = usersService.getById(userId);
-        CompletableFuture.allOf(data).join();
+        User data = usersService.getById(userId);
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
+    // Transactional
     @SneakyThrows
     @PatchMapping(value = "/api/{userId}/users")
     public Response<Boolean> editUser(@PathVariable int userId,
                                       @RequestBody EditUserBody body) {
 
-        CompletableFuture<Boolean> data = usersService.update(userId,
+        Boolean data = transactionService.execute(() -> usersService.update(userId,
                 body.getName(),
                 body.getSurname(),
-                body.getPassword());
-        CompletableFuture.allOf(data).join();
+                body.getPassword()));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }
 
+    // Transactional
     @SneakyThrows
     @DeleteMapping(value = "/api/{userId}/users")
     public Response<Boolean> updateUser(@PathVariable int userId) {
 
-        CompletableFuture<Boolean> data = usersService.deleteById(userId);
-        CompletableFuture.allOf(data).join();
+        Boolean data = transactionService.execute(() -> usersService.deleteById(userId));
 
         return new Response<>(
-                data.get(),
+                data,
                 userId,
                 HttpStatus.ACCEPTED);
     }

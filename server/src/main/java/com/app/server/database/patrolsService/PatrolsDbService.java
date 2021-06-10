@@ -6,7 +6,6 @@ import com.app.server.model.Patrol;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,65 +21,60 @@ class PatrolsDbService implements PatrolsService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Async
     @Override
-    public CompletableFuture<Boolean> add(String name, int teamId) {
+    public Boolean add(String name, int teamId) {
         try {
             String QUERY = "INSERT INTO PATROLS(name, team_id) VALUES(?, ?)";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, teamId) >= 1);
+            return jdbcTemplate.update(QUERY, name, teamId) >= 1;
 
         } catch (DataIntegrityViolationException ex) {
-            return CompletableFuture.completedFuture(true);
+            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
     }
 
-    @Async
     @Override
-    public CompletableFuture<List<Patrol>> getAllByTeamId(int teamId) {
+    public List<Patrol> getAllByTeamId(int teamId) {
         try {
             String QUERY = "SELECT * FROM PATROLS WHERE team_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.query(QUERY, new PatrolRowMapper(), teamId));
+            return jdbcTemplate.query(QUERY, new PatrolRowMapper(), teamId);
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
     }
 
-    @Async
     @Override
-    public CompletableFuture<Patrol> getById(int patrolId) {
+    public Patrol getById(int patrolId) {
         try {
             String QUERY = "SELECT * FROM PATROLS WHERE patrol_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.queryForObject(QUERY, new PatrolRowMapper(), patrolId));
+            return jdbcTemplate.queryForObject(QUERY, new PatrolRowMapper(), patrolId);
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
     }
 
-    @Async
     @Override
-    public CompletableFuture<Boolean> update(int patrolId, String name) {
+    public Boolean update(int patrolId, String name) {
         try {
             String QUERY = "UPDATE PATROLS SET name = ? WHERE patrol_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, name, patrolId) >= 1);
+            return jdbcTemplate.update(QUERY, name, patrolId) >= 1;
 
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
     }
 
-    @Async
     @Override
-    public CompletableFuture<Boolean> deleteById(int patrolId) {
+    public Boolean deleteById(int patrolId) {
         try {
             String QUERY = "DELETE FROM PATROLS WHERE patrol_id = ?";
-            return CompletableFuture.completedFuture(jdbcTemplate.update(QUERY, patrolId) >= 1);
+            return jdbcTemplate.update(QUERY, patrolId) >= 1;
 
         } catch (DataIntegrityViolationException ex) {
-            return CompletableFuture.completedFuture(true);
+            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

@@ -7,11 +7,11 @@ import java.util.concurrent.CompletableFuture;
 
 public interface RanksRepository {
 
-    CompletableFuture<Boolean> add(String name, String abbreviation, int minAge, int maxAge);
+    Boolean add(String name, String abbreviation, int minAge, int maxAge);
 
-    CompletableFuture<List<Rank>> getAll();
+    List<Rank> getAll();
 
-    CompletableFuture<Rank> getById(int rankId);
+    Rank getById(int rankId);
 
-    CompletableFuture<Boolean> deleteById(int rankId);
+    Boolean deleteById(int rankId);
 }

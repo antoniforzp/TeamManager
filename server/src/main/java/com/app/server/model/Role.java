@@ -1,9 +1,11 @@
 package com.app.server.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
 @ToString
+@AllArgsConstructor
 public class Role {
 
     @Getter
@@ -13,16 +15,5 @@ public class Role {
     private final String name;
 
     @Getter
-    private int scoutId;
-
-    public Role(int roleId, String name) {
-        this.roleId = roleId;
-        this.name = name;
-    }
-
-    public Role(int roleId, String name, int scoutId) {
-        this.roleId = roleId;
-        this.name = name;
-        this.scoutId = scoutId;
-    }
+    private final Integer scoutId;
 }
