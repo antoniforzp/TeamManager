@@ -1,4 +1,4 @@
-package com.app.server.api.data;
+package com.app.server.api.auth;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
