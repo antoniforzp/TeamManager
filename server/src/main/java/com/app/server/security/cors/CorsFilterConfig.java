@@ -1,4 +1,4 @@
-package com.app.server.security;
+package com.app.server.security.cors;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

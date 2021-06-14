@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
-public class AuthenticationBody {
+public class AuthenticationResponse {
 
     @Getter
     private final String status;
@@ -19,10 +19,10 @@ public class AuthenticationBody {
     private final String token;
 
     @JsonCreator
-    public AuthenticationBody(@JsonProperty String status,
-                              @JsonProperty String token,
-                              @JsonProperty Integer userId,
-                              @JsonProperty Integer teamId) {
+    public AuthenticationResponse(@JsonProperty String status,
+                                  @JsonProperty String token,
+                                  @JsonProperty Integer userId,
+                                  @JsonProperty Integer teamId) {
 
         this.status = status;
         this.userId = userId;

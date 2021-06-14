@@ -19,7 +19,9 @@ public class TeamsController {
     private final TeamsService service;
     private final TransactionService transactionService;
 
-    public TeamsController(TeamsService service, TransactionService transactionService) {
+    public TeamsController(TeamsService service,
+                           TransactionService transactionService) {
+
         this.service = service;
         this.transactionService = transactionService;
     }

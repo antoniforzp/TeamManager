@@ -14,7 +14,6 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AppTranslationModule } from './translation/app-translation.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { SearchPipe } from './pipes/search.pipe';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,7 +45,7 @@ import { SearchPipe } from './pipes/search.pipe';
     AppTranslationModule,
 
     // Charts
-    NgApexchartsModule
+    NgApexchartsModule,
   ],
   bootstrap: [AppComponent],
 })

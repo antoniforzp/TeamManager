@@ -13,7 +13,8 @@ export class AppInitService {
     private appSettingsService: AppSettingsService
   ) {}
 
-  public initCore(userId: number, teamId: number): void {
+  public initCore(token: string, userId: number, teamId: number): void {
+    this.app.storeAuthToken(token);
     this.app.storeUserId(userId);
     this.app.storeCurrentTeamId(teamId);
   }

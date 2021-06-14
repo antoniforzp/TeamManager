@@ -13,35 +13,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AppUserDetailsService implements UserDetailsService {
+public class AuthUserDetailsService implements UserDetailsService {
 
     private final UsersService usersService;
     private final TeamsService teamsService;
 
-    public AppUserDetailsService(UsersService usersService,
-                                 TeamsService teamsService) {
+    public AuthUserDetailsService(UsersService usersService,
+                                  TeamsService teamsService) {
 
         this.usersService = usersService;
         this.teamsService = teamsService;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return new org.springframework.security.core.userdetails.User("admin@admin.com", "Admin1", new ArrayList<>());
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        User user = usersService.getByEmail(login);
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 
-    public UserData getUserDataByUsername(String userName) throws UsernameNotFoundException {
-
-        // Find user from the database
-        List<User> users = usersService.getAll();
-
+    public AuthUserData getUserDataByUsername(String login) throws UsernameNotFoundException {
 
         // Custom data preparation
-        User user = users.size() > 0 ? users.get(0) : null;
+        User user = usersService.getByEmail(login);
         Team initialTeam = null;
 
         if (user == null) {
-            return new UserData(null, null, null);
+            return new AuthUserData(null, null, null);
         }
 
         // Find first team assigned to the user
@@ -50,7 +47,7 @@ public class AppUserDetailsService implements UserDetailsService {
             initialTeam = userTeams.get(0);
         }
 
-        return new UserData(
+        return new AuthUserData(
                 user,
                 initialTeam,
                 loadUserByUsername(user.getEmail())

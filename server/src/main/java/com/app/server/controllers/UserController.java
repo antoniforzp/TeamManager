@@ -20,6 +20,7 @@ public class UserController {
 
     public UserController(UsersService usersService,
                           TransactionService transactionService) {
+
         this.usersService = usersService;
         this.transactionService = transactionService;
     }

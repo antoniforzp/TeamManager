@@ -21,7 +21,9 @@ public class SettingsController {
     private final SettingsService service;
     private final TransactionService transactionService;
 
-    public SettingsController(SettingsService service, TransactionService transactionService) {
+    public SettingsController(SettingsService service,
+                              TransactionService transactionService) {
+
         this.service = service;
         this.transactionService = transactionService;
     }

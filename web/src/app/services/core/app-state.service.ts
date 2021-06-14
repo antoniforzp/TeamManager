@@ -6,6 +6,7 @@ import { AthenticationError } from 'src/app/model/errors/AuthenticationError';
 
 export enum AppStateKeys {
   LOGGED = 'logged',
+  AUTH_TOKEN = 'token',
   USER_ID = 'userId',
   USER_PASSWD = 'userPassword',
   TEAM_ID = 'teamId',
@@ -23,6 +24,7 @@ export class AppStateService {
   modalOpened = false;
 
   clearable: AppStateKeys[] = [
+    AppStateKeys.AUTH_TOKEN,
     AppStateKeys.USER_ID,
     AppStateKeys.USER_PASSWD,
     AppStateKeys.USER_PASSWD,
@@ -37,6 +39,19 @@ export class AppStateService {
   ) {}
 
   // CREDENTIALS
+
+  storeAuthToken(token: string): void {
+    this.cookieService.set(
+      AppStateKeys.AUTH_TOKEN,
+      `${token}`,
+      this.cookieDuration
+    );
+  }
+
+  get authToken(): string {
+    const value = this.cookieService.get(AppStateKeys.AUTH_TOKEN);
+    return value; // Ommit checking
+  }
 
   storeUserId(userId: number): void {
     this.cookieService.set(

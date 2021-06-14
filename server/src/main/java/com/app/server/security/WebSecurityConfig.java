@@ -1,6 +1,7 @@
 package com.app.server.security;
 
 import com.app.server.security.jwt.JwtRequestFilter;
+import com.app.server.security.users.AuthUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,10 +18,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AppUserDetailsService userDetailsService;
+    private final AuthUserDetailsService userDetailsService;
     private final JwtRequestFilter jwtRequestFilter;
 
-    public WebSecurityConfig(AppUserDetailsService userDetailsService,
+    public WebSecurityConfig(AuthUserDetailsService userDetailsService,
                              JwtRequestFilter jwtRequestFilter) {
 
         this.userDetailsService = userDetailsService;

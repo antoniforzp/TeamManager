@@ -6,18 +6,18 @@ import lombok.Getter;
 import lombok.ToString;
 
 @ToString
-public class UserCredentialsBody {
+public class AuthenticationRequest {
 
     @Getter
-    private final String email;
+    private final String login;
 
     @Getter
     private final String password;
 
     @JsonCreator
-    public UserCredentialsBody(@JsonProperty String email,
-                               @JsonProperty String password) {
-        this.email = email;
+    public AuthenticationRequest(@JsonProperty String login,
+                                 @JsonProperty String password) {
+        this.login = login;
         this.password = password;
     }
 }

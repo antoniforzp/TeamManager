@@ -21,6 +21,7 @@ import { defaultLanguage } from 'src/app/translation/translation-config';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AppInitService } from 'src/app/services/core/app-init.service';
 import { Language } from 'src/app/model/data/Language';
+import { AuthenticationService } from 'src/app/web/auth/authentication.service';
 
 @Component({
   templateUrl: './login.component.html',
@@ -43,6 +44,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
+    private authenticationService: AuthenticationService,
     private navigationService: AppNavigationService,
     private appInit: AppInitService,
     private appStateService: AppStateService,
@@ -83,13 +85,13 @@ export class LoginComponent implements OnInit {
     this.resetAlerts();
     this.progressStart();
 
-    this.loginService
+    this.authenticationService
       .login(this.email.value, this.password.value)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (x) => {
-          if (x.userId) {
-            this.appInit.initCore(x.userId, x.teamId);
+          if (x.token && x.userId) {
+            this.appInit.initCore(x.token, x.userId, x.teamId);
             this.initSettingsAndNavigate();
           } else {
             this.wrongCredentialsAlert();

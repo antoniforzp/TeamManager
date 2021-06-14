@@ -29,6 +29,7 @@ public class MeetingsController {
     public MeetingsController(MeetingsService mService,
                               MeetingsPresenceService mpService,
                               TransactionService transactionService) {
+
         this.mService = mService;
         this.mpService = mpService;
         this.transactionService = transactionService;

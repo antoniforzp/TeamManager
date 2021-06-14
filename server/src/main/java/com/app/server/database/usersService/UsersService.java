@@ -19,7 +19,7 @@ public interface UsersService {
 
     User getById(int userId);
 
-    User getByCredentials(String email, String password);
+    User getByEmail(String email);
 
     Boolean update(int userId, String name, String surname, String password);
 

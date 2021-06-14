@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiResponse } from '../model/web/Response';
+import { AppStateService } from '../services/core/app-state.service';
 
 export enum REST {
   POST,
@@ -22,14 +23,24 @@ export interface Request {
 })
 export class RestService {
   private origin = 'http://localhost:8080';
-  private headers = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  };
+  // private headers = {
+  //   Accept: 'application/json',
+  //   'Content-Type': 'application/json',
+  // };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private app: AppStateService) {}
+
+  constructHeaders(): any {
+    return {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: 'Bearer ' + this.app.authToken,
+    };
+  }
 
   public resolve<T>(request: Request): Observable<T> {
+    const headers = this.constructHeaders();
+
     let response: Observable<T>;
 
     switch (request.method) {
@@ -39,7 +50,7 @@ export class RestService {
             .post<ApiResponse<T>>(
               this.origin + request.url,
               JSON.stringify(request.body),
-              { headers: this.headers }
+              { headers }
             )
             .pipe(map((x) => x.data));
         }
@@ -52,7 +63,7 @@ export class RestService {
           }
           response = this.http
             .get<ApiResponse<T>>(this.origin + request.url, {
-              headers: this.headers,
+              headers,
             })
             .pipe(map((x) => x.data));
         }
@@ -64,7 +75,7 @@ export class RestService {
             .patch<ApiResponse<T>>(
               this.origin + request.url,
               JSON.stringify(request.body),
-              { headers: this.headers }
+              { headers }
             )
             .pipe(map((x) => x.data));
         }
@@ -77,14 +88,14 @@ export class RestService {
           }
           response = this.http
             .delete<ApiResponse<T>>(this.origin + request.url, {
-              headers: this.headers,
+              headers,
             })
             .pipe(map((x) => x.data));
         }
         break;
     }
 
-    console.log(request);
+    // console.log(request);
     return response;
   }
 }

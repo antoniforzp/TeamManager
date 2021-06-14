@@ -49,6 +49,11 @@
       "name": "com.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize",
       "type": "java.lang.String",
       "description": "Description for com.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize."
+    },
+    {
+      "name": "auth.secret",
+      "type": "java.lang.String",
+      "description": "Description for auth.secret."
     }
   ]
 }

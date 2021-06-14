@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 
-public class esponse<T> {
+public class Response<T> {
 
     @Getter
     private final T data;

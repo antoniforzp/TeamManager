@@ -1,6 +1,6 @@
 package com.app.server.security.jwt;
 
-import com.app.server.security.AppUserDetailsService;
+import com.app.server.security.users.AuthUserDetailsService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,10 +17,10 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final AppUserDetailsService userDetailsService;
+    private final AuthUserDetailsService userDetailsService;
     private final JwtTokensManager jwtTokensManager;
 
-    public JwtRequestFilter(AppUserDetailsService userDetailsService, JwtTokensManager jwtTokensManager) {
+    public JwtRequestFilter(AuthUserDetailsService userDetailsService, JwtTokensManager jwtTokensManager) {
         this.userDetailsService = userDetailsService;
         this.jwtTokensManager = jwtTokensManager;
     }

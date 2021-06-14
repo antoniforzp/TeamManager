@@ -28,6 +28,7 @@ public class ScoutsController {
     public ScoutsController(ScoutsService scoutsService,
                             RolesService rolesService,
                             TransactionService transactionService) {
+
         this.scoutsService = scoutsService;
         this.rolesService = rolesService;
         this.transactionService = transactionService;

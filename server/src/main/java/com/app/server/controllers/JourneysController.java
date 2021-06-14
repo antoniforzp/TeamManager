@@ -8,7 +8,6 @@ import com.app.server.model.JourneyPresence;
 import com.app.server.api.Response;
 import com.app.server.api.data.AddJourneyBody;
 import com.app.server.api.data.EditJourneyBody;
-import com.app.server.model.MeetingPresence;
 import com.app.server.model.Scout;
 import com.app.server.transactions.TransactionService;
 import lombok.SneakyThrows;
@@ -30,6 +29,7 @@ public class JourneysController {
     public JourneysController(JourneysService jService,
                               JourneysPresenceService jpService,
                               TransactionService transactionService) {
+
         this.jService = jService;
         this.jpService = jpService;
         this.transactionService = transactionService;

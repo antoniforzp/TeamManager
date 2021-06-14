@@ -98,10 +98,10 @@ public class UsersDbService implements UsersService {
     }
 
     @Override
-    public User getByCredentials(String email, String password) {
+    public User getByEmail(String email) {
         try {
-            String QUERY = "SELECT * FROM USERS WHERE email = ? AND password = ?";
-            List<User> users = jdbcTemplate.query(QUERY, new UserRowMapper(), email, password);
+            String QUERY = "SELECT * FROM USERS WHERE email = ?";
+            List<User> users = jdbcTemplate.query(QUERY, new UserRowMapper(), email);
             return !users.isEmpty() ? users.get(0) : null;
 
         } catch (DataAccessException ex) {

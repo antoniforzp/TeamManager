@@ -16,7 +16,7 @@ public class JwtTokensManager {
 
     // https://www.youtube.com/watch?v=X80nJ5T7YpE&ab_channel=JavaBrainsJavaBrains
 
-    private final String SECRET_KEY = "secret";
+    private final String SECRET_KEY = "SECRET_KEY";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

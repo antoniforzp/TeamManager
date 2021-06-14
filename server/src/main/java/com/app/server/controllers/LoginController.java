@@ -1,53 +1,66 @@
 package com.app.server.controllers;
 
-import com.app.server.api.data.LoginBody;
-import com.app.server.database.teamsService.TeamsService;
-import com.app.server.database.usersService.UsersService;
+import com.app.server.api.auth.AuthenticationResponse;
+import com.app.server.api.auth.AuthenticationRequest;
 import com.app.server.api.Response;
-import com.app.server.model.Team;
-import com.app.server.model.User;
+import com.app.server.security.users.AuthUserDetailsService;
+import com.app.server.security.jwt.JwtTokensManager;
+import com.app.server.security.LoginStatuses;
+import com.app.server.security.users.AuthUserData;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin
 @RestController
 public class LoginController {
 
-    private final UsersService usersService;
-    private final TeamsService teamsService;
+    private final AuthenticationManager authenticationManager;
+    private final AuthUserDetailsService userDetailsService;
+    private final JwtTokensManager jwtTokensManager;
 
-    public LoginController(UsersService usersService,
-                           TeamsService teamsService) {
-        this.usersService = usersService;
-        this.teamsService = teamsService;
+    public LoginController(AuthenticationManager authenticationManager,
+                           AuthUserDetailsService userDetailsService,
+                           JwtTokensManager jwtTokensManager) {
+
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.jwtTokensManager = jwtTokensManager;
     }
 
     @SneakyThrows
-    @GetMapping(value = "/api/login/{userEmail}/{userPassword}")
-    public Response<LoginBody> login(@PathVariable String userEmail,
-                                     @PathVariable String userPassword) {
+    @PostMapping(value = "/api/auth")
+    public Response<AuthenticationResponse> auth(@RequestBody AuthenticationRequest body) {
 
-        Integer userId = null;
-        Integer teamId = null;
-
-        Boolean check = usersService.checkCredentials(userEmail, userPassword);
-        User loggedUser = usersService.getByCredentials(userEmail, userPassword);
-
-        if (check && loggedUser != null) {
-            userId = loggedUser.getUserId();
-            List<Team> userTeams = teamsService.getByUserId(userId);
-
-            if (!userTeams.isEmpty()) {
-                teamId = userTeams.get(0).getTeamId();
-            }
+        // Try to authenticate
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            body.getLogin(),
+                            body.getPassword())
+            );
+        } catch (BadCredentialsException exception) {
+            return new Response<>(
+                    new AuthenticationResponse(LoginStatuses.REJECTED, null, null, null),
+                    null,
+                    HttpStatus.ACCEPTED);
         }
 
+        // Process of setting up all initial auth data
+        AuthUserData userData = userDetailsService.getUserDataByUsername(body.getLogin());
+        String jwtAuthToken = jwtTokensManager.generateToken(userData.getUserDetails());
+
+        AuthenticationResponse successResponse = new AuthenticationResponse(LoginStatuses.ACCEPTED,
+                jwtAuthToken,
+                userData.getUser().getUserId(),
+                userData.getInitialTeam().getTeamId());
+
         return new Response<>(
-                new LoginBody(userId, teamId),
-                userId,
+                successResponse,
+                null,
                 HttpStatus.ACCEPTED);
     }
 }

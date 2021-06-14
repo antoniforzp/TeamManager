@@ -19,7 +19,9 @@ public class PatrolsController {
     private final PatrolsService service;
     private final TransactionService transactionService;
 
-    public PatrolsController(PatrolsService service, TransactionService transactionService) {
+    public PatrolsController(PatrolsService service,
+                             TransactionService transactionService) {
+
         this.service = service;
         this.transactionService = transactionService;
     }

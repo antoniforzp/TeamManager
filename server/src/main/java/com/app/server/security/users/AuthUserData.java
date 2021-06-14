@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @ToString
 @AllArgsConstructor
-public class UserData {
+public class AuthUserData {
 
     @Getter
     private final User user;
