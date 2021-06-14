@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import * as bcrypt from 'bcrypt';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EncryptionService {
+  secretKey = 'SECRET_KEY';
+
   constructor() {}
 
   encrypt(value: string): string {
-    const salt = bcrypt.genSaltSync(10);
-    const encoded = bcrypt.hashSync(value, salt);
-
-    console.log(value, encoded);
-
-    return encoded;
+    const encrypted = CryptoJS.HmacSHA256(value, this.secretKey).toString();
+    return encrypted;
   }
 }
