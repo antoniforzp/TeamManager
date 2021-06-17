@@ -66,28 +66,30 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.pageLoaded = false;
     forkJoin({
       user: this.coreService.getCurrentUser(),
-      team: this.coreService.getCurrentTeam(),
-      userTeams: this.coreService.getCurrentUserTeams(),
+      // team: this.coreService.getCurrentTeam(),
+      // userTeams: this.coreService.getCurrentUserTeams(),
     })
       .pipe(
         takeUntil(this.destroy$),
         tap((x) => {
-          if (!x.team.patron || x.team.patron === '') {
-            x.team.patron = ' ';
-          }
+          // if (x.team) {
+          //   if (!x.team.patron || x.team.patron === '') {
+          //     x.team.patron = ' ';
+          //   }
+          // }
         })
       )
       .subscribe({
         next: (result) => {
           this.currentUser = result.user;
-          this.currentTeam = result.team;
-          this.allTeams = result.userTeams;
-          this.selectableTeams = result.userTeams.filter(
-            (team) => team.teamId !== this.currentTeam.teamId
-          );
+          // this.currentTeam = result.team;
+          // this.allTeams = result.userTeams;
+          // this.selectableTeams = result.userTeams.filter(
+          //   (team) => team.teamId !== this.currentTeam.teamId
+          // );
 
-          this.noTeams = this.allTeams.length <= 0;
-          this.noPatron = checkIfBlank(result.team.patron);
+          // this.noTeams = this.allTeams.length <= 0;
+          // this.noPatron = checkIfBlank(result.team.patron);
 
           this.pageLoaded = true;
           this.changeDetector.detectChanges();

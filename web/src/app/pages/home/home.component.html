@@ -52,10 +52,11 @@
 
                         <!-- No teams section -->
                         <ng-container *ngIf="noTeams" class="d-flex flex-column">
-                            <p translate>
+                            <p class="label mb-4" style="min-height: 48px;" translate>
                                 home.no-teams-info
                             </p>
-                            <button class="btn btn-success my-button" (click)="navigateToTeams()" translate>
+                            <button class="btn btn-success my-button" style="width: 180px !important;"
+                                (click)="navigateToTeams()" translate>
                                 home.add-team
                             </button>
                         </ng-container>

@@ -62,7 +62,7 @@ export class AppStateService {
   }
 
   get userId(): number {
-    const value = +this.cookieService.get(AppStateKeys.USER_ID);
+    const value = this.cookieService.get(AppStateKeys.USER_ID);
     return this.checkNumber(value, 'userId');
   }
 
@@ -88,8 +88,8 @@ export class AppStateService {
   }
 
   get teamId(): number {
-    const data = +this.cookieService.get(AppStateKeys.TEAM_ID);
-    return this.checkNumber(data, 'teamId');
+    const data = this.cookieService.get(AppStateKeys.TEAM_ID);
+    return data !== 'null' ? this.checkNumber(data, 'teamId') : undefined; // This can be undefined
   }
 
   // SETTINGS
@@ -143,13 +143,19 @@ export class AppStateService {
 
   // DATA CHECKING
 
-  private checkNumber(value: number, cookieName: string): number {
-    if (isNaN(value) || value <= 0) {
+  private checkNumber(value: string, cookieName: string): number {
+    if (value === 'null') {
       this.thorwError(cookieName);
       return undefined;
     }
 
-    return value;
+    const num = +value;
+    if (isNaN(num) || num <= 0) {
+      this.thorwError(cookieName);
+      return undefined;
+    }
+
+    return num;
   }
 
   private checkString(value: string, cookieName: string): string {

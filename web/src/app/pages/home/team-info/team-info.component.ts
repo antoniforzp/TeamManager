@@ -14,11 +14,15 @@ import {
   ApexChart,
   ChartComponent,
 } from 'ng-apexcharts';
-import { forkJoin, Subject } from 'rxjs';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Journey } from 'src/app/model/data/Journey';
+import { Meeting } from 'src/app/model/data/Meeting';
+import { Patrol } from 'src/app/model/data/Patrol';
 import { Rank } from 'src/app/model/data/Rank';
 import { Scout } from 'src/app/model/data/Scout';
 import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
+import { AppStateService } from 'src/app/services/core/app-state.service';
 import { JourneysService } from 'src/app/services/data/journeys.service';
 import { MeetingsService } from 'src/app/services/data/meetings.service';
 import { PatrolsService } from 'src/app/services/data/patrols.service';
@@ -31,6 +35,14 @@ export type ChartOptions = {
   responsive: ApexResponsive[];
   labels: any;
 };
+
+interface TeamData {
+  scouts?: Scout[];
+  patrols?: Patrol[];
+  journeys?: Journey[];
+  meetings?: Meeting[];
+  ranks?: Rank[];
+}
 
 @Component({
   selector: 'app-team-info',
@@ -63,7 +75,7 @@ export class TeamInfoComponent implements OnInit {
     private journeysService: JourneysService,
     private meetingsService: MeetingsService,
     private ranksService: RanksService,
-
+    private appState: AppStateService,
     private changeDetector: ChangeDetectorRef,
     private navigatorService: AppNavigationService,
     private translate: TranslateService
@@ -74,31 +86,39 @@ export class TeamInfoComponent implements OnInit {
   }
 
   initData(): void {
-    forkJoin({
+    const teamInfo$ =
+      this.appState.teamId !== undefined
+        ? this.fetchInfoTeam()
+        : of({} as TeamData);
+
+    teamInfo$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (x) => {
+        this.scoutNo = x.scouts?.length;
+        this.patrolsNo = x.patrols?.length;
+        this.journeysNo = x.journeys?.length;
+        this.meetingsNo = x.meetings?.length;
+
+        this.ranks = x.ranks;
+        this.scouts = x.scouts;
+
+        this.setChartData();
+
+        this.infoLoaded.emit();
+
+        this.pageLoaded = true;
+        this.changeDetector.detectChanges();
+      },
+    });
+  }
+
+  private fetchInfoTeam(): Observable<TeamData> {
+    return forkJoin({
       scouts: this.scoutsService.getScouts(),
       patrols: this.patrolsService.getPatrols(),
       journeys: this.journeysService.getJourneys(),
       meetings: this.meetingsService.getMeetings(),
       ranks: this.ranksService.getRanks(),
-    })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (x) => {
-          this.scoutNo = x.scouts.length;
-          this.patrolsNo = x.patrols.length;
-          this.journeysNo = x.journeys.length;
-          this.meetingsNo = x.meetings.length;
-
-          this.ranks = x.ranks;
-          this.scouts = x.scouts;
-
-          this.setChartData();
-
-          this.pageLoaded = true;
-          this.infoLoaded.emit();
-          this.changeDetector.detectChanges();
-        },
-      });
+    });
   }
 
   // CHART SETUP
@@ -126,11 +146,13 @@ export class TeamInfoComponent implements OnInit {
 
   private getRanksValues(): number[] {
     const scoutRanks: number[] = [];
-    this.ranks.forEach((x) => {
-      scoutRanks.push(
-        this.scouts.filter((s) => s.rank.rankId === x.rankId).length
-      );
-    });
+    if (this.ranks) {
+      this.ranks.forEach((x) => {
+        scoutRanks.push(
+          this.scouts.filter((s) => s.rank.rankId === x.rankId).length
+        );
+      });
+    }
 
     return scoutRanks;
   }
