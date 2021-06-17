@@ -453,23 +453,6 @@
                         </children>
                     </folder_node>
                     <concept_node>
-                        <name>declaration-content</name>
-                        <definition_loaded>false</definition_loaded>
-                        <description/>
-                        <comment/>
-                        <default_text/>
-                        <translations>
-                            <translation>
-                                <language>en-US</language>
-                                <approved>false</approved>
-                            </translation>
-                            <translation>
-                                <language>pl-PL</language>
-                                <approved>false</approved>
-                            </translation>
-                        </translations>
-                    </concept_node>
-                    <concept_node>
                         <name>declarations</name>
                         <definition_loaded>false</definition_loaded>
                         <description/>
@@ -1405,6 +1388,23 @@
                 <children>
                     <concept_node>
                         <name>communication-server</name>
+                        <definition_loaded>false</definition_loaded>
+                        <description/>
+                        <comment/>
+                        <default_text/>
+                        <translations>
+                            <translation>
+                                <language>en-US</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>pl-PL</language>
+                                <approved>false</approved>
+                            </translation>
+                        </translations>
+                    </concept_node>
+                    <concept_node>
+                        <name>email-exists</name>
                         <definition_loaded>false</definition_loaded>
                         <description/>
                         <comment/>

@@ -6,11 +6,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { forkJoin, Subject } from 'rxjs';
+import { forkJoin, of, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { Team } from 'src/app/model/data/Team';
 import { User } from 'src/app/model/data/User';
 import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
+import { AppStateService } from 'src/app/services/core/app-state.service';
 import { HomeReloadService } from 'src/app/services/tools/home-reload.service';
 import { checkIfBlank } from 'src/app/utils/FormsUtils';
 import { CoreService } from '../../services/data/core.service';
@@ -39,6 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private coreService: CoreService,
+    private appStateService: AppStateService,
     private homeReloadService: HomeReloadService,
     private navigationService: AppNavigationService,
     private changeDetector: ChangeDetectorRef
@@ -66,30 +68,34 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.pageLoaded = false;
     forkJoin({
       user: this.coreService.getCurrentUser(),
-      // team: this.coreService.getCurrentTeam(),
-      // userTeams: this.coreService.getCurrentUserTeams(),
+      team: this.appStateService.teamId
+        ? this.coreService.getCurrentTeam()
+        : of(null),
+      userTeams: this.coreService.getCurrentUserTeams(),
     })
       .pipe(
         takeUntil(this.destroy$),
         tap((x) => {
-          // if (x.team) {
-          //   if (!x.team.patron || x.team.patron === '') {
-          //     x.team.patron = ' ';
-          //   }
-          // }
+          if (x.team) {
+            if (!x.team.patron || x.team.patron === '') {
+              x.team.patron = ' ';
+            }
+          }
         })
       )
       .subscribe({
         next: (result) => {
           this.currentUser = result.user;
-          // this.currentTeam = result.team;
-          // this.allTeams = result.userTeams;
-          // this.selectableTeams = result.userTeams.filter(
-          //   (team) => team.teamId !== this.currentTeam.teamId
-          // );
+          this.currentTeam = result.team;
+          this.allTeams = result.userTeams;
+          this.selectableTeams = result.userTeams.filter(
+            (team) => team.teamId !== this.currentTeam.teamId
+          );
 
-          // this.noTeams = this.allTeams.length <= 0;
-          // this.noPatron = checkIfBlank(result.team.patron);
+          this.noTeams = this.allTeams.length <= 0;
+          if (result.team) {
+            this.noPatron = checkIfBlank(result.team.patron);
+          }
 
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
