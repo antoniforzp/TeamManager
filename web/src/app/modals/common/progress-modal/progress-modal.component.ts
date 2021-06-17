@@ -9,25 +9,8 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   concat,
-  EMPTY,
-  forkJoin,
-  from,
   Observable,
-  of,
-  pipe,
-  Subject,
-  UnaryFunction,
 } from 'rxjs';
-import {
-  catchError,
-  ignoreElements,
-  last,
-  map,
-  startWith,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
 import { Results } from 'src/app/utils/Result';
 
 export interface EntryRequestData {

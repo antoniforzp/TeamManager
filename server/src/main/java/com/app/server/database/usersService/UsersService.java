@@ -11,7 +11,7 @@ public interface UsersService {
 
     Boolean checkIfExists(String email);
 
-    Boolean add(String name, String surname, String password, String email);
+    Integer add(String name, String surname, String password, String email);
 
     Boolean add(int userId, String name, String surname, String password, String email);
 

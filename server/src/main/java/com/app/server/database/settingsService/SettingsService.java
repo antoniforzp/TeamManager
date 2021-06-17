@@ -11,6 +11,8 @@ public interface SettingsService {
 
     Settings getSettings(int userId);
 
+    Boolean addSettings(int userId, String languageId, int themeId);
+
     Boolean setSettings(int userId, String languageId, int themeId);
 
     Boolean setLanguage(int userId, String languageId);

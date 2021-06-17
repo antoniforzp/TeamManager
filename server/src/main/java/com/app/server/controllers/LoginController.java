@@ -53,10 +53,13 @@ public class LoginController {
         AuthUserData userData = userDetailsService.getUserDataByUsername(body.getLogin());
         String jwtAuthToken = jwtTokensManager.generateToken(userData.getUserDetails());
 
+        Integer userId = userData.getUser() != null ? userData.getUser().getUserId() : null;
+        Integer teamId = userData.getInitialTeam() != null ? userData.getInitialTeam().getTeamId() : null;
+
         AuthenticationResponse successResponse = new AuthenticationResponse(LoginStatuses.ACCEPTED,
                 jwtAuthToken,
-                userData.getUser().getUserId(),
-                userData.getInitialTeam().getTeamId());
+                userId,
+                teamId);
 
         return new Response<>(
                 successResponse,

@@ -138,10 +138,24 @@
                         </h5>
                         <div class="d-flex flex-column">
                             <span class="text-justify" translate>
-                                add-edit-user.declaration-content
+                                add-edit-user.declaration.content
                             </span>
+                            <span class="text-justify mt-2" translate>
+                                add-edit-user.declaration.content1
+                            </span>
+                            <ul>
+                                <li translate>
+                                    add-edit-user.declaration.bullet1
+                                </li>
+                                <li translate>
+                                    add-edit-user.declaration.bullet2
+                                </li>
+                                <li translate>
+                                    add-edit-user.declaration.bullet3
+                                </li>
+                            </ul>
 
-                            <div class="mt-2">
+                            <div>
                                 <label class="required">
                                     <input formControlName="declaration" type="checkbox"
                                         class="select-all checkbox cursor-pointer" name="select-all" />
@@ -170,8 +184,9 @@
 
                     <!-- ERROR HANDLING -->
                     <div class="d-flex flex-column">
-                        <small *ngIf="mailExists" class="alert-danger">Podany adres emial już istnieje w naszej bazie
-                            danych</small>
+                        <small *ngIf="mailExists" class="alert-danger" translate>
+                            errors.email-exists
+                        </small>
                     </div>
 
                 </form>

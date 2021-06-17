@@ -44,6 +44,17 @@ public class SettingsDbService implements SettingsService {
     }
 
     @Override
+    public Boolean addSettings(int userId, String languageId, int themeId) {
+        try {
+            String QUERY = "INSERT INTO SETTINGS(user_id, language_id, theme_id) VALUES(?,?,?);";
+            return jdbcTemplate.update(QUERY, userId, languageId, themeId) >= 1;
+
+        } catch (DataAccessException ex) {
+            throw new DatabaseException(ex);
+        }
+    }
+
+    @Override
     public Boolean setSettings(int userId, String languageId, int themeId) {
         try {
             String QUERY = "UPDATE SETTINGS SET language_id = ?, theme_id = ? WHERE user_id = ?";

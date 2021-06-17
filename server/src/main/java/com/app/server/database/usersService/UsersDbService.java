@@ -6,9 +6,17 @@ import com.app.server.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UsersDbService implements UsersService {
@@ -59,16 +67,26 @@ public class UsersDbService implements UsersService {
     }
 
     @Override
-    public Boolean add(String name,
+    public Integer add(String name,
                        String surname,
                        String password,
                        String email) {
         try {
-            String QUERY = "INSERT INTO USERS(name, surname, password, email) VALUES(?, ?, ?, ?)";
-            return jdbcTemplate.update(QUERY, name, surname, password, email) >= 1;
+            GeneratedKeyHolder holder = new GeneratedKeyHolder();
+            jdbcTemplate.update(con -> {
+                PreparedStatement statement = con.prepareStatement("INSERT INTO USERS(name, surname, password, email) VALUES(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, name);
+                statement.setString(2, surname);
+                statement.setString(3, password);
+                statement.setString(4, email);
+                return statement;
+            }, holder);
+
+            Number key = holder.getKey();
+            return key != null ? key.intValue() : null;
 
         } catch (DataIntegrityViolationException ex) {
-            return true;
+            return -1;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

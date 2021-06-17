@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private loginService: LoginService,
     private authenticationService: AuthenticationService,
     private navigationService: AppNavigationService,
     private appInit: AppInitService,
@@ -98,9 +97,7 @@ export class LoginComponent implements OnInit {
             this.progressStop();
           }
         },
-        error: (err) => {
-          this.resolveError(err);
-        },
+        error: (err) => this.resolveError(err),
       });
   }
 
@@ -149,11 +146,17 @@ export class LoginComponent implements OnInit {
     this.pageError = 'errors.login-credentials';
   }
 
-  private resolveError(err: HttpErrorResponse): void {
-    this.pageError = err.message;
+  private noServerConnection(): void {
+    this.pageError = 'errors.communication-server';
+  }
 
-    if (err.status === 409) {
+  private resolveError(err: HttpErrorResponse): void {
+    if (err.status === 0 || (err.status > 500 && err.status < 599)) {
+      this.noServerConnection();
+    } else if (err.status === 409 || err.status === 403) {
       this.wrongCredentialsAlert();
+    } else {
+      this.pageError = err.message;
     }
 
     this.progressStop();
@@ -163,8 +166,8 @@ export class LoginComponent implements OnInit {
 
   private setupForm(): void {
     this.loginForm = this.fb.group({
-      email: ['admin@admin.com', Validators.required],
-      password: ['Admin1', Validators.required],
+      email: ['antoni@antoni.com', Validators.required],
+      password: ['Password1', Validators.required],
     });
   }
 

@@ -15,11 +15,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/operators';
 import { ProgressModal } from 'src/app/modals/common/progress-modal/ProgressModal';
+import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
 import { AppStateService } from 'src/app/services/core/app-state.service';
 import { UserService } from 'src/app/services/data/user.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { defaultLanguage } from 'src/app/translation/translation-config';
 import { RegexPatterns } from 'src/app/utils/PatternsDefs';
+import { Results } from 'src/app/utils/Result';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 
 @Component({
@@ -42,10 +44,12 @@ export class AddUserComponent implements OnInit {
     private dialog: MatDialog,
     private translate: TranslateService,
     private appStateService: AppStateService,
+    private navigationService: AppNavigationService,
     private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.translateView();
     this.setupForm();
     this.pageLoaded = true;
     this.changeDetector.detectChanges();
@@ -67,17 +71,26 @@ export class AddUserComponent implements OnInit {
       .subscribe({
         next: (mailExists) => {
           if (!mailExists) {
-            new ProgressModal(this.dialog).open([
-              {
-                request: this.userService.addUser(
-                  this.userName.value,
-                  this.userSurname.value,
-                  this.password.value,
-                  this.userEmail.value
-                ),
-                requestLabel: 'requests.delete-team',
-              },
-            ]);
+            new ProgressModal(this.dialog)
+              .open([
+                {
+                  request: this.userService.addUser(
+                    this.userName.value,
+                    this.userSurname.value,
+                    this.password.value,
+                    this.userEmail.value
+                  ),
+                  requestLabel: 'requests.delete-team',
+                },
+              ])
+              .then((x) =>
+                x.afterClosed().subscribe((result) => {
+                  if (result === Results.SUCCESS) {
+                    this.form.reset();
+                    this.navigationService.navigateToLogin();
+                  }
+                })
+              );
           }
           this.changeDetector.detectChanges();
         },

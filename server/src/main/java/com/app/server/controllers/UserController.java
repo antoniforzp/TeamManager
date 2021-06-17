@@ -4,6 +4,7 @@ import com.app.server.api.Response;
 import com.app.server.api.data.AddUserBody;
 import com.app.server.api.data.CheckUserBody;
 import com.app.server.api.data.EditUserBody;
+import com.app.server.database.settingsService.SettingsService;
 import com.app.server.database.usersService.UsersService;
 import com.app.server.model.User;
 import com.app.server.transactions.TransactionService;
@@ -16,43 +17,59 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UsersService usersService;
+    private final SettingsService settingsService;
     private final TransactionService transactionService;
 
     public UserController(UsersService usersService,
+                          SettingsService settingsService,
                           TransactionService transactionService) {
 
         this.usersService = usersService;
+        this.settingsService = settingsService;
         this.transactionService = transactionService;
     }
 
     @SneakyThrows
-    @PostMapping(value = "/api/{userId}/users/check")
-    public Response<Boolean> checkUser(@PathVariable int userId,
-                                       @RequestBody CheckUserBody body) {
+    @PostMapping(value = "/api/users/check")
+    public Response<Boolean> checkUser(@RequestBody CheckUserBody body) {
 
         Boolean data = usersService.checkIfExists(body.getUserEmail());
 
         return new Response<>(
                 data,
-                userId,
+                -1,
                 HttpStatus.ACCEPTED);
     }
 
     // Transactional
     @SneakyThrows
-    @PostMapping(value = "/api/{userId}/users")
-    public Response<Boolean> addUser(@PathVariable int userId,
-                                     @RequestBody AddUserBody body) {
+    @PostMapping(value = "/api/users")
+    public Response<Boolean> addUser(@RequestBody AddUserBody body) {
 
-        // TODO: Initialize users settings here. While adding user return his id
-        Boolean data = transactionService.execute(() -> usersService.add(body.getName(),
-                body.getSurname(),
-                body.getPassword(),
-                body.getEmail()));
+        Boolean data = transactionService.executeWithStatus(status -> {
+
+            boolean allGood = false;
+            Integer newUserId = usersService.add(body.getName(),
+                    body.getSurname(),
+                    body.getPassword(),
+                    body.getEmail());
+
+            if (newUserId != null) {
+                allGood = settingsService.addSettings(newUserId, "en", 1);
+            }
+
+            if (allGood) {
+                return true;
+            }
+
+            status.setRollbackOnly();
+            return false;
+        });
+
 
         return new Response<>(
                 data,
-                userId,
+                -1,
                 HttpStatus.ACCEPTED);
     }
 
