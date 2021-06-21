@@ -6,8 +6,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { forkJoin, of, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { Team } from 'src/app/model/data/Team';
 import { User } from 'src/app/model/data/User';
 import { AppNavigationService } from 'src/app/services/core/app-navigation.service';
@@ -15,6 +15,12 @@ import { AppStateService } from 'src/app/services/core/app-state.service';
 import { HomeReloadService } from 'src/app/services/tools/home-reload.service';
 import { checkIfBlank } from 'src/app/utils/FormsUtils';
 import { CoreService } from '../../services/data/core.service';
+
+interface HomeDataPayload {
+  user: User;
+  team: Team;
+  userTeams: Team[];
+}
 
 @Component({
   templateUrl: './home.component.html',
@@ -68,20 +74,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.pageLoaded = false;
     forkJoin({
       user: this.coreService.getCurrentUser(),
-      team: this.appStateService.teamId
+      team: this.appStateService?.teamId
         ? this.coreService.getCurrentTeam()
-        : of(null),
+        : of(undefined as Team),
       userTeams: this.coreService.getCurrentUserTeams(),
     })
       .pipe(
         takeUntil(this.destroy$),
-        tap((x) => {
-          if (x.team) {
-            if (!x.team.patron || x.team.patron === '') {
-              x.team.patron = ' ';
-            }
-          }
-        })
+        map((x) => this.setCheckCurrentTeam(x)),
+        tap((x) => this.setPatronLabel(x.team?.patron))
       )
       .subscribe({
         next: (result) => {
@@ -94,7 +95,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
           this.noTeams = this.allTeams.length <= 0;
           if (result.team) {
-            this.noPatron = checkIfBlank(result.team.patron);
+            this.noPatron = checkIfBlank(result.team?.patron);
           }
 
           this.pageLoaded = true;
@@ -102,6 +103,27 @@ export class HomeComponent implements OnInit, OnDestroy {
         },
         error: (err) => this.handleError(err),
       });
+  }
+
+  setCheckCurrentTeam(payload: HomeDataPayload): HomeDataPayload {
+    const data = {
+      user: payload.user,
+      team: payload.team,
+      userTeams: payload.userTeams,
+    } as HomeDataPayload;
+
+    if (!data.team && data.userTeams.length > 0) {
+      data.team = data.userTeams[0];
+      this.appStateService.storeCurrentTeamId(data.team?.teamId);
+    }
+
+    return data;
+  }
+
+  setPatronLabel(patron: any): void {
+    if (!patron || patron === '') {
+      patron = ' ';
+    }
   }
 
   // FUNCTIONALITIES
@@ -129,6 +151,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   navigateToTeams(): void {
     this.navigationService.navigateTeams();
+  }
+
+  navigateToTeamsAddTeam(): void {
+    this.navigationService.navigateTeams(true);
   }
 
   navigateToEditUser(): void {

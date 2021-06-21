@@ -8,8 +8,9 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
+import { forkJoin, Subject } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { AddEditTeamModal } from 'src/app/modals/teams/add-edit-team-modal/add-edit-team-modal';
 import { DeleteTeamModal } from 'src/app/modals/teams/delete-team-modal/delete-team-modal';
 import { Team } from 'src/app/model/data/Team';
@@ -59,13 +60,20 @@ export class TeamsComponent implements OnInit, OnDestroy {
   searchPhrase: string;
   filterKeys = ['namePatronSearch'];
 
+  openAddTeam: boolean;
+
+  // przekazać prze route'a opcję aby wywołać od razu AddTeam z przycisku przy braku team'ów w home page
+
   constructor(
     private teamsService: TeamsService,
     private sortService: SortService,
     private searchPipe: SearchPipe,
+    private router: Router,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
-  ) {}
+  ) {
+    this.openAddTeamOnOpen();
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -80,12 +88,13 @@ export class TeamsComponent implements OnInit, OnDestroy {
   loadData(): void {
     this.allSelected = false;
     this.pageLoaded = false;
+
     this.teamsService
       .getUserTeams()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (teams) => {
-          this.teams = teams.map((x) => {
+        next: (result) => {
+          this.teams = result.map((x) => {
             return {
               name: x.name,
               patron: x.patron,
@@ -170,6 +179,19 @@ export class TeamsComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  openAddTeamOnOpen(): void {
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe((x) => {
+      if (x instanceof NavigationEnd) {
+        const openAddTeam =
+          this.router.getCurrentNavigation()?.extras?.state?.openAddTeam;
+
+        if (openAddTeam) {
+          this.openAddTeamModal();
+        }
+      }
+    });
   }
 
   // SELECTION

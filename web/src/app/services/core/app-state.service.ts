@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CookieService } from 'ngx-cookie-service';
 import { SessionExpiredModal } from 'src/app/modals/common/session-expired-modal/session-expired-modal';
+import { Team } from 'src/app/model/data/Team';
 import { AthenticationError } from 'src/app/model/errors/AuthenticationError';
 
 export enum AppStateKeys {
@@ -82,9 +83,17 @@ export class AppStateService {
   storeCurrentTeamId(teamId: number): void {
     this.cookieService.set(
       AppStateKeys.TEAM_ID,
-      `${teamId}`,
+      `${teamId ? teamId : ''}`,
       this.cookieDuration
     );
+  }
+
+  checkCurrentTeamId(newUserTeams: Team[]): void {
+    if (newUserTeams.length > 0) {
+      this.storeCurrentTeamId(newUserTeams[0].teamId);
+    } else {
+      this.storeCurrentTeamId(null);
+    }
   }
 
   get teamId(): number {

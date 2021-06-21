@@ -128,9 +128,11 @@ export class AppNavigationService {
     return `/${AppRoutes.TEAMS}`;
   }
 
-  public navigateTeams(): Promise<boolean> {
+  public navigateTeams(openAddTeam?: boolean): Promise<boolean> {
     this.currentRoute.next(this.getTeamsRoute());
-    return this.router.navigate([this.getTeamsRoute()]);
+    return this.router.navigate([this.getTeamsRoute()], {
+      state: { openAddTeam },
+    });
   }
 
   // UTILS
