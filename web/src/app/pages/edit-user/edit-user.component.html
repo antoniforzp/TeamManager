@@ -79,7 +79,7 @@
 
                         <div class="d-flex justify-content-end">
                             <!-- SUBMIT BUTTON -->
-                            <button type="button" class="btn btn-primary button-add-user my-button" type="submit"
+                            <button type="button" class="btn btn-primary button-add-user my-button"
                                 (click)="editCredentials()" [disabled]="!credentialsForm.valid" translate>
                                 actions.edit
                             </button>
@@ -106,8 +106,7 @@
                                     formControlName="passwordCurrent">
 
                                 <!-- Errors -->
-                                <div class="d-flex flex-column"
-                                    *ngIf="passwordCurrent.hasError('required') && passwordCurrent.dirty">
+                                <div class="d-flex flex-column" *ngIf="passwordsForm.hasError('oldRequired')">
                                     <small class="alert-danger" translate>
                                         errors.input-required
                                     </small>
@@ -172,7 +171,7 @@
 
                         <div class="d-flex justify-content-end">
                             <!-- SUBMIT BUTTON -->
-                            <button type="button" class="btn btn-primary button-add-user my-button" type="submit"
+                            <button type="button" class="btn btn-primary button-add-user my-button"
                                 (click)="editPassword()" [disabled]="!passwordsForm.valid" translate>
                                 actions.edit
                             </button>

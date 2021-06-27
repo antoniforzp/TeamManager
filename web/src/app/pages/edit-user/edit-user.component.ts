@@ -11,7 +11,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { forkJoin, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CustomValidators } from 'src/app/validators/Customvalidators';
 import { CoreService } from '../../services/data/core.service';
@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/data/user.service';
 import { AppRoutes } from 'src/app/shared/menu/Routes';
 import { User } from 'src/app/model/data/User';
+import { EncryptionService } from 'src/app/web/auth/encryption.service';
 
 @Component({
   templateUrl: './edit-user.component.html',
@@ -43,6 +44,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private coreService: CoreService,
     private userService: UserService,
+    private encryptionService: EncryptionService,
     private changeDetector: ChangeDetectorRef,
     private dialog: MatDialog
   ) {}
@@ -62,14 +64,12 @@ export class EditUserComponent implements OnInit, OnDestroy {
   loadPageData(): void {
     this.pageLoaded = false;
 
-    forkJoin({
-      user: this.coreService.getCurrentUser(),
-      teams: this.userService.getUserTeams(),
-    })
+    this.coreService
+      .getCurrentUser()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (x) => {
-          this.patchUserData(x.user);
+          this.patchUserData(x);
 
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
@@ -107,7 +107,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
           new ProgressModal(this.dialog).open([
             {
               request: this.userService.editUserData(
-                currUserData.userId,
                 this.userName.value,
                 this.userSurname.value,
                 currUserData.password,
@@ -129,14 +128,14 @@ export class EditUserComponent implements OnInit, OnDestroy {
         next: (currUserData) => {
           // Check password
           this.validCurrentPassword =
-            currUserData.password === this.passwordCurrent.value;
+            currUserData.password ===
+            this.encryptionService.encrypt(this.passwordCurrent.value);
 
           if (this.validCurrentPassword) {
             new ProgressModal(this.dialog)
               .open([
                 {
                   request: this.userService.editUserData(
-                    currUserData.userId,
                     currUserData.name,
                     currUserData.surname,
                     this.passwordNew.value,
@@ -167,7 +166,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   setupPasswordsForm(): void {
     this.passwordsForm = this.fb.group({
-      passwordCurrent: ['', [Validators.required]],
+      passwordCurrent: [''],
       passwordNew: [
         '',
         [
@@ -197,10 +196,18 @@ export class EditUserComponent implements OnInit, OnDestroy {
           passwordDifferent: true,
         }
       ),
+      CustomValidators.requiredWhenOther(
+        this.passwordNew,
+        this.passwordCurrent,
+        {
+          oldRequired: true,
+        }
+      ),
     ]);
   }
 
   clearPasswordsForms(): void {
+    this.validCurrentPassword = true;
     this.passwordsForm.patchValue({
       passwordCurrent: '',
       passwordNew: '',

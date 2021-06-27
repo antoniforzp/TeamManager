@@ -21,6 +21,16 @@ export class CustomValidators {
     };
   }
 
+  static requiredWhenOther(
+    monitoring: AbstractControl,
+    managed: AbstractControl,
+    error: ValidationErrors
+  ): ValidatorFn {
+    return (): { [key: string]: any } | null => {
+      return monitoring.value && !managed.value ? error : null;
+    };
+  }
+
   static userPasswordMatchValidator(
     userPassword: string,
     newPassword: AbstractControl,

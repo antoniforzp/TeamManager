@@ -3,6 +3,7 @@ import { Observable, throwError } from 'rxjs';
 import { Team } from 'src/app/model/data/Team';
 import { EncryptionService } from 'src/app/web/auth/encryption.service';
 import { REST, RestService } from 'src/app/web/rest.service';
+import { AppStateService } from '../core/app-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ import { REST, RestService } from 'src/app/web/rest.service';
 export class UserService {
   constructor(
     private rest: RestService,
+    private app: AppStateService,
     private encryptionService: EncryptionService
   ) {}
 
@@ -53,7 +55,7 @@ export class UserService {
     try {
       return this.rest.resolve<Team[]>({
         method: REST.GET,
-        url: `/api/teams`,
+        url: `/api/${this.app.userId}/teams`,
       });
     } catch (error) {
       return throwError(error);
@@ -61,7 +63,6 @@ export class UserService {
   }
 
   public editUserData(
-    userId: number,
     name: string,
     surname: string,
     password: string,
@@ -70,11 +71,11 @@ export class UserService {
     try {
       return this.rest.resolve<boolean>({
         method: REST.PATCH,
-        url: `/api/users${userId}`,
+        url: `/api/${this.app.userId}/users`,
         body: {
           name,
           surname,
-          password,
+          password: this.encryptionService.encrypt(password),
           email,
         },
       });
