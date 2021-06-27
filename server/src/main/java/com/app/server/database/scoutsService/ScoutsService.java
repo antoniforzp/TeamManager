@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface ScoutsService {
 
-    Boolean add(String name,
+    Integer add(String name,
                 String surname,
                 String pesel,
                 Date birthDate,

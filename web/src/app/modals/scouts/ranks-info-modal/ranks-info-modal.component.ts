@@ -43,9 +43,6 @@ export class RanksInfoModalComponent implements OnInit {
           this.ranks = x.ranks;
           this.iRanks = x.iRanks;
 
-          console.log(this.ranks);
-          console.log(this.iRanks);
-
           this.pageLoaded = true;
           this.changeDetector.detectChanges();
         },

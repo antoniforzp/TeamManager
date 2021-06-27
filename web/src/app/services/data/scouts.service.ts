@@ -14,7 +14,7 @@ export interface ScoutPayload {
   postalCode: string;
   city: string;
   phone: string;
-  troopId: number;
+  patrolId: number;
   rankId: number;
   instructorRankId: number;
 }

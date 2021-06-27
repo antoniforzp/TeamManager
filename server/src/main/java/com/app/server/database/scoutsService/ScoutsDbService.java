@@ -6,9 +6,12 @@ import com.app.server.model.Scout;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -23,7 +26,7 @@ class ScoutsDbService implements ScoutsService {
     }
 
     @Override
-    public Boolean add(String name,
+    public Integer add(String name,
                        String surname,
                        String pesel,
                        Date birthDate,
@@ -36,13 +39,31 @@ class ScoutsDbService implements ScoutsService {
                        int instructorRankId,
                        int teamId) {
         try {
+            GeneratedKeyHolder holder = new GeneratedKeyHolder();
             String QUERY = "INSERT INTO SCOUTS(name, surname, pesel, birth_date, address, postal_code, city, phone, patrol_id, rank_id,\n" +
                     "                   instructor_rank_id, team_id)\n" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            return jdbcTemplate.update(QUERY, name, surname, pesel, birthDate, address, postalCode, city, phone, patrolId, rankId, instructorRankId, teamId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
+            jdbcTemplate.update(con -> {
+                PreparedStatement statement = con.prepareStatement(QUERY, Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, name);
+                statement.setString(2, surname);
+                statement.setString(3, pesel);
+                statement.setDate(4, birthDate != null ? new java.sql.Date(birthDate.getTime()) : null);
+                statement.setString(5, address);
+                statement.setString(6, postalCode);
+                statement.setString(7, city);
+                statement.setString(8, phone);
+
+                statement.setInt(9, patrolId);
+                statement.setInt(10, rankId);
+                statement.setInt(11, instructorRankId);
+                statement.setInt(12, teamId);
+                return statement;
+            }, holder);
+
+            Number key = holder.getKey();
+            return key != null ? key.intValue() : null;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

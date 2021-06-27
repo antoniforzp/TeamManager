@@ -41,18 +41,28 @@ public class ScoutsController {
                                       @PathVariable int teamId,
                                       @RequestBody AddScoutBody body) {
 
-        Boolean data = transactionService.execute(() -> scoutsService.add(body.getName(),
-                body.getSurname(),
-                body.getPesel(),
-                body.getBirthDate(),
-                body.getAddress(),
-                body.getPostalCode(),
-                body.getCity(),
-                body.getPhone(),
-                body.getPatrolId(),
-                body.getRankId(),
-                body.getInstructorRankId(),
-                teamId));
+        Boolean data = transactionService.execute(() -> {
+
+            Integer scoutId = scoutsService.add(body.getName(),
+                    body.getSurname(),
+                    body.getPesel(),
+                    body.getBirthDate(),
+                    body.getAddress(),
+                    body.getPostalCode(),
+                    body.getCity(),
+                    body.getPhone(),
+                    body.getPatrolId(),
+                    body.getRankId(),
+                    body.getInstructorRankId(),
+                    teamId);
+
+            if (scoutId != null) {
+                scoutsService.addRole(scoutId, 1); // 1 - Private
+                return true;
+            }
+
+            return false;
+        });
 
         return new Response<>(
                 data,

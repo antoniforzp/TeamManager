@@ -56,7 +56,7 @@
 
                             <!-- Errors -->
                             <div class="d-flex flex-column" *ngIf="surname.errors && surname.dirty">
-                                <small class="alert-danger" *ngIf="surname.hasError('required')">
+                                <small class="alert-danger" *ngIf="surname.hasError('required')" translate>
                                     errors.input-required
                                 </small>
                             </div>
@@ -157,14 +157,16 @@
 
                     <!-- Phone -->
                     <div class="row mb-2">
-                        <label for="phone" class="col-sm-4 col-form-label"></label>
+                        <label for="phone" class="col-sm-4 col-form-label" translate>
+                            scouts.phone-number
+                        </label>
                         <div class="col">
                             <input id="phone" type="text" class="form-control" formControlName="phone">
 
                             <!-- Errors -->
                             <div class="d-flex flex-column" *ngIf="phone.errors && phone.dirty">
                                 <small class="alert-danger" *ngIf="phone.hasError('pattern')" translate>
-                                    scouts.phone-number
+                                    errors.phone-pattern
                                 </small>
                             </div>
                         </div>
@@ -246,7 +248,7 @@
                             scouts.patrol
                         </label>
                         <div class="col">
-                            <ng-select [items]="troops" appendTo="body" bindLabel="name" bindValue="troopId"
+                            <ng-select [items]="patrols" appendTo="body" bindLabel="name" bindValue="patrolId"
                                 formControlName="troop">
                             </ng-select>
 

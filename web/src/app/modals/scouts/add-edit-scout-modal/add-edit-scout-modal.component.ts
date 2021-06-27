@@ -60,7 +60,7 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
   scoutData: Scout;
 
   roles = [] as Role[];
-  troops = [] as Patrol[];
+  patrols = [] as Patrol[];
   ranks = [] as Rank[];
   instructorRanks = [] as IRank[];
 
@@ -70,7 +70,7 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<AddEditScoutModalComponent>,
     private scoutService: ScoutsService,
     private rolesService: RolesService,
-    private troopsService: PatrolsService,
+    private patrolsService: PatrolsService,
     private ranksService: RanksService,
     private changeDetector: ChangeDetectorRef,
 
@@ -84,7 +84,7 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     forkJoin({
       roles: this.rolesService.getRoles(),
-      troops: this.troopsService.getPatrols(),
+      troops: this.patrolsService.getPatrols(),
       ranks: this.ranksService.getRanks(),
       instructorRanks: this.ranksService.getInstructorRanks(),
     })
@@ -92,7 +92,7 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (result) => {
           this.roles = result.roles;
-          this.troops = result.troops;
+          this.patrols = result.troops;
           this.ranks = result.ranks;
           this.instructorRanks = result.instructorRanks;
 
@@ -133,7 +133,7 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
       postalCode: this.postalCode.value,
       city: this.city.value,
       phone: this.phone.value,
-      troopId: this.troop.value,
+      patrolId: this.troop.value,
       rankId: this.rank.value,
       instructorRankId: this.instructorRank.value,
     } as ScoutPayload;
@@ -167,7 +167,7 @@ export class AddEditScoutModalComponent implements OnInit, OnDestroy {
       postalCode: this.postalCode.value,
       city: this.city.value,
       phone: this.phone.value,
-      troopId: this.troop.value,
+      patrolId: this.troop.value,
       rankId: this.rank.value,
       instructorRankId: this.instructorRank.value,
     } as ScoutPayload;
