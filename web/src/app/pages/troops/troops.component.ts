@@ -334,8 +334,10 @@ export class TroopsComponent implements OnInit, OnDestroy {
     );
 
     new ShowScoutsModal(this.dialog).open(scouts).then((x) =>
-      x.afterClosed().subscribe(() => {
-        this.loadData();
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
       })
     );
   }
@@ -352,8 +354,10 @@ export class TroopsComponent implements OnInit, OnDestroy {
     );
 
     new ShowScoutsModal(this.dialog).open(scouts).then((x) =>
-      x.afterClosed().subscribe(() => {
-        this.loadData();
+      x.afterClosed().subscribe((result) => {
+        if (result === Results.SUCCESS) {
+          this.loadData();
+        }
       })
     );
   }

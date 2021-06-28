@@ -4,12 +4,10 @@ import com.app.server.database.patrolsService.mappers.PatrolRowMapper;
 import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Patrol;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Repository
 public
@@ -27,8 +25,6 @@ class PatrolsDbService implements PatrolsService {
             String QUERY = "INSERT INTO PATROLS(name, team_id) VALUES(?, ?)";
             return jdbcTemplate.update(QUERY, name, teamId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
@@ -73,8 +69,6 @@ class PatrolsDbService implements PatrolsService {
             String QUERY = "DELETE FROM PATROLS WHERE patrol_id = ?";
             return jdbcTemplate.update(QUERY, patrolId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

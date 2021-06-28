@@ -90,23 +90,18 @@ export class DeleteTroopModalComponent implements OnInit, OnDestroy {
       .forEach((id) => {
         queue.push({
           request: this.troopsService.deletePatrol(id),
-          requestLabel: 'Usunięcie harcerza',
+          requestLabel: 'requests.delete-patrol',
         });
       });
-    new ProgressModal(this.dialog)
-      .open(queue, {
-        successMessage: 'Udało usunąć wybrane zastępy',
-        failureMessage: 'Nie Udało usunąć wybrane zastępy',
-      })
-      .then((x) =>
-        x
-          .afterClosed()
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((result) => {
-            if (result === Results.SUCCESS) {
-              this.dialogRef.close(result);
-            }
-          })
-      );
+    new ProgressModal(this.dialog).open(queue).then((x) =>
+      x
+        .afterClosed()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result) => {
+          if (result === Results.SUCCESS) {
+            this.dialogRef.close(result);
+          }
+        })
+    );
   }
 }
