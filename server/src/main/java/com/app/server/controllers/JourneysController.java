@@ -42,6 +42,9 @@ public class JourneysController {
                                         @PathVariable int teamId,
                                         @RequestBody AddJourneyBody body) {
 
+        System.out.println(teamId);
+        System.out.println(body);
+
         Boolean data = transactionService.execute(() -> jService.add(body.getTitle(),
                 body.getPlace(),
                 body.getDate(),

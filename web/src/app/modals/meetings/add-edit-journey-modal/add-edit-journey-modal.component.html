@@ -92,12 +92,17 @@
                             errors.input-required
                         </small>
                     </div>
+                    <div class="d-flex flex-column" *ngIf="form.hasError('fromDateExceedsToDate')">
+                        <small class="alert-danger" translate>
+                            errors.dates-from-date-exceeds
+                        </small>
+                    </div>
                 </div>
             </div>
 
             <!-- Description -->
             <div class="row mb-2">
-                <label for="endDate" class="col-sm-3 col-form-label required" translate>
+                <label for="endDate" class="col-sm-3 col-form-label" translate>
                     add-edit-journey.description
                 </label>
                 <div class="col">

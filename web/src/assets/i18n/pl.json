@@ -76,6 +76,7 @@
 	"edit-scout-roles.chosen-roles": "Wybrane funkcje",
 	"edit-scout-roles.title": "Edytuj funkcje harcerza",
 	"errors.communication-server": "Błąd połączenia z serwerem.",
+	"errors.dates-from-date-exceeds": "Data rozpoczęcia nie może przekraczać daty zakończenia.",
 	"errors.email-exists": "Podany adres emial już istnieje w naszej bazie danych.",
 	"errors.email-format": "Nieprawidłowy format adresu email. Poprawny: email@email.com",
 	"errors.input-required": "Pole wymagane.",

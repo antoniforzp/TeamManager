@@ -21,6 +21,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Journey } from 'src/app/model/data/Journey';
 import { JourneysService } from 'src/app/services/data/journeys.service';
 import { Results as Results } from 'src/app/utils/Result';
+import { CustomValidators } from 'src/app/validators/Customvalidators';
 import { ProgressModal } from '../../common/progress-modal/ProgressModal';
 import { ModalModes } from '../../Modals-def';
 
@@ -75,7 +76,7 @@ export class AddEditJourneyModalComponent implements OnInit, OnDestroy {
       place: journey.place,
       startDate: journey.startDate,
       endDate: journey.startDate,
-      description: journey.description
+      description: journey.description,
     });
   }
 
@@ -89,6 +90,12 @@ export class AddEditJourneyModalComponent implements OnInit, OnDestroy {
       endDate: ['', Validators.required],
       description: [null, Validators.maxLength(500)],
     });
+
+    this.form.setValidators(
+      CustomValidators.compareDatesFromTo(this.startDate, this.endDate, {
+        fromDateExceedsToDate: true,
+      })
+    );
   }
 
   // FUNCTIONALITIES

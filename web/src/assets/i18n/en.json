@@ -76,6 +76,7 @@
 	"edit-scout-roles.chosen-roles": "Selected roles",
 	"edit-scout-roles.title": "Edit scout roles",
 	"errors.communication-server": "Connection error with the server.",
+	"errors.dates-from-date-exceeds": "The start date cannot exceed the end date.",
 	"errors.email-exists": "The email address provided already exists in our database.",
 	"errors.email-format": "Invalid email address format. Correct: email@email.com",
 	"errors.input-required": "Field required.",

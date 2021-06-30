@@ -37,7 +37,7 @@ interface MeetingJourneyRowData {
   place: string;
   date: Date;
   endDate?: Date;
-  description?: string;
+  description: string;
   scoutsPresent: Scout[];
   scoutsPresentQuantity: number;
 
@@ -94,7 +94,7 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private meetingsService: MeetingsService,
-    private journeysSerice: JourneysService,
+    private journeysService: JourneysService,
     private scoutsService: ScoutsService,
     private sortService: SortService,
     private searchPipe: SearchPipe,
@@ -113,6 +113,10 @@ export class MeetingsComponent implements OnInit, OnDestroy {
 
   // LOADING DATA
 
+  initialSortByDate(data: MeetingJourneyRowData[]): MeetingJourneyRowData[] {
+    return this.sortService.sort(data, { active: 'date', direction: 'asc' });
+  }
+
   loadData(): void {
     this.allSelected = false;
 
@@ -120,8 +124,8 @@ export class MeetingsComponent implements OnInit, OnDestroy {
       scouts: this.scoutsService.getScouts(),
       meetings: this.meetingsService.getMeetings(),
       meetingsPresence: this.meetingsService.getMeetingsPresence(),
-      journeys: this.journeysSerice.getJourneys(),
-      journeysPresence: this.journeysSerice.getJourneysPresence(),
+      journeys: this.journeysService.getJourneys(),
+      journeysPresence: this.journeysService.getJourneysPresence(),
     })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -137,6 +141,10 @@ export class MeetingsComponent implements OnInit, OnDestroy {
           this.journeysPresence = result.journeysPresence;
           this.meetingsJourneysData = this.meetingsJourneysData.concat(
             this.assemblyJourneyData(result.journeys)
+          );
+
+          this.meetingsJourneysData = this.initialSortByDate(
+            this.meetingsJourneysData
           );
 
           this.meetingsJourneysDataInitial = this.meetingsJourneysData.slice();
@@ -179,8 +187,8 @@ export class MeetingsComponent implements OnInit, OnDestroy {
     }));
   }
 
-  assemblyJourneyData(journys: Journey[]): MeetingJourneyRowData[] {
-    return (this.meetingsJourneysData = journys.map((x) => {
+  assemblyJourneyData(journeys: Journey[]): MeetingJourneyRowData[] {
+    return (this.meetingsJourneysData = journeys.map((x) => {
       const scoutsPresent = this.scouts.filter((s) =>
         this.journeysPresence.find(
           (p) => p.journeyId === x.journeyId && p.scoutId === s.scoutId
@@ -441,6 +449,6 @@ export class MeetingsComponent implements OnInit, OnDestroy {
   // UTILS
 
   clampDescription(desc: string): string {
-    return desc ? desc.substr(0, 20) + '...' : null;
+    return desc ? desc.substr(0, 20) + '...' : '';
   }
 }

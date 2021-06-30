@@ -27,7 +27,7 @@ export class JourneysService {
     try {
       return this.rest.resolve<boolean>({
         method: REST.POST,
-        url: `/api/${this.app.userId}/team/${this.app.userId}/journeys`,
+        url: `/api/${this.app.userId}/team/${this.app.teamId}/journeys`,
         body: journey,
       });
     } catch (error) {

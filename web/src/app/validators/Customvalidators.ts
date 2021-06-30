@@ -51,4 +51,26 @@ export class CustomValidators {
         : error;
     };
   }
+
+  static compareDatesFromTo(
+    fromControl: AbstractControl,
+    toControl: AbstractControl,
+    error: ValidationErrors
+  ): ValidatorFn {
+    return (): { [key: string]: any } | null => {
+      const fromDate = fromControl?.value;
+      const toDate = toControl?.value;
+
+      if (
+        fromDate &&
+        toDate &&
+        fromDate instanceof Date &&
+        toDate instanceof Date
+      ) {
+        return fromControl?.value <= toControl.value ? null : error;
+      }
+
+      return null;
+    };
+  }
 }
