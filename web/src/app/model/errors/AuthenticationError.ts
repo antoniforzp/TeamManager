@@ -1,4 +1,4 @@
-export class AthenticationError implements Error {
+export class AuthenticationError implements Error {
   name: string;
   message: string;
   stack?: string;

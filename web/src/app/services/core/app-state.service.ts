@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CookieService } from 'ngx-cookie-service';
 import { SessionExpiredModal } from 'src/app/modals/common/session-expired-modal/session-expired-modal';
 import { Team } from 'src/app/model/data/Team';
-import { AthenticationError } from 'src/app/model/errors/AuthenticationError';
+import { AuthenticationError } from 'src/app/model/errors/AuthenticationError';
 
 export enum AppStateKeys {
   LOGGED = 'logged',
@@ -20,7 +20,7 @@ export enum AppStateKeys {
   providedIn: 'root',
 })
 export class AppStateService {
-  cookieDuration = 1 / 24;
+  cookieDuration = (1 / 24) * 2;
   errorMessage = 'Session has expired';
   modalOpened = false;
 
@@ -51,7 +51,7 @@ export class AppStateService {
 
   get authToken(): string {
     const value = this.cookieService.get(AppStateKeys.AUTH_TOKEN);
-    return value; // Ommit checking
+    return this.updateDuration(value, AppStateKeys.AUTH_TOKEN); // Omit checking
   }
 
   storeUserId(userId: number): void {
@@ -64,7 +64,10 @@ export class AppStateService {
 
   get userId(): number {
     const value = this.cookieService.get(AppStateKeys.USER_ID);
-    return this.checkNumber(value, 'userId');
+    return this.updateDuration(
+      this.checkNumber(value, 'userId'),
+      AppStateKeys.USER_ID
+    );
   }
 
   storeUserPasswd(userPassword: string): void {
@@ -77,7 +80,10 @@ export class AppStateService {
 
   get userPasswd(): string {
     const data = this.cookieService.get(AppStateKeys.USER_PASSWD);
-    return this.checkString(data, 'userPasswd');
+    return this.updateDuration(
+      this.checkString(data, 'userPasswd'),
+      AppStateKeys.USER_PASSWD
+    );
   }
 
   storeCurrentTeamId(teamId: number): void {
@@ -113,7 +119,7 @@ export class AppStateService {
 
   get language(): string {
     const data = this.cookieService.get(AppStateKeys.SETT_LANG);
-    return data; // ommit checking
+    return this.updateDuration(data, AppStateKeys.SETT_LANG); // Omit checking
   }
 
   storeTheme(themeId: number): void {
@@ -126,7 +132,7 @@ export class AppStateService {
 
   get theme(): number {
     const data = +this.cookieService.get(AppStateKeys.SETT_THEME);
-    return data; // ommit checking
+    return this.updateDuration(data, AppStateKeys.SETT_THEME); // Omit checking
   }
 
   // OUTSIDE THE APP
@@ -141,7 +147,7 @@ export class AppStateService {
 
   get outLanguage(): string {
     const data = this.cookieService.get(AppStateKeys.OUT_LANG);
-    return data; // ommit checking
+    return this.updateDuration(data, AppStateKeys.OUT_LANG); // Omit checking
   }
 
   // UTILS
@@ -154,13 +160,13 @@ export class AppStateService {
 
   private checkNumber(value: string, cookieName: string): number {
     if (value === 'null') {
-      this.thorwError(cookieName);
+      this.throwError(cookieName);
       return undefined;
     }
 
     const num = +value;
     if (isNaN(num) || num <= 0) {
-      this.thorwError(cookieName);
+      this.throwError(cookieName);
       return undefined;
     }
 
@@ -169,14 +175,14 @@ export class AppStateService {
 
   private checkString(value: string, cookieName: string): string {
     if (value || value !== '') {
-      this.thorwError(cookieName);
+      this.throwError(cookieName);
       return undefined;
     }
 
     return value;
   }
 
-  private thorwError(cookieName: string): void {
+  private throwError(cookieName: string): void {
     if (!this.modalOpened) {
       this.modalOpened = true;
       new SessionExpiredModal(this.dialog).open().then((x) =>
@@ -187,6 +193,13 @@ export class AppStateService {
       );
     }
 
-    throw new AthenticationError(cookieName);
+    throw new AuthenticationError(cookieName);
+  }
+
+  // UPDATING DURATION
+
+  private updateDuration(value: any, cookieName: string): any {
+    // this.cookieService.set(cookieName, value, this.cookieDuration);
+    return value;
   }
 }
