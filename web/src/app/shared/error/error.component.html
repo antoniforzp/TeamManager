@@ -1,17 +1,37 @@
 <div class="error-container">
 
-    <div class="mb-4 text-center">
-        <img src="../../../assets/icons/error.svg" width="80px" alt="error-icon" class="mb-2" />
-        <h2>Wystąpił błąd!</h2>
+    <div>
+        <div *ngIf="errorType === ErrorTypes.GENERIC" class="mb-4 text-center">
+            <img src="../../../assets/icons/error.svg" width="80px" alt="error-icon" class="mb-2" />
+            <h2 translate>
+                errors-page.generic-type
+            </h2>
+        </div>
+        <div *ngIf="errorType === ErrorTypes.SERVER_ERROR" class="mb-4 text-center">
+            <img src="../../../assets/icons/server-error-2.svg" width="80px" alt="error-icon" class="mb-2" />
+            <h2 translate>
+                errors-page.server-error-type
+            </h2>
+        </div>
+        <div *ngIf="errorType === ErrorTypes.LOST_CONNECTION" class="mb-4 text-center">
+            <img src="../../../assets/icons/no-connection.svg" width="80px" alt="error-icon" class="mb-2" />
+            <h2 translate>
+                errors-page.connection-type
+            </h2>
+        </div>
     </div>
 
     <div *ngIf="errorName" class="mb-3 text-center">
-        <h5>Nazwa błędu</h5>
+        <h5 translate>
+            errors-page.error-name
+        </h5>
         <span>{{errorName}}</span>
     </div>
 
     <div *ngIf="errorMessage" class="mb-3 text-center">
-        <h5>Treść błędu</h5>
+        <h5 translate>
+            errors-page.error-message
+        </h5>
         <span>{{errorMessage}}</span>
     </div>
 
