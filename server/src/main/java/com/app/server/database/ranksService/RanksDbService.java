@@ -4,7 +4,6 @@ import com.app.server.database.ranksService.mappers.RankRowMapper;
 import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Rank;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +24,6 @@ class RanksDbService implements RanksRepository {
             String QUERY = "INSERT INTO RANKS(name, abbreviation, min_age, max_age) VALUES(?, ?, ?, ?)";
             return jdbcTemplate.update(QUERY, name, abbreviation, minAge, maxAge) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
@@ -60,8 +57,6 @@ class RanksDbService implements RanksRepository {
             String QUERY = "DELETE FROM RANKS WHERE rank_id = ?";
             return jdbcTemplate.update(QUERY, rankId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

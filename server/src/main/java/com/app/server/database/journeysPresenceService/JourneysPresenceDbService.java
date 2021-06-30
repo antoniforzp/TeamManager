@@ -4,7 +4,6 @@ import com.app.server.database.journeysPresenceService.mappers.JourneyPresenceRo
 import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.JourneyPresence;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -47,8 +46,6 @@ class JourneysPresenceDbService implements JourneysPresenceService {
             String QUERY = "INSERT INTO JOURNEYS_PRESENCE(journey_id, scout_id) VALUES(?, ?)";
             return jdbcTemplate.update(QUERY, journeyId, scoutId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
@@ -60,8 +57,6 @@ class JourneysPresenceDbService implements JourneysPresenceService {
             String QUERY = "DELETE FROM JOURNEYS_PRESENCE WHERE journey_id = ? AND scout_id = ?";
             return jdbcTemplate.update(QUERY, journeyId, scoutId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

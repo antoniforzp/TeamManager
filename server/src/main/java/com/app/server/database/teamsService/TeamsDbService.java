@@ -4,13 +4,10 @@ import com.app.server.database.teamsService.mappers.TeamRowMapper;
 import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Team;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 class TeamsDbService implements TeamsService {
@@ -27,8 +24,6 @@ class TeamsDbService implements TeamsService {
             String QUERY = "INSERT INTO TEAMS(name, patron, owner_id) VALUES(?, ?, ?)";
             return jdbcTemplate.update(QUERY, name, patron, ownerId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
@@ -87,8 +82,6 @@ class TeamsDbService implements TeamsService {
             String QUERY = "DELETE FROM TEAMS WHERE team_id = ?";
             return jdbcTemplate.update(QUERY, teamId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

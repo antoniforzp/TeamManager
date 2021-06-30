@@ -4,17 +4,14 @@ import com.app.server.database.scoutsService.mappers.ScoutRowMapper;
 import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Scout;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 class ScoutsDbService implements ScoutsService {
@@ -236,8 +233,6 @@ class ScoutsDbService implements ScoutsService {
             String QUERY = "DELETE FROM SCOUTS_ROLES WHERE scout_id = ? AND role_id = ?";
             return jdbcTemplate.update(QUERY, scoutId, roleId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

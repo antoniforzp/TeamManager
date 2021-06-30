@@ -4,7 +4,6 @@ import com.app.server.database.iranksService.mapper.InstructorRankRowMapper;
 import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.IRank;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +24,6 @@ class InstructorRanksDbService implements InstructorRanksService {
             String QUERY = "INSERT INTO INSTRUCTOR_RANKS(name, abbreviation) VALUES(?, ?)";
             return jdbcTemplate.update(QUERY, name, abbreviation) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
@@ -60,8 +57,6 @@ class InstructorRanksDbService implements InstructorRanksService {
             String QUERY = "DELETE FROM INSTRUCTOR_RANKS WHERE rank_id = ?";
             return jdbcTemplate.update(QUERY, rankId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

@@ -4,7 +4,6 @@ import com.app.server.database.meetingsPresenceService.mappers.MeetingPresenceRo
 import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.MeetingPresence;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -47,8 +46,6 @@ class MeetingsPresenceDbService implements MeetingsPresenceService {
             String QUERY = "INSERT INTO MEETINGS_PRESENCE(meeting_id, scout_id) VALUES(?, ?)";
             return jdbcTemplate.update(QUERY, meetingId, scoutId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
@@ -60,8 +57,6 @@ class MeetingsPresenceDbService implements MeetingsPresenceService {
             String QUERY = "DELETE FROM MEETINGS_PRESENCE WHERE meeting_id = ? AND scout_id = ?";
             return jdbcTemplate.update(QUERY, meetingId, scoutId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

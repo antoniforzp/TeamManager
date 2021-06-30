@@ -4,7 +4,6 @@ import com.app.server.database.meetingsService.mappers.MeetingRowMapper;
 import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Meeting;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -30,8 +29,6 @@ class MeetingsDbService implements MeetingsService {
             String QUERY = "INSERT INTO MEETINGS(title, place, date, description, team_id) VALUES(?, ?, ?, ?, ?)";
             return jdbcTemplate.update(QUERY, title, place, date, description, team_id) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
@@ -80,8 +77,6 @@ class MeetingsDbService implements MeetingsService {
             String QUERY = "DELETE FROM MEETINGS WHERE meeting_id = ?";
             return jdbcTemplate.update(QUERY, meetingId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

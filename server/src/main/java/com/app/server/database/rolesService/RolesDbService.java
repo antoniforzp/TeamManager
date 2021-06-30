@@ -5,7 +5,6 @@ import com.app.server.database.rolesService.mappers.RoleScoutRowMapper;
 import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.Role;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +25,6 @@ class RolesDbService implements RolesService {
             String QUERY = "INSERT INTO ROLES(name) VALUES(?)";
             return jdbcTemplate.update(QUERY, name) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
@@ -92,8 +89,6 @@ class RolesDbService implements RolesService {
             String QUERY = "DELETE FROM ROLES WHERE role_id = ?";
             return jdbcTemplate.update(QUERY, roleId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }

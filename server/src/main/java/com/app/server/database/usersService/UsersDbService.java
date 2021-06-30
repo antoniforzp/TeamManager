@@ -4,19 +4,13 @@ import com.app.server.database.usersService.mappers.UserRowMapper;
 import com.app.server.exceptions.DatabaseException;
 import com.app.server.model.User;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UsersDbService implements UsersService {
@@ -59,8 +53,6 @@ public class UsersDbService implements UsersService {
             String QUERY = "INSERT INTO USERS(user_id, name, surname, password, email) VALUES(?, ?, ?, ?, ?)";
             return jdbcTemplate.update(QUERY, userId, name, surname, password, email) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
@@ -85,8 +77,6 @@ public class UsersDbService implements UsersService {
             Number key = holder.getKey();
             return key != null ? key.intValue() : null;
 
-        } catch (DataIntegrityViolationException ex) {
-            return -1;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
@@ -147,8 +137,6 @@ public class UsersDbService implements UsersService {
             String QUERY = "DELETE FROM USERS WHERE user_id = ?";
             return jdbcTemplate.update(QUERY, userId) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
@@ -160,8 +148,6 @@ public class UsersDbService implements UsersService {
             String QUERY = "DELETE FROM USERS WHERE email = ?";
             return jdbcTemplate.update(QUERY, mail) >= 1;
 
-        } catch (DataIntegrityViolationException ex) {
-            return true;
         } catch (DataAccessException ex) {
             throw new DatabaseException(ex);
         }
