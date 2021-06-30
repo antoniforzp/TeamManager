@@ -166,12 +166,12 @@ export class LoginComponent implements OnInit {
 
   private setupForm(): void {
     this.loginForm = this.fb.group({
-      email: ['antoni@antoni.com', Validators.required],
-      password: ['Password1', Validators.required],
+      email: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
 
-  // FROMS
+  // FORMS
 
   get email(): AbstractControl {
     return this.loginForm.get('email');
