@@ -132,7 +132,18 @@ export class TeamInfoComponent implements OnInit {
         chart: {
           type: 'pie',
           height: '240px',
+          redrawOnParentResize: true,
         },
+        responsive: [
+          {
+            breakpoint: 1000,
+            options: {
+              legend: {
+                show: false,
+              },
+            },
+          },
+        ],
         labels: this.getRanksNames(),
       };
     }
