@@ -20,7 +20,7 @@ export class AppInitService {
   }
 
   public initSettings(): Observable<Settings> {
-    return this.appSettingsService.initSetttings();
+    return this.appSettingsService.initSettings();
   }
 
   public initLanguageFromLogin(langAbbreviation: string): Observable<boolean> {

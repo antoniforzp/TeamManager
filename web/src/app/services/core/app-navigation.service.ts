@@ -76,11 +76,11 @@ export class AppNavigationService {
   // JOURNEYS MEETINGS
 
   public getMeetingsJourneysRoute(): AppRoutes {
-    return AppRoutes.MEETINGS_JOUNEYS;
+    return AppRoutes.MEETINGS_JOURNEYS;
   }
 
   public getMeetingsJourneysRouteComposed(): string {
-    return `/${AppRoutes.MEETINGS_JOUNEYS}`;
+    return `/${AppRoutes.MEETINGS_JOURNEYS}`;
   }
 
   public navigateToMeetingsJourneys(): Promise<boolean> {

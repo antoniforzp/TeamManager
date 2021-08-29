@@ -104,7 +104,8 @@ export class AppStateService {
 
   get teamId(): number {
     const data = this.cookieService.get(AppStateKeys.TEAM_ID);
-    return data !== 'null' ? this.checkNumber(data, 'teamId') : undefined; // This can be undefined
+    return data !== 'null' ? +data : undefined; // This can be undefined
+    // this.checkNumber(data, 'teamId')
   }
 
   // SETTINGS

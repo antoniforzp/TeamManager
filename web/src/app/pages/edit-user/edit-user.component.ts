@@ -153,7 +153,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
       });
   }
 
-  // FORM STEUP
+  // FORM SETUP
 
   setupCredentialsForm(): void {
     this.credentialsForm = this.fb.group({

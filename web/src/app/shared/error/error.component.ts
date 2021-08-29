@@ -1,11 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Input, OnChanges } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationError } from 'src/app/model/errors/AuthenticationError';
 
 enum ErrorTypes {
   GENERIC,
   SERVER_ERROR,
   LOST_CONNECTION,
+  AUTHENTICATION
 }
 
 @Component({
@@ -38,6 +40,8 @@ export class ErrorComponent implements OnInit, OnChanges {
       } else {
         this.errorType = ErrorTypes.GENERIC;
       }
+    } else if (this.error instanceof AuthenticationError) {
+      this.errorType = ErrorTypes.AUTHENTICATION;
     }
   }
 }

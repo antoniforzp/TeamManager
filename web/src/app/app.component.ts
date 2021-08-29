@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private titleService: Title,
     private router: Router,
-    private appStateSerivce: AppStateService,
+    private appStateService: AppStateService,
     private appThemeService: AppThemeService
   ) {
     this.initLanguage();
@@ -31,12 +31,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events.pipe(takeUntil(this.$destroy)).subscribe({
       next: (x) => {
         if (x instanceof NavigationEnd) {
-          const lang = this.appStateSerivce.language;
+          const lang = this.appStateService.language;
           if (lang) {
             this.translate.use(lang);
           }
 
-          const themeId = this.appStateSerivce.theme;
+          const themeId = this.appStateService.theme;
           if (themeId) {
             this.appThemeService.setThemeById(themeId);
           }

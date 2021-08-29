@@ -23,10 +23,6 @@ export interface Request {
 })
 export class RestService {
   private origin = 'http://localhost:8080';
-  // private headers = {
-  //   Accept: 'application/json',
-  //   'Content-Type': 'application/json',
-  // };
 
   constructor(private http: HttpClient, private app: AppStateService) {}
 
@@ -95,7 +91,6 @@ export class RestService {
         break;
     }
 
-    // console.log(request);
     return response;
   }
 }

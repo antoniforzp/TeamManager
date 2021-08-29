@@ -7,6 +7,12 @@
                 errors-page.generic-type
             </h2>
         </div>
+        <div *ngIf="errorType === ErrorTypes.AUTHENTICATION" class="mb-4 text-center">
+            <img src="../../../assets/icons/lock.svg" width="80px" alt="error-icon" class="mb-2" />
+            <h2 translate>
+                errors-page.error-authentication
+            </h2>
+        </div>
         <div *ngIf="errorType === ErrorTypes.SERVER_ERROR" class="mb-4 text-center">
             <img src="../../../assets/icons/server-error-2.svg" width="80px" alt="error-icon" class="mb-2" />
             <h2 translate>

@@ -14,7 +14,7 @@ export class AppSettingsService {
     private settingsService: SettingsService
   ) {}
 
-  initSetttings(): Observable<Settings> {
+  initSettings(): Observable<Settings> {
     return this.settingsService.getSettings().pipe(
       tap((x) => {
         this.appStateService.storeUserId(x.userId);

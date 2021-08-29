@@ -131,7 +131,7 @@ export class SettingsModalComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
-  // PLACEHOLDER FROMS
+  // PLACEHOLDER FORMS
 
   setupForm(): void {
     this.form = this.fb.group({

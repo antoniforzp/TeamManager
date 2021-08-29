@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: AppRoutes.TEAMS, component: TeamsComponent },
   { path: AppRoutes.SCOUTS, component: ScoutsComponent },
   { path: AppRoutes.TROOPS, component: TroopsComponent },
-  { path: AppRoutes.MEETINGS_JOUNEYS, component: MeetingsComponent },
+  { path: AppRoutes.MEETINGS_JOURNEYS, component: MeetingsComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

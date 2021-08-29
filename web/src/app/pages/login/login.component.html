@@ -10,10 +10,12 @@
                 <div class="form-group">
 
                     <!-- Login -->
-                    <input type="text" class="form-control mb-3" placeholder="Email" formControlName="email">
+                    <input type="text" class="form-control mb-3" [placeholder]="'login.email-placeholder' | translate"
+                        formControlName="email">
 
                     <!-- Password -->
-                    <input type="password" class="form-control" placeholder="Hasło" formControlName="password">
+                    <input type="password" class="form-control" [placeholder]="'login.password-placeholder' | translate"
+                        formControlName="password">
 
                     <!-- Submit -->
                     <button type="submit" class="btn btn-primary btn-block mt-4" [disabled]="!loginForm.valid">

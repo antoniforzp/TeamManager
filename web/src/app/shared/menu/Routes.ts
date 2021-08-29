@@ -3,7 +3,7 @@ export enum AppRoutes {
   HOME = 'home',
   SCOUTS = 'scouts',
   TROOPS = 'troops',
-  MEETINGS_JOUNEYS = 'meetings-journeys',
+  MEETINGS_JOURNEYS = 'meetings-journeys',
   ADD_USER = 'add-user',
   EDIT_USER = 'edit-user',
   TEAMS = 'teams',

@@ -1,16 +1,24 @@
 <div class="modal-header">
-    <span class="my-modal-title">Wylogowywanie</span>
+    <span class="my-modal-title" translate>
+        logout.title
+    </span>
 </div>
 
 <div class="modal-body">
     <div class="d-flex align-items-center">
-        <span>Czy na pewno chcesz się wylogować?</span>
+        <span translate>
+            logout.question
+        </span>
     </div>
 </div>
 
 <div class="modal-footer">
     <div class="my-buttons-simple-container">
-        <button class="btn btn-light" (click)="cancel()">Nie</button>
-        <button class="btn btn-primary" (click)="logout()">Tak</button>
+        <button class="btn btn-light" (click)="cancel()" translate>
+            logout.no
+        </button>
+        <button class="btn btn-primary" (click)="logout()" translate>
+            logout.yes
+        </button>
     </div>
 </div>
