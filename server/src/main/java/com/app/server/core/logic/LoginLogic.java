@@ -1,7 +1,7 @@
 package com.app.server.core.logic;
 
-import com.app.server.api.auth.AuthRequest;
-import com.app.server.api.auth.AuthResponse;
+import com.app.server.api.security.auth.AuthRequest;
+import com.app.server.api.security.auth.AuthResponse;
 import com.app.server.api.security.LoginStatuses;
 import com.app.server.api.security.jwt.JwtTokensManager;
 import com.app.server.api.security.users.AuthUserData;

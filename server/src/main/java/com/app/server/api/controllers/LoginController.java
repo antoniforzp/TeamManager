@@ -1,9 +1,9 @@
 package com.app.server.api.controllers;
 
 import com.app.server.api.rest.response.Response;
-import com.app.server.api.auth.AuthRequest;
-import com.app.server.api.auth.AuthResponse;
-import com.app.server.api.auth.AuthResponseRejected;
+import com.app.server.api.security.auth.AuthRequest;
+import com.app.server.api.security.auth.AuthResponse;
+import com.app.server.api.security.auth.AuthResponseRejected;
 import com.app.server.core.logic.LoginLogic;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;

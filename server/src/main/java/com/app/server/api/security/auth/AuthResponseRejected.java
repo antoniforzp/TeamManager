@@ -1,4 +1,4 @@
-package com.app.server.api.auth;
+package com.app.server.api.security.auth;
 
 import com.app.server.api.security.LoginStatuses;
 import com.fasterxml.jackson.annotation.JsonCreator;
