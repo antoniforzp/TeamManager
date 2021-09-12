@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AppTranslationModule } from './translation/app-translation.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -47,6 +48,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     // Charts
     NgApexchartsModule,
   ],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

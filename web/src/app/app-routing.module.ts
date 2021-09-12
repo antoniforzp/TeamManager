@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: AppRoutes.MEETINGS_JOURNEYS, component: MeetingsComponent },
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
